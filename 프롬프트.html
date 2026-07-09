@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 프롬프트 완전 정복 | 회사원 실전 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ═══ RESET ═══ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --p:#4f46e5; --pl:#818cf8; --pd:#3730a3;
+  --a:#f59e0b; --ad:#d97706;
+  --g:#10b981; --gd:#059669;
+  --r:#ef4444; --rd:#dc2626;
+  --pu:#8b5cf6;
+  --sk:#0ea5e9;
+  --dk:#0f172a; --tx:#1e293b; --sb:#64748b;
+  --bd:#e2e8f0; --sf:#f8fafc;
+  --rad:16px; --rad-s:10px;
+  --sh:0 4px 20px rgba(0,0,0,.08);
+  --sh2:0 8px 32px rgba(0,0,0,.14);
+}
+html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:#fff;color:var(--tx);font-size:18px;}
+
+/* ═══ PROGRESS BAR ═══ */
+#prog{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--p),var(--pu));transition:width .4s cubic-bezier(.4,0,.2,1);z-index:1001;border-radius:0 2px 2px 0;}
+
+/* ═══ DECK & SLIDES ═══ */
+#deck{position:fixed;top:4px;bottom:60px;left:0;right:0;}
+.slide{
+  position:absolute;inset:0;
+  transform:translateX(100%);
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  background:linear-gradient(155deg,#fff 0%,#f8fafc 55%,#eef2ff 100%);
+  overflow:hidden;
+}
+.slide.active{transform:translateX(0);}
+.slide.past{transform:translateX(-100%);}
+
+/* ═══ SLIDE INNER ═══ */
+.si{
+  flex:1;display:flex;flex-direction:column;
+  padding:20px 40px 10px;gap:12px;
+  position:relative;z-index:1;overflow-y:auto;
+}
+
+/* ═══ HEADER ═══ */
+.stag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(79,70,229,.1);color:var(--pd);
+  border:1px solid rgba(79,70,229,.22);border-radius:999px;
+  padding:5px 14px;font-size:.8rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;
+}
+.stit{
+  font-size:clamp(28px,3.2vw,46px);font-weight:900;
+  color:var(--dk);line-height:1.2;letter-spacing:-.02em;
+}
+.stit .ac{color:var(--p);}
+.stit .aa{color:var(--ad);}
+.stit .ag{color:var(--gd);}
+.stit .ar{color:var(--rd);}
+.sbar{width:52px;height:4px;background:linear-gradient(90deg,var(--p),var(--pl));border-radius:2px;margin-top:10px;}
+
+/* ═══ BODY ═══ */
+.sb{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
+
+/* ═══ GRIDS ═══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.g22{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;}
+
+/* ═══ CARDS ═══ */
+.card{
+  background:#fff;border:1px solid var(--bd);
+  border-radius:var(--rad);padding:20px 22px;
+  box-shadow:var(--sh);
+  transition:box-shadow .2s,transform .2s;
+}
+.card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.ct{font-size:clamp(17px,1.7vw,21px);font-weight:800;color:var(--dk);margin-bottom:6px;}
+.cd{font-size:clamp(15px,1.4vw,18px);color:var(--sb);line-height:1.7;}
+
+/* ═══ FEATURE CARDS ═══ */
+.fc{
+  background:#fff;border:1px solid var(--bd);
+  border-radius:var(--rad-s);padding:16px 18px;
+  display:flex;flex-direction:column;gap:9px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  transition:box-shadow .2s,transform .2s;
+}
+.fc:hover{box-shadow:var(--sh);transform:translateY(-2px);}
+.fc-h{display:flex;gap:11px;align-items:center;}
+.fc-t{font-size:clamp(16px,1.6vw,20px);font-weight:800;color:var(--dk);}
+.fc-d{font-size:clamp(14px,1.3vw,17px);color:var(--sb);line-height:1.65;}
+
+/* ═══ CALLOUTS ═══ */
+.co{border-radius:var(--rad-s);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;}
+.co-p{background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.2);}
+.co-a{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);}
+.co-g{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);}
+.co-r{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);}
+.co-pu{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);}
+.co-sk{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);}
+.co-ic{font-size:1.3rem;flex-shrink:0;margin-top:2px;}
+.co-tt{font-size:1.15rem;font-weight:700;margin-bottom:4px;}
+.co-tx{font-size:1.05rem;color:var(--sb);line-height:1.65;}
+
+/* ═══ STEP NUMBERS ═══ */
+.sn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--p);color:#fff;
+  font-size:.9rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 3px 10px rgba(79,70,229,.35);
+}
+
+/* ═══ ICON BOXES ═══ */
+.ib{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;}
+.ib-p{background:rgba(79,70,229,.12);color:var(--p);}
+.ib-a{background:rgba(245,158,11,.12);color:var(--ad);}
+.ib-g{background:rgba(16,185,129,.12);color:var(--gd);}
+.ib-r{background:rgba(239,68,68,.12);color:var(--rd);}
+.ib-pu{background:rgba(139,92,246,.12);color:var(--pu);}
+.ib-sk{background:rgba(14,165,233,.12);color:var(--sk);}
+
+/* ═══ BADGES ═══ */
+.ba{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;font-size:.78rem;font-weight:700;}
+.ba-p{background:rgba(79,70,229,.1);border:1px solid rgba(79,70,229,.3);color:#4338ca;}
+.ba-a{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#b45309;}
+.ba-g{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#047857;}
+.ba-r{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#b91c1c;}
+.ba-pu{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);color:#6d28d9;}
+
+/* ═══ BIG NUMBERS ═══ */
+.bn{font-size:clamp(44px,5vw,72px);font-weight:900;line-height:1;letter-spacing:-.03em;}
+.nl{font-size:.82rem;color:var(--sb);margin-top:5px;font-weight:500;}
+
+/* ═══ QUOTE ═══ */
+.qt{background:rgba(79,70,229,.06);border-left:4px solid var(--p);border-radius:0 14px 14px 0;padding:20px 24px;}
+.qt p{font-size:clamp(14px,1.3vw,17px);line-height:1.85;color:#312e81;font-style:italic;}
+.qt cite{display:block;margin-top:12px;font-size:.82rem;color:var(--p);font-style:normal;font-weight:700;}
+
+/* ═══ CODE ═══ */
+.code{
+  background:#1e293b;border:1px solid #334155;
+  border-radius:var(--rad-s);padding:12px 16px;
+  font-family:'JetBrains Mono',monospace;font-size:1rem;
+  color:#7dd3fc;line-height:1.7;
+}
+.code .ky{color:#c4b5fd;} .code .st{color:#6ee7b7;} .code .cm{color:#475569;} .code .ba2{color:#fbbf24;}
+
+/* ═══ UTILS ═══ */
+.fw9{font-weight:900;} .fw7{font-weight:700;}
+.tp{color:var(--p);} .ta{color:var(--ad);} .tg{color:var(--gd);} .tr{color:var(--rd);} .tpu{color:var(--pu);} .tsk{color:var(--sk);} .tsb{color:var(--sb);}
+.xs{font-size:.78rem;} .sm{font-size:.88rem;} .md{font-size:.96rem;} .lg{font-size:1.08rem;}
+.lh{line-height:1.75;}
+.dv{height:1px;background:rgba(0,0,0,.08);margin:6px 0;}
+.fl{display:flex;} .fdc{flex-direction:column;} .aic{align-items:center;} .aifs{align-items:flex-start;} .jcc{justify-content:center;} .jcsb{justify-content:space-between;}
+.g8{gap:8px;} .g10{gap:10px;} .g12{gap:12px;} .g14{gap:14px;} .g16{gap:16px;} .g20{gap:20px;} .f1{flex:1;} .fs0{flex-shrink:0;}
+.tc{text-align:center;} .tl{text-align:left;}
+.hl{background:rgba(79,70,229,.1);color:var(--pd);padding:1px 7px;border-radius:5px;font-weight:700;}
+.hl-a{background:rgba(245,158,11,.12);color:#92400e;}
+.hl-g{background:rgba(16,185,129,.12);color:#065f46;}
+.hl-r{background:rgba(239,68,68,.1);color:#991b1b;}
+.hl-pu{background:rgba(139,92,246,.12);color:#6d28d9;}
+
+/* ═══ SESSION BADGE ═══ */
+.sess-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(79,70,229,.12);border:2px solid rgba(79,70,229,.3);
+  border-radius:999px;padding:6px 18px;font-size:.82rem;font-weight:900;color:var(--pd);
+}
+
+/* ═══ COMPARE BOXES ═══ */
+.cmp-bad{background:rgba(239,68,68,.05);border:2px solid rgba(239,68,68,.22);border-radius:var(--rad);padding:16px 18px;}
+.cmp-good{background:rgba(16,185,129,.05);border:2px solid rgba(16,185,129,.22);border-radius:var(--rad);padding:16px 18px;}
+.cmp-t{font-size:1rem;font-weight:800;margin-bottom:8px;}
+
+/* ═══ CRTF CARDS ═══ */
+.crtf-card{
+  border-radius:var(--rad);padding:22px;
+  display:flex;flex-direction:column;gap:10px;
+  box-shadow:var(--sh);flex:1;
+  position:relative;overflow:hidden;
+}
+.crtf-letter{
+  position:absolute;top:-8px;right:14px;
+  font-size:5rem;font-weight:900;opacity:.07;line-height:1;
+}
+
+/* ═══ HERO ═══ */
+#s1{background:linear-gradient(135deg,#0f0c29 0%,#302b63 40%,#1a1a3e 100%) !important;}
+#s1::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 20% 50%,rgba(79,70,229,.3) 0%,transparent 65%),radial-gradient(ellipse 50% 70% at 80% 30%,rgba(139,92,246,.22) 0%,transparent 60%);}
+#s1 .si{align-items:center;justify-content:center;text-align:center;padding:50px 60px;position:relative;z-index:1;}
+.hero-t{font-size:clamp(40px,5.5vw,78px);font-weight:900;color:#fff;line-height:1.05;letter-spacing:-.04em;margin-bottom:6px;}
+.hero-t em{color:#fbbf24;font-style:normal;display:block;font-size:.7em;}
+.hero-sub{font-size:clamp(14px,1.5vw,20px);color:rgba(255,255,255,.72);margin-bottom:36px;line-height:1.75;}
+.hero-bs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px;}
+.hb{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.9);border-radius:999px;padding:9px 20px;font-size:.9rem;font-weight:700;backdrop-filter:blur(8px);}
+.hero-meta{font-size:.8rem;color:rgba(255,255,255,.38);}
+
+/* ═══ OBJ CARDS ═══ */
+.obj-card{display:flex;gap:18px;align-items:flex-start;background:#fff;border:1px solid var(--bd);border-radius:var(--rad);padding:20px 22px;box-shadow:var(--sh);flex:1;}
+.obj-n{font-size:clamp(40px,4.5vw,62px);font-weight:900;line-height:1;letter-spacing:-.04em;flex-shrink:0;width:70px;text-align:right;}
+.obj-t{font-size:clamp(17px,1.9vw,22px);font-weight:800;color:var(--dk);margin-bottom:6px;}
+.obj-d{font-size:clamp(15px,1.5vw,18px);color:var(--sb);line-height:1.7;}
+
+/* ═══ SECTION DIVIDER ═══ */
+.sect-card{
+  border-radius:20px;padding:36px 40px;
+  display:flex;flex-direction:column;gap:16px;
+  position:relative;overflow:hidden;flex:1;
+  box-shadow:var(--sh2);
+}
+.sect-num{font-size:clamp(80px,10vw,140px);font-weight:900;line-height:1;opacity:.08;position:absolute;right:30px;bottom:10px;letter-spacing:-.05em;}
+
+/* ═══ FINAL ═══ */
+#s20{background:linear-gradient(145deg,#eef2ff 0%,#e0e7ff 55%,#c7d2fe 100%) !important;}
+
+/* ═══ SUM BOX ═══ */
+.sum{background:#fff;border-radius:var(--rad);padding:18px 20px;box-shadow:var(--sh);}
+.sum-t{font-size:1rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sum-d{font-size:.88rem;color:var(--sb);line-height:1.8;}
+
+/* ═══ NAV BAR ═══ */
+#nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:999;
+  height:60px;background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);border-top:1px solid var(--bd);
+  box-shadow:0 -2px 16px rgba(0,0,0,.06);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;gap:10px;
+}
+.nb{width:40px;height:40px;border-radius:12px;background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.1);color:#475569;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.nb:hover{background:rgba(79,70,229,.1);color:var(--p);border-color:#a5b4fc;}
+.nb:disabled{opacity:.25;cursor:default;}
+#dotw{display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow:hidden;max-width:56vw;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.15);cursor:pointer;transition:all .25s;flex-shrink:0;}
+.dot.active{background:var(--p);width:22px;border-radius:4px;}
+.dot:hover{background:rgba(79,70,229,.5);}
+#ncnt{font-size:.8rem;color:var(--sb);font-weight:700;min-width:52px;text-align:right;}
+#bfs{width:36px;height:36px;border-radius:10px;background:transparent;border:1px solid rgba(0,0,0,.12);color:var(--sb);font-size:.88rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-left:8px;}
+#bfs:hover{color:var(--dk);border-color:rgba(0,0,0,.3);}
+#kh{position:fixed;bottom:72px;right:20px;z-index:998;background:rgba(255,255,255,.97);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;font-size:.74rem;color:var(--sb);line-height:1.9;opacity:0;transition:opacity .3s;box-shadow:0 4px 20px rgba(0,0,0,.1);}
+#kh.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="deck">
+
+<!-- ══ S1 TITLE ══ -->
+<div class="slide active" id="s1">
+  <div class="si">
+    <div class="hero-t">AI 프롬프트<em>완전 정복 가이드</em></div>
+    <p class="hero-sub">AI에게 <strong style="color:#fbbf24">정확히 말하는 법</strong>을 배우면<br>업무 생산성이 10배 달라집니다</p>
+    <div class="hero-bs">
+      <span class="hb"><i class="fas fa-brain"></i> 1차시: AI의 뇌 구조</span>
+      <span class="hb" style="color:#fde68a;"><i class="fas fa-magic"></i> 2차시: CRTF 공식</span>
+      <span class="hb" style="color:#86efac;"><i class="fas fa-code"></i> 3차시: 바이브 코딩 실전</span>
+      <span class="hb" style="color:#fca5a5;"><i class="fas fa-shield-alt"></i> 4차시: AI 방어 운전</span>
+    </div>
+    <p class="hero-meta">회사원 AI 활용 교육 · 20 슬라이드 · 키보드 ← → 이동 · F 전체화면</p>
+  </div>
+</div>
+
+<!-- ══ S2 강의 목표 ══ -->
+<div class="slide" id="s2">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-bullseye"></i> 오늘 강의를 마치면</div>
+      <h2 class="stit">이 강의를 마치면 <span class="ac">이렇게 달라집니다</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:12px;justify-content:center;">
+      <div class="obj-card">
+        <div class="obj-n tp">01</div>
+        <div>
+          <div class="obj-t">AI가 왜 엉뚱한 답을 내놓는지 이해한다</div>
+          <div class="obj-d">LLM의 작동 원리를 이해하면 더 이상 AI가 "틀렸다"고 화내지 않습니다. 원인을 알면 해결책이 보입니다.</div>
+        </div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-n ta">02</div>
+        <div>
+          <div class="obj-t">CRTF 공식으로 즉시 결과가 달라지는 프롬프트를 쓴다</div>
+          <div class="obj-d">맥락·역할·작업·형식 4가지만 챙기면 AI는 전혀 다른 품질의 결과를 내놓습니다.</div>
+        </div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-n tg">03</div>
+        <div>
+          <div class="obj-t">실전 바이브 코딩에서 AI를 잃지 않고 끌고 나간다</div>
+          <div class="obj-d">쪼개기, 울타리 치기, New Task 타이밍을 익히면 AI가 산으로 가는 일이 사라집니다.</div>
+        </div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-n tpu">04</div>
+        <div>
+          <div class="obj-t">환각 오류를 걸러내고 에러를 두려워하지 않는다</div>
+          <div class="obj-d">AI의 한계를 알고 방어 운전 기술을 갖추면 실수를 최소화할 수 있습니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S3 1차시 섹션 소개 ══ -->
+<div class="slide" id="s3">
+  <div class="si" style="justify-content:center;align-items:center;">
+    <div class="sect-card" style="background:linear-gradient(135deg,#312e81,#4f46e5,#7c3aed);max-width:800px;width:100%;margin:auto;">
+      <div class="fl aic g14" style="margin-bottom:8px;">
+        <div style="background:rgba(255,255,255,.2);border-radius:14px;padding:10px 18px;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;">1차시</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);flex:1;"></div>
+      </div>
+      <div style="font-size:clamp(32px,4vw,56px);font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.03em;">
+        AI의 뇌 구조<br><span style="color:#fbbf24;">이해하기</span>
+      </div>
+      <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.72);line-height:1.75;margin-top:8px;">
+        AI가 어떻게 생각하는지 알아야<br>올바른 질문을 할 수 있습니다
+      </div>
+      <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-brain"></i> LLM 확률적 언어 모델</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fbbf24;font-size:.85rem;font-weight:700;"><i class="fas fa-feather"></i> 인공지능 앵무새 비유</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#86efac;font-size:.85rem;font-weight:700;"><i class="fas fa-crosshairs"></i> 맥락 좁히기의 중요성</div>
+      </div>
+      <div class="sect-num">1</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S4 LLM이란? ══ -->
+<div class="slide" id="s4">
+  <div class="si">
+    <div>
+      <div class="stag">1차시 · AI의 뇌 구조</div>
+      <h2 class="stit">AI는 어떻게 <span class="ac">생각하나요?</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb g2" style="align-items:stretch;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card fl g14 aic">
+          <div style="font-size:3rem;flex-shrink:0;">🦜</div>
+          <div>
+            <div class="fw9 lg" style="color:var(--dk);">인공지능 앵무새</div>
+            <div class="tsb sm">AI의 작동 방식을 이해하는 핵심 비유</div>
+          </div>
+        </div>
+        <div class="qt" style="flex:1;">
+          <p>앵무새는 사람 말을 <strong style="color:var(--ad)">완벽하게 따라합니다</strong>. 하지만 의미를 이해하지는 않습니다.<br><br>LLM도 마찬가지입니다. 수천억 개의 문장을 학습해서 <strong style="color:var(--p)">다음에 올 가장 확률 높은 단어</strong>를 예측할 뿐입니다.</p>
+        </div>
+        <div class="co co-a">
+          <span class="co-ic">💡</span>
+          <div class="co-tx"><span class="fw7" style="color:#92400e;">핵심:</span> AI는 "정답을 아는 것"이 아니라 <strong style="color:var(--dk)">"그럴듯한 다음 단어를 이어 붙이는 것"</strong>입니다.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card fdc g10">
+          <div class="fw7 md" style="color:var(--dk);">🔢 LLM (Large Language Model)의 원리</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="fl aic g10">
+              <div class="sn" style="background:var(--sk);">1</div>
+              <div class="cd">수천억 개 문장을 학습</div>
+            </div>
+            <div style="width:2px;height:14px;background:var(--bd);margin-left:17px;"></div>
+            <div class="fl aic g10">
+              <div class="sn" style="background:var(--pu);">2</div>
+              <div class="cd">단어들의 패턴과 관계를 통계로 저장</div>
+            </div>
+            <div style="width:2px;height:14px;background:var(--bd);margin-left:17px;"></div>
+            <div class="fl aic g10">
+              <div class="sn" style="background:var(--p);">3</div>
+              <div class="cd">질문이 들어오면 <strong>가장 확률 높은 답</strong>을 생성</div>
+            </div>
+            <div style="width:2px;height:14px;background:var(--bd);margin-left:17px;"></div>
+            <div class="fl aic g10">
+              <div class="sn" style="background:var(--gd);">4</div>
+              <div class="cd">사람처럼 보이는 자연스러운 문장이 완성</div>
+            </div>
+          </div>
+        </div>
+        <div class="co co-r">
+          <span class="co-ic">⚠️</span>
+          <div>
+            <div class="co-tt tr">주의!</div>
+            <div class="co-tx">확률 기반이기 때문에 <strong style="color:var(--rd)">같은 질문에도 다른 답</strong>이 나올 수 있고, <strong style="color:var(--rd)">틀린 내용을 자신있게 말할 수 있습니다.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S5 맥락 좁히기 ══ -->
+<div class="slide" id="s5">
+  <div class="si">
+    <div>
+      <div class="stag">1차시 · 맥락 좁히기</div>
+      <h2 class="stit">질문의 <span class="aa">맥락</span>이 결과를 바꾼다</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="co co-p">
+        <span style="font-size:1.6rem;">🎯</span>
+        <div class="co-tx lg">AI는 바다처럼 넓은 가능성 중 하나를 고릅니다. <strong style="color:var(--dk)">맥락이 좁을수록 원하는 곳에 정확히 도착</strong>합니다.</div>
+      </div>
+      <div class="g2" style="flex:1;gap:16px;align-items:stretch;">
+        <div class="cmp-bad">
+          <div class="cmp-t tr"><i class="fas fa-times-circle"></i> 맥락이 없는 질문</div>
+          <div class="code" style="font-size:.88rem;margin-bottom:10px;"><span class="cm"># 이렇게 물으면...</span>
+<span class="ba2">"보고서 써줘"</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="fl aic g8">
+              <span style="color:var(--rd);">❌</span>
+              <div class="sm tsb">어떤 보고서? 몇 페이지? 누구한테?</div>
+            </div>
+            <div class="fl aic g8">
+              <span style="color:var(--rd);">❌</span>
+              <div class="sm tsb">형식은? 공식적? 비공식적?</div>
+            </div>
+            <div class="fl aic g8">
+              <span style="color:var(--rd);">❌</span>
+              <div class="sm tsb">AI가 "보고서"에 대해 알고 있는 모든 형태를 아무거나 선택</div>
+            </div>
+          </div>
+          <div class="co co-r" style="margin-top:10px;padding:10px 14px;">
+            <span>😤</span>
+            <div class="sm" style="color:var(--rd);">결과: 엉뚱하거나 너무 일반적인 내용</div>
+          </div>
+        </div>
+        <div class="cmp-good">
+          <div class="cmp-t tg"><i class="fas fa-check-circle"></i> 맥락이 있는 질문</div>
+          <div class="code" style="font-size:.84rem;margin-bottom:10px;"><span class="cm"># 이렇게 물으면...</span>
+<span class="st">"우리 팀 3분기 마케팅 성과를</span>
+<span class="st"> 임원에게 보고하는 1페이지</span>
+<span class="st"> 요약 보고서를 써줘"</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="fl aic g8">
+              <span style="color:var(--gd);">✅</span>
+              <div class="sm tsb">대상: 임원 → 간결하고 핵심만</div>
+            </div>
+            <div class="fl aic g8">
+              <span style="color:var(--gd);">✅</span>
+              <div class="sm tsb">분량: 1페이지 → 길지 않게</div>
+            </div>
+            <div class="fl aic g8">
+              <span style="color:var(--gd);">✅</span>
+              <div class="sm tsb">내용: 마케팅 성과 → 관련 내용만</div>
+            </div>
+          </div>
+          <div class="co co-g" style="margin-top:10px;padding:10px 14px;">
+            <span>🎉</span>
+            <div class="sm" style="color:var(--gd);">결과: 바로 쓸 수 있는 내용</div>
+          </div>
+        </div>
+      </div>
+      <div class="co co-a">
+        <span class="co-ic">📌</span>
+        <div class="co-tx"><strong>1차시 핵심:</strong> AI에게 맥락을 줄수록 원하는 결과에 가까워집니다. 다음 2차시에서 이것을 공식화합니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S6 2차시 섹션 소개 ══ -->
+<div class="slide" id="s6">
+  <div class="si" style="justify-content:center;align-items:center;">
+    <div class="sect-card" style="background:linear-gradient(135deg,#78350f,#d97706,#f59e0b);max-width:800px;width:100%;margin:auto;">
+      <div class="fl aic g14" style="margin-bottom:8px;">
+        <div style="background:rgba(255,255,255,.2);border-radius:14px;padding:10px 18px;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;">2차시</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);flex:1;"></div>
+      </div>
+      <div style="font-size:clamp(30px,3.8vw,52px);font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.03em;">
+        마법의 4대<br><span style="color:#0f172a;">프롬프트 공식</span>
+      </div>
+      <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.85);line-height:1.75;margin-top:8px;">
+        CRTF 프레임워크 — 4가지만 기억하세요
+      </div>
+      <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,.2);border-radius:8px;padding:10px 18px;color:#0f172a;font-size:1rem;font-weight:900;letter-spacing:.08em;">C · R · T · F</div>
+        <div style="background:rgba(0,0,0,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;">Context · Role · Task · Format</div>
+      </div>
+      <div class="sect-num">2</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S7 CRTF 전체 소개 ══ -->
+<div class="slide" id="s7">
+  <div class="si">
+    <div>
+      <div class="stag">2차시 · CRTF 공식</div>
+      <h2 class="stit"><span class="aa">CRTF</span> — 4가지 요소 한눈에 보기</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb g4" style="align-items:stretch;">
+      <div class="crtf-card" style="background:rgba(79,70,229,.06);border:2px solid rgba(79,70,229,.3);">
+        <div class="crtf-letter" style="color:var(--p);">C</div>
+        <div class="ib ib-p" style="margin-bottom:6px;"><i class="fas fa-map-signs"></i></div>
+        <div class="fw9" style="font-size:1.3rem;color:var(--p);">C</div>
+        <div class="fw9 md" style="color:var(--dk);">Context</div>
+        <div class="sm tsb fw7" style="margin-bottom:4px;">맥락 · 상황</div>
+        <div class="xs tsb lh">내가 처한 상황과 배경을 알려줍니다</div>
+        <div class="co co-p" style="padding:8px 10px;margin-top:auto;">
+          <div class="xs" style="color:var(--pd);">예: "우리 회사는 중소기업이고..."</div>
+        </div>
+      </div>
+      <div class="crtf-card" style="background:rgba(245,158,11,.06);border:2px solid rgba(245,158,11,.3);">
+        <div class="crtf-letter" style="color:var(--a);">R</div>
+        <div class="ib ib-a" style="margin-bottom:6px;"><i class="fas fa-user-tie"></i></div>
+        <div class="fw9" style="font-size:1.3rem;color:var(--ad);">R</div>
+        <div class="fw9 md" style="color:var(--dk);">Role</div>
+        <div class="sm tsb fw7" style="margin-bottom:4px;">역할 · 페르소나</div>
+        <div class="xs tsb lh">AI에게 어떤 전문가로 행동할지 부여합니다</div>
+        <div class="co co-a" style="padding:8px 10px;margin-top:auto;">
+          <div class="xs" style="color:#92400e;">예: "마케팅 전문가로서..."</div>
+        </div>
+      </div>
+      <div class="crtf-card" style="background:rgba(16,185,129,.06);border:2px solid rgba(16,185,129,.3);">
+        <div class="crtf-letter" style="color:var(--g);">T</div>
+        <div class="ib ib-g" style="margin-bottom:6px;"><i class="fas fa-tasks"></i></div>
+        <div class="fw9" style="font-size:1.3rem;color:var(--gd);">T</div>
+        <div class="fw9 md" style="color:var(--dk);">Task</div>
+        <div class="sm tsb fw7" style="margin-bottom:4px;">작업 · 요청</div>
+        <div class="xs tsb lh">무엇을 해달라고 정확히 지시합니다</div>
+        <div class="co co-g" style="padding:8px 10px;margin-top:auto;">
+          <div class="xs" style="color:#065f46;">예: "이메일 초안을 작성해줘"</div>
+        </div>
+      </div>
+      <div class="crtf-card" style="background:rgba(139,92,246,.06);border:2px solid rgba(139,92,246,.3);">
+        <div class="crtf-letter" style="color:var(--pu);">F</div>
+        <div class="ib ib-pu" style="margin-bottom:6px;"><i class="fas fa-list-alt"></i></div>
+        <div class="fw9" style="font-size:1.3rem;color:var(--pu);">F</div>
+        <div class="fw9 md" style="color:var(--dk);">Format</div>
+        <div class="sm tsb fw7" style="margin-bottom:4px;">형식 · 출력 방식</div>
+        <div class="xs tsb lh">결과물의 형태와 길이를 지정합니다</div>
+        <div class="co co-pu" style="padding:8px 10px;margin-top:auto;">
+          <div class="xs" style="color:#6d28d9;">예: "3개 항목, 각 2줄 이내"</div>
+        </div>
+      </div>
+    </div>
+    <div class="co co-a">
+      <span class="co-ic">✨</span>
+      <div class="co-tx">4가지가 전부 없어도 됩니다. 있을수록 좋아질 뿐입니다. <strong style="color:var(--dk)">가장 중요한 것은 T(Task)이고, 나머지는 품질을 높이는 재료</strong>입니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S8 CRTF 실전 예시 ══ -->
+<div class="slide" id="s8">
+  <div class="si">
+    <div>
+      <div class="stag">2차시 · CRTF 실전</div>
+      <h2 class="stit">CRTF <span class="ac">실전 적용 예시</span> 비교</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="g2" style="gap:16px;flex:1;align-items:stretch;">
+        <div class="cmp-bad" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="cmp-t tr"><i class="fas fa-times-circle"></i> CRTF 없는 프롬프트</div>
+          <div class="code" style="font-size:.9rem;flex:1;">
+<span class="ba2">"제품 홍보 메일 써줘"</span></div>
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div class="fl aic g8"><span style="color:var(--rd);">❌</span><div class="sm tsb">어떤 제품인지 모름</div></div>
+            <div class="fl aic g8"><span style="color:var(--rd);">❌</span><div class="sm tsb">받는 사람이 누구인지 모름</div></div>
+            <div class="fl aic g8"><span style="color:var(--rd);">❌</span><div class="sm tsb">어떤 분위기의 메일인지 모름</div></div>
+            <div class="fl aic g8"><span style="color:var(--rd);">❌</span><div class="sm tsb">길이나 형식 지정 없음</div></div>
+          </div>
+          <div style="background:rgba(239,68,68,.08);border-radius:8px;padding:10px 14px;font-size:.85rem;color:#991b1b;">
+            결과: 일반적인 홍보 메일 템플릿 한 개 → 수정이 더 오래 걸림
+          </div>
+        </div>
+        <div class="cmp-good" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="cmp-t tg"><i class="fas fa-check-circle"></i> CRTF 적용 프롬프트</div>
+          <div class="code" style="font-size:.84rem;flex:1;">
+<span class="cm"># Context</span>
+<span class="st">우리 회사는 B2B SaaS 기업이고</span>
+<span class="st">이번 달 신규 기능을 출시했어</span>
+
+<span class="cm"># Role</span>
+<span class="ky">시니어 마케터 역할로</span>
+
+<span class="cm"># Task</span>
+<span class="st">기존 고객에게 업그레이드를 유도하는</span>
+<span class="st">제품 업데이트 이메일을 작성해줘</span>
+
+<span class="cm"># Format</span>
+<span class="ba2">제목 1줄, 본문 3문단(각 3줄 이내)</span></div>
+          <div style="background:rgba(16,185,129,.08);border-radius:8px;padding:10px 14px;font-size:.85rem;color:#047857;">
+            결과: 바로 발송 가능한 완성도 높은 이메일
+          </div>
+        </div>
+      </div>
+      <div class="co co-p">
+        <span class="co-ic">📌</span>
+        <div class="co-tx">처음부터 CRTF 4가지를 다 쓰기 어려우면, <strong style="color:var(--dk)">T(Task)를 최대한 구체적으로 쓰는 것</strong>부터 시작하세요.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S9 2차시 심화 — 역할 부여의 마법 ══ -->
+<div class="slide" id="s9">
+  <div class="si">
+    <div>
+      <div class="stag">2차시 · Role 심화</div>
+      <h2 class="stit"><span class="aa">역할(Role)</span>을 주면 전문가가 된다</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="co co-a">
+        <span style="font-size:1.6rem;">🎭</span>
+        <div class="co-tx lg">같은 질문이라도 <strong style="color:var(--dk)">역할을 어떻게 주느냐에 따라 답변의 깊이와 관점이 완전히 달라집니다.</strong></div>
+      </div>
+      <div class="g3" style="flex:1;gap:14px;align-items:stretch;">
+        <div class="fc">
+          <div class="fc-h">
+            <div class="ib ib-a"><i class="fas fa-user"></i></div>
+            <div class="fc-t">역할 없음</div>
+          </div>
+          <div class="code" style="font-size:.82rem;">"가격 인상을 어떻게<br>고객에게 알려야 해?"</div>
+          <div class="fc-d">일반적인 정보를 나열. 구체성이 떨어짐.</div>
+        </div>
+        <div class="fc" style="border-color:rgba(79,70,229,.3);">
+          <div class="fc-h">
+            <div class="ib ib-p"><i class="fas fa-bullhorn"></i></div>
+            <div class="fc-t" style="color:var(--p);">마케팅 전문가</div>
+          </div>
+          <div class="code" style="font-size:.82rem;">"<span class="ky">고객 심리 전문 마케터로서</span><br>가격 인상 안내 메일 전략을<br>알려줘"</div>
+          <div class="fc-d">고객 반응, 심리적 저항 최소화 방법을 구체적으로 제시</div>
+        </div>
+        <div class="fc" style="border-color:rgba(16,185,129,.3);">
+          <div class="fc-h">
+            <div class="ib ib-g"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="fc-t" style="color:var(--gd);">업계 특화 전문가</div>
+          </div>
+          <div class="code" style="font-size:.82rem;">"<span class="st">B2B SaaS 업계 10년 경력</span><br>고객 성공 매니저 역할로<br>가격 인상 커뮤니케이션 해줘"</div>
+          <div class="fc-d">업계 특성에 맞는 전략, 이탈 방지 방법까지 조언</div>
+        </div>
+      </div>
+      <div class="g2" style="gap:14px;">
+        <div class="card fdc g8">
+          <div class="fw7 md" style="color:var(--dk);">👍 좋은 역할 부여 방법</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="fl aic g8"><span class="ba ba-g">✓</span><div class="sm tsb">직책 + 경력 + 전문 분야 조합</div></div>
+            <div class="fl aic g8"><span class="ba ba-g">✓</span><div class="sm tsb">"당신은 ~입니다" 또는 "~로서"</div></div>
+            <div class="fl aic g8"><span class="ba ba-g">✓</span><div class="sm tsb">내가 필요한 관점에 맞는 역할</div></div>
+          </div>
+        </div>
+        <div class="card fdc g8">
+          <div class="fw7 md" style="color:var(--dk);">💡 업무별 추천 역할</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="fl aic g8"><span class="ba ba-p">문서</span><div class="sm tsb">전문 카피라이터, 편집장</div></div>
+            <div class="fl aic g8"><span class="ba ba-a">분석</span><div class="sm tsb">데이터 분석가, 컨설턴트</div></div>
+            <div class="fl aic g8"><span class="ba ba-g">코딩</span><div class="sm tsb">시니어 개발자, 풀스택 엔지니어</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S10 3차시 섹션 소개 ══ -->
+<div class="slide" id="s10">
+  <div class="si" style="justify-content:center;align-items:center;">
+    <div class="sect-card" style="background:linear-gradient(135deg,#064e3b,#059669,#10b981);max-width:800px;width:100%;margin:auto;">
+      <div class="fl aic g14" style="margin-bottom:8px;">
+        <div style="background:rgba(255,255,255,.2);border-radius:14px;padding:10px 18px;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;">3차시</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);flex:1;"></div>
+      </div>
+      <div style="font-size:clamp(30px,3.8vw,52px);font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.03em;">
+        바이브 코딩<br><span style="color:#fef08a;">실전 기술</span>
+      </div>
+      <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.8);line-height:1.75;margin-top:8px;">
+        AI가 산으로 가지 않도록<br>방향을 잡는 2가지 핵심 기술
+      </div>
+      <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-cut"></i> 쪼개기 기술</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fef08a;font-size:.85rem;font-weight:700;"><i class="fas fa-fence"></i> 울타리 치기</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#86efac;font-size:.85rem;font-weight:700;"><i class="fas fa-file-code"></i> .clinerules 활용</div>
+      </div>
+      <div class="sect-num">3</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S11 쪼개기 기술 ══ -->
+<div class="slide" id="s11">
+  <div class="si">
+    <div>
+      <div class="stag">3차시 · 쪼개기 기술</div>
+      <h2 class="stit">큰 요청은 <span class="ag">작게 쪼개라</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="co co-r">
+        <span style="font-size:1.6rem;">🧩</span>
+        <div class="co-tx lg">AI에게 한 번에 너무 많은 것을 시키면 <strong style="color:var(--rd)">중간에 길을 잃거나 앞부분을 잊어버립니다</strong>. 코딩도, 문서 작업도 마찬가지입니다.</div>
+      </div>
+      <div class="g2" style="flex:1;gap:16px;align-items:stretch;">
+        <div class="cmp-bad" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="cmp-t tr"><i class="fas fa-times-circle"></i> 한 번에 다 요청</div>
+          <div class="code" style="font-size:.84rem;flex:1;">
+<span class="ba2">"직원 관리 시스템 만들어줘.</span>
+<span class="ba2"> 로그인, 회원가입, 직원 목록,</span>
+<span class="ba2"> 급여 관리, 휴가 신청,</span>
+<span class="ba2"> 성과 평가까지 다 넣어줘"</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="fl aic g8"><span style="color:var(--rd);">❌</span><div class="sm tsb">AI가 어디서부터 시작해야 할지 혼란</div></div>
+            <div class="fl aic g8"><span style="color:var(--rd);">❌</span><div class="sm tsb">중반부터 초반 지시를 잊어버림</div></div>
+            <div class="fl aic g8"><span style="color:var(--rd);">❌</span><div class="sm tsb">완성도가 들쭉날쭉함</div></div>
+          </div>
+        </div>
+        <div class="cmp-good" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="cmp-t tg"><i class="fas fa-check-circle"></i> 단계별 쪼개기</div>
+          <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+            <div class="fl g10 aic">
+              <div class="sn">1</div>
+              <div class="code" style="font-size:.82rem;flex:1;padding:8px 12px;"><span class="st">"로그인·회원가입 페이지만 만들어줘"</span></div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--a);">2</div>
+              <div class="code" style="font-size:.82rem;flex:1;padding:8px 12px;"><span class="st">"직원 목록 CRUD 기능 추가해줘"</span></div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--gd);">3</div>
+              <div class="code" style="font-size:.82rem;flex:1;padding:8px 12px;"><span class="st">"급여 관리 탭 추가해줘"</span></div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--pu);">4</div>
+              <div class="code" style="font-size:.82rem;flex:1;padding:8px 12px;"><span class="st">"휴가 신청 기능 붙여줘"</span></div>
+            </div>
+          </div>
+          <div style="background:rgba(16,185,129,.08);border-radius:8px;padding:10px 14px;font-size:.85rem;color:#047857;">
+            각 단계 완료 후 확인 → 다음 단계로
+          </div>
+        </div>
+      </div>
+      <div class="co co-g">
+        <span class="co-ic">💡</span>
+        <div class="co-tx"><strong>쪼개기 공식:</strong> 기능 1개 = 요청 1번. <strong style="color:var(--dk)">완성을 확인하고 다음 단계로 넘어가세요.</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S12 울타리 치기 — .clinerules ══ -->
+<div class="slide" id="s12">
+  <div class="si">
+    <div>
+      <div class="stag">3차시 · 울타리 치기</div>
+      <h2 class="stit">AI에게 <span class="ag">절대 규칙</span>을 심어라</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="co co-g">
+        <span style="font-size:1.6rem;">🏡</span>
+        <div class="co-tx lg"><strong style="color:var(--dk)">.clinerules 파일</strong>은 AI가 매번 지켜야 하는 절대 규칙 파일입니다. 프로젝트 폴더에 한 번 만들어두면 AI가 항상 이 규칙을 따릅니다.</div>
+      </div>
+      <div class="g2" style="flex:1;gap:16px;align-items:stretch;">
+        <div class="card fdc g12">
+          <div class="fl g12 aic">
+            <div class="ib ib-g"><i class="fas fa-gavel"></i></div>
+            <div class="fw9 md" style="color:var(--dk);">왜 필요한가?</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="fc" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+              <div class="fl aic g10">
+                <span style="color:var(--rd);">😤</span>
+                <div class="fc-t" style="color:var(--rd);">규칙 없을 때</div>
+              </div>
+              <div class="fc-d">매번 "한국어로 써줘", "React 쓰지 마" 같은 말을 반복해야 함. AI가 종종 잊어버림.</div>
+            </div>
+            <div class="fc" style="border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.03);">
+              <div class="fl aic g10">
+                <span style="color:var(--gd);">😊</span>
+                <div class="fc-t" style="color:var(--gd);">규칙 있을 때</div>
+              </div>
+              <div class="fc-d">한 번 설정하면 모든 대화에서 자동 적용. AI가 처음부터 규칙에 맞게 행동.</div>
+            </div>
+          </div>
+        </div>
+        <div class="card fdc g12">
+          <div class="fl g12 aic">
+            <div class="ib ib-a"><i class="fas fa-list-ul"></i></div>
+            <div class="fw9 md" style="color:var(--dk);">자주 쓰는 규칙 예시</div>
+          </div>
+          <div class="code" style="font-size:.78rem;flex:1;overflow-y:auto;">
+<span class="cm"># 언어</span>
+<span class="st">모든 응답은 한국어로 작성하세요.</span>
+
+<span class="cm"># 기술 스택</span>
+<span class="st">React가 아닌 순수 HTML/JS만 사용하세요.</span>
+<span class="st">CSS 프레임워크 없이 인라인 스타일 금지.</span>
+
+<span class="cm"># 코드 스타일</span>
+<span class="st">함수는 최대 20줄을 넘지 마세요.</span>
+<span class="st">변수명은 한국어 주석으로 설명하세요.</span>
+
+<span class="cm"># 작업 방식</span>
+<span class="st">구현 전 반드시 계획을 먼저 설명하세요.</span>
+<span class="st">한 번에 한 기능씩만 수정하세요.</span></div>
+        </div>
+      </div>
+      <div class="co co-a">
+        <span class="co-ic">📌</span>
+        <div class="co-tx">만드는 법: 프로젝트 폴더에 <code style="background:#1e293b;color:#6ee7b7;padding:2px 8px;border-radius:5px;font-size:.88rem;">.clinerules</code> 파일 생성 → 규칙 작성 → 저장. 끝입니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S13 4차시 섹션 소개 ══ -->
+<div class="slide" id="s13">
+  <div class="si" style="justify-content:center;align-items:center;">
+    <div class="sect-card" style="background:linear-gradient(135deg,#7f1d1d,#dc2626,#ef4444);max-width:800px;width:100%;margin:auto;">
+      <div class="fl aic g14" style="margin-bottom:8px;">
+        <div style="background:rgba(255,255,255,.2);border-radius:14px;padding:10px 18px;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;">4차시</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);flex:1;"></div>
+      </div>
+      <div style="font-size:clamp(30px,3.8vw,52px);font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.03em;">
+        AI 방어 운전과<br><span style="color:#fef08a;">에러 핸들링</span>
+      </div>
+      <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.8);line-height:1.75;margin-top:8px;">
+        AI를 믿되, 검증하라<br>오류를 두려워하지 마세요
+      </div>
+      <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-ghost"></i> 환각(Hallucination) 현상</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fef08a;font-size:.85rem;font-weight:700;"><i class="fas fa-redo"></i> New Task 타이밍</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#86efac;font-size:.85rem;font-weight:700;"><i class="fas fa-wrench"></i> 에러 해결 루틴</div>
+      </div>
+      <div class="sect-num">4</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S14 환각 현상 ══ -->
+<div class="slide" id="s14">
+  <div class="si">
+    <div>
+      <div class="stag">4차시 · 환각 현상</div>
+      <h2 class="stit">AI가 <span class="ar">거짓말</span>을 하는 이유</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="co co-r">
+        <span style="font-size:1.6rem;">👻</span>
+        <div>
+          <div class="co-tt tr">환각(Hallucination)이란?</div>
+          <div class="co-tx">AI가 <strong style="color:var(--rd)">존재하지 않는 사실을 자신있게 말하는 현상</strong>. 거짓말을 하는 게 아니라, 확률적으로 가장 "그럴듯한" 내용을 생성하다 보니 발생합니다.</div>
+        </div>
+      </div>
+      <div class="g3" style="flex:1;gap:14px;align-items:stretch;">
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-r"><i class="fas fa-book"></i></div><div class="fc-t">가짜 출처</div></div>
+          <div class="fc-d">존재하지 않는 논문, 책, 기사를 있는 것처럼 인용합니다.</div>
+          <div class="co co-r" style="padding:8px 10px;margin-top:auto;">
+            <div class="xs" style="color:#991b1b;"><i class="fas fa-exclamation-triangle"></i> 출처는 반드시 직접 확인!</div>
+          </div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-a"><i class="fas fa-calendar"></i></div><div class="fc-t">날짜·숫자 오류</div></div>
+          <div class="fc-d">통계, 날짜, 수치를 틀리게 말하면서도 확신에 찬 어조로 말합니다.</div>
+          <div class="co co-a" style="padding:8px 10px;margin-top:auto;">
+            <div class="xs" style="color:#92400e;"><i class="fas fa-exclamation-triangle"></i> 수치는 원본 데이터 확인!</div>
+          </div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-pu"><i class="fas fa-code"></i></div><div class="fc-t">코드 환각</div></div>
+          <div class="fc-d">없는 함수, 라이브러리를 마치 있는 것처럼 코드를 작성합니다.</div>
+          <div class="co co-pu" style="padding:8px 10px;margin-top:auto;">
+            <div class="xs" style="color:#6d28d9;"><i class="fas fa-exclamation-triangle"></i> 코드는 반드시 실행 테스트!</div>
+          </div>
+        </div>
+      </div>
+      <div class="g2" style="gap:14px;">
+        <div class="card fdc g8">
+          <div class="fw7 md tp">🔍 환각 방지 4원칙</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="fl aic g8"><div class="sn" style="width:26px;height:26px;font-size:.75rem;">1</div><div class="sm tsb">중요한 사실은 다른 도구로 검증</div></div>
+            <div class="fl aic g8"><div class="sn" style="width:26px;height:26px;font-size:.75rem;background:var(--a);">2</div><div class="sm tsb">AI에게 "출처를 알려줘"라고 추가 질문</div></div>
+            <div class="fl aic g8"><div class="sn" style="width:26px;height:26px;font-size:.75rem;background:var(--gd);">3</div><div class="sm tsb">"확실하지 않으면 모른다고 해" 지시</div></div>
+            <div class="fl aic g8"><div class="sn" style="width:26px;height:26px;font-size:.75rem;background:var(--pu);">4</div><div class="sm tsb">코드·법률·의료는 전문가 최종 확인</div></div>
+          </div>
+        </div>
+        <div class="co co-g" style="align-items:center;">
+          <span style="font-size:2.5rem;">🛡️</span>
+          <div>
+            <div class="fw7 tg md" style="margin-bottom:4px;">올바른 자세</div>
+            <div class="co-tx">AI의 답변을 <strong style="color:var(--dk)">"초안"</strong>으로 받아들이고 중요한 정보는 검증하는 습관이 필요합니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S15 New Task 타이밍 ══ -->
+<div class="slide" id="s15">
+  <div class="si">
+    <div>
+      <div class="stag">4차시 · New Task 전략</div>
+      <h2 class="stit"><span class="ar">꼬이면</span> 새 판을 깔아라</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="co co-r">
+        <span style="font-size:1.6rem;">🔄</span>
+        <div class="co-tx lg">AI가 <strong style="color:var(--rd)">같은 오류를 반복한다면</strong>, 대화가 길어질수록 AI가 <strong style="color:var(--rd)">초반 맥락을 잊고 오염</strong>됩니다. 새 대화를 시작하세요.</div>
+      </div>
+      <div class="g2" style="flex:1;gap:16px;align-items:stretch;">
+        <div class="card fdc g12">
+          <div class="fw9 md" style="color:var(--rd);">🚫 New Task를 눌러야 할 신호</div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div class="co co-r" style="padding:10px 14px;">
+              <span>😤</span>
+              <div class="sm" style="color:#991b1b;">같은 에러가 3번 이상 반복될 때</div>
+            </div>
+            <div class="co co-r" style="padding:10px 14px;">
+              <span>😤</span>
+              <div class="sm" style="color:#991b1b;">AI의 답변이 점점 엉뚱해질 때</div>
+            </div>
+            <div class="co co-r" style="padding:10px 14px;">
+              <span>😤</span>
+              <div class="sm" style="color:#991b1b;">대화 내용이 50개 이상 쌓였을 때</div>
+            </div>
+            <div class="co co-r" style="padding:10px 14px;">
+              <span>😤</span>
+              <div class="sm" style="color:#991b1b;">방향이 완전히 바뀌는 작업을 시작할 때</div>
+            </div>
+          </div>
+        </div>
+        <div class="card fdc g12">
+          <div class="fw9 md" style="color:var(--gd);">✅ 효율적인 New Task 방법</div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--sk);">1</div>
+              <div class="cd">이전 작업 결과 파일 저장 후</div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--a);">2</div>
+              <div class="cd">새 대화창(+ New Task) 열기</div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--gd);">3</div>
+              <div class="cd">이전 결과와 새 목표를 함께 붙여넣기</div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--p);">4</div>
+              <div class="cd">깨끗한 뇌 상태에서 다시 시작</div>
+            </div>
+          </div>
+          <div class="co co-g" style="padding:10px 14px;margin-top:auto;">
+            <span>💡</span>
+            <div class="sm tg">새 판 = 포기가 아닌 리셋 전략</div>
+          </div>
+        </div>
+      </div>
+      <div class="co co-a">
+        <span class="co-ic">📌</span>
+        <div class="co-tx"><strong>기억하세요:</strong> AI와 싸우지 마세요. 길이 막히면 다른 길로 가는 것이 훨씬 빠릅니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S16 에러 해결 루틴 ══ -->
+<div class="slide" id="s16">
+  <div class="si">
+    <div>
+      <div class="stag">4차시 · 에러 핸들링</div>
+      <h2 class="stit">에러를 <span class="ag">두려워하지 마라</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="co co-g">
+        <span style="font-size:1.6rem;">💪</span>
+        <div class="co-tx lg">에러 메시지는 <strong style="color:var(--dk)">AI가 다음에 무엇을 해야 하는지 알려주는 힌트</strong>입니다. 해석하려 하지 말고 그대로 복사해서 넘겨주세요.</div>
+      </div>
+      <div class="g2" style="flex:1;gap:16px;align-items:stretch;">
+        <div class="card fdc g12">
+          <div class="fw9 md" style="color:var(--dk);">❌ 잘못된 에러 처리 방식</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="co co-r" style="padding:10px 14px;">
+              <div style="flex:1;">
+                <div class="sm fw7" style="color:#991b1b;">직접 해석하려는 것</div>
+                <div class="xs tsb">"TypeError: undefined is not a function이 뭐야?" → 혼자 구글링 시간 낭비</div>
+              </div>
+            </div>
+            <div class="co co-r" style="padding:10px 14px;">
+              <div style="flex:1;">
+                <div class="sm fw7" style="color:#991b1b;">에러 일부만 복사하는 것</div>
+                <div class="xs tsb">첫 줄만 복사 → AI가 전체 맥락을 모름</div>
+              </div>
+            </div>
+            <div class="co co-r" style="padding:10px 14px;">
+              <div style="flex:1;">
+                <div class="sm fw7" style="color:#991b1b;">막연하게 "안 돼요"</div>
+                <div class="xs tsb">"버튼이 안 눌려요" → AI가 원인을 추측해야 함</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card fdc g12">
+          <div class="fw9 md" style="color:var(--gd);">✅ 올바른 에러 처리 루틴</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--rd);">1</div>
+              <div class="cd">에러 메시지 전체 복사 (Ctrl+A)</div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--a);">2</div>
+              <div class="code" style="font-size:.8rem;flex:1;padding:8px 12px;"><span class="st">"이 에러 고쳐줘:</span><br><span class="ba2">[에러 내용 붙여넣기]</span><span class="st">"</span></div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--gd);">3</div>
+              <div class="cd">AI가 제안한 해결책 적용</div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--p);">4</div>
+              <div class="cd">결과 확인 → 해결 안 되면 2번 반복</div>
+            </div>
+            <div class="fl g10 aic">
+              <div class="sn" style="background:var(--pu);">5</div>
+              <div class="cd">3번 이상 반복 시 → New Task</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="co co-p">
+        <span class="co-ic">🏆</span>
+        <div class="co-tx"><strong>핵심 마인드셋:</strong> 에러는 실패가 아닙니다. <strong style="color:var(--dk)">AI가 올바른 방향을 찾기 위한 과정</strong>입니다. 평균 3~5번 반복이 정상입니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S17 실전 체크리스트 ══ -->
+<div class="slide" id="s17">
+  <div class="si">
+    <div>
+      <div class="stag">종합 정리 · 실전 도구</div>
+      <h2 class="stit">AI 프롬프트 <span class="ac">실전 체크리스트</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb g2" style="align-items:stretch;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="border-left:4px solid var(--p);">
+          <div class="fw9 sm tp" style="margin-bottom:8px;"><i class="fas fa-brain"></i> 1차시 — AI의 뇌 구조</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--p);width:16px;height:16px;"> AI는 확률적 언어 모델임을 이해했다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--p);width:16px;height:16px;"> 맥락을 좁힐수록 정확해진다는 것을 이해했다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--p);width:16px;height:16px;"> AI 답변은 "초안"으로 받아들이기로 했다</label>
+          </div>
+        </div>
+        <div class="card" style="border-left:4px solid var(--ad);">
+          <div class="fw9 sm ta" style="margin-bottom:8px;"><i class="fas fa-magic"></i> 2차시 — CRTF 공식</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--ad);width:16px;height:16px;"> C(Context) — 상황과 배경을 설명한다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--ad);width:16px;height:16px;"> R(Role) — 역할을 부여한다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--ad);width:16px;height:16px;"> T(Task) — 구체적인 작업을 지시한다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--ad);width:16px;height:16px;"> F(Format) — 출력 형식을 지정한다</label>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="border-left:4px solid var(--gd);">
+          <div class="fw9 sm tg" style="margin-bottom:8px;"><i class="fas fa-code"></i> 3차시 — 실전 기술</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--gd);width:16px;height:16px;"> 큰 작업은 기능별로 쪼개서 요청한다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--gd);width:16px;height:16px;"> .clinerules 파일로 규칙을 설정한다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--gd);width:16px;height:16px;"> 각 단계 완료 후 확인하고 다음으로 간다</label>
+          </div>
+        </div>
+        <div class="card" style="border-left:4px solid var(--rd);">
+          <div class="fw9 sm tr" style="margin-bottom:8px;"><i class="fas fa-shield-alt"></i> 4차시 — 방어 운전</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--rd);width:16px;height:16px;"> 중요한 정보는 반드시 검증한다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--rd);width:16px;height:16px;"> 에러는 전체를 복사해서 붙여넣는다</label>
+            <label class="fl aic g8 sm tsb"><input type="checkbox" style="accent-color:var(--rd);width:16px;height:16px;"> 같은 오류 3회 반복 시 New Task로 리셋</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S18 4차시 종합 비교 ══ -->
+<div class="slide" id="s18">
+  <div class="si">
+    <div>
+      <div class="stag">종합 정리 · 핵심 비교</div>
+      <h2 class="stit">배우기 전 vs <span class="ac">배운 후</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="g2" style="flex:1;gap:16px;align-items:stretch;">
+        <div class="cmp-bad" style="display:flex;flex-direction:column;gap:12px;">
+          <div class="cmp-t tr" style="font-size:1.1rem;"><i class="fas fa-frown"></i> 교육 전 — 흔한 실수들</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="fl aic g10">
+              <span style="color:var(--rd);font-size:1.2rem;">😤</span>
+              <div class="cd">"AI가 멍청해서 제대로 못 하는구나..."</div>
+            </div>
+            <div class="fl aic g10">
+              <span style="color:var(--rd);font-size:1.2rem;">😤</span>
+              <div class="cd">"써줘" 한 마디로 요청 → 엉뚱한 결과</div>
+            </div>
+            <div class="fl aic g10">
+              <span style="color:var(--rd);font-size:1.2rem;">😤</span>
+              <div class="cd">한 번에 열 가지 요청 → 뒤죽박죽</div>
+            </div>
+            <div class="fl aic g10">
+              <span style="color:var(--rd);font-size:1.2rem;">😤</span>
+              <div class="cd">에러가 나면 패닉 → 포기</div>
+            </div>
+            <div class="fl aic g10">
+              <span style="color:var(--rd);font-size:1.2rem;">😤</span>
+              <div class="cd">AI 답변을 그대로 믿어 사고 발생</div>
+            </div>
+          </div>
+        </div>
+        <div class="cmp-good" style="display:flex;flex-direction:column;gap:12px;">
+          <div class="cmp-t tg" style="font-size:1.1rem;"><i class="fas fa-smile"></i> 교육 후 — 달라진 모습</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="fl aic g10">
+              <span style="color:var(--gd);font-size:1.2rem;">😊</span>
+              <div class="cd">"AI의 특성을 알고 맞게 활용해야지"</div>
+            </div>
+            <div class="fl aic g10">
+              <span style="color:var(--gd);font-size:1.2rem;">😊</span>
+              <div class="cd">CRTF 4요소로 구체적 지시 → 높은 품질</div>
+            </div>
+            <div class="fl aic g10">
+              <span style="color:var(--gd);font-size:1.2rem;">😊</span>
+              <div class="cd">기능 1개씩 쪼개서 요청 → 완성도 UP</div>
+            </div>
+            <div class="fl aic g10">
+              <span style="color:var(--gd);font-size:1.2rem;">😊</span>
+              <div class="cd">에러 복사 → AI에게 전달 → 해결</div>
+            </div>
+            <div class="fl aic g10">
+              <span style="color:var(--gd);font-size:1.2rem;">😊</span>
+              <div class="cd">중요 정보는 검증 → 안전한 활용</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(79,70,229,.1),rgba(139,92,246,.08));border:1px solid rgba(79,70,229,.25);border-radius:var(--rad);padding:20px;text-align:center;">
+        <div style="font-size:1.5rem;margin-bottom:8px;">🚀</div>
+        <div class="fw9 tp" style="font-size:1.2rem;margin-bottom:6px;">같은 AI, 다른 결과</div>
+        <div class="tsb md">도구는 같아도 쓰는 방법이 다르면 결과가 10배 달라집니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S19 오늘부터 실천할 3가지 ══ -->
+<div class="slide" id="s19">
+  <div class="si">
+    <div>
+      <div class="stag">실천 과제 · 오늘부터 바로</div>
+      <h2 class="stit">오늘 바로 <span class="aa">실천하는 3가지</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:16px;justify-content:center;">
+      <div class="obj-card" style="border-left:4px solid var(--p);">
+        <div class="obj-n tp">01</div>
+        <div>
+          <div class="obj-t">지금 하고 있는 업무에 CRTF 적용해보기</div>
+          <div class="obj-d">이메일 작성, 보고서 초안, 회의 안건 정리 등 오늘 해야 하는 업무 하나에 C+R+T+F를 넣어서 AI에게 요청해보세요. 차이를 바로 느낄 수 있습니다.</div>
+        </div>
+      </div>
+      <div class="obj-card" style="border-left:4px solid var(--ad);">
+        <div class="obj-n ta">02</div>
+        <div>
+          <div class="obj-t">반복하는 작업이 있다면 .clinerules 만들기</div>
+          <div class="obj-d">매번 AI에게 같은 말을 반복하고 있다면, .clinerules 파일을 만들어 규칙을 저장하세요. 딱 5분이면 됩니다.</div>
+        </div>
+      </div>
+      <div class="obj-card" style="border-left:4px solid var(--gd);">
+        <div class="obj-n tg">03</div>
+        <div>
+          <div class="obj-t">AI 답변을 검증하는 습관 들이기</div>
+          <div class="obj-d">오늘부터 AI가 말하는 수치나 날짜, 출처는 꼭 한 번 확인하는 습관을 시작하세요. 환각으로 인한 실수를 99% 예방할 수 있습니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S20 FINAL ══ -->
+<div class="slide" id="s20">
+  <div class="si" style="align-items:center;justify-content:center;padding:40px 60px;">
+    <div style="text-align:center;max-width:780px;display:flex;flex-direction:column;gap:20px;align-items:center;">
+      <div style="font-size:3rem;">🎉</div>
+      <div style="font-size:clamp(32px,4vw,52px);font-weight:900;color:var(--dk);line-height:1.2;letter-spacing:-.03em;">
+        AI와 함께하는<br><span class="tp">새로운 업무 방식</span>
+      </div>
+      <div class="tsb md lh" style="max-width:600px;">
+        AI는 여러분을 대체하는 것이 아닙니다.<br>
+        <strong style="color:var(--dk)">여러분의 능력을 10배로 만들어주는 도구</strong>입니다.
+      </div>
+      <div class="g4" style="width:100%;gap:14px;">
+        <div class="sum" style="border-left:4px solid var(--p);">
+          <div class="sum-t tp"><i class="fas fa-brain"></i> 1차시</div>
+          <div class="sum-d">AI는 확률 엔진<br>맥락이 전부다</div>
+        </div>
+        <div class="sum" style="border-left:4px solid var(--ad);">
+          <div class="sum-t ta"><i class="fas fa-magic"></i> 2차시</div>
+          <div class="sum-d">CRTF 공식으로<br>품질을 올린다</div>
+        </div>
+        <div class="sum" style="border-left:4px solid var(--gd);">
+          <div class="sum-t tg"><i class="fas fa-code"></i> 3차시</div>
+          <div class="sum-d">쪼개고 울타리로<br>AI를 통제한다</div>
+        </div>
+        <div class="sum" style="border-left:4px solid var(--rd);">
+          <div class="sum-t tr"><i class="fas fa-shield-alt"></i> 4차시</div>
+          <div class="sum-d">검증하고 리셋으로<br>오류를 막는다</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(79,70,229,.1),rgba(139,92,246,.08));border:1px solid rgba(79,70,229,.25);border-radius:var(--rad);padding:22px 30px;width:100%;">
+        <div class="fw9 tp md" style="margin-bottom:8px;">다음 실습 시간에는…</div>
+        <div class="fl g10 jcc" style="flex-wrap:wrap;">
+          <span class="ba ba-p"><i class="fas fa-seedling"></i> 바이브 코딩 12예제</span>
+          <span class="ba ba-pu"><i class="fas fa-layer-group"></i> CRTF 실전 워크샵</span>
+          <span class="ba ba-a"><i class="fas fa-briefcase"></i> 나만의 업무 자동화</span>
+          <span class="ba ba-g"><i class="fas fa-trophy"></i> 나만의 도구 만들기</span>
+        </div>
+      </div>
+      <div class="tsb xs">AI 프롬프트 완전 정복 · 20 슬라이드 완료</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ══ NAV ══ -->
+<div id="nav">
+  <button class="nb" id="bp" onclick="go(cur-1)" title="이전 (←)"><i class="fas fa-chevron-left"></i></button>
+  <div id="dotw"></div>
+  <div class="fl aic g8">
+    <span id="ncnt">1 / 20</span>
+    <button id="bfs" onclick="toggleFS()" title="전체화면 (F)"><i class="fas fa-expand"></i></button>
+  </div>
+  <button class="nb" id="bn" onclick="go(cur+1)" title="다음 (→)"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<div id="kh">
+  ← → : 슬라이드 이동<br>
+  Space / Enter : 다음<br>
+  F : 전체화면<br>
+  Home / End : 처음 / 끝<br>
+  ? : 이 도움말
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total  = slides.length;
+let cur = 0;
+
+const prog = document.getElementById('prog');
+const dotw = document.getElementById('dotw');
+const ncnt = document.getElementById('ncnt');
+const bp   = document.getElementById('bp');
+const bn   = document.getElementById('bn');
+const bfs  = document.getElementById('bfs');
+const kh   = document.getElementById('kh');
+
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.title = `슬라이드 ${i+1}`;
+  d.onclick = () => go(i);
+  dotw.appendChild(d);
+}
+
+function go(n) {
+  if (n < 0 || n >= total) return;
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'past');
+    if (i < n) s.classList.add('past');
+    if (i === n) s.classList.add('active');
+  });
+  cur = n;
+  update();
+}
+
+function update() {
+  prog.style.width = ((cur + 1) / total * 100) + '%';
+  ncnt.textContent = `${cur+1} / ${total}`;
+  bp.disabled = cur === 0;
+  bn.disabled = cur === total - 1;
+  dotw.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+}
+update();
+
+document.addEventListener('keydown', e => {
+  if (['ArrowRight','ArrowDown',' ','Enter','PageDown'].includes(e.key)) { e.preventDefault(); go(cur+1); }
+  else if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); go(cur-1); }
+  else if (e.key === 'Home') go(0);
+  else if (e.key === 'End')  go(total-1);
+  else if (e.key === 'f' || e.key === 'F') toggleFS();
+  else if (e.key === '?') kh.classList.toggle('show');
+});
+
+function toggleFS() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+    bfs.innerHTML = '<i class="fas fa-compress"></i>';
+  } else {
+    document.exitFullscreen();
+    bfs.innerHTML = '<i class="fas fa-expand"></i>';
+  }
+}
+
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend',   e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) go(cur + (dx > 0 ? 1 : -1));
+});
+
+kh.classList.add('show');
+setTimeout(() => kh.classList.remove('show'), 3000);
+</script>
+</body>
+</html>
