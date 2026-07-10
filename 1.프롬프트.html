@@ -220,7 +220,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
 .sect-num{font-size:clamp(80px,10vw,140px);font-weight:900;line-height:1;opacity:.08;position:absolute;right:30px;bottom:10px;letter-spacing:-.05em;}
 
 /* ═══ FINAL ═══ */
-#s20{background:linear-gradient(145deg,#eef2ff 0%,#e0e7ff 55%,#c7d2fe 100%) !important;}
+#s22{background:linear-gradient(145deg,#eef2ff 0%,#e0e7ff 55%,#c7d2fe 100%) !important;}
 
 /* ═══ SUM BOX ═══ */
 .sum{background:#fff;border-radius:var(--rad);padding:18px 20px;box-shadow:var(--sh);}
@@ -266,7 +266,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <span class="hb" style="color:#86efac;"><i class="fas fa-code"></i> 3차시: 바이브 코딩 실전</span>
       <span class="hb" style="color:#fca5a5;"><i class="fas fa-shield-alt"></i> 4차시: AI 방어 운전</span>
     </div>
-    <p class="hero-meta">회사원 AI 활용 교육 · 20 슬라이드 · 키보드 ← → 이동 · F 전체화면</p>
+    <p class="hero-meta">회사원 AI 활용 교육 · 26 슬라이드 · 키보드 ← → 이동 · F 전체화면</p>
   </div>
 </div>
 
@@ -816,8 +816,843 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S13 4차시 섹션 소개 ══ -->
+<!-- ══ S13 실무 데이터 전처리 ① — 엑셀 Before/After ══ -->
 <div class="slide" id="s13">
+  <div class="si" style="padding:16px 36px 8px;">
+    <div>
+      <div class="stag">3차시 · AI 밥상 차리기 ①</div>
+      <h2 class="stit" style="font-size:clamp(22px,2.6vw,38px);">엑셀 데이터, <span class="ag">이렇게 달라진다</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:10px;">
+
+      <!-- 핵심 메시지 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:rgba(239,68,68,.07);border:1.5px solid rgba(239,68,68,.25);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.8rem;">😣</span>
+          <div>
+            <div style="font-weight:900;color:#dc2626;font-size:.9rem;">AI가 힘들어하는 엑셀</div>
+            <div style="font-size:.78rem;color:#9f1239;">사람에게 예쁜 표 ≠ AI가 읽기 좋은 표</div>
+          </div>
+        </div>
+        <div style="background:rgba(16,185,129,.07);border:1.5px solid rgba(16,185,129,.25);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.8rem;">😊</span>
+          <div>
+            <div style="font-weight:900;color:#059669;font-size:.9rem;">AI가 즉시 읽는 엑셀</div>
+            <div style="font-size:.78rem;color:#065f46;">단순·일관·명확 → 분석 품질 2배</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 비교 체크리스트 테이블 -->
+      <table style="border-collapse:collapse;width:100%;font-size:.82rem;flex:1;">
+        <thead>
+          <tr>
+            <th style="background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 12px;text-align:left;width:18%;color:#475569;font-size:.75rem;">문제 유형</th>
+            <th style="background:#fef2f2;border:1px solid #fca5a5;padding:8px 12px;text-align:center;width:28%;color:#dc2626;">❌ 이렇게 하면 안 돼요</th>
+            <th style="background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 12px;text-align:center;width:6%;color:#94a3b8;">→</th>
+            <th style="background:#f0fdf4;border:1px solid #86efac;padding:8px 12px;text-align:center;width:28%;color:#15803d;">✅ 이렇게 바꿔요</th>
+            <th style="background:#f8fafc;border:1px solid #e2e8f0;padding:8px 12px;text-align:left;width:20%;color:#64748b;font-size:.75rem;">AI에게 생기는 문제</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 셀 병합 -->
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:8px 12px;background:#fff;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span style="background:#fee2e2;color:#dc2626;border-radius:6px;padding:2px 7px;font-size:.72rem;font-weight:700;">셀 병합</span>
+              </div>
+            </td>
+            <td style="border:1px solid #fca5a5;padding:7px 12px;background:#fff7f7;">
+              <table style="border-collapse:collapse;width:100%;font-size:.75rem;">
+                <tr>
+                  <td style="border:1px solid #fca5a5;padding:3px 6px;text-align:center;background:#fecaca;color:#7f1d1d;font-weight:700;" rowspan="2">1분기<br><span style="font-size:.65rem;">(2칸 병합)</span></td>
+                  <td style="border:1px solid #fca5a5;padding:3px 6px;">노트북</td>
+                  <td style="border:1px solid #fca5a5;padding:3px 6px;">1,200만</td>
+                </tr>
+                <tr>
+                  <td style="border:1px solid #fca5a5;padding:3px 6px;">모니터</td>
+                  <td style="border:1px solid #fca5a5;padding:3px 6px;">540만</td>
+                </tr>
+              </table>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px;text-align:center;color:#059669;font-size:1.1rem;font-weight:900;">→</td>
+            <td style="border:1px solid #86efac;padding:7px 12px;background:#f0fdf4;">
+              <table style="border-collapse:collapse;width:100%;font-size:.75rem;">
+                <tr>
+                  <td style="border:1px solid #86efac;padding:3px 6px;background:#dcfce7;color:#14532d;font-weight:700;">1분기</td>
+                  <td style="border:1px solid #86efac;padding:3px 6px;">노트북</td>
+                  <td style="border:1px solid #86efac;padding:3px 6px;">12000000</td>
+                </tr>
+                <tr>
+                  <td style="border:1px solid #86efac;padding:3px 6px;background:#dcfce7;color:#14532d;font-weight:700;">1분기</td>
+                  <td style="border:1px solid #86efac;padding:3px 6px;">모니터</td>
+                  <td style="border:1px solid #86efac;padding:3px 6px;">5400000</td>
+                </tr>
+              </table>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px 10px;font-size:.76rem;color:#64748b;">행 수를 잘못 세어 분석 오류 발생</td>
+          </tr>
+          <!-- 날짜 혼용 -->
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:8px 12px;background:#fafafa;">
+              <span style="background:#fee2e2;color:#dc2626;border-radius:6px;padding:2px 7px;font-size:.72rem;font-weight:700;">날짜 혼용</span>
+            </td>
+            <td style="border:1px solid #fca5a5;padding:8px 12px;background:#fff7f7;">
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <span style="font-family:monospace;color:#dc2626;font-size:.8rem;">2024.01.05</span>
+                <span style="font-family:monospace;color:#dc2626;font-size:.8rem;">24/1/5</span>
+                <span style="font-family:monospace;color:#dc2626;font-size:.8rem;">1월 5일</span>
+              </div>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px;text-align:center;color:#059669;font-size:1.1rem;font-weight:900;">→</td>
+            <td style="border:1px solid #86efac;padding:8px 12px;background:#f0fdf4;">
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <span style="font-family:monospace;color:#15803d;font-size:.8rem;">2024-01-05</span>
+                <span style="font-family:monospace;color:#15803d;font-size:.8rem;">2024-01-05</span>
+                <span style="font-family:monospace;color:#15803d;font-size:.8rem;">2024-01-05</span>
+              </div>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px 10px;font-size:.76rem;color:#64748b;">날짜 순서 정렬·비교 불가</td>
+          </tr>
+          <!-- 금액 서식 -->
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:8px 12px;background:#fff;">
+              <span style="background:#fee2e2;color:#dc2626;border-radius:6px;padding:2px 7px;font-size:.72rem;font-weight:700;">금액 서식</span>
+            </td>
+            <td style="border:1px solid #fca5a5;padding:8px 12px;background:#fff7f7;">
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <span style="font-family:monospace;color:#dc2626;font-size:.8rem;">₩1,200,000</span>
+                <span style="font-family:monospace;color:#dc2626;font-size:.8rem;">120만원</span>
+                <span style="font-family:monospace;color:#dc2626;font-size:.8rem;">1.2M</span>
+              </div>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px;text-align:center;color:#059669;font-size:1.1rem;font-weight:900;">→</td>
+            <td style="border:1px solid #86efac;padding:8px 12px;background:#f0fdf4;">
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <span style="font-family:monospace;color:#15803d;font-size:.8rem;">1200000</span>
+                <span style="font-family:monospace;color:#15803d;font-size:.8rem;">1200000</span>
+                <span style="font-family:monospace;color:#15803d;font-size:.8rem;">1200000</span>
+              </div>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px 10px;font-size:.76rem;color:#64748b;">숫자 합산·평균 계산 오류</td>
+          </tr>
+          <!-- 머리글 -->
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:8px 12px;background:#fafafa;">
+              <span style="background:#fee2e2;color:#dc2626;border-radius:6px;padding:2px 7px;font-size:.72rem;font-weight:700;">모호한 머리글</span>
+            </td>
+            <td style="border:1px solid #fca5a5;padding:8px 12px;background:#fff7f7;">
+              <div style="display:flex;gap:5px;flex-wrap:wrap;">
+                <span style="background:#fecaca;color:#7f1d1d;border-radius:4px;padding:3px 7px;font-size:.78rem;font-family:monospace;">A</span>
+                <span style="background:#fecaca;color:#7f1d1d;border-radius:4px;padding:3px 7px;font-size:.78rem;font-family:monospace;">값1</span>
+                <span style="background:#fecaca;color:#7f1d1d;border-radius:4px;padding:3px 7px;font-size:.78rem;font-family:monospace;">기타</span>
+                <span style="background:#fecaca;color:#7f1d1d;border-radius:4px;padding:3px 7px;font-size:.78rem;font-family:monospace;">Y/N</span>
+              </div>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px;text-align:center;color:#059669;font-size:1.1rem;font-weight:900;">→</td>
+            <td style="border:1px solid #86efac;padding:8px 12px;background:#f0fdf4;">
+              <div style="display:flex;gap:5px;flex-wrap:wrap;">
+                <span style="background:#dcfce7;color:#14532d;border-radius:4px;padding:3px 7px;font-size:.78rem;font-family:monospace;">고객명</span>
+                <span style="background:#dcfce7;color:#14532d;border-radius:4px;padding:3px 7px;font-size:.78rem;font-family:monospace;">매출(원)</span>
+                <span style="background:#dcfce7;color:#14532d;border-radius:4px;padding:3px 7px;font-size:.78rem;font-family:monospace;">비고(반품사유)</span>
+                <span style="background:#dcfce7;color:#14532d;border-radius:4px;padding:3px 7px;font-size:.78rem;font-family:monospace;">재구매(Y/N)</span>
+              </div>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px 10px;font-size:.76rem;color:#64748b;">열의 의미를 추론 못해 잘못 해석</td>
+          </tr>
+          <!-- 빈 행 -->
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:8px 12px;background:#fff;">
+              <span style="background:#fee2e2;color:#dc2626;border-radius:6px;padding:2px 7px;font-size:.72rem;font-weight:700;">빈 행·열</span>
+            </td>
+            <td style="border:1px solid #fca5a5;padding:7px 12px;background:#fff7f7;">
+              <table style="border-collapse:collapse;width:100%;font-size:.75rem;">
+                <tr><td style="border:1px solid #fca5a5;padding:2px 5px;">1월</td><td style="border:1px solid #fca5a5;padding:2px 5px;">100</td></tr>
+                <tr><td colspan="2" style="border:1px solid #fca5a5;padding:2px 5px;background:#fecaca;text-align:center;font-size:.68rem;color:#dc2626;">← 빈 행 →</td></tr>
+                <tr><td style="border:1px solid #fca5a5;padding:2px 5px;">2월</td><td style="border:1px solid #fca5a5;padding:2px 5px;">150</td></tr>
+                <tr><td style="border:1px solid #fca5a5;padding:2px 5px;">3월</td><td style="border:1px solid #fca5a5;padding:2px 5px;">120</td></tr>
+              </table>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px;text-align:center;color:#059669;font-size:1.1rem;font-weight:900;">→</td>
+            <td style="border:1px solid #86efac;padding:7px 12px;background:#f0fdf4;">
+              <table style="border-collapse:collapse;width:100%;font-size:.75rem;">
+                <tr><td style="border:1px solid #86efac;padding:2px 5px;background:#dcfce7;">1월</td><td style="border:1px solid #86efac;padding:2px 5px;">100</td></tr>
+                <tr><td style="border:1px solid #86efac;padding:2px 5px;background:#dcfce7;">2월</td><td style="border:1px solid #86efac;padding:2px 5px;">150</td></tr>
+                <tr><td style="border:1px solid #86efac;padding:2px 5px;background:#dcfce7;">3월</td><td style="border:1px solid #86efac;padding:2px 5px;">120</td></tr>
+              </table>
+            </td>
+            <td style="border:1px solid #e2e8f0;padding:7px 10px;font-size:.76rem;color:#64748b;">데이터가 끊겼다고 인식해 분리 분석</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 황금 규칙 -->
+      <div style="background:linear-gradient(90deg,rgba(245,158,11,.1),rgba(245,158,11,.05));border:1.5px solid rgba(245,158,11,.35);border-radius:10px;padding:9px 16px;display:flex;align-items:center;gap:12px;">
+        <span style="font-size:1.4rem;">🏅</span>
+        <div style="font-size:.85rem;"><strong style="color:#92400e;">엑셀 황금 규칙:</strong> <span style="color:#78350f;">1행 = 머리글 &nbsp;|&nbsp; 2행부터 = 데이터 &nbsp;|&nbsp; 병합 셀 없이 &nbsp;|&nbsp; 빈 행 없이 &nbsp;|&nbsp; 숫자는 순수 숫자만</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S13-2 실무 데이터 전처리 ② — 케이스별 가이드 ══ -->
+<div class="slide" id="s13b">
+  <div class="si">
+    <div>
+      <div class="stag">3차시 · AI 밥상 차리기 ②</div>
+      <h2 class="stit">업무 유형별 <span class="ag">전처리 실전 가이드</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb g2" style="gap:14px;align-items:stretch;">
+
+      <!-- CASE 1: 날짜/숫자 -->
+      <div class="card fdc g10">
+        <div class="fl g10 aic">
+          <div class="ib ib-a"><i class="fas fa-calendar-alt"></i></div>
+          <div class="fw9 md" style="color:var(--ad);">CASE 1 — 날짜·숫자 서식 통일</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center;font-size:.8rem;">
+          <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 10px;">
+            <div style="color:#dc2626;font-weight:700;margin-bottom:4px;">❌ 혼용</div>
+            <div style="font-family:monospace;color:#7f1d1d;line-height:1.8;">2024.01.05<br>24/1/5<br>1월 5일<br>Jan-05</div>
+          </div>
+          <div style="text-align:center;font-size:1.2rem;color:var(--gd);font-weight:900;">→</div>
+          <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 10px;">
+            <div style="color:#15803d;font-weight:700;margin-bottom:4px;">✅ 통일</div>
+            <div style="font-family:monospace;color:#14532d;line-height:1.8;">2024-01-05<br>2024-01-05<br>2024-01-05<br>2024-01-05</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center;font-size:.8rem;">
+          <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 10px;">
+            <div style="color:#dc2626;font-weight:700;margin-bottom:4px;">❌ 혼용</div>
+            <div style="font-family:monospace;color:#7f1d1d;line-height:1.8;">₩1,200,000<br>1.2M<br>120만원<br>1200K</div>
+          </div>
+          <div style="text-align:center;font-size:1.2rem;color:var(--gd);font-weight:900;">→</div>
+          <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 10px;">
+            <div style="color:#15803d;font-weight:700;margin-bottom:4px;">✅ 통일</div>
+            <div style="font-family:monospace;color:#14532d;line-height:1.8;">1200000<br>1200000<br>1200000<br>1200000</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASE 2: 머리글 개선 -->
+      <div class="card fdc g10">
+        <div class="fl g10 aic">
+          <div class="ib ib-p"><i class="fas fa-heading"></i></div>
+          <div class="fw9 md" style="color:var(--p);">CASE 2 — 머리글 명확화</div>
+        </div>
+        <table style="border-collapse:collapse;width:100%;font-size:.78rem;">
+          <thead>
+            <tr>
+              <th style="background:#e0e7ff;border:1px solid #a5b4fc;padding:6px 8px;text-align:left;">❌ 모호한 머리글</th>
+              <th style="background:#e0e7ff;border:1px solid #a5b4fc;padding:6px 8px;text-align:center;">→</th>
+              <th style="background:#dbeafe;border:1px solid #93c5fd;padding:6px 8px;text-align:left;">✅ 명확한 머리글</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="border:1px solid #c7d2fe;padding:5px 8px;color:#dc2626;">A</td><td style="border:1px solid #c7d2fe;padding:5px 8px;text-align:center;color:var(--gd);">→</td><td style="border:1px solid #bfdbfe;padding:5px 8px;color:#1d4ed8;">고객명</td></tr>
+            <tr><td style="border:1px solid #c7d2fe;padding:5px 8px;color:#dc2626;">값1</td><td style="border:1px solid #c7d2fe;padding:5px 8px;text-align:center;color:var(--gd);">→</td><td style="border:1px solid #bfdbfe;padding:5px 8px;color:#1d4ed8;">구매금액(원)</td></tr>
+            <tr><td style="border:1px solid #c7d2fe;padding:5px 8px;color:#dc2626;">날짜</td><td style="border:1px solid #c7d2fe;padding:5px 8px;text-align:center;color:var(--gd);">→</td><td style="border:1px solid #bfdbfe;padding:5px 8px;color:#1d4ed8;">구매일자(YYYY-MM-DD)</td></tr>
+            <tr><td style="border:1px solid #c7d2fe;padding:5px 8px;color:#dc2626;">기타</td><td style="border:1px solid #c7d2fe;padding:5px 8px;text-align:center;color:var(--gd);">→</td><td style="border:1px solid #bfdbfe;padding:5px 8px;color:#1d4ed8;">비고(반품사유)</td></tr>
+            <tr><td style="border:1px solid #c7d2fe;padding:5px 8px;color:#dc2626;">Y/N</td><td style="border:1px solid #c7d2fe;padding:5px 8px;text-align:center;color:var(--gd);">→</td><td style="border:1px solid #bfdbfe;padding:5px 8px;color:#1d4ed8;">재구매여부(Y/N)</td></tr>
+          </tbody>
+        </table>
+        <div class="co co-p" style="padding:8px 12px;margin-top:auto;">
+          <div class="xs" style="color:var(--pd);">원칙: 머리글만 봐도 그 열이 무엇인지 알 수 있어야 합니다</div>
+        </div>
+      </div>
+
+      <!-- CASE 3: 워드/보고서 -->
+      <div class="card fdc g10">
+        <div class="fl g10 aic">
+          <div class="ib ib-sk"><i class="fas fa-file-word"></i></div>
+          <div class="fw9 md" style="color:var(--sk);">CASE 3 — 워드·PDF 문서 처리</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:start;font-size:.79rem;">
+            <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 10px;">
+              <div style="color:#dc2626;font-weight:700;margin-bottom:4px;">❌ 통째로 붙여넣기</div>
+              <div style="color:#7f1d1d;line-height:1.6;">2024년 상반기<br>영업보고서.docx<br>전체 32페이지<br>━━━━━━━━<br>1장. 개요...<br>2장. 팀별 현황...<br>3장. 고객 분석...<br>...(중략)...</div>
+            </div>
+            <div style="text-align:center;font-size:1.2rem;color:var(--gd);font-weight:900;padding-top:30px;">→</div>
+            <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 10px;">
+              <div style="color:#15803d;font-weight:700;margin-bottom:4px;">✅ 필요한 섹션만</div>
+              <div style="color:#14532d;line-height:1.6;">[3장 고객 분석<br>12~15페이지만 발췌]<br>━━━━━━━━<br>고객 이탈률: 12%<br>주요 이탈 이유:<br>①가격 ②서비스<br>③경쟁사 이동</div>
+            </div>
+          </div>
+          <div class="co co-sk" style="padding:8px 12px;margin-top:auto;">
+            <div class="xs" style="color:#0369a1;">필요한 부분만 잘라서 제공 → AI가 핵심에만 집중, 토큰도 절약</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASE 4: 이미지/도표 -->
+      <div class="card fdc g10">
+        <div class="fl g10 aic">
+          <div class="ib ib-pu"><i class="fas fa-image"></i></div>
+          <div class="fw9 md" style="color:var(--pu);">CASE 4 — 이미지·도표·조직도</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+          <div class="co co-r" style="padding:8px 12px;">
+            <span>📸</span>
+            <div class="xs" style="color:#991b1b;"><strong>스크린샷·이미지 표</strong>는 AI가 텍스트로 읽지 못합니다. 반드시 텍스트로 변환 필요.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div class="fl aic g8 xs">
+              <span style="color:var(--rd);">❌</span>
+              <span class="tsb">조직도 이미지 → AI가 계층 관계 파악 불가</span>
+            </div>
+            <div class="fl aic g8 xs">
+              <span style="color:var(--gd);">✅</span>
+              <span class="tsb">텍스트로 변환: "대표 > 영업팀장 > 영업1팀, 영업2팀"</span>
+            </div>
+            <div class="fl aic g8 xs">
+              <span style="color:var(--rd);">❌</span>
+              <span class="tsb">차트 이미지 → AI가 수치 읽기 불가</span>
+            </div>
+            <div class="fl aic g8 xs">
+              <span style="color:var(--gd);">✅</span>
+              <span class="tsb">원본 데이터 테이블로 변환 후 제공</span>
+            </div>
+            <div class="fl aic g8 xs">
+              <span style="color:var(--rd);">❌</span>
+              <span class="tsb">PDF 스캔본 → OCR 없이는 텍스트 추출 불가</span>
+            </div>
+            <div class="fl aic g8 xs">
+              <span style="color:var(--gd);">✅</span>
+              <span class="tsb">텍스트 PDF 사용 또는 직접 타이핑 후 제공</span>
+            </div>
+          </div>
+          <div class="co co-pu" style="padding:8px 12px;margin-top:auto;">
+            <div class="xs" style="color:#6d28d9;"><strong>핵심:</strong> AI는 텍스트로 된 정보를 가장 잘 처리합니다</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ S13-3 AI에게 전처리 요청하기 ══ -->
+<div class="slide" id="s13c">
+  <div class="si">
+    <div>
+      <div class="stag">3차시 · AI 밥상 차리기 ③</div>
+      <h2 class="stit">직접 안 해도 된다 — <span class="ag">AI에게 전처리를 시켜라</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:12px;">
+      <div class="co co-p">
+        <span style="font-size:1.6rem;">🤖</span>
+        <div class="co-tx lg">데이터 정제도 AI에게 맡길 수 있습니다. <strong style="color:var(--dk)">지저분한 원본 데이터를 붙여넣고 어떻게 정리해달라고 지시</strong>하면 AI가 깔끔한 결과를 돌려줍니다.</div>
+      </div>
+      <div class="g2" style="flex:1;gap:14px;align-items:stretch;">
+
+        <!-- 왼쪽: 프롬프트 예시 -->
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="fw9 sm" style="color:var(--dk);">💬 AI 전처리 요청 프롬프트 4가지</div>
+
+          <div class="fc" style="border-color:rgba(79,70,229,.3);">
+            <div class="fc-h"><div class="ib ib-p" style="width:36px;height:36px;font-size:1rem;"><i class="fas fa-table"></i></div><div class="fc-t" style="color:var(--p);">① 병합 셀 해제 + 표 정리</div></div>
+            <div class="code" style="font-size:.77rem;line-height:1.6;">
+<span class="cm"># 붙여넣기 후 요청</span>
+<span class="st">"아래 표에서 병합된 셀을 해제하고</span>
+<span class="st"> 각 행마다 값을 채워서 깔끔한</span>
+<span class="st"> 마크다운 테이블로 변환해줘:</span>
+<span class="ba2">[표 데이터 붙여넣기]</span><span class="st">"</span></div>
+          </div>
+
+          <div class="fc" style="border-color:rgba(245,158,11,.3);">
+            <div class="fc-h"><div class="ib ib-a" style="width:36px;height:36px;font-size:1rem;"><i class="fas fa-calendar"></i></div><div class="fc-t" style="color:var(--ad);">② 날짜·숫자 서식 통일</div></div>
+            <div class="code" style="font-size:.77rem;line-height:1.6;">
+<span class="st">"아래 데이터에서 날짜를</span>
+<span class="st"> 모두 YYYY-MM-DD 형식으로,</span>
+<span class="st"> 금액은 원화 기호 없이 숫자만</span>
+<span class="st"> 남기도록 정제해줘:</span>
+<span class="ba2">[데이터 붙여넣기]</span><span class="st">"</span></div>
+          </div>
+
+          <div class="fc" style="border-color:rgba(16,185,129,.3);">
+            <div class="fc-h"><div class="ib ib-g" style="width:36px;height:36px;font-size:1rem;"><i class="fas fa-heading"></i></div><div class="fc-t" style="color:var(--gd);">③ 머리글 자동 개선</div></div>
+            <div class="code" style="font-size:.77rem;line-height:1.6;">
+<span class="st">"아래 표의 머리글이 너무 모호해.</span>
+<span class="st"> 각 열의 데이터를 보고 직관적인</span>
+<span class="st"> 머리글 이름을 제안해줘.</span>
+<span class="st"> 단위도 괄호 안에 넣어줘:</span>
+<span class="ba2">[표 데이터 붙여넣기]</span><span class="st">"</span></div>
+          </div>
+        </div>
+
+        <!-- 오른쪽: 고급 요청 예시 -->
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="fw9 sm" style="color:var(--dk);">⚡ 한 번에 해결하는 종합 정제 프롬프트</div>
+
+          <div class="card fdc g10" style="border-color:rgba(79,70,229,.2);flex:1;">
+            <div class="fl g10 aic">
+              <div class="ib ib-pu"><i class="fas fa-magic"></i></div>
+              <div class="fw9 sm" style="color:var(--pu);">④ 종합 전처리 요청 (원스톱)</div>
+            </div>
+            <div class="code" style="font-size:.77rem;line-height:1.7;flex:1;">
+<span class="cm"># 복사한 엑셀 데이터 붙여넣고</span>
+<span class="st">"아래 데이터를 AI 분석에</span>
+<span class="st"> 적합하게 전처리해줘.</span>
+
+<span class="ky">조건:</span>
+<span class="st">1. 병합 셀 해제 후 값 채우기</span>
+<span class="st">2. 빈 행/열 삭제</span>
+<span class="st">3. 날짜 → YYYY-MM-DD 통일</span>
+<span class="st">4. 금액 → 쉼표/기호 제거, 숫자만</span>
+<span class="st">5. 머리글 → 직관적으로 수정</span>
+<span class="st">6. 결과는 CSV 형식으로 출력</span>
+
+<span class="ba2">[데이터 붙여넣기]</span><span class="st">"</span></div>
+          </div>
+
+          <div class="card fdc g10" style="border-color:rgba(14,165,233,.2);">
+            <div class="fl g10 aic">
+              <div class="ib ib-sk"><i class="fas fa-search"></i></div>
+              <div class="fw9 sm" style="color:var(--sk);">⑤ 전처리 후 바로 분석 이어서 요청</div>
+            </div>
+            <div class="code" style="font-size:.77rem;line-height:1.6;">
+<span class="st">"위에서 정제한 데이터로</span>
+<span class="st"> 바로 월별 매출 추이를 분석하고</span>
+<span class="st"> 증감률과 특이사항을 요약해줘"</span></div>
+            <div class="co co-sk" style="padding:8px 10px;">
+              <div class="xs" style="color:#0369a1;">전처리 → 분석을 하나의 대화에서 연속으로 처리 가능</div>
+            </div>
+          </div>
+
+          <div class="co co-a" style="padding:10px 14px;">
+            <span class="co-ic">⚠️</span>
+            <div class="co-tx xs"><strong style="color:#92400e;">주의:</strong> AI가 정제한 결과도 반드시 한 번은 눈으로 확인하세요. 원본 대비 행 수, 컬럼 수가 맞는지 체크!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S13-4 데이터 형식 가이드 (CSV / JSON / Markdown) ══ -->
+<div class="slide" id="s13d">
+  <div class="si" style="padding:16px 36px 8px;gap:10px;">
+    <div>
+      <div class="stag">3차시 · AI 밥상 차리기 ④</div>
+      <h2 class="stit" style="font-size:clamp(22px,2.6vw,38px);">데이터 형식을 바꾸면 <span class="ag">AI가 훨씬 잘 이해한다</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:10px;">
+
+      <!-- 핵심 메시지 -->
+      <div style="background:rgba(79,70,229,.07);border:1.5px solid rgba(79,70,229,.22);border-radius:10px;padding:9px 16px;display:flex;align-items:center;gap:12px;">
+        <span style="font-size:1.4rem;">🍱</span>
+        <div style="font-size:.88rem;color:var(--pd);">엑셀에서 그냥 복붙하는 것보다 <strong>CSV·JSON·Markdown 형식으로 변환해서 주면</strong> AI가 구조를 오해 없이 파악합니다. <strong>AI에게 변환을 시키면 됩니다. 직접 안 해도 됩니다.</strong></div>
+      </div>
+
+      <!-- 3형식 비교표 + 예시 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;flex:1;">
+
+        <!-- CSV -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#e0f2fe;border:2px solid #38bdf8;border-radius:12px;padding:10px 14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:#0ea5e9;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;flex-shrink:0;">CSV</div>
+              <div>
+                <div style="font-weight:900;font-size:.92rem;color:#0c4a6e;">단순 표 데이터</div>
+                <div style="font-size:.72rem;color:#0369a1;">쉼표로 구분된 텍스트</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
+              <span style="background:#bae6fd;color:#0c4a6e;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">📊 매출 데이터</span>
+              <span style="background:#bae6fd;color:#0c4a6e;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">👥 고객 목록</span>
+              <span style="background:#bae6fd;color:#0c4a6e;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">📋 설문 결과</span>
+            </div>
+            <div style="font-size:.72rem;color:#0369a1;font-weight:600;">✅ AI 가독성 ★★★★☆</div>
+          </div>
+          <div style="background:#1e293b;border-radius:10px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.8;flex:1;">
+            <div style="color:#475569;margin-bottom:4px;"># 엑셀 복붙 → AI에게 변환 요청</div>
+            <div style="color:#7dd3fc;">분기,제품명,매출(원),판매일자</div>
+            <div style="color:#6ee7b7;">1분기,노트북,1200000,2024-01-05</div>
+            <div style="color:#6ee7b7;">1분기,모니터,540000,2024-01-12</div>
+            <div style="color:#6ee7b7;">2분기,노트북,980000,2024-04-01</div>
+            <div style="color:#6ee7b7;">2분기,마우스,320000,2024-04-15</div>
+          </div>
+          <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:7px 10px;font-size:.75rem;color:#0c4a6e;">
+            <strong>요청 프롬프트:</strong><br>"이 데이터를 CSV 형식으로 변환해줘. 머리글은 한국어로, 숫자는 기호 없이 숫자만."
+          </div>
+        </div>
+
+        <!-- JSON -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#dcfce7;border:2px solid #4ade80;border-radius:12px;padding:10px 14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;">JSON</div>
+              <div>
+                <div style="font-weight:900;font-size:.92rem;color:#14532d;">계층형·복잡한 데이터</div>
+                <div style="font-size:.72rem;color:#15803d;">키-값 쌍의 구조화 형식</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
+              <span style="background:#bbf7d0;color:#14532d;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">🏢 조직도</span>
+              <span style="background:#bbf7d0;color:#14532d;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">📦 제품 카탈로그</span>
+              <span style="background:#bbf7d0;color:#14532d;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">🔗 API 연동</span>
+            </div>
+            <div style="font-size:.72rem;color:#15803d;font-weight:600;">✅ AI 가독성 ★★★★★ (최고)</div>
+          </div>
+          <div style="background:#1e293b;border-radius:10px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.8;flex:1;">
+            <div style="color:#475569;margin-bottom:4px;"># 구조가 명확 → AI 오해 0%</div>
+            <div style="color:#c4b5fd;">[</div>
+            <div style="color:#7dd3fc;">&nbsp;{"분기":"1분기",</div>
+            <div style="color:#7dd3fc;">&nbsp;&nbsp;"제품명":"노트북",</div>
+            <div style="color:#6ee7b7;">&nbsp;&nbsp;"매출":1200000,</div>
+            <div style="color:#fbbf24;">&nbsp;&nbsp;"판매일자":"2024-01-05"},</div>
+            <div style="color:#7dd3fc;">&nbsp;{"분기":"1분기",</div>
+            <div style="color:#7dd3fc;">&nbsp;&nbsp;"제품명":"모니터",</div>
+            <div style="color:#6ee7b7;">&nbsp;&nbsp;"매출":540000,</div>
+            <div style="color:#fbbf24;">&nbsp;&nbsp;"판매일자":"2024-01-12"}</div>
+            <div style="color:#c4b5fd;">]</div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:7px 10px;font-size:.75rem;color:#14532d;">
+            <strong>요청 프롬프트:</strong><br>"이 엑셀 데이터를 JSON 배열로 변환해줘. 키 이름은 영문 소문자로."
+          </div>
+        </div>
+
+        <!-- Markdown Table -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#ede9fe;border:2px solid #a78bfa;border-radius:12px;padding:10px 14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;flex-shrink:0;">MD</div>
+              <div>
+                <div style="font-weight:900;font-size:.92rem;color:#4c1d95;">문서 안에 표가 있을 때</div>
+                <div style="font-size:.72rem;color:#6d28d9;">텍스트와 표가 혼합된 형식</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
+              <span style="background:#ddd6fe;color:#4c1d95;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">📝 보고서</span>
+              <span style="background:#ddd6fe;color:#4c1d95;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">📌 회의록</span>
+              <span style="background:#ddd6fe;color:#4c1d95;border-radius:5px;padding:2px 7px;font-size:.72rem;font-weight:700;">💬 채팅 공유</span>
+            </div>
+            <div style="font-size:.72rem;color:#6d28d9;font-weight:600;">✅ AI 가독성 ★★★★★ (최고)</div>
+          </div>
+          <div style="background:#1e293b;border-radius:10px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.8;flex:1;">
+            <div style="color:#475569;margin-bottom:4px;"># AI 채팅에 바로 붙여넣기 가능</div>
+            <div style="color:#c4b5fd;">| 분기 | 제품명 | 매출(원) | 판매일자 |</div>
+            <div style="color:#475569;">|------|--------|---------|---------|</div>
+            <div style="color:#6ee7b7;">| 1분기 | 노트북 | 1200000 | 2024-01-05 |</div>
+            <div style="color:#6ee7b7;">| 1분기 | 모니터 | 540000 | 2024-01-12 |</div>
+            <div style="color:#6ee7b7;">| 2분기 | 노트북 | 980000 | 2024-04-01 |</div>
+            <div style="color:#6ee7b7;">| 2분기 | 마우스 | 320000 | 2024-04-15 |</div>
+          </div>
+          <div style="background:#faf5ff;border:1px solid #ddd6fe;border-radius:8px;padding:7px 10px;font-size:.75rem;color:#4c1d95;">
+            <strong>요청 프롬프트:</strong><br>"이 엑셀 표를 Markdown 테이블 형식으로 변환해줘."
+          </div>
+        </div>
+      </div>
+
+      <!-- 형식 선택 요약 + 핵심 팁 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:9px 14px;">
+          <div style="font-weight:800;font-size:.82rem;color:var(--dk);margin-bottom:6px;">📌 형식 선택 요약</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:.78rem;">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="background:#e0f2fe;color:#0369a1;border-radius:4px;padding:1px 6px;font-weight:700;font-size:.7rem;">CSV</span><span style="color:var(--sb);">단순한 표 → 빠르고 가볍게</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="background:#dcfce7;color:#15803d;border-radius:4px;padding:1px 6px;font-weight:700;font-size:.7rem;">JSON</span><span style="color:var(--sb);">계층·복잡한 구조 → 정확하게</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="background:#ede9fe;color:#6d28d9;border-radius:4px;padding:1px 6px;font-weight:700;font-size:.7rem;">MD</span><span style="color:var(--sb);">글 속에 표 → AI 채팅에 바로</span></div>
+          </div>
+        </div>
+        <div style="background:rgba(16,185,129,.07);border:1.5px solid rgba(16,185,129,.25);border-radius:10px;padding:9px 14px;">
+          <div style="font-weight:800;font-size:.82rem;color:#065f46;margin-bottom:6px;">🤖 핵심 팁 — 직접 안 해도 됩니다</div>
+          <div style="font-size:.78rem;color:#047857;line-height:1.7;">엑셀을 그대로 복붙하고 <strong>"이 데이터를 JSON(또는 CSV, Markdown)으로 변환해줘"</strong>라고 말하면 AI가 대신 변환해줍니다. 문법을 몰라도 전혀 상관없습니다.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ S14 토큰 절약 ══ -->
+<div class="slide" id="s14">
+  <div class="si" style="padding:16px 36px 8px;gap:10px;">
+    <div>
+      <div class="stag">3차시 · 프롬프트 다이어트</div>
+      <h2 class="stit" style="font-size:clamp(22px,2.6vw,38px);">토큰을 <span class="aa">아끼면</span> 속도와 비용이 모두 잡힌다</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:9px;">
+
+      <!-- 토큰 개념 + 감각 익히기 -->
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:10px;">
+        <!-- 개념 설명 -->
+        <div style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(245,158,11,.04));border:1.5px solid rgba(245,158,11,.3);border-radius:12px;padding:12px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <span style="font-size:1.8rem;">🚕</span>
+            <div>
+              <div style="font-weight:900;font-size:.95rem;color:#92400e;">토큰(Token) = 택시 미터기</div>
+              <div style="font-size:.76rem;color:#b45309;">글자가 많을수록 미터기가 올라갑니다</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <div style="flex:1;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:8px 10px;text-align:center;">
+              <div style="font-size:1.4rem;font-weight:900;color:#dc2626;">토큰 ↑</div>
+              <div style="font-size:.72rem;color:#9f1239;line-height:1.6;margin-top:3px;">비용 증가<br>응답 느려짐<br>집중력 분산</div>
+            </div>
+            <div style="align-self:center;font-size:1.2rem;color:#94a3b8;">VS</div>
+            <div style="flex:1;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:8px 10px;text-align:center;">
+              <div style="font-size:1.4rem;font-weight:900;color:#059669;">토큰 ↓</div>
+              <div style="font-size:.72rem;color:#065f46;line-height:1.6;margin-top:3px;">비용 절감<br>응답 빨라짐<br>핵심에 집중</div>
+            </div>
+          </div>
+        </div>
+        <!-- 토큰 감각 익히기 -->
+        <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+          <div style="font-weight:800;font-size:.85rem;color:var(--dk);margin-bottom:8px;">📏 토큰 감각 익히기</div>
+          <div style="display:flex;flex-direction:column;gap:5px;font-size:.78rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:#f8fafc;border-radius:6px;">
+              <span style="color:var(--sb);">짧은 문장 1줄</span>
+              <span style="background:#dcfce7;color:#15803d;border-radius:4px;padding:1px 7px;font-weight:700;">~10토큰</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:#f8fafc;border-radius:6px;">
+              <span style="color:var(--sb);">A4 한 페이지 분량</span>
+              <span style="background:#fef9c3;color:#854d0e;border-radius:4px;padding:1px 7px;font-weight:700;">~600토큰</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:#f8fafc;border-radius:6px;">
+              <span style="color:var(--sb);">엑셀 50행 데이터</span>
+              <span style="background:#fef9c3;color:#854d0e;border-radius:4px;padding:1px 7px;font-weight:700;">~800토큰</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:#f8fafc;border-radius:6px;">
+              <span style="color:var(--sb);">보고서 30페이지</span>
+              <span style="background:#fee2e2;color:#991b1b;border-radius:4px;padding:1px 7px;font-weight:700;">~18,000토큰</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:#f8fafc;border-radius:6px;">
+              <span style="color:var(--sb);">소스코드 파일 1개</span>
+              <span style="background:#fee2e2;color:#991b1b;border-radius:4px;padding:1px 7px;font-weight:700;">~2,000토큰</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 낭비 패턴 vs 절약 패턴 비교표 -->
+      <table style="border-collapse:collapse;width:100%;font-size:.8rem;">
+        <thead>
+          <tr>
+            <th style="background:#f1f5f9;border:1px solid #cbd5e1;padding:7px 12px;text-align:left;width:16%;color:#64748b;font-size:.75rem;">상황</th>
+            <th style="background:#fef2f2;border:1px solid #fca5a5;padding:7px 12px;text-align:left;width:35%;color:#dc2626;">❌ 토큰 낭비 패턴</th>
+            <th style="background:#f0fdf4;border:1px solid #86efac;padding:7px 12px;text-align:left;width:35%;color:#15803d;">✅ 토큰 절약 패턴</th>
+            <th style="background:#f8fafc;border:1px solid #e2e8f0;padding:7px 12px;text-align:center;width:14%;color:#64748b;font-size:.75rem;">절약률</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;font-weight:700;color:#475569;font-size:.76rem;background:#fafafa;">대화 시작</td>
+            <td style="border:1px solid #fca5a5;padding:6px 10px;background:#fff7f7;font-size:.78rem;color:#7f1d1d;">"안녕하세요! 저는 마케팅팀에서 일하고 있는데요, 지난번에도 도움을 받았었는데 이번에도 SNS 게시물 초안을 좀 부탁드려도 될까요?"</td>
+            <td style="border:1px solid #86efac;padding:6px 10px;background:#f0fdf4;font-size:.78rem;color:#14532d;">"인스타그램 신제품 홍보 게시물 3개 작성. 톤: 친근하고 활기차게. 이모지 포함."</td>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;text-align:center;background:#f0fdf4;"><span style="background:#bbf7d0;color:#14532d;border-radius:5px;padding:2px 8px;font-weight:700;font-size:.78rem;">-85%</span></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;font-weight:700;color:#475569;font-size:.76rem;background:#fafafa;">문서 분석</td>
+            <td style="border:1px solid #fca5a5;padding:6px 10px;background:#fff7f7;font-size:.78rem;color:#7f1d1d;">보고서 30페이지 전체를 복붙 → "이 보고서에서 문제점을 찾아줘"</td>
+            <td style="border:1px solid #86efac;padding:6px 10px;background:#f0fdf4;font-size:.78rem;color:#14532d;">목차만 먼저 제공 → "3장 고객 분석 부분만 요약해줘" → 해당 섹션만 붙여넣기</td>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;text-align:center;background:#f0fdf4;"><span style="background:#bbf7d0;color:#14532d;border-radius:5px;padding:2px 8px;font-weight:700;font-size:.78rem;">-90%</span></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;font-weight:700;color:#475569;font-size:.76rem;background:#fafafa;">코드 수정</td>
+            <td style="border:1px solid #fca5a5;padding:6px 10px;background:#fff7f7;font-size:.78rem;color:#7f1d1d;">프로젝트 폴더 전체 파일 선택 → "버튼 색상 바꿔줘"</td>
+            <td style="border:1px solid #86efac;padding:6px 10px;background:#f0fdf4;font-size:.78rem;color:#14532d;"><code style="background:#1e293b;color:#6ee7b7;padding:1px 5px;border-radius:3px;font-size:.74rem;">@style.css</code> 만 지정 → "버튼 배경색을 #4f46e5로 변경"</td>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;text-align:center;background:#f0fdf4;"><span style="background:#bbf7d0;color:#14532d;border-radius:5px;padding:2px 8px;font-weight:700;font-size:.78rem;">-75%</span></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;font-weight:700;color:#475569;font-size:.76rem;background:#fafafa;">예시 제공</td>
+            <td style="border:1px solid #fca5a5;padding:6px 10px;background:#fff7f7;font-size:.78rem;color:#7f1d1d;">"이런 느낌으로 써줘" + 비슷한 예시 3개 통째로 붙여넣기</td>
+            <td style="border:1px solid #86efac;padding:6px 10px;background:#f0fdf4;font-size:.78rem;color:#14532d;">"조건: 짧고 직관적, 행동 유도 문구 포함, 20자 이내" 처럼 조건만 명시</td>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;text-align:center;background:#f0fdf4;"><span style="background:#bbf7d0;color:#14532d;border-radius:5px;padding:2px 8px;font-weight:700;font-size:.78rem;">-60%</span></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;font-weight:700;color:#475569;font-size:.76rem;background:#fafafa;">대화 관리</td>
+            <td style="border:1px solid #fca5a5;padding:6px 10px;background:#fff7f7;font-size:.78rem;color:#7f1d1d;">하나의 대화에서 50개 넘게 주고받기 → AI가 초반 내용 망각</td>
+            <td style="border:1px solid #86efac;padding:6px 10px;background:#f0fdf4;font-size:.78rem;color:#14532d;">결과를 파일로 저장 후 새 대화창 시작 → 깨끗한 컨텍스트 유지</td>
+            <td style="border:1px solid #e2e8f0;padding:6px 10px;text-align:center;background:#f0fdf4;"><span style="background:#bbf7d0;color:#14532d;border-radius:5px;padding:2px 8px;font-weight:700;font-size:.78rem;">품질↑</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 핵심 원칙 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;">
+        <div style="background:rgba(79,70,229,.06);border:1.5px solid rgba(79,70,229,.2);border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;flex-shrink:0;">🎯</span>
+          <div style="font-size:.8rem;color:var(--pd);">AI는 <strong>짧고 명확한</strong> 지시에 더 좋은 결과를 냅니다. 길다고 좋은 것이 아닙니다.</div>
+        </div>
+        <div style="background:rgba(16,185,129,.06);border:1.5px solid rgba(16,185,129,.2);border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;flex-shrink:0;">✂️</span>
+          <div style="font-size:.8rem;color:#065f46;"><strong>"이 내용이 없으면 AI가 작업을 못 하나?"</strong> 라고 물어보고, 없어도 되면 삭제하세요.</div>
+        </div>
+        <div style="background:rgba(245,158,11,.07);border:1.5px solid rgba(245,158,11,.25);border-radius:10px;padding:9px 13px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;flex-shrink:0;">💡</span>
+          <div style="font-size:.8rem;color:#92400e;">토큰 절약 = <strong>비용 절감 + 응답 속도 향상 + AI 집중력 향상</strong>. 세 마리 토끼를 한 번에 잡습니다.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ S14b 토큰 절약 — 프롬프트 외 관점 ══ -->
+<div class="slide" id="s14b">
+  <div class="si" style="padding:16px 36px 8px;gap:10px;">
+    <div>
+      <div class="stag">3차시 · 토큰 절약 심화</div>
+      <h2 class="stit" style="font-size:clamp(22px,2.6vw,38px);">프롬프트 외에도 <span class="aa">토큰을 아끼는 3가지 관점</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:10px;">
+
+      <!-- 핵심 메시지 -->
+      <div style="background:linear-gradient(90deg,rgba(245,158,11,.08),rgba(245,158,11,.03));border:1.5px solid rgba(245,158,11,.28);border-radius:10px;padding:9px 16px;display:flex;align-items:center;gap:12px;">
+        <span style="font-size:1.4rem;">🔭</span>
+        <div style="font-size:.88rem;color:#92400e;">프롬프트를 짧게 쓰는 것만이 전부가 아닙니다. <strong>어떤 모델을 쓰는지, 어떻게 출력을 받는지, 대화를 어떻게 관리하는지</strong>도 토큰 비용에 직결됩니다.</div>
+      </div>
+
+      <!-- 3대 관점 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;flex:1;">
+
+        <!-- ① 모델 선택 -->
+        <div style="background:#fff;border:2px solid rgba(14,165,233,.3);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:9px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:rgba(14,165,233,.12);color:var(--sk);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;"><i class="fas fa-robot"></i></div>
+            <div>
+              <div style="font-weight:900;font-size:.92rem;color:var(--sk);">① 모델 등급 선택</div>
+              <div style="font-size:.72rem;color:var(--sb);">경형차 vs 승용차 vs 고급차 — 목적에 맞게</div>
+            </div>
+          </div>
+          <table style="border-collapse:collapse;width:100%;font-size:.75rem;">
+            <thead>
+              <tr>
+                <th style="background:#e0f2fe;border:1px solid #bae6fd;padding:5px 8px;text-align:left;">작업 유형</th>
+                <th style="background:#e0f2fe;border:1px solid #bae6fd;padding:5px 8px;text-align:center;">모델 등급</th>
+                <th style="background:#e0f2fe;border:1px solid #bae6fd;padding:5px 8px;text-align:center;">상대 비용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;color:#475569;">이메일 초안·요약·분류</td>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;text-align:center;">
+                  <span style="background:#dbeafe;color:#1d4ed8;border-radius:5px;padding:2px 8px;font-weight:700;font-size:.75rem;">경량 (Lite)</span>
+                </td>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;text-align:center;"><span style="background:#dcfce7;color:#15803d;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700;">★☆☆☆</span></td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;color:#475569;">보고서 작성·데이터 분석</td>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;text-align:center;">
+                  <span style="background:#ede9fe;color:#6d28d9;border-radius:5px;padding:2px 8px;font-weight:700;font-size:.75rem;">표준 (Standard)</span>
+                </td>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;text-align:center;"><span style="background:#fef9c3;color:#854d0e;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700;">★★★☆</span></td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;color:#475569;">복잡한 추론·코딩·전략</td>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;text-align:center;">
+                  <span style="background:#fee2e2;color:#dc2626;border-radius:5px;padding:2px 8px;font-weight:700;font-size:.75rem;">고성능 (Pro)</span>
+                </td>
+                <td style="border:1px solid #e2e8f0;padding:4px 8px;text-align:center;"><span style="background:#fee2e2;color:#991b1b;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700;">★★★★</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="background:#e0f2fe;border-radius:8px;padding:7px 10px;font-size:.76rem;color:#0c4a6e;margin-top:auto;">
+            💡 ChatGPT·Claude·Gemini 모두 동일한 등급 구조. 간단한 작업에 고성능 모델은 낭비 — <strong>5~10배 차이</strong>납니다.
+          </div>
+        </div>
+
+        <!-- ② 출력 형식 제어 -->
+        <div style="background:#fff;border:2px solid rgba(16,185,129,.3);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:9px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:rgba(16,185,129,.12);color:var(--gd);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;"><i class="fas fa-sliders-h"></i></div>
+            <div>
+              <div style="font-weight:900;font-size:.92rem;color:var(--gd);">② 출력 형식 제어</div>
+              <div style="font-size:.72rem;color:var(--sb);">장황한 답변을 데이터로만 받기</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px;flex:1;">
+            <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:7px 10px;">
+              <div style="font-size:.7rem;font-weight:700;color:#dc2626;margin-bottom:3px;">❌ 기본 응답 (출력 토큰 多)</div>
+              <div style="font-size:.75rem;color:#7f1d1d;line-height:1.5;">"네, 말씀하신 내용을 바탕으로 분석해보겠습니다. 먼저 전반적인 상황을 살펴보면…<br>(이하 장황한 설명 계속)"</div>
+            </div>
+            <div style="text-align:center;font-size:.8rem;color:var(--gd);font-weight:700;">지시 추가 → "표로만 / JSON으로만 / 3줄 이내로"</div>
+            <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:7px 10px;flex:1;">
+              <div style="font-size:.7rem;font-weight:700;color:#15803d;margin-bottom:3px;">✅ 형식 제어 후 (출력 토큰 少)</div>
+              <div style="background:#1e293b;border-radius:5px;padding:6px 8px;font-family:monospace;font-size:.72rem;color:#6ee7b7;line-height:1.7;">{"문제점":["비용초과","일정지연"],"우선순위":"비용초과","조치":"예산재검토"}</div>
+            </div>
+          </div>
+          <div style="background:#f0fdf4;border-radius:8px;padding:7px 10px;font-size:.76rem;color:#065f46;margin-top:auto;">
+            💡 "설명 빼고 결과만", "마크다운 없이 텍스트만"도 효과적
+          </div>
+        </div>
+
+        <!-- ③ 대화 요약 + 파이프라인 -->
+        <div style="background:#fff;border:2px solid rgba(139,92,246,.3);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:9px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,.12);color:var(--pu);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;"><i class="fas fa-project-diagram"></i></div>
+            <div>
+              <div style="font-weight:900;font-size:.92rem;color:var(--pu);">③ 대화 요약 + 파이프라인</div>
+              <div style="font-size:.72rem;color:var(--sb);">누적된 대화를 가볍게 리셋</div>
+            </div>
+          </div>
+
+          <!-- 대화 요약 전략 -->
+          <div style="background:#faf5ff;border:1px solid #ddd6fe;border-radius:8px;padding:8px 10px;">
+            <div style="font-size:.74rem;font-weight:700;color:#6d28d9;margin-bottom:6px;">📋 대화 요약 전략</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:7px;font-size:.75rem;">
+                <div style="width:20px;height:20px;border-radius:50%;background:#7c3aed;color:#fff;font-size:.65rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+                <span style="color:#4c1d95;">대화가 30개 이상 → AI에게 요청</span>
+              </div>
+              <div style="background:#1e293b;border-radius:5px;padding:5px 8px;font-family:monospace;font-size:.7rem;color:#c4b5fd;margin-left:27px;">"지금까지 작업한 내용을<br>핵심만 200자로 요약해줘"</div>
+              <div style="display:flex;align-items:center;gap:7px;font-size:.75rem;">
+                <div style="width:20px;height:20px;border-radius:50%;background:#7c3aed;color:#fff;font-size:.65rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+                <span style="color:#4c1d95;">요약본 복사 → 새 대화창 시작</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:7px;font-size:.75rem;">
+                <div style="width:20px;height:20px;border-radius:50%;background:#7c3aed;color:#fff;font-size:.65rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+                <span style="color:#4c1d95;">요약본 붙여넣고 이어서 작업</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 파이프라인 -->
+          <div style="background:#faf5ff;border:1px solid #ddd6fe;border-radius:8px;padding:8px 10px;flex:1;">
+            <div style="font-size:.74rem;font-weight:700;color:#6d28d9;margin-bottom:6px;">⚙️ 작업 파이프라인 분할</div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:.72rem;flex-wrap:wrap;">
+              <div style="background:#ede9fe;border:1px solid #c4b5fd;border-radius:6px;padding:4px 8px;color:#4c1d95;font-weight:700;text-align:center;">①분석<br><span style="font-weight:400;color:#6d28d9;">경량 모델</span></div>
+              <div style="color:#94a3b8;font-size:.9rem;">→</div>
+              <div style="background:#ede9fe;border:1px solid #c4b5fd;border-radius:6px;padding:4px 8px;color:#4c1d95;font-weight:700;text-align:center;">②요약<br><span style="font-weight:400;color:#6d28d9;">결과 저장</span></div>
+              <div style="color:#94a3b8;font-size:.9rem;">→</div>
+              <div style="background:#ede9fe;border:1px solid #c4b5fd;border-radius:6px;padding:4px 8px;color:#4c1d95;font-weight:700;text-align:center;">③초안<br><span style="font-weight:400;color:#6d28d9;">새 대화</span></div>
+              <div style="color:#94a3b8;font-size:.9rem;">→</div>
+              <div style="background:#7c3aed;border-radius:6px;padding:4px 8px;color:#fff;font-weight:700;text-align:center;">④완성<br><span style="font-weight:400;">고성능</span></div>
+            </div>
+            <div style="font-size:.72rem;color:#6d28d9;margin-top:6px;line-height:1.5;">각 단계가 독립적으로 가볍게 처리되어 <strong>불필요한 컨텍스트 누적 없음</strong></div>
+          </div>
+
+          <div style="background:#faf5ff;border-radius:8px;padding:7px 10px;font-size:.76rem;color:#4c1d95;margin-top:auto;">
+            💡 <strong>결론:</strong> 대화를 리셋하는 것은 포기가 아니라 <strong>최적화 전략</strong>입니다.
+          </div>
+        </div>
+      </div>
+
+      <!-- 핵심 요약 -->
+      <div style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(245,158,11,.04));border:1.5px solid rgba(245,158,11,.25);border-radius:10px;padding:9px 16px;display:flex;align-items:center;gap:14px;">
+        <span style="font-size:1.5rem;flex-shrink:0;">🏆</span>
+        <div style="display:flex;gap:20px;flex:1;font-size:.82rem;flex-wrap:wrap;">
+          <div><span style="color:var(--sk);font-weight:700;">모델 선택</span><span style="color:#78350f;"> → 동일 작업 5~10배 절감</span></div>
+          <div style="color:#94a3b8;">|</div>
+          <div><span style="color:var(--gd);font-weight:700;">출력 형식 제어</span><span style="color:#78350f;"> → 불필요한 설명 제거</span></div>
+          <div style="color:#94a3b8;">|</div>
+          <div><span style="color:var(--pu);font-weight:700;">대화 요약·분할</span><span style="color:#78350f;"> → 컨텍스트 오염 방지</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ S15 4차시 섹션 소개 ══ -->
+<div class="slide" id="s15">
   <div class="si" style="justify-content:center;align-items:center;">
     <div class="sect-card" style="background:linear-gradient(135deg,#7f1d1d,#dc2626,#ef4444);max-width:800px;width:100%;margin:auto;">
       <div class="fl aic g14" style="margin-bottom:8px;">
@@ -840,8 +1675,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S14 환각 현상 ══ -->
-<div class="slide" id="s14">
+<!-- ══ S16 환각 현상 ══ -->
+<div class="slide" id="s16">
   <div class="si">
     <div>
       <div class="stag">4차시 · 환각 현상</div>
@@ -901,8 +1736,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S15 New Task 타이밍 ══ -->
-<div class="slide" id="s15">
+<!-- ══ S17 New Task 타이밍 ══ -->
+<div class="slide" id="s17">
   <div class="si">
     <div>
       <div class="stag">4차시 · New Task 전략</div>
@@ -970,8 +1805,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S16 에러 해결 루틴 ══ -->
-<div class="slide" id="s16">
+<!-- ══ S18 에러 해결 루틴 ══ -->
+<div class="slide" id="s18">
   <div class="si">
     <div>
       <div class="stag">4차시 · 에러 핸들링</div>
@@ -1041,8 +1876,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S17 실전 체크리스트 ══ -->
-<div class="slide" id="s17">
+<!-- ══ S19 실전 체크리스트 ══ -->
+<div class="slide" id="s19">
   <div class="si">
     <div>
       <div class="stag">종합 정리 · 실전 도구</div>
@@ -1091,8 +1926,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S18 4차시 종합 비교 ══ -->
-<div class="slide" id="s18">
+<!-- ══ S20 4차시 종합 비교 ══ -->
+<div class="slide" id="s20-comp">
   <div class="si">
     <div>
       <div class="stag">종합 정리 · 핵심 비교</div>
@@ -1161,8 +1996,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S19 오늘부터 실천할 3가지 ══ -->
-<div class="slide" id="s19">
+<!-- ══ S21 오늘부터 실천할 3가지 ══ -->
+<div class="slide" id="s21">
   <div class="si">
     <div>
       <div class="stag">실천 과제 · 오늘부터 바로</div>
@@ -1195,8 +2030,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S20 FINAL ══ -->
-<div class="slide" id="s20">
+<!-- ══ S22 FINAL ══ -->
+<div class="slide" id="s22">
   <div class="si" style="align-items:center;justify-content:center;padding:40px 60px;">
     <div style="text-align:center;max-width:780px;display:flex;flex-direction:column;gap:20px;align-items:center;">
       <div style="font-size:3rem;">🎉</div>
@@ -1234,7 +2069,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
           <span class="ba ba-g"><i class="fas fa-trophy"></i> 나만의 도구 만들기</span>
         </div>
       </div>
-      <div class="tsb xs">AI 프롬프트 완전 정복 · 20 슬라이드 완료</div>
+      <div class="tsb xs">AI 프롬프트 완전 정복 · 26 슬라이드 완료</div>
     </div>
   </div>
 </div>

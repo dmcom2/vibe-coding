@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 실무 활용 | 회사원 실전 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+/* ═══ RESET ═══ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --p:#4f46e5; --pl:#818cf8; --pd:#3730a3;
+  --a:#f59e0b; --ad:#d97706;
+  --g:#10b981; --gd:#059669;
+  --r:#ef4444; --rd:#dc2626;
+  --pu:#8b5cf6;
+  --sk:#0ea5e9;
+  --dk:#0f172a; --tx:#1e293b; --sb:#64748b;
+  --bd:#e2e8f0; --sf:#f8fafc;
+  --rad:16px; --rad-s:10px;
+  --sh:0 4px 20px rgba(0,0,0,.08);
+  --sh2:0 8px 32px rgba(0,0,0,.14);
+}
+html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:#fff;color:var(--tx);font-size:18px;}
+
+/* ═══ PROGRESS BAR ═══ */
+#prog{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--p),var(--pu));transition:width .4s cubic-bezier(.4,0,.2,1);z-index:1001;border-radius:0 2px 2px 0;}
+
+/* ═══ DECK & SLIDES ═══ */
+#deck{position:fixed;top:4px;bottom:60px;left:0;right:0;}
+.slide{
+  position:absolute;inset:0;
+  transform:translateX(100%);
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  background:linear-gradient(155deg,#fff 0%,#f8fafc 55%,#eef2ff 100%);
+  overflow:hidden;
+}
+.slide.active{transform:translateX(0);}
+.slide.past{transform:translateX(-100%);}
+
+/* ═══ SLIDE INNER ═══ */
+.si{
+  flex:1;display:flex;flex-direction:column;
+  padding:20px 40px 10px;gap:12px;
+  position:relative;z-index:1;overflow-y:auto;
+}
+
+/* ═══ HEADER ═══ */
+.stag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(79,70,229,.1);color:var(--pd);
+  border:1px solid rgba(79,70,229,.22);border-radius:999px;
+  padding:5px 14px;font-size:.8rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;
+}
+.stit{
+  font-size:clamp(28px,3.2vw,46px);font-weight:900;
+  color:var(--dk);line-height:1.2;letter-spacing:-.02em;
+}
+.stit .ac{color:var(--p);}
+.stit .aa{color:var(--ad);}
+.stit .ag{color:var(--gd);}
+.stit .ar{color:var(--rd);}
+.sbar{width:52px;height:4px;background:linear-gradient(90deg,var(--p),var(--pl));border-radius:2px;margin-top:10px;}
+
+/* ═══ BODY ═══ */
+.sb{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
+
+/* ═══ GRIDS ═══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.g22{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;}
+
+/* ═══ CARDS ═══ */
+.card{
+  background:#fff;border:1px solid var(--bd);
+  border-radius:var(--rad);padding:20px 22px;
+  box-shadow:var(--sh);
+  transition:box-shadow .2s,transform .2s;
+}
+.card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.ct{font-size:clamp(17px,1.7vw,21px);font-weight:800;color:var(--dk);margin-bottom:6px;}
+.cd{font-size:clamp(15px,1.4vw,18px);color:var(--sb);line-height:1.7;}
+
+/* ═══ FEATURE CARDS ═══ */
+.fc{
+  background:#fff;border:1px solid var(--bd);
+  border-radius:var(--rad-s);padding:16px 18px;
+  display:flex;flex-direction:column;gap:9px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  transition:box-shadow .2s,transform .2s;
+}
+.fc:hover{box-shadow:var(--sh);transform:translateY(-2px);}
+.fc-h{display:flex;gap:11px;align-items:center;}
+.fc-t{font-size:clamp(16px,1.6vw,20px);font-weight:800;color:var(--dk);}
+.fc-d{font-size:clamp(14px,1.3vw,17px);color:var(--sb);line-height:1.65;}
+
+/* ═══ CALLOUTS ═══ */
+.co{border-radius:var(--rad-s);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;}
+.co-p{background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.2);}
+.co-a{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);}
+.co-g{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);}
+.co-r{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);}
+.co-pu{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);}
+.co-sk{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);}
+.co-ic{font-size:1.3rem;flex-shrink:0;margin-top:2px;}
+.co-tt{font-size:1.15rem;font-weight:700;margin-bottom:4px;}
+.co-tx{font-size:1.05rem;color:var(--sb);line-height:1.65;}
+
+/* ═══ STEP NUMBERS ═══ */
+.sn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--p);color:#fff;
+  font-size:.9rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 3px 10px rgba(79,70,229,.35);
+}
+
+/* ═══ ICON BOXES ═══ */
+.ib{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;}
+.ib-p{background:rgba(79,70,229,.12);color:var(--p);}
+.ib-a{background:rgba(245,158,11,.12);color:var(--ad);}
+.ib-g{background:rgba(16,185,129,.12);color:var(--gd);}
+.ib-r{background:rgba(239,68,68,.12);color:var(--rd);}
+.ib-pu{background:rgba(139,92,246,.12);color:var(--pu);}
+.ib-sk{background:rgba(14,165,233,.12);color:var(--sk);}
+
+/* ═══ BADGES ═══ */
+.ba{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;font-size:.78rem;font-weight:700;}
+.ba-p{background:rgba(79,70,229,.1);border:1px solid rgba(79,70,229,.3);color:#4338ca;}
+.ba-a{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#b45309;}
+.ba-g{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#047857;}
+.ba-r{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#b91c1c;}
+.ba-pu{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);color:#6d28d9;}
+
+/* ═══ BIG NUMBERS ═══ */
+.bn{font-size:clamp(44px,5vw,72px);font-weight:900;line-height:1;letter-spacing:-.03em;}
+.nl{font-size:.82rem;color:var(--sb);margin-top:5px;font-weight:500;}
+
+/* ═══ QUOTE ═══ */
+.qt{background:rgba(79,70,229,.06);border-left:4px solid var(--p);border-radius:0 14px 14px 0;padding:20px 24px;}
+.qt p{font-size:clamp(14px,1.3vw,17px);line-height:1.85;color:#312e81;font-style:italic;}
+.qt cite{display:block;margin-top:12px;font-size:.82rem;color:var(--p);font-style:normal;font-weight:700;}
+
+/* ═══ CODE ═══ */
+.code{
+  background:#1e293b;border:1px solid #334155;
+  border-radius:var(--rad-s);padding:12px 16px;
+  font-family:'JetBrains Mono',monospace;font-size:1rem;
+  color:#7dd3fc;line-height:1.7;
+}
+.code .ky{color:#c4b5fd;} .code .st{color:#6ee7b7;} .code .cm{color:#475569;} .code .ba2{color:#fbbf24;}
+
+/* ═══ UTILS ═══ */
+.fw9{font-weight:900;} .fw7{font-weight:700;}
+.tp{color:var(--p);} .ta{color:var(--ad);} .tg{color:var(--gd);} .tr{color:var(--rd);} .tpu{color:var(--pu);} .tsk{color:var(--sk);} .tsb{color:var(--sb);}
+.xs{font-size:.78rem;} .sm{font-size:.88rem;} .md{font-size:.96rem;} .lg{font-size:1.08rem;}
+.lh{line-height:1.75;}
+.dv{height:1px;background:rgba(0,0,0,.08);margin:6px 0;}
+.fl{display:flex;} .fdc{flex-direction:column;} .aic{align-items:center;} .aifs{align-items:flex-start;} .jcc{justify-content:center;} .jcsb{justify-content:space-between;}
+.g8{gap:8px;} .g10{gap:10px;} .g12{gap:12px;} .g14{gap:14px;} .g16{gap:16px;} .g20{gap:20px;} .f1{flex:1;} .fs0{flex-shrink:0;}
+.tc{text-align:center;} .tl{text-align:left;}
+.hl{background:rgba(79,70,229,.1);color:var(--pd);padding:1px 7px;border-radius:5px;font-weight:700;}
+.hl-a{background:rgba(245,158,11,.12);color:#92400e;}
+.hl-g{background:rgba(16,185,129,.12);color:#065f46;}
+.hl-r{background:rgba(239,68,68,.1);color:#991b1b;}
+.hl-pu{background:rgba(139,92,246,.12);color:#6d28d9;}
+
+/* ═══ SESSION BADGE ═══ */
+.sess-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(79,70,229,.12);border:2px solid rgba(79,70,229,.3);
+  border-radius:999px;padding:6px 18px;font-size:.82rem;font-weight:900;color:var(--pd);
+}
+
+/* ═══ COMPARE BOXES ═══ */
+.cmp-bad{background:rgba(239,68,68,.05);border:2px solid rgba(239,68,68,.22);border-radius:var(--rad);padding:16px 18px;}
+.cmp-good{background:rgba(16,185,129,.05);border:2px solid rgba(16,185,129,.22);border-radius:var(--rad);padding:16px 18px;}
+.cmp-t{font-size:1rem;font-weight:800;margin-bottom:8px;}
+
+/* ═══ HERO ═══ */
+#s1{background:linear-gradient(135deg,#0f0c29 0%,#302b63 40%,#1a1a3e 100%) !important;}
+#s1::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 20% 50%,rgba(16,185,129,.22) 0%,transparent 65%),radial-gradient(ellipse 50% 70% at 80% 30%,rgba(79,70,229,.28) 0%,transparent 60%);}
+#s1 .si{align-items:center;justify-content:center;text-align:center;padding:50px 60px;position:relative;z-index:1;}
+.hero-t{font-size:clamp(40px,5.5vw,78px);font-weight:900;color:#fff;line-height:1.05;letter-spacing:-.04em;margin-bottom:6px;}
+.hero-t em{color:#34d399;font-style:normal;display:block;font-size:.7em;}
+.hero-sub{font-size:clamp(14px,1.5vw,20px);color:rgba(255,255,255,.72);margin-bottom:36px;line-height:1.75;}
+.hero-bs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px;}
+.hb{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.9);border-radius:999px;padding:9px 20px;font-size:.9rem;font-weight:700;backdrop-filter:blur(8px);}
+.hero-meta{font-size:.8rem;color:rgba(255,255,255,.38);}
+
+/* ═══ OBJ CARDS ═══ */
+.obj-card{display:flex;gap:18px;align-items:flex-start;background:#fff;border:1px solid var(--bd);border-radius:var(--rad);padding:20px 22px;box-shadow:var(--sh);flex:1;}
+.obj-n{font-size:clamp(40px,4.5vw,62px);font-weight:900;line-height:1;letter-spacing:-.04em;flex-shrink:0;width:70px;text-align:right;}
+.obj-t{font-size:clamp(17px,1.9vw,22px);font-weight:800;color:var(--dk);margin-bottom:6px;}
+.obj-d{font-size:clamp(15px,1.5vw,18px);color:var(--sb);line-height:1.7;}
+
+/* ═══ SECTION DIVIDER ═══ */
+.sect-card{
+  border-radius:20px;padding:36px 40px;
+  display:flex;flex-direction:column;gap:16px;
+  position:relative;overflow:hidden;flex:1;
+  box-shadow:var(--sh2);
+}
+.sect-num{font-size:clamp(80px,10vw,140px);font-weight:900;line-height:1;opacity:.08;position:absolute;right:30px;bottom:10px;letter-spacing:-.05em;}
+
+/* ═══ FINAL ═══ */
+#s20{background:linear-gradient(145deg,#eef2ff 0%,#e0e7ff 55%,#c7d2fe 100%) !important;}
+
+/* ═══ SUM BOX ═══ */
+.sum{background:#fff;border-radius:var(--rad);padding:18px 20px;box-shadow:var(--sh);}
+.sum-t{font-size:1rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sum-d{font-size:.88rem;color:var(--sb);line-height:1.8;}
+
+/* ═══ PRACTICE BUTTON ═══ */
+.prac-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--p),var(--pu));
+  color:#fff;border:none;border-radius:14px;
+  padding:13px 26px;font-size:1rem;font-weight:800;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;
+  box-shadow:0 6px 20px rgba(79,70,229,.4);
+  transition:transform .2s,box-shadow .2s;
+  align-self:center;
+}
+.prac-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(79,70,229,.5);}
+.prac-btn .pb-tag{background:rgba(255,255,255,.25);border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:900;}
+
+/* ═══ PRACTICE POPUP ═══ */
+@keyframes ovIn{from{opacity:0;}to{opacity:1;}}
+@keyframes popIn{from{opacity:0;transform:translateY(24px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.ov{
+  position:fixed;inset:0;z-index:1200;
+  background:rgba(15,23,42,.58);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:26px;
+}
+.ov.open{display:flex;animation:ovIn .22s ease;}
+.pop{
+  background:#fff;border-radius:20px;
+  max-width:900px;width:100%;max-height:88vh;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.4);
+  animation:popIn .28s cubic-bezier(.4,0,.2,1);
+}
+.pop-h{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:16px 22px;border-bottom:1px solid var(--bd);
+  background:linear-gradient(135deg,#eef2ff,#f8fafc);flex-shrink:0;
+}
+.pop-tt{font-size:1.1rem;font-weight:900;color:var(--dk);}
+.pop-st{font-size:.76rem;color:var(--sb);font-weight:700;margin-top:2px;}
+.pop-x{
+  width:38px;height:38px;border-radius:11px;flex-shrink:0;
+  background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.1);
+  color:#475569;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.pop-x:hover{background:rgba(239,68,68,.12);color:var(--rd);border-color:rgba(239,68,68,.3);}
+.pop-b{padding:20px 24px 24px;overflow-y:auto;display:flex;flex-direction:column;gap:16px;}
+.pop-sec{display:flex;flex-direction:column;gap:8px;}
+.pop-sec-t{font-size:.82rem;font-weight:900;color:var(--pd);letter-spacing:.06em;display:flex;align-items:center;gap:8px;text-transform:uppercase;}
+.pop-sec-t i{font-size:.9rem;}
+.scen{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.28);border-radius:12px;padding:14px 18px;font-size:.92rem;line-height:1.8;color:#78350f;}
+.sample-box{
+  position:relative;background:var(--sf);border:1.5px dashed #cbd5e1;border-radius:12px;
+  padding:14px 18px;font-size:.86rem;line-height:1.85;color:#334155;white-space:pre-wrap;
+}
+.pr-box{
+  position:relative;background:#1e293b;border:1px solid #334155;border-radius:12px;
+  padding:16px 18px;font-size:.88rem;line-height:1.85;color:#e0f2fe;white-space:pre-wrap;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.pr-box b{color:#fbbf24;font-weight:700;}
+.copy-btn{
+  position:absolute;top:10px;right:10px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  color:#cbd5e1;border-radius:8px;padding:5px 12px;font-size:.72rem;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;
+}
+.copy-btn:hover{background:rgba(255,255,255,.22);color:#fff;}
+.sample-box .copy-btn{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.15);color:#64748b;}
+.sample-box .copy-btn:hover{background:rgba(0,0,0,.1);color:var(--dk);}
+.chk-li{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:#334155;line-height:1.7;}
+.chk-li i{color:var(--gd);margin-top:4px;flex-shrink:0;}
+.msn{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.25);border-radius:12px;padding:14px 18px;font-size:.9rem;line-height:1.8;color:#4c1d95;}
+.dl-btn{
+  display:inline-flex;align-items:center;gap:9px;
+  background:linear-gradient(135deg,#166534,#16a34a);
+  color:#fff;border:none;border-radius:11px;
+  padding:11px 20px;font-size:.9rem;font-weight:800;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;
+  box-shadow:0 4px 14px rgba(22,163,74,.35);
+  transition:transform .2s,box-shadow .2s;align-self:flex-start;
+}
+.dl-btn:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(22,163,74,.45);}
+.dl-note{font-size:.76rem;color:var(--sb);line-height:1.6;}
+
+/* ═══ TIMELINE (하루 루틴) ═══ */
+.tml{display:flex;flex-direction:column;gap:0;flex:1;justify-content:center;}
+.tml-row{display:flex;gap:16px;align-items:stretch;}
+.tml-time{width:72px;flex-shrink:0;text-align:right;font-size:.85rem;font-weight:900;color:var(--p);padding-top:14px;}
+.tml-line{width:2px;background:linear-gradient(180deg,var(--pl),rgba(129,140,248,.2));flex-shrink:0;position:relative;}
+.tml-line::before{content:'';position:absolute;top:18px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:var(--p);box-shadow:0 0 0 4px rgba(79,70,229,.15);}
+.tml-body{flex:1;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:12px 18px;margin:6px 0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.tml-t{font-size:.95rem;font-weight:800;color:var(--dk);}
+.tml-d{font-size:.84rem;color:var(--sb);line-height:1.6;margin-top:3px;}
+
+/* ═══ TOOL TABLE ═══ */
+.ttab{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh);font-size:.86rem;}
+.ttab th{background:#312e81;color:#fff;padding:12px 14px;text-align:left;font-weight:800;font-size:.84rem;}
+.ttab td{padding:11px 14px;border-bottom:1px solid var(--bd);line-height:1.6;color:#334155;vertical-align:top;}
+.ttab tr:last-child td{border-bottom:none;}
+.ttab td:first-child{font-weight:800;color:var(--dk);white-space:nowrap;}
+
+/* ═══ NAV BAR ═══ */
+#nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:999;
+  height:60px;background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);border-top:1px solid var(--bd);
+  box-shadow:0 -2px 16px rgba(0,0,0,.06);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;gap:10px;
+}
+.nb{width:40px;height:40px;border-radius:12px;background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.1);color:#475569;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.nb:hover{background:rgba(79,70,229,.1);color:var(--p);border-color:#a5b4fc;}
+.nb:disabled{opacity:.25;cursor:default;}
+#dotw{display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow:hidden;max-width:56vw;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.15);cursor:pointer;transition:all .25s;flex-shrink:0;}
+.dot.active{background:var(--p);width:22px;border-radius:4px;}
+.dot:hover{background:rgba(79,70,229,.5);}
+#ncnt{font-size:.8rem;color:var(--sb);font-weight:700;min-width:52px;text-align:right;}
+#bfs{width:36px;height:36px;border-radius:10px;background:transparent;border:1px solid rgba(0,0,0,.12);color:var(--sb);font-size:.88rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-left:8px;}
+#bfs:hover{color:var(--dk);border-color:rgba(0,0,0,.3);}
+#kh{position:fixed;bottom:72px;right:20px;z-index:998;background:rgba(255,255,255,.97);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;font-size:.74rem;color:var(--sb);line-height:1.9;opacity:0;transition:opacity .3s;box-shadow:0 4px 20px rgba(0,0,0,.1);}
+#kh.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="deck">
+
+<!-- ══ S1 TITLE ══ -->
+<div class="slide active" id="s1">
+  <div class="si">
+    <div class="hero-t">AI 실무 활용<em>내 업무에 바로 써먹기</em></div>
+    <p class="hero-sub">프롬프트를 배웠다면, 이제 <strong style="color:#34d399">진짜 내 일</strong>에 적용할 차례입니다<br>이메일부터 엑셀, 회의록까지 — 오늘부터 쓸 수 있는 실전 레시피</p>
+    <div class="hero-bs">
+      <span class="hb"><i class="fas fa-file-lines"></i> 1부: 문서 작업</span>
+      <span class="hb" style="color:#fde68a;"><i class="fas fa-table"></i> 2부: 엑셀·데이터</span>
+      <span class="hb" style="color:#86efac;"><i class="fas fa-compress"></i> 3부: 정보 처리</span>
+      <span class="hb" style="color:#c4b5fd;"><i class="fas fa-repeat"></i> 4부: 반복 업무 패턴화</span>
+    </div>
+    <p class="hero-meta">회사원 AI 활용 교육 2편 · 20 슬라이드 · 실습 8개 포함 · 키보드 ← → 이동 · F 전체화면</p>
+  </div>
+</div>
+
+<!-- ══ S2 강의 목표 ══ -->
+<div class="slide" id="s2">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-bullseye"></i> 오늘 강의를 마치면</div>
+      <h2 class="stit">이 강의를 마치면 <span class="ac">이렇게 달라집니다</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:12px;justify-content:center;">
+      <div class="obj-card">
+        <div class="obj-n tp">01</div>
+        <div>
+          <div class="obj-t">이메일·보고서·PPT 초안을 10분 안에 뽑는다</div>
+          <div class="obj-d">빈 화면 앞에서 고민하는 시간이 사라집니다. AI에게 초안을 시키고, 나는 다듬고 결정하는 사람이 됩니다.</div>
+        </div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-n ta">02</div>
+        <div>
+          <div class="obj-t">엑셀 함수를 검색하지 않고 AI에게 만들게 한다</div>
+          <div class="obj-d">"VLOOKUP이 뭐더라?" 대신 상황을 설명하면 수식이 나옵니다. 데이터를 붙여넣으면 인사이트까지 뽑아줍니다.</div>
+        </div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-n tg">03</div>
+        <div>
+          <div class="obj-t">긴 문서·회의 녹취를 3분 만에 정리한다</div>
+          <div class="obj-d">30페이지 계약서 요약, 1시간 회의의 회의록과 액션아이템 정리 — 사람이 하면 반나절, AI는 3분입니다.</div>
+        </div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-n tpu">04</div>
+        <div>
+          <div class="obj-t">반복 업무를 나만의 템플릿으로 만들어 재사용한다</div>
+          <div class="obj-d">매주 쓰는 주간보고, 매달 쓰는 실적 정리 — 한 번 잘 만든 프롬프트 템플릿이 평생 자산이 됩니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S3 오늘의 지도 ══ -->
+<div class="slide" id="s3">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-map"></i> 오늘의 지도</div>
+      <h2 class="stit">회사원의 하루, <span class="ac">AI가 끼어들 수 있는 곳</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="justify-content:center;">
+      <div class="g4">
+        <div class="fc" style="border-top:4px solid var(--p);">
+          <div class="fc-h"><div class="ib ib-p"><i class="fas fa-file-lines"></i></div><div class="fc-t">1부 · 문서 작업</div></div>
+          <div class="fc-d">이메일 답장, 보고서 초안, 기획서, PPT 슬라이드 구성까지. 회사원 업무 시간의 <span class="hl">40%</span>가 문서 작업입니다.</div>
+          <div class="fl g8" style="flex-wrap:wrap;margin-top:auto;">
+            <span class="ba ba-p">실습 1 · 이메일</span>
+            <span class="ba ba-p">실습 2 · 보고서</span>
+            <span class="ba ba-p">실습 3 · PPT</span>
+          </div>
+        </div>
+        <div class="fc" style="border-top:4px solid var(--a);">
+          <div class="fc-h"><div class="ib ib-a"><i class="fas fa-table"></i></div><div class="fc-t">2부 · 엑셀·데이터</div></div>
+          <div class="fc-d">함수를 몰라도 됩니다. 상황을 설명하면 수식이 나오고, 데이터를 붙여넣으면 <span class="hl-a">분석 결과와 보고 문장</span>까지 나옵니다.</div>
+          <div class="fl g8" style="flex-wrap:wrap;margin-top:auto;">
+            <span class="ba ba-a">실습 4 · 엑셀 수식</span>
+            <span class="ba ba-a">실습 5 · 데이터 분석</span>
+          </div>
+        </div>
+        <div class="fc" style="border-top:4px solid var(--g);">
+          <div class="fc-h"><div class="ib ib-g"><i class="fas fa-compress"></i></div><div class="fc-t">3부 · 정보 처리</div></div>
+          <div class="fc-d">긴 계약서·공문 요약, 회의 녹취 → 회의록 자동화, 외국어 이메일 번역. <span class="hl-g">읽고 정리하는 시간</span>을 통째로 줄입니다.</div>
+          <div class="fl g8" style="flex-wrap:wrap;margin-top:auto;">
+            <span class="ba ba-g">실습 6 · 문서 요약</span>
+            <span class="ba ba-g">실습 7 · 회의록</span>
+          </div>
+        </div>
+        <div class="fc" style="border-top:4px solid var(--pu);">
+          <div class="fc-h"><div class="ib ib-pu"><i class="fas fa-repeat"></i></div><div class="fc-t">4부 · 패턴화</div></div>
+          <div class="fc-d">잘 된 프롬프트를 <span class="hl-pu">템플릿으로 저장</span>해 매번 재사용합니다. 하루 루틴에 AI를 끼워 넣는 습관까지.</div>
+          <div class="fl g8" style="flex-wrap:wrap;margin-top:auto;">
+            <span class="ba ba-pu">실습 8 · 나만의 템플릿</span>
+          </div>
+        </div>
+      </div>
+      <div class="co co-p" style="margin-top:14px;">
+        <div class="co-ic"><i class="fas fa-lightbulb tp"></i></div>
+        <div>
+          <div class="co-tt">이 강의의 사용법</div>
+          <div class="co-tx">각 주제마다 <b>[실습 열기]</b> 버튼이 있습니다. 클릭하면 팝업으로 <b>상황 + 샘플 자료 + 따라 할 프롬프트</b>가 열립니다. 복사 버튼으로 프롬프트를 복사해서 ChatGPT·Claude 등에 바로 붙여넣어 보세요.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S4 1부 섹션 ══ -->
+<div class="slide" id="s4">
+  <div class="si" style="justify-content:center;align-items:center;">
+    <div class="sect-card" style="background:linear-gradient(135deg,#312e81,#4f46e5,#7c3aed);max-width:800px;width:100%;margin:auto;">
+      <div class="fl aic g14" style="margin-bottom:8px;">
+        <div style="background:rgba(255,255,255,.2);border-radius:14px;padding:10px 18px;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;">1부</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);flex:1;"></div>
+      </div>
+      <div style="font-size:clamp(32px,4vw,56px);font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.03em;">
+        문서 작업<br><span style="color:#fbbf24;">이메일 · 보고서 · PPT</span>
+      </div>
+      <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.72);line-height:1.75;margin-top:8px;">
+        빈 화면 앞에서 30분 고민하지 마세요<br>초안은 AI가, 판단과 마무리는 내가
+      </div>
+      <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-envelope"></i> 상황별 이메일</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-file-alt"></i> 보고서 3단계 공법</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-display"></i> PPT 뼈대 뽑기</div>
+      </div>
+      <div class="sect-num" style="color:#fff;">01</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S5 이메일 ══ -->
+<div class="slide" id="s5">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-envelope"></i> 1부 · 문서 작업</div>
+      <h2 class="stit">쓰기 어려운 이메일일수록 <span class="ac">AI가 잘합니다</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb">
+      <div class="g3">
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-r"><i class="fas fa-hand"></i></div><div class="fc-t">거절 메일</div></div>
+          <div class="fc-d">"단가 인상은 어렵습니다"를 관계 안 깨지게 쓰는 법. <b>거절 사유 + 관계 유지 의사 + 대안</b>을 알려주면 정중한 문장으로 완성해 줍니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-a"><i class="fas fa-clock"></i></div><div class="fc-t">독촉 메일</div></div>
+          <div class="fc-d">"자료 언제 주시나요"를 3번째 보낼 때. <b>몇 번째 요청인지, 마감이 언제인지</b>를 주면 단호하지만 예의 있는 톤을 잡아줍니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-sk"><i class="fas fa-handshake"></i></div><div class="fc-t">사과·해명 메일</div></div>
+          <div class="fc-d">납기 지연, 오류 안내처럼 민감한 메일. <b>사실관계 + 조치 계획</b>을 주면 변명처럼 들리지 않는 문장을 만들어 줍니다.</div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="cmp-bad">
+          <div class="cmp-t tr"><i class="fas fa-times-circle"></i> 이렇게 시키면 뻔한 메일이 나옵니다</div>
+          <div class="sm lh" style="color:#7f1d1d;">"거절 이메일 써줘"<br><span class="xs tsb">→ 누구에게, 무엇을, 왜 거절하는지 모르니 어디서 본 듯한 인사말 범벅이 됩니다.</span></div>
+        </div>
+        <div class="cmp-good">
+          <div class="cmp-t tg"><i class="fas fa-check-circle"></i> 상황을 주면 실전 메일이 나옵니다</div>
+          <div class="sm lh" style="color:#064e3b;">"5년 거래한 협력사가 단가 15% 인상을 요청했다. 원자재 근거는 인정하지만 우리 예산상 5%가 최대. 관계는 유지하고 싶다. 정중한 거절 + 협상 여지를 남기는 메일로."</div>
+        </div>
+      </div>
+      <div class="fl jcc">
+        <button class="prac-btn" onclick="openPop('p1')"><i class="fas fa-flask"></i> 실습 1 열기 — 거절 메일 직접 만들기 <span class="pb-tag">5분</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S6 보고서 ══ -->
+<div class="slide" id="s6">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-file-alt"></i> 1부 · 문서 작업</div>
+      <h2 class="stit">보고서는 <span class="ac">3단계 공법</span>으로 — 한 번에 다 시키지 마세요</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb">
+      <div class="g3">
+        <div class="card" style="border-top:4px solid var(--p);">
+          <div class="fl aic g12" style="margin-bottom:8px;"><div class="sn">1</div><div class="ct" style="margin:0;">목차부터 합의</div></div>
+          <div class="cd">"재택근무 만족도 조사 보고서의 <b>목차만</b> 먼저 잡아줘. 보고 대상은 경영진이야." → 목차를 보고 <span class="hl">방향이 맞는지 내가 먼저 판단</span>합니다.</div>
+        </div>
+        <div class="card" style="border-top:4px solid var(--a);">
+          <div class="fl aic g12" style="margin-bottom:8px;"><div class="sn" style="background:var(--a);">2</div><div class="ct" style="margin:0;">재료 주고 초안</div></div>
+          <div class="cd">확정된 목차에 <b>조사 데이터·수치·내가 아는 사실</b>을 붙여넣고 초안 작성을 시킵니다. 재료 없이 시키면 <span class="hl-r">AI가 지어냅니다(환각)</span>.</div>
+        </div>
+        <div class="card" style="border-top:4px solid var(--g);">
+          <div class="fl aic g12" style="margin-bottom:8px;"><div class="sn" style="background:var(--g);">3</div><div class="ct" style="margin:0;">톤 다듬기</div></div>
+          <div class="cd">"경영진 보고용으로 <b>한 페이지 요약</b> 추가", "두괄식으로", "숫자를 앞세워서" — 부분 수정 지시로 <span class="hl-g">완성도를 끌어올립니다</span>.</div>
+        </div>
+      </div>
+      <div class="co co-a">
+        <div class="co-ic"><i class="fas fa-triangle-exclamation ta"></i></div>
+        <div>
+          <div class="co-tt">왜 한 번에 시키면 안 되나요?</div>
+          <div class="co-tx">"보고서 다 써줘"라고 하면 방향이 틀렸을 때 <b>전체를 다시 써야</b> 합니다. 목차 단계에서 방향을 잡으면 수정 비용이 10분의 1로 줄어듭니다. 프롬프트 강의에서 배운 <b>"쪼개기"</b>가 문서 작업에서도 그대로 통합니다.</div>
+        </div>
+      </div>
+      <div class="fl jcc">
+        <button class="prac-btn" onclick="openPop('p2')"><i class="fas fa-flask"></i> 실습 2 열기 — 3단계로 보고서 만들기 <span class="pb-tag">10분</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S7 PPT ══ -->
+<div class="slide" id="s7">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-display"></i> 1부 · 문서 작업</div>
+      <h2 class="stit">PPT는 디자인 말고 <span class="ac">뼈대와 메시지</span>를 시키세요</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb">
+      <div class="g2">
+        <div class="fl fdc g12">
+          <div class="fc">
+            <div class="fc-h"><div class="ib ib-p"><i class="fas fa-sitemap"></i></div><div class="fc-t">AI가 잘하는 것</div></div>
+            <div class="fc-d">
+              · 발표 시간에 맞는 <b>슬라이드 장수와 흐름</b> 설계<br>
+              · 슬라이드별 <b>헤드라인 한 줄</b> (청중이 기억할 문장)<br>
+              · 각 장에 넣을 <b>핵심 키워드 3개</b>와 발표 대본<br>
+              · "10분 발표인데 20장이야, 줄여줘" 같은 구조조정
+            </div>
+          </div>
+          <div class="fc">
+            <div class="fc-h"><div class="ib ib-r"><i class="fas fa-palette"></i></div><div class="fc-t">AI에게 기대하면 안 되는 것</div></div>
+            <div class="fc-d">채팅형 AI는 <b>PPT 파일 자체</b>를 예쁘게 만들지 못합니다. 디자인은 회사 템플릿·감마(Gamma)·Copilot 등 전용 도구의 몫. <b>내용 설계까지가 채팅 AI의 역할</b>입니다.</div>
+          </div>
+        </div>
+        <div class="code" style="font-size:.82rem;display:flex;flex-direction:column;justify-content:center;">
+<span class="cm">// 이렇게 시키면 슬라이드 설계도가 나옵니다</span><br><br>
+<span class="ky">상황:</span> 신제품 '스마트센서 X1' 사내 설명회<br>
+<span class="ky">청중:</span> 영업팀 30명 (기술 지식 낮음)<br>
+<span class="ky">시간:</span> 발표 10분 + 질의 5분<br><br>
+<span class="st">요청: 슬라이드 구성안을 만들어줘.</span><br>
+<span class="st">- 슬라이드별로: 헤드라인 1줄 + 핵심 내용 3개</span><br>
+<span class="st">- 마지막에 예상 질문 5개와 모범 답변도.</span><br><br>
+<span class="ba2">→ 목차 · 장별 메시지 · 발표 대본 · Q&A까지 한 번에</span>
+        </div>
+      </div>
+      <div class="fl jcc">
+        <button class="prac-btn" onclick="openPop('p3')"><i class="fas fa-flask"></i> 실습 3 열기 — 10분 발표 설계하기 <span class="pb-tag">7분</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S8 2부 섹션 ══ -->
+<div class="slide" id="s8">
+  <div class="si" style="justify-content:center;align-items:center;">
+    <div class="sect-card" style="background:linear-gradient(135deg,#78350f,#d97706,#f59e0b);max-width:800px;width:100%;margin:auto;">
+      <div class="fl aic g14" style="margin-bottom:8px;">
+        <div style="background:rgba(255,255,255,.2);border-radius:14px;padding:10px 18px;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;">2부</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);flex:1;"></div>
+      </div>
+      <div style="font-size:clamp(32px,4vw,56px);font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.03em;">
+        엑셀 · 데이터<br><span style="color:#fef3c7;">함수를 몰라도 됩니다</span>
+      </div>
+      <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.78);line-height:1.75;margin-top:8px;">
+        수식은 AI가 짜고, 나는 상황만 설명합니다<br>데이터를 붙여넣으면 분석과 보고 문장까지
+      </div>
+      <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-calculator"></i> 수식 요청하는 법</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-chart-line"></i> 데이터 → 인사이트</div>
+      </div>
+      <div class="sect-num" style="color:#fff;">02</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S9 엑셀 수식 ══ -->
+<div class="slide" id="s9">
+  <div class="si">
+    <div>
+      <div class="stag" style="background:rgba(245,158,11,.1);color:#92400e;border-color:rgba(245,158,11,.3);"><i class="fas fa-calculator"></i> 2부 · 엑셀·데이터</div>
+      <h2 class="stit">함수 이름 말고 <span class="aa">상황을 설명</span>하세요</h2>
+      <div class="sbar" style="background:linear-gradient(90deg,var(--a),#fbbf24);"></div>
+    </div>
+    <div class="sb">
+      <div class="g2">
+        <div class="cmp-bad">
+          <div class="cmp-t tr"><i class="fas fa-times-circle"></i> 함수 이름을 아는 사람의 질문</div>
+          <div class="sm lh" style="color:#7f1d1d;">"VLOOKUP 사용법 알려줘"<br><span class="xs tsb">→ 교과서 설명이 나옵니다. 내 표에 어떻게 쓰는지는 여전히 내가 고민해야 합니다.</span></div>
+        </div>
+        <div class="cmp-good">
+          <div class="cmp-t tg"><i class="fas fa-check-circle"></i> 함수 이름을 몰라도 되는 질문</div>
+          <div class="sm lh" style="color:#064e3b;">"시트1에는 A열 사번, B열 이름이 있고, 시트2에는 A열 사번, C열 부서가 있어. <b>시트1에 부서를 붙이고 싶어.</b> 어느 셀에 뭘 넣으면 돼?"<br><span class="xs tsb">→ 내 표 구조에 맞는 완성 수식이 나옵니다.</span></div>
+        </div>
+      </div>
+      <div class="g3">
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-a"><i class="fas fa-magnifying-glass"></i></div><div class="fc-t">수식 만들기</div></div>
+          <div class="fc-d">열 구조 + 원하는 결과를 설명 → 수식과 <b>넣을 위치</b>까지 받기. "이 수식 왜 #N/A 나와?"처럼 <b>에러 해결</b>도 됩니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-a"><i class="fas fa-wand-magic-sparkles"></i></div><div class="fc-t">수식 해석하기</div></div>
+          <div class="fc-d">전임자가 남긴 정체불명의 수식을 붙여넣고 "이게 뭘 하는 수식인지 <b>한글로 설명해줘</b>" — 인수인계의 구원자.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-a"><i class="fas fa-broom"></i></div><div class="fc-t">데이터 정리 계획</div></div>
+          <div class="fc-d">"날짜 형식이 3가지로 섞여 있어", "이름에 공백이 들쭉날쭉해" — 정리 <b>순서와 방법</b>을 단계별로 안내받습니다.</div>
+        </div>
+      </div>
+      <div class="co co-a">
+        <div class="co-ic"><i class="fas fa-key ta"></i></div>
+        <div>
+          <div class="co-tt">핵심 요령: 표의 "구조"를 말로 그려주기</div>
+          <div class="co-tx">AI는 내 화면을 못 봅니다. <b>"A열에는 ○○, B열에는 ○○, 3행부터 데이터 시작"</b>처럼 구조를 알려주는 것이 전부입니다. 스크린샷 첨부가 되는 AI(ChatGPT, Claude 등)라면 캡처 한 장으로 대신할 수 있습니다.</div>
+        </div>
+      </div>
+      <div class="fl jcc">
+        <button class="prac-btn" style="background:linear-gradient(135deg,var(--ad),var(--a));box-shadow:0 6px 20px rgba(245,158,11,.4);" onclick="openPop('p4')"><i class="fas fa-flask"></i> 실습 4 열기 — 두 시트 데이터 합치기 <span class="pb-tag">5분</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S10 데이터 분석 ══ -->
+<div class="slide" id="s10">
+  <div class="si">
+    <div>
+      <div class="stag" style="background:rgba(245,158,11,.1);color:#92400e;border-color:rgba(245,158,11,.3);"><i class="fas fa-chart-line"></i> 2부 · 엑셀·데이터</div>
+      <h2 class="stit">데이터를 붙여넣으면 <span class="aa">보고 문장</span>까지 나옵니다</h2>
+      <div class="sbar" style="background:linear-gradient(90deg,var(--a),#fbbf24);"></div>
+    </div>
+    <div class="sb">
+      <div class="g2">
+        <div class="fl fdc g12">
+          <div class="card">
+            <div class="ct"><i class="fas fa-paste ta"></i> 붙여넣기 분석 4단계</div>
+            <div class="cd" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+              <div class="fl g10 aic"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--a);">1</div><span>엑셀 표를 복사해 채팅창에 붙여넣기 (탭 구분 그대로 OK)</span></div>
+              <div class="fl g10 aic"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--a);">2</div><span>데이터가 무엇인지 한 줄 설명 ("지점별 월 매출, 단위: 만원")</span></div>
+              <div class="fl g10 aic"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--a);">3</div><span>원하는 결과 지정 ("눈에 띄는 패턴 3가지 + 원인 가설")</span></div>
+              <div class="fl g10 aic"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--a);">4</div><span>보고 형식으로 변환 ("팀장 보고용 3문장으로 요약해줘")</span></div>
+            </div>
+          </div>
+          <div class="co co-r" style="flex:0;">
+            <div class="co-ic"><i class="fas fa-shield-halved tr"></i></div>
+            <div>
+              <div class="co-tt">숫자는 반드시 검산!</div>
+              <div class="co-tx">AI는 <b>합계·평균 계산을 틀릴 수 있습니다.</b> 패턴 발견·해석은 AI에게, 최종 숫자 확인은 엑셀에서. 이것이 데이터 작업의 철칙입니다.</div>
+            </div>
+          </div>
+        </div>
+        <div class="code" style="font-size:.8rem;display:flex;flex-direction:column;justify-content:center;">
+<span class="cm">// 실제로 이런 대화가 됩니다</span><br><br>
+<span class="ky">나:</span> (표 붙여넣기) 올해 상반기 지점별 매출이야.<br>
+　　눈에 띄는 패턴 3가지만 찾아줘.<br><br>
+<span class="st">AI: ① 강남점이 전체의 38%로 편중</span><br>
+<span class="st">　　② 부산점만 3월 이후 연속 하락</span><br>
+<span class="st">　　③ 전 지점이 5월에 동반 상승 (프로모션?)</span><br><br>
+<span class="ky">나:</span> ②의 원인으로 가능한 가설 3개와<br>
+　　확인 방법을 알려줘.<br><br>
+<span class="ba2">→ 분석가와 대화하듯 꼬리를 물고 들어가세요</span>
+        </div>
+      </div>
+      <div class="fl jcc">
+        <button class="prac-btn" style="background:linear-gradient(135deg,var(--ad),var(--a));box-shadow:0 6px 20px rgba(245,158,11,.4);" onclick="openPop('p5')"><i class="fas fa-flask"></i> 실습 5 열기 — 매출 데이터에서 인사이트 뽑기 <span class="pb-tag">8분</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S11 3부 섹션 ══ -->
+<div class="slide" id="s11">
+  <div class="si" style="justify-content:center;align-items:center;">
+    <div class="sect-card" style="background:linear-gradient(135deg,#064e3b,#059669,#10b981);max-width:800px;width:100%;margin:auto;">
+      <div class="fl aic g14" style="margin-bottom:8px;">
+        <div style="background:rgba(255,255,255,.2);border-radius:14px;padding:10px 18px;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;">3부</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);flex:1;"></div>
+      </div>
+      <div style="font-size:clamp(32px,4vw,56px);font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.03em;">
+        정보 처리<br><span style="color:#a7f3d0;">읽는 시간을 통째로 줄이기</span>
+      </div>
+      <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.78);line-height:1.75;margin-top:8px;">
+        30페이지 계약서, 1시간 회의 녹취, 영어 메일<br>읽고 정리하는 일은 AI가 가장 잘하는 일입니다
+      </div>
+      <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-file-contract"></i> 목적이 있는 요약</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-microphone"></i> 회의록 자동화</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-language"></i> 실전 번역</div>
+      </div>
+      <div class="sect-num" style="color:#fff;">03</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S12 요약 ══ -->
+<div class="slide" id="s12">
+  <div class="si">
+    <div>
+      <div class="stag" style="background:rgba(16,185,129,.1);color:#065f46;border-color:rgba(16,185,129,.3);"><i class="fas fa-file-contract"></i> 3부 · 정보 처리</div>
+      <h2 class="stit">"요약해줘" 말고 <span class="ag">"○○ 관점에서 요약해줘"</span></h2>
+      <div class="sbar" style="background:linear-gradient(90deg,var(--g),#34d399);"></div>
+    </div>
+    <div class="sb">
+      <div class="g3">
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-g"><i class="fas fa-file-signature"></i></div><div class="fc-t">계약서 · 약관</div></div>
+          <div class="fc-d">"우리 회사에 <b>불리한 조항</b>과 <b>돈이 나가는 조항</b> 중심으로 요약해줘. 조항 번호도 같이." → 검토 포인트가 바로 나옵니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-g"><i class="fas fa-newspaper"></i></div><div class="fc-t">공문 · 정책 문서</div></div>
+          <div class="fc-d">"이 공문에서 <b>우리 팀이 해야 할 일</b>과 <b>마감일</b>만 뽑아줘." → 20페이지 공문이 할 일 목록 5줄이 됩니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-g"><i class="fas fa-book"></i></div><div class="fc-t">보고서 · 자료</div></div>
+          <div class="fc-d">"경쟁사 분석 자료인데, <b>우리 신제품 기획에 참고할 것</b> 위주로 요약해줘." → 같은 문서도 목적 따라 다른 요약.</div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="co co-g" style="flex:1;">
+          <div class="co-ic"><i class="fas fa-layer-group tg"></i></div>
+          <div>
+            <div class="co-tt">3단 요약을 요청하세요</div>
+            <div class="co-tx"><b>① 한 문장 → ② 5줄 핵심 → ③ 상세 요약</b>으로 층을 나눠 달라고 하면, 바쁜 상사에게는 ①을, 실무자에게는 ③을 전달할 수 있습니다.</div>
+          </div>
+        </div>
+        <div class="co co-r" style="flex:1;">
+          <div class="co-ic"><i class="fas fa-triangle-exclamation tr"></i></div>
+          <div>
+            <div class="co-tt">중요 문서는 원문 대조</div>
+            <div class="co-tx">요약에서 <b>숫자·날짜·금액</b>이 나오면 반드시 원문과 대조하세요. "해당 내용이 있는 조항 번호를 표시해줘"라고 하면 대조가 빨라집니다.</div>
+          </div>
+        </div>
+      </div>
+      <div class="fl jcc">
+        <button class="prac-btn" style="background:linear-gradient(135deg,var(--gd),var(--g));box-shadow:0 6px 20px rgba(16,185,129,.4);" onclick="openPop('p6')"><i class="fas fa-flask"></i> 실습 6 열기 — 계약 조항에서 리스크 찾기 <span class="pb-tag">7분</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S13 회의록 ══ -->
+<div class="slide" id="s13">
+  <div class="si">
+    <div>
+      <div class="stag" style="background:rgba(16,185,129,.1);color:#065f46;border-color:rgba(16,185,129,.3);"><i class="fas fa-microphone"></i> 3부 · 정보 처리</div>
+      <h2 class="stit">회의 끝나고 30분 걸리던 회의록, <span class="ag">3분 자동화</span></h2>
+      <div class="sbar" style="background:linear-gradient(90deg,var(--g),#34d399);"></div>
+    </div>
+    <div class="sb">
+      <div class="g2">
+        <div class="fl fdc g12">
+          <div class="card">
+            <div class="ct"><i class="fas fa-route tg"></i> 자동화 파이프라인</div>
+            <div class="cd" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+              <div class="fl g10 aic"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">1</div><span><b>녹음</b> — 스마트폰·클로바노트·팀즈 녹화 (참석자 동의 필수!)</span></div>
+              <div class="fl g10 aic"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">2</div><span><b>텍스트 변환</b> — 클로바노트·Whisper 등이 자동으로 받아쓰기</span></div>
+              <div class="fl g10 aic"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">3</div><span><b>AI 정리</b> — 녹취록을 붙여넣고 회의록 양식으로 변환 요청</span></div>
+              <div class="fl g10 aic"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">4</div><span><b>검토·공유</b> — 결정사항·담당자를 확인하고 배포</span></div>
+            </div>
+          </div>
+          <div class="co co-g" style="flex:0;">
+            <div class="co-ic"><i class="fas fa-star tg"></i></div>
+            <div>
+              <div class="co-tt">진짜 가치는 "액션아이템"</div>
+              <div class="co-tx">회의록의 핵심은 발언 기록이 아니라 <b>누가·무엇을·언제까지</b>입니다. AI에게 액션아이템 표를 따로 뽑게 하면 후속 관리가 쉬워집니다.</div>
+            </div>
+          </div>
+        </div>
+        <div class="code" style="font-size:.8rem;display:flex;flex-direction:column;justify-content:center;">
+<span class="cm">// 회의록 변환 프롬프트의 뼈대</span><br><br>
+아래는 오늘 마케팅 주간회의 녹취록이야.<br>
+다음 양식의 회의록으로 정리해줘.<br><br>
+<span class="ky">1. 회의 개요</span> (일시/참석자/안건)<br>
+<span class="ky">2. 안건별 논의 요약</span> (각 3줄 이내)<br>
+<span class="ky">3. 결정 사항</span> (번호 목록)<br>
+<span class="ky">4. 액션아이템 표</span> (담당자|할일|기한)<br>
+<span class="ky">5. 다음 회의까지 확인할 것</span><br><br>
+<span class="st">결정되지 않고 보류된 안건은 따로 표시해줘.</span><br><br>
+<span class="ba2">(녹취록 붙여넣기)</span>
+        </div>
+      </div>
+      <div class="fl jcc">
+        <button class="prac-btn" style="background:linear-gradient(135deg,var(--gd),var(--g));box-shadow:0 6px 20px rgba(16,185,129,.4);" onclick="openPop('p7')"><i class="fas fa-flask"></i> 실습 7 열기 — 녹취록을 회의록으로 변환 <span class="pb-tag">7분</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S14 번역 ══ -->
+<div class="slide" id="s14">
+  <div class="si">
+    <div>
+      <div class="stag" style="background:rgba(16,185,129,.1);color:#065f46;border-color:rgba(16,185,129,.3);"><i class="fas fa-language"></i> 3부 · 정보 처리</div>
+      <h2 class="stit">번역기와 다릅니다 — <span class="ag">상황을 아는 번역</span></h2>
+      <div class="sbar" style="background:linear-gradient(90deg,var(--g),#34d399);"></div>
+    </div>
+    <div class="sb" style="justify-content:center;">
+      <div class="g2">
+        <div class="cmp-bad">
+          <div class="cmp-t" style="color:#92400e;"><i class="fas fa-robot"></i> 일반 번역기</div>
+          <div class="sm lh" style="color:#78350f;">문장을 문장으로 바꿔줍니다. 하지만 <b>비즈니스 관례, 정중함의 수위, 문화 차이</b>는 모릅니다. "빨리 주세요"를 직역하면 무례한 메일이 됩니다.</div>
+        </div>
+        <div class="cmp-good">
+          <div class="cmp-t tg"><i class="fas fa-user-tie"></i> AI 번역 + 상황 설명</div>
+          <div class="sm lh" style="color:#064e3b;">"미국 거래처 담당자에게 보낼 메일이야. <b>3번째 독촉이라 단호하되 무례하지 않게.</b> 번역하고, 뉘앙스가 적절한지도 설명해줘." → 상황에 맞는 문장이 나옵니다.</div>
+        </div>
+      </div>
+      <div class="g3">
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-g"><i class="fas fa-inbox"></i></div><div class="fc-t">받은 메일 해석</div></div>
+          <div class="fc-d">"이 영어 메일, 번역하고 <b>상대방의 진짜 의도와 온도</b>(긍정적? 불만?)도 분석해줘." — 행간까지 읽어줍니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-g"><i class="fas fa-paper-plane"></i></div><div class="fc-t">보낼 메일 작성</div></div>
+          <div class="fc-d">한글로 하고 싶은 말을 쓰고 → 영문 비즈니스 메일로 변환. <b>"정중한 버전 / 캐주얼 버전 두 가지로"</b>를 붙이면 골라 쓸 수 있습니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-g"><i class="fas fa-check-double"></i></div><div class="fc-t">내 영작 검토</div></div>
+          <div class="fc-d">직접 쓴 영문을 붙여넣고 "문법 오류와 <b>원어민이 어색하게 느낄 표현</b>을 고쳐줘. 고친 이유도." — 영어 공부까지 됩니다.</div>
+        </div>
+      </div>
+      <div class="qt">
+        <p>"해외 지사와 일하는 직장인의 체감 효과 1위가 번역입니다. 단순 번역을 넘어 <b>'이 표현이 실례가 되지 않을까?'</b>를 물어볼 수 있는 것이 AI 번역의 진짜 힘입니다."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S15 4부 섹션 ══ -->
+<div class="slide" id="s15">
+  <div class="si" style="justify-content:center;align-items:center;">
+    <div class="sect-card" style="background:linear-gradient(135deg,#4c1d95,#7c3aed,#8b5cf6);max-width:800px;width:100%;margin:auto;">
+      <div class="fl aic g14" style="margin-bottom:8px;">
+        <div style="background:rgba(255,255,255,.2);border-radius:14px;padding:10px 18px;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;">4부</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);flex:1;"></div>
+      </div>
+      <div style="font-size:clamp(32px,4vw,56px);font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.03em;">
+        반복 업무 패턴화<br><span style="color:#ddd6fe;">한 번 만들고 평생 쓰기</span>
+      </div>
+      <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.78);line-height:1.75;margin-top:8px;">
+        매번 프롬프트를 새로 쓰는 사람 vs<br>템플릿 하나로 매주 10분을 아끼는 사람
+      </div>
+      <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-clone"></i> 프롬프트 템플릿</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-calendar-day"></i> 하루 루틴 설계</div>
+      </div>
+      <div class="sect-num" style="color:#fff;">04</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S16 템플릿 ══ -->
+<div class="slide" id="s16">
+  <div class="si">
+    <div>
+      <div class="stag" style="background:rgba(139,92,246,.1);color:#5b21b6;border-color:rgba(139,92,246,.3);"><i class="fas fa-clone"></i> 4부 · 패턴화</div>
+      <h2 class="stit">잘 된 프롬프트는 <span class="ar" style="color:var(--pu);">빈칸 템플릿</span>으로 저장하세요</h2>
+      <div class="sbar" style="background:linear-gradient(90deg,var(--pu),#a78bfa);"></div>
+    </div>
+    <div class="sb">
+      <div class="g2">
+        <div class="fl fdc g12">
+          <div class="card">
+            <div class="ct"><i class="fas fa-recycle tpu"></i> 템플릿화 3원칙</div>
+            <div class="cd" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+              <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--pu);flex-shrink:0;">1</div><span><b>바뀌는 부분만 [빈칸]으로.</b> 역할·형식·조건처럼 매번 같은 부분은 고정하고, 날짜·데이터만 갈아 끼웁니다.</span></div>
+              <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--pu);flex-shrink:0;">2</div><span><b>좋은 출력이 나왔을 때 바로 저장.</b> "이 프롬프트 통했다" 싶으면 메모장·노션에 즉시 복사해 둡니다.</span></div>
+              <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--pu);flex-shrink:0;">3</div><span><b>쓸 때마다 한 줄씩 개선.</b> 결과가 아쉬웠던 점을 조건으로 추가하면 템플릿이 점점 똑똑해집니다.</span></div>
+            </div>
+          </div>
+          <div class="co co-pu" style="flex:0;">
+            <div class="co-ic"><i class="fas fa-folder-open tpu"></i></div>
+            <div>
+              <div class="co-tt">팀의 자산이 됩니다</div>
+              <div class="co-tx">개인 템플릿을 팀 위키에 모으면 <b>팀 전체의 업무 매뉴얼</b>이 됩니다. 신입도 첫날부터 베테랑의 프롬프트로 일할 수 있습니다.</div>
+            </div>
+          </div>
+        </div>
+        <div class="code" style="font-size:.78rem;display:flex;flex-direction:column;justify-content:center;">
+<span class="cm">// 주간보고 템플릿 예시 — [빈칸]만 갈아 끼우면 끝</span><br><br>
+너는 [<span class="ba2">우리 팀 이름</span>]의 보고서 전문가야.<br>
+아래 메모를 주간보고로 정리해줘.<br><br>
+<span class="ky">양식:</span><br>
+· 이번 주 완료 (성과 중심, 수치 포함)<br>
+· 진행 중 (진척률 %)<br>
+· 이슈 및 요청사항 (해결 방안 포함)<br>
+· 다음 주 계획<br><br>
+<span class="ky">조건:</span> 각 항목 3줄 이내, 두괄식,<br>
+"~했음" 체로 통일<br><br>
+<span class="ky">이번 주 메모:</span><br>
+[<span class="ba2">한 주간 휘갈긴 메모 붙여넣기</span>]
+        </div>
+      </div>
+      <div class="fl jcc">
+        <button class="prac-btn" style="background:linear-gradient(135deg,#6d28d9,var(--pu));box-shadow:0 6px 20px rgba(139,92,246,.4);" onclick="openPop('p8')"><i class="fas fa-flask"></i> 실습 8 열기 — 나만의 템플릿 만들기 <span class="pb-tag">10분</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S17 하루 루틴 ══ -->
+<div class="slide" id="s17">
+  <div class="si">
+    <div>
+      <div class="stag" style="background:rgba(139,92,246,.1);color:#5b21b6;border-color:rgba(139,92,246,.3);"><i class="fas fa-calendar-day"></i> 4부 · 패턴화</div>
+      <h2 class="stit">AI를 쓰는 회사원의 <span class="ar" style="color:var(--pu);">하루</span></h2>
+      <div class="sbar" style="background:linear-gradient(90deg,var(--pu),#a78bfa);"></div>
+    </div>
+    <div class="sb" style="justify-content:center;">
+      <div class="tml">
+        <div class="tml-row">
+          <div class="tml-time">09:00</div>
+          <div class="tml-line"></div>
+          <div class="tml-body"><div class="tml-t">밤새 쌓인 메일 정리 <span class="ba ba-pu" style="margin-left:6px;">3부 스킬</span></div><div class="tml-d">긴 메일들을 붙여넣고 "회신 필요한 것과 참고만 할 것으로 나누고, 각각 한 줄 요약" — 메일 삼각지대 탈출.</div></div>
+        </div>
+        <div class="tml-row">
+          <div class="tml-time">10:30</div>
+          <div class="tml-line"></div>
+          <div class="tml-body"><div class="tml-t">주간회의 → 회의록 <span class="ba ba-pu" style="margin-left:6px;">실습 7</span></div><div class="tml-d">클로바노트 녹취를 템플릿에 넣고 3분 만에 회의록 배포. 액션아이템 표는 팀 채널에 바로 공유.</div></div>
+        </div>
+        <div class="tml-row">
+          <div class="tml-time">13:30</div>
+          <div class="tml-line"></div>
+          <div class="tml-body"><div class="tml-t">실적 데이터 분석 <span class="ba ba-pu" style="margin-left:6px;">실습 5</span></div><div class="tml-d">엑셀 표를 붙여넣고 패턴 3개 발견 → 팀장 보고용 3문장 요약까지. 숫자는 엑셀에서 검산.</div></div>
+        </div>
+        <div class="tml-row">
+          <div class="tml-time">15:00</div>
+          <div class="tml-line"></div>
+          <div class="tml-body"><div class="tml-t">협력사 회신 + 영문 메일 <span class="ba ba-pu" style="margin-left:6px;">실습 1 · 3부 스킬</span></div><div class="tml-d">까다로운 거절 메일 초안 2분, 미국 본사 메일은 "정중한 버전"으로 영작. 이름·직함만 확인하고 발송.</div></div>
+        </div>
+        <div class="tml-row">
+          <div class="tml-time">17:30</div>
+          <div class="tml-line"></div>
+          <div class="tml-body"><div class="tml-t">주간보고 작성 <span class="ba ba-pu" style="margin-left:6px;">실습 8</span></div><div class="tml-d">한 주간 메모를 주간보고 템플릿에 붙여넣기 → 다듬어서 제출. 30분 걸리던 일이 7분.</div></div>
+        </div>
+      </div>
+      <div class="co co-pu">
+        <div class="co-ic"><i class="fas fa-stopwatch tpu"></i></div>
+        <div>
+          <div class="co-tx" style="color:#4c1d95;"><b>하루 합계: 약 90분 절약.</b> 대단한 자동화가 아니라, 오늘 배운 스킬을 루틴에 끼워 넣은 것뿐입니다. 핵심은 "이 일, AI 시키면 되지 않나?"를 <b>습관적으로 자문하는 것</b>입니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S18 주의사항 ══ -->
+<div class="slide" id="s18">
+  <div class="si">
+    <div>
+      <div class="stag" style="background:rgba(239,68,68,.1);color:#991b1b;border-color:rgba(239,68,68,.25);"><i class="fas fa-shield-halved"></i> 반드시 지킬 것</div>
+      <h2 class="stit">편리함보다 먼저 챙길 <span class="ar">4가지 안전수칙</span></h2>
+      <div class="sbar" style="background:linear-gradient(90deg,var(--r),#f87171);"></div>
+    </div>
+    <div class="sb" style="justify-content:center;">
+      <div class="g22" style="flex:1;">
+        <div class="card" style="border-left:5px solid var(--r);">
+          <div class="ct"><i class="fas fa-user-secret tr"></i> 사내 기밀·개인정보는 넣지 않기</div>
+          <div class="cd">고객 실명·주민번호·미공개 재무정보·소스코드는 외부 AI에 입력 금지. <span class="hl-r">회사의 AI 사용 지침을 먼저 확인</span>하고, 필요하면 <b>가명 처리("A사", "홍길동")</b> 후 사용하세요.</div>
+        </div>
+        <div class="card" style="border-left:5px solid var(--a);">
+          <div class="ct"><i class="fas fa-magnifying-glass-chart ta"></i> 숫자·날짜·이름은 반드시 검증</div>
+          <div class="cd">AI는 그럴듯한 거짓(환각)을 자신 있게 말합니다. <b>보고서에 들어가는 모든 팩트</b>는 원본 대조가 원칙. "출처를 함께 표시해줘"라고 요청하는 습관을 들이세요.</div>
+        </div>
+        <div class="card" style="border-left:5px solid var(--p);">
+          <div class="ct"><i class="fas fa-user-check tp"></i> 최종 책임은 항상 나에게</div>
+          <div class="cd">AI가 쓴 메일도 <b>보낸 사람은 나</b>입니다. 발송·제출 전 반드시 전체를 읽고, 내 이름을 걸 수 있는 상태인지 확인하세요. AI는 초안 담당, 나는 결재권자입니다.</div>
+        </div>
+        <div class="card" style="border-left:5px solid var(--g);">
+          <div class="ct"><i class="fas fa-scale-balanced tg"></i> 저작권·라이선스 의식하기</div>
+          <div class="cd">AI 산출물을 <b>외부 공개 자료</b>에 쓸 때는 회사 정책과 저작권을 확인하세요. 특히 이미지 생성물과 타사 문서 기반 산출물은 주의가 필요합니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S19 도구 비교 ══ -->
+<div class="slide" id="s19">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-toolbox"></i> 도구 선택 가이드</div>
+      <h2 class="stit">뭘 쓰면 되나요? <span class="ac">용도별 한눈에 보기</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="justify-content:center;">
+      <table class="ttab">
+        <tr><th style="width:16%;">도구</th><th style="width:34%;">특징</th><th>이런 업무에 추천</th></tr>
+        <tr>
+          <td><i class="fas fa-comment-dots tp"></i> ChatGPT</td>
+          <td>가장 대중적, 이미지·파일 분석, 데이터 분석 기능 내장</td>
+          <td>범용 문서 작업, 엑셀 파일 직접 업로드 분석, 이미지가 섞인 자료 처리</td>
+        </tr>
+        <tr>
+          <td><i class="fas fa-comment tpu"></i> Claude</td>
+          <td>긴 문서 처리에 강함, 자연스러운 한국어 문장, 신중한 답변</td>
+          <td>계약서·보고서 등 긴 문서 요약/검토, 완성도 높은 글쓰기</td>
+        </tr>
+        <tr>
+          <td><i class="fas fa-g ta"></i> Gemini</td>
+          <td>구글 검색·워크스페이스(Gmail, Docs) 연동</td>
+          <td>구글 문서 기반 회사, 최신 정보가 필요한 리서치</td>
+        </tr>
+        <tr>
+          <td><i class="fas fa-m tsk"></i> Copilot</td>
+          <td>MS 오피스(엑셀·워드·PPT·아웃룩·팀즈) 안에 내장</td>
+          <td>오피스 문서 안에서 바로 작업, 팀즈 회의 자동 요약</td>
+        </tr>
+        <tr>
+          <td><i class="fas fa-magnifying-glass tg"></i> 퍼플렉시티</td>
+          <td>출처를 표시하는 AI 검색</td>
+          <td>근거가 필요한 시장조사·경쟁사 리서치</td>
+        </tr>
+      </table>
+      <div class="co co-p">
+        <div class="co-ic"><i class="fas fa-lightbulb tp"></i></div>
+        <div>
+          <div class="co-tx"><b>결론: 하나를 깊게.</b> 오늘 배운 스킬은 어느 도구에서든 통합니다. 도구를 고르는 데 시간 쓰지 말고, <b>회사가 허용하는 도구 하나</b>를 골라 매일 쓰면서 손에 익히는 것이 가장 빠릅니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S20 마무리 ══ -->
+<div class="slide" id="s20">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-flag-checkered"></i> 마무리</div>
+      <h2 class="stit">오늘의 핵심과 <span class="ac">다음 단계</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="justify-content:center;">
+      <div class="g4">
+        <div class="sum">
+          <div class="sum-t"><i class="fas fa-file-lines tp"></i> 1부 · 문서</div>
+          <div class="sum-d">쓰기 어려운 메일일수록 AI가 잘한다. 보고서는 <b>목차→초안→다듬기</b> 3단계. PPT는 뼈대와 메시지까지.</div>
+        </div>
+        <div class="sum">
+          <div class="sum-t"><i class="fas fa-table ta"></i> 2부 · 엑셀</div>
+          <div class="sum-d">함수 이름 대신 <b>상황을 설명</b>하라. 데이터를 붙여넣으면 인사이트와 보고 문장까지. 단, 숫자는 검산.</div>
+        </div>
+        <div class="sum">
+          <div class="sum-t"><i class="fas fa-compress tg"></i> 3부 · 정보</div>
+          <div class="sum-d">요약은 <b>목적 관점</b>을 지정하라. 회의록은 녹취→AI 정리 파이프라인으로. 번역은 상황을 함께 설명.</div>
+        </div>
+        <div class="sum">
+          <div class="sum-t"><i class="fas fa-repeat tpu"></i> 4부 · 패턴화</div>
+          <div class="sum-d">통한 프롬프트는 <b>[빈칸] 템플릿</b>으로 저장. 루틴에 끼워 넣고 "AI 시키면 되지 않나?"를 습관화.</div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="card" style="background:linear-gradient(135deg,#eef2ff,#fff);border:2px solid rgba(79,70,229,.25);">
+          <div class="ct"><i class="fas fa-seedling tg"></i> 이번 주 숙제</div>
+          <div class="cd">① 오늘 실습 8개 중 <b>내 업무와 가장 가까운 것 2개</b>를 실제 업무에 적용해 보기<br>② 잘 된 프롬프트 <b>1개를 템플릿으로 저장</b>하기<br>③ 다음 주에 팀 동료에게 하나 공유하기</div>
+        </div>
+        <div class="card" style="background:linear-gradient(135deg,#312e81,#4f46e5);border:none;">
+          <div class="ct" style="color:#fff;"><i class="fas fa-rocket" style="color:#fbbf24;"></i> 다음 강의 — AI 실무활용 2 (심화 실습편)</div>
+          <div class="cd" style="color:rgba(255,255,255,.85);">"매번 AI에게 시키는 것도 귀찮은데, 아예 <b style="color:#fbbf24;">자동으로 돌아가는 나만의 도구</b>를 만들 수 없을까?" — 심화편에서 <b style="color:#fbbf24;">엑셀 VBA·구글 GAS 자동화, 데이터 대시보드, 사내 지식 챗봇(RAG)</b>까지 만들어 봅니다. 그다음이 바이브 코딩입니다.</div>
+          <a href="AI실무활용2.html" style="display:inline-flex;align-items:center;gap:8px;margin-top:10px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:10px;padding:8px 16px;font-size:.84rem;font-weight:800;text-decoration:none;"><i class="fas fa-arrow-right"></i> AI 실무활용 2 열기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ═══════════ 실습 팝업들 ═══════════ -->
+
+<!-- ══ P1 거절 메일 ══ -->
+<div class="ov" id="p1" onclick="if(event.target===this)closePop('p1')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-p"><i class="fas fa-envelope"></i></div>
+        <div>
+          <div class="pop-tt">실습 1 · 관계를 지키는 거절 메일</div>
+          <div class="pop-st">난이도 ★☆☆ · 약 5분 · 1부 문서 작업</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p1')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">당신은 구매팀 대리입니다. 5년간 거래한 협력사 '한빛부품'이 원자재 가격 상승을 이유로 <b>납품 단가 15% 인상</b>을 요청하는 메일을 보냈습니다. 내부 검토 결과 <b>최대 5%까지만 수용 가능</b>합니다. 관계는 유지하면서 정중하게 조정안을 제시해야 합니다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-inbox"></i> 받은 메일 (샘플)</div>
+        <div class="sample-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>제목: 납품 단가 조정 요청의 건
+
+안녕하세요, 한빛부품 영업부 김철수 부장입니다.
+늘 저희를 믿고 거래해 주셔서 감사합니다.
+
+최근 알루미늄 원자재 가격이 전년 대비 22% 상승하여 부득이하게
+납품 단가를 15% 인상 요청드리게 되었습니다.
+다음 분기 발주분부터 적용을 부탁드리며,
+어려운 요청인 점 양해 부탁드립니다.
+
+검토 후 회신 부탁드립니다.
+김철수 드림</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 따라 할 프롬프트</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>너는 구매 협상 경험이 많은 대기업 구매팀 베테랑이야.
+아래 협력사 메일에 대한 회신을 작성해줘.
+
+<b>[상황]</b>
+- 5년 거래한 중요한 협력사이고, 관계를 계속 유지하고 싶다
+- 원자재 상승은 사실이라 어느 정도 인정한다
+- 하지만 우리 예산상 인상 수용 한도는 최대 5%다
+- 대신 발주 물량을 10% 늘리는 방안은 제시할 수 있다
+
+<b>[요청]</b>
+- 정중하지만 회사 입장은 분명하게
+- 상대의 어려움에 공감하는 문장으로 시작
+- 5% + 물량 확대 조정안을 제시하고, 협의 미팅을 제안하며 마무리
+- 길이는 300자 내외
+
+(위 받은 메일 붙여넣기)</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-list-check"></i> 결과 확인 체크포인트</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 거절인데도 읽고 기분이 나쁘지 않은가? (공감 → 입장 → 대안 순서)</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> "5% + 물량 확대"라는 우리 조건이 명확하게 들어갔는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 다음 행동(미팅 제안)으로 연결되는가?</div>
+        </div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 응용 미션</div>
+        <div class="msn">같은 상황에서 <b>"이번이 3번째 인상 요청이라 이번에는 단호하게 거절"</b>하는 버전으로 조건을 바꿔 다시 요청해 보세요. 톤이 어떻게 달라지는지 비교하면 조건 한 줄의 힘을 체감할 수 있습니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P2 보고서 3단계 ══ -->
+<div class="ov" id="p2" onclick="if(event.target===this)closePop('p2')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-p"><i class="fas fa-file-alt"></i></div>
+        <div>
+          <div class="pop-tt">실습 2 · 3단계 공법으로 보고서 만들기</div>
+          <div class="pop-st">난이도 ★★☆ · 약 10분 · 1부 문서 작업</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p2')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">인사팀 주임인 당신에게 팀장이 지시했습니다. <b>"재택근무 만족도 조사 결과, 경영진 보고용으로 정리해줘. 내일 오전까지."</b> 조사 데이터는 있지만 보고서 틀을 잡으려니 막막합니다. 3단계 공법으로 해결해 봅시다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-database"></i> 조사 결과 데이터 (샘플)</div>
+        <div class="sample-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>- 조사 대상: 전 직원 240명 중 198명 응답 (82.5%)
+- 재택근무 만족도: 매우만족 41%, 만족 33%, 보통 15%, 불만족 11%
+- 생산성 자가평가: 향상 52%, 동일 31%, 저하 17%
+- 주요 만족 이유: 통근시간 절약(68%), 집중 환경(45%), 워라밸(41%)
+- 주요 불만: 소통 어려움(38%), 장비 부족(22%), 고립감(19%)
+- 희망 근무형태: 주2-3회 하이브리드 61%, 전면 재택 24%, 전면 출근 15%
+- 팀장급 의견: 신입 온보딩과 협업 품질 저하 우려가 큼</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 1단계 — 목차 합의</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>너는 인사팀 10년차 보고서 전문가야.
+"재택근무 만족도 조사 결과 보고서"를 쓸 거야.
+
+- 보고 대상: 경영진 (바쁘고, 결론부터 원함)
+- 목적: 향후 근무제도 방향 결정의 근거 자료
+- 분량: A4 2장 이내
+
+먼저 목차만 잡아줘. 각 목차마다 어떤 내용이
+들어갈지 한 줄씩만 설명해줘. 아직 본문은 쓰지 마.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 2단계 — 재료 주고 초안 (목차 확인 후)</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>목차 좋아. 2번과 3번 순서만 바꿔줘.
+그리고 아래 실제 조사 데이터로 초안을 작성해줘.
+데이터에 없는 내용은 지어내지 말고,
+추가 조사가 필요한 부분은 [확인 필요]로 표시해줘.
+
+(위 조사 결과 데이터 붙여넣기)</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 3단계 — 다듬기</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>좋아. 이제 마무리 작업이야.
+1. 맨 앞에 "핵심 요약" 박스를 추가해줘 (3문장, 결론 먼저)
+2. 경영진이 물어볼 만한 예상 질문 3개와 답변 근거를
+   맨 뒤에 붙여줘
+3. 전체적으로 "~함", "~임" 개조식으로 통일해줘</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-list-check"></i> 결과 확인 체크포인트</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 1단계에서 목차가 마음에 안 들면 <b>바로 2단계로 가지 말고</b> 목차를 고쳤는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 초안의 모든 수치가 내가 준 데이터와 일치하는가? (지어낸 숫자 없는지)</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> "하이브리드 61%"라는 핵심 근거가 결론과 연결되어 있는가?</div>
+        </div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 응용 미션</div>
+        <div class="msn">완성된 보고서를 <b>"전 직원 공지용 요약문(친근한 톤, 500자)"</b>으로 변환해 보세요. 같은 재료로 대상만 바꾸는 것 — 실무에서 가장 자주 쓰는 기술입니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P3 PPT ══ -->
+<div class="ov" id="p3" onclick="if(event.target===this)closePop('p3')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-p"><i class="fas fa-display"></i></div>
+        <div>
+          <div class="pop-tt">실습 3 · 10분 발표 슬라이드 설계</div>
+          <div class="pop-st">난이도 ★★☆ · 약 7분 · 1부 문서 작업</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p3')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">기획팀인 당신은 다음 주 <b>전사 워크숍에서 "사내 AI 활용 문화 만들기" 발표</b>를 맡았습니다. 발표 10분 + 질의응답 5분. 청중은 AI를 잘 모르는 직원부터 임원까지 섞여 있습니다. PPT를 열기 전에 설계도부터 뽑아 봅시다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 따라 할 프롬프트</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>너는 발표 컨설턴트야. 아래 발표의 슬라이드 구성안을 설계해줘.
+
+<b>[발표 정보]</b>
+- 주제: 사내 AI 활용 문화 만들기 (도입 제안)
+- 발표자: 기획팀 실무자
+- 청중: 전 직원 + 임원 (AI 지식 수준 제각각)
+- 시간: 발표 10분, 질의응답 5분
+- 목표: "다음 달부터 팀별 AI 활용 파일럿을 하자"는
+  의사결정을 얻어내는 것
+
+<b>[요청 형식]</b>
+- 슬라이드는 8~10장 이내
+- 각 슬라이드마다:
+  ① 헤드라인 (청중이 기억할 한 문장)
+  ② 넣을 내용 3가지 (키워드 수준)
+  ③ 발표 대본 2~3문장
+- 마지막에: 임원이 던질 만한 어려운 질문 5개 + 답변 요지</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-list-check"></i> 결과 확인 체크포인트</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 슬라이드 헤드라인만 쭉 읽어도 스토리가 이어지는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> "의사결정을 얻어낸다"는 목표에 맞게 마지막 장이 명확한 요청으로 끝나는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 10분 분량에 적절한가? (장수 × 1분이 기본 감각)</div>
+        </div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 응용 미션</div>
+        <div class="msn">① "3번 슬라이드가 약해. <b>실제 회사 사례 중심으로 다시</b>" 같은 부분 수정을 시켜 보세요.<br>② 완성된 구성안을 감마(Gamma)·Copilot 같은 PPT 생성 도구에 넣으면 디자인까지 이어집니다. <b>내용 설계(채팅 AI) → 디자인(전용 도구)</b> 분업을 기억하세요.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P4 엑셀 ══ -->
+<div class="ov" id="p4" onclick="if(event.target===this)closePop('p4')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-a"><i class="fas fa-table"></i></div>
+        <div>
+          <div class="pop-tt">실습 4 · 두 시트 데이터 합치기 (수식 받기)</div>
+          <div class="pop-st">난이도 ★☆☆ · 약 5분 · 2부 엑셀·데이터</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p4')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">총무팀인 당신은 <b>[시트1] 비품 신청 내역</b>에 <b>[시트2] 직원 명단</b>의 부서 정보를 붙여야 합니다. 500행을 손으로 옮길 수는 없고, VLOOKUP은 이름만 들어봤습니다. 함수 이름을 몰라도 되는 질문법을 연습합니다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-database"></i> 내 표 구조 (샘플)</div>
+        <div class="sample-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>[시트1: 신청내역] 1행은 제목행, 데이터는 2행부터 500행
+A열: 신청일자 / B열: 사번 / C열: 신청자명 / D열: 품목 / E열: 수량
+F열: (여기에 부서명을 채우고 싶음)
+
+[시트2: 직원명단] 1행은 제목행
+A열: 사번 / B열: 이름 / C열: 부서명 / D열: 직급</div>
+        <button class="dl-btn" onclick="dlXlsx4()"><i class="fas fa-file-excel"></i> 실습용 엑셀 파일 다운로드 (.xlsx · 시트 2개)</button>
+        <div class="dl-note"><i class="fas fa-circle-info"></i> [신청내역] [직원명단] 두 시트가 들어 있는 진짜 엑셀 파일이 다운로드됩니다. 연습용이라 데이터는 30행이며, 명단에 없는 사번 2건이 숨어 있어 "확인필요" 처리까지 실습할 수 있습니다. 프롬프트의 "500행"은 그대로 두고 연습해도 됩니다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 따라 할 프롬프트</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>엑셀 작업을 도와줘. 내 파일 구조는 아래와 같아.
+
+(위 표 구조 붙여넣기)
+
+<b>[하고 싶은 것]</b>
+시트1의 F열에, 사번(B열)이 일치하는 직원의 부서명을
+시트2에서 찾아와 자동으로 채우고 싶어.
+
+<b>[요청]</b>
+1. F2 셀에 넣을 수식을 정확히 써줘
+2. 수식의 각 부분이 무슨 뜻인지 한 줄씩 설명해줘
+3. 사번이 시트2에 없을 때 "확인필요"라고 표시되게 해줘
+4. 500행까지 한 번에 적용하는 방법도 알려줘
+5. 내 엑셀은 M365 버전이야</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-list-check"></i> 결과 확인 체크포인트</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> XLOOKUP 또는 VLOOKUP+IFERROR 조합의 수식을 받았는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 임의의 3행을 골라 부서가 정확히 매칭됐는지 눈으로 검증했는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 에러가 나면 에러 메시지를 그대로 복사해서 다시 물어봤는가?</div>
+        </div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 응용 미션</div>
+        <div class="msn">이어서 <b>"부서별 신청 수량 합계 표를 만들고 싶어. 피벗테이블로 하는 순서를 클릭 단위로 알려줘"</b>라고 요청해 보세요. 수식만이 아니라 <b>메뉴 조작 순서</b>도 AI에게 물을 수 있다는 것을 체험하는 미션입니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P5 데이터 분석 ══ -->
+<div class="ov" id="p5" onclick="if(event.target===this)closePop('p5')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-a"><i class="fas fa-chart-line"></i></div>
+        <div>
+          <div class="pop-tt">실습 5 · 매출 데이터에서 인사이트 뽑기</div>
+          <div class="pop-st">난이도 ★★☆ · 약 8분 · 2부 엑셀·데이터</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p5')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">영업기획팀인 당신은 내일 아침 팀 회의에서 <b>상반기 지점별 매출 리뷰</b>를 해야 합니다. 표는 있는데 "그래서 뭐가 문제고 뭘 해야 하는지"를 뽑아내는 게 숙제입니다. AI를 주니어 분석가로 써 봅시다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-database"></i> 매출 데이터 (샘플 · 단위: 백만원)</div>
+        <div class="sample-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>지점	1월	2월	3월	4월	5월	6월
+강남	420	435	410	465	520	510
+홍대	310	325	340	330	385	370
+부산	280	295	290	260	255	240
+대구	195	200	210	205	230	225
+광주	150	145	160	155	175	170
+온라인	380	410	455	490	560	605</div>
+        <button class="dl-btn" onclick="dlXlsx5()"><i class="fas fa-file-excel"></i> 실습용 엑셀 파일 다운로드 (.xlsx)</button>
+        <div class="dl-note"><i class="fas fa-circle-info"></i> 같은 데이터가 담긴 엑셀 파일입니다. 파일로 열어 직접 검산하는 연습(체크포인트 2번)까지 해보세요.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 따라 할 프롬프트 (1차 → 2차 → 3차)</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button><b>[1차: 패턴 발견]</b>
+아래는 우리 회사 상반기 지점별 월 매출이야 (단위: 백만원).
+눈에 띄는 패턴이나 이상 신호를 중요한 순서로 3가지 찾아줘.
+각각 근거 숫자를 함께 제시해줘.
+
+(위 데이터 붙여넣기)
+
+<b>[2차: 원인 가설]</b> ← 1차 답변을 보고 이어서
+부산 지점 하락에 대해 가능한 원인 가설을 4개 세워줘.
+각 가설을 확인하려면 어떤 데이터를 더 봐야 하는지도 알려줘.
+
+<b>[3차: 보고 변환]</b>
+지금까지 분석을 팀 회의 보고용으로 정리해줘.
+- 형식: 핵심 결론 1문장 + 근거 3개 + 제안 액션 2개
+- 톤: 개조식, 숫자 중심</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-list-check"></i> 결과 확인 체크포인트</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> "온라인 급성장 + 부산 연속 하락"을 AI가 찾아냈는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> AI가 말한 합계·증감률을 <b>엑셀에서 직접 검산</b>해 봤는가? (틀릴 수 있습니다!)</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 가설은 "그럴듯한 추측"일 뿐 — 확인 방법까지 받아냈는가?</div>
+        </div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 응용 미션</div>
+        <div class="msn">실제 업무의 (민감정보 없는) 표 하나를 붙여넣고 같은 3단계를 돌려 보세요. 지점명 등이 민감하다면 <b>"A지점, B지점"으로 바꿔서</b> — 가명 처리 습관도 함께 연습됩니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P6 계약서 요약 ══ -->
+<div class="ov" id="p6" onclick="if(event.target===this)closePop('p6')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-g"><i class="fas fa-file-contract"></i></div>
+        <div>
+          <div class="pop-tt">실습 6 · 계약 조항에서 리스크 찾기</div>
+          <div class="pop-st">난이도 ★★☆ · 약 7분 · 3부 정보 처리</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p6')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">외주 용역 계약서 검토가 당신에게 떨어졌습니다. 법무팀 검토 전에 <b>실무자로서 걸리는 부분을 미리 파악</b>해 두려 합니다. 아래는 계약서 중 일부 조항입니다. (실제 업무에서는 회사 지침 확인 후, 민감정보 가명 처리를 잊지 마세요.)</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-file-lines"></i> 계약 조항 (샘플)</div>
+        <div class="sample-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>제7조 (대금 지급) ① 발주자는 검수 완료일로부터 60일 이내에 대금을 지급한다.
+② 검수 기준은 발주자가 정하며, 검수 불합격 시 수급자는 무상으로 재작업한다.
+
+제9조 (지연 배상) 수급자가 납기를 지연한 경우 지연일수 1일당 계약금액의
+0.5%를 배상한다. 발주자의 사유로 일정이 지연된 경우에도 납기는 변경되지
+않는 것을 원칙으로 한다.
+
+제12조 (지식재산권) 본 용역 수행 과정에서 발생한 모든 산출물 및 그 과정에서
+수급자가 개발한 도구, 노하우 일체의 권리는 발주자에게 귀속된다.
+
+제15조 (계약 해지) 발주자는 30일 전 서면 통지로 본 계약을 해지할 수 있다.
+이 경우 수급자는 기성 부분에 대한 대금만을 청구할 수 있으며,
+그 외 손해배상을 청구할 수 없다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 따라 할 프롬프트 (우리가 '수급자' 입장)</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>너는 IT 용역 계약을 많이 검토해 본 계약 전문가야.
+아래 계약 조항을 검토해줘. <b>우리는 '수급자(용역을 수행하는 쪽)' 입장</b>이야.
+
+<b>[요청]</b>
+1. 우리에게 불리한 조항을 위험도 순서로 나열해줘
+   (조항 번호 + 왜 불리한지 + 최악의 시나리오)
+2. 각 조항에 대해 협상 시 요구할 수정 문구를 제안해줘
+3. 마지막에 "법무팀에 반드시 물어볼 질문" 3개를 뽑아줘
+
+주의: 너의 검토는 참고용이고 법률 자문이 아니라는 걸 알고 있어.
+
+(위 계약 조항 붙여넣기)</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-list-check"></i> 결과 확인 체크포인트</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 60일 지급, 일방적 검수 기준, 편면적 지연배상, 포괄적 IP 귀속을 짚어냈는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> AI가 지적한 내용이 실제 조항 원문과 일치하는지 대조했는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 최종 판단은 법무팀·전문가 몫이라는 전제를 유지하고 있는가?</div>
+        </div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 응용 미션</div>
+        <div class="msn">같은 조항을 <b>"발주자 입장"</b>으로 바꿔 검토시켜 보세요. 입장이 바뀌면 같은 문서에서 전혀 다른 리스크가 보입니다 — <b>관점 지정이 요약·검토의 핵심</b>이라는 것을 체감하는 미션입니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P7 회의록 ══ -->
+<div class="ov" id="p7" onclick="if(event.target===this)closePop('p7')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-g"><i class="fas fa-microphone"></i></div>
+        <div>
+          <div class="pop-tt">실습 7 · 녹취록을 회의록으로 변환</div>
+          <div class="pop-st">난이도 ★★☆ · 약 7분 · 3부 정보 처리</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p7')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">마케팅팀 막내인 당신은 매주 회의록 담당입니다. 클로바노트가 받아 적은 녹취는 있지만 <b>중구난방 대화를 회의록 양식으로 정리</b>하는 데 매번 30분씩 걸립니다. 오늘부터는 3분으로 줄입니다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-comment-dots"></i> 녹취록 (샘플)</div>
+        <div class="sample-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>박팀장: 자 시작합시다. 신제품 런칭 캠페인 건부터. 지난주에 SNS 광고 시안 나온 거 다들 봤죠?
+김대리: 네, 근데 B안이 타깃층에는 더 맞는 것 같은데 예산이 A안보다 30% 높아서요.
+박팀장: 음... 효과 예측 자료 있어요?
+김대리: 대행사에 요청해 놨는데 목요일에 온다고 합니다.
+박팀장: 그럼 그거 보고 결정합시다. 김대리가 자료 오면 바로 공유해줘요. 다음, 이벤트 경품 건은?
+이주임: 견적 3군데 받았는데 정리해서 내일까지 올리겠습니다.
+박팀장: 좋아요. 아, 그리고 다음 달 박람회 부스 신청 마감이 이번 주 금요일이에요. 최과장님이 오늘 중으로 신청서 내주시고요.
+최과장: 네, 오늘 처리하겠습니다. 부스 위치는 작년이랑 같은 걸로?
+박팀장: 네 같은 위치로. 예산은 작년 대비 10% 증액된 걸로 신청하세요. 인플루언서 협업 건은 시간이 없으니 다음 주에 다시 얘기합시다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 따라 할 프롬프트</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>아래는 오늘(7/10) 마케팅팀 주간회의 녹취록이야.
+다음 양식의 회의록으로 정리해줘.
+
+<b>[양식]</b>
+1. 회의 개요 (일시 / 참석자 / 안건 목록)
+2. 안건별 논의 요약 (각 3줄 이내)
+3. 결정 사항 (번호 목록)
+4. 액션아이템 표 (담당자 | 할 일 | 기한)
+5. 보류/다음 회의 안건
+
+<b>[조건]</b>
+- 발언을 그대로 옮기지 말고 핵심만 정리
+- 기한이 명시 안 된 건 [기한 미정]으로 표시
+- 결정된 것과 논의만 된 것을 명확히 구분
+
+(위 녹취록 붙여넣기)</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-list-check"></i> 결과 확인 체크포인트</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 액션아이템 3개(김대리·이주임·최과장)가 담당자·기한과 함께 표로 나왔는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> "SNS 광고 시안"이 결정 사항이 아니라 <b>보류(목요일 자료 후 결정)</b>로 분류됐는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 인플루언서 협업 건이 다음 회의 안건으로 잡혔는가?</div>
+        </div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 응용 미션</div>
+        <div class="msn">이 프롬프트에서 녹취록만 갈아 끼우면 되겠죠? 바로 <b>실습 8의 "템플릿화"</b> 대상 1호입니다. 회의록 프롬프트를 메모장에 저장하고, 다음 실제 회의에서 써 보세요.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P8 템플릿 ══ -->
+<div class="ov" id="p8" onclick="if(event.target===this)closePop('p8')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-pu"><i class="fas fa-clone"></i></div>
+        <div>
+          <div class="pop-tt">실습 8 · 나만의 프롬프트 템플릿 만들기</div>
+          <div class="pop-st">난이도 ★★★ · 약 10분 · 4부 패턴화 · 최종 실습</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p8')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">마지막 실습입니다. 이번엔 샘플이 아니라 <b>당신의 실제 반복 업무</b>가 재료입니다. 매주·매달 반복하는 일 하나를 골라 (주간보고, 회의록, 실적 정리, 정기 공지…) 재사용 가능한 템플릿으로 만듭니다. 심지어 <b>템플릿 만드는 것 자체를 AI에게 시킬 수 있습니다.</b></div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 1단계 — AI에게 템플릿 설계 시키기</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>나는 매주 [반복 업무 이름: 예) 주간 업무보고]를 작성해.
+이 일을 매번 빠르게 처리할 수 있는
+"재사용 프롬프트 템플릿"을 만들어줘.
+
+<b>[내 업무 정보]</b>
+- 결과물의 독자: [예: 팀장]
+- 결과물의 형식: [예: 이메일 / 문서 / 표]
+- 매번 바뀌는 입력: [예: 그 주의 업무 메모]
+- 내가 중요하게 여기는 것: [예: 두괄식, 3줄 요약 먼저]
+
+<b>[템플릿 조건]</b>
+- 역할 지정 + 양식 + 조건 + [빈칸] 구조로
+- 빈칸은 [대괄호]로 표시하고 채우는 예시를 하나 보여줘
+- 완성 후, 이 템플릿의 약점 2가지와 보완법도 알려줘</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 2단계 — 실전 테스트</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>(받은 템플릿의 [빈칸]에 이번 주 실제 내용을 채워서 실행)
+
+결과를 보고 아쉬운 점을 조건으로 추가:
+"분량이 너무 길어. 전체 15줄 이내 조건을 템플릿에 추가해줘"
+"성과가 안 드러나. 각 항목에 수치를 요구하는 조건을 넣어줘"</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-floppy-disk"></i> 3단계 — 저장 (이게 진짜 핵심)</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 완성된 템플릿을 <b>메모장·노션·회사 위키</b>에 저장 — "프롬프트 템플릿" 폴더를 만드세요</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 파일명 규칙 추천: <b>[용도]_[대상]_v1</b> (예: 주간보고_팀장_v1)</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 쓸 때마다 개선점을 반영하고 버전을 올리기 — v3쯤 되면 완전히 손에 맞습니다</div>
+        </div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 졸업 미션</div>
+        <div class="msn">이번 주 안에 ① 오늘 만든 템플릿으로 <b>실제 업무 1건 처리</b> ② 템플릿을 <b>팀 동료 1명에게 공유</b>해 보세요. 동료의 피드백이 템플릿을 가장 빨리 성장시킵니다. 그리고 "이걸 아예 자동 프로그램으로 만들고 싶다"는 생각이 들면 — 다음 강의 <b>바이브 코딩</b>에서 만납니다. 🚀</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<div id="nav">
+  <button class="nb" id="bp" onclick="go(cur-1)" title="이전 (←)"><i class="fas fa-chevron-left"></i></button>
+  <div id="dotw"></div>
+  <div class="fl aic g8">
+    <span id="ncnt">1 / 20</span>
+    <button id="bfs" onclick="toggleFS()" title="전체화면 (F)"><i class="fas fa-expand"></i></button>
+  </div>
+  <button class="nb" id="bn" onclick="go(cur+1)" title="다음 (→)"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<div id="kh">
+  ← → : 슬라이드 이동<br>
+  Space / Enter : 다음<br>
+  F : 전체화면<br>
+  Home / End : 처음 / 끝<br>
+  Esc : 실습 팝업 닫기<br>
+  ? : 이 도움말
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total  = slides.length;
+let cur = 0;
+
+const prog = document.getElementById('prog');
+const dotw = document.getElementById('dotw');
+const ncnt = document.getElementById('ncnt');
+const bp   = document.getElementById('bp');
+const bn   = document.getElementById('bn');
+const bfs  = document.getElementById('bfs');
+const kh   = document.getElementById('kh');
+
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.title = `슬라이드 ${i+1}`;
+  d.onclick = () => go(i);
+  dotw.appendChild(d);
+}
+
+function go(n) {
+  if (n < 0 || n >= total) return;
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'past');
+    if (i < n) s.classList.add('past');
+    if (i === n) s.classList.add('active');
+  });
+  cur = n;
+  update();
+}
+
+function update() {
+  prog.style.width = ((cur + 1) / total * 100) + '%';
+  ncnt.textContent = `${cur+1} / ${total}`;
+  bp.disabled = cur === 0;
+  bn.disabled = cur === total - 1;
+  dotw.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+}
+update();
+
+/* ═══ 실습 팝업 ═══ */
+let openId = null;
+function openPop(id) {
+  document.getElementById(id).classList.add('open');
+  openId = id;
+}
+function closePop(id) {
+  document.getElementById(id).classList.remove('open');
+  openId = null;
+}
+
+/* ═══ 복사 버튼 ═══ */
+function copyTxt(btn) {
+  const box = btn.parentElement.cloneNode(true);
+  box.querySelector('.copy-btn').remove();
+  const txt = box.innerText.trim();
+  const done = () => {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> 복사됨!';
+    setTimeout(() => { btn.innerHTML = orig; }, 1500);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done).catch(() => fallbackCopy(txt, done));
+  } else {
+    fallbackCopy(txt, done);
+  }
+}
+function fallbackCopy(txt, done) {
+  const ta = document.createElement('textarea');
+  ta.value = txt;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+/* ═══ 실습용 엑셀 파일 생성 ═══ */
+function xlsxReady() {
+  if (typeof XLSX === 'undefined') {
+    alert('엑셀 생성 라이브러리를 불러오지 못했습니다.\n인터넷 연결을 확인한 뒤 페이지를 새로고침해 주세요.');
+    return false;
+  }
+  return true;
+}
+
+function dlXlsx4() {
+  if (!xlsxReady()) return;
+  const 명단 = [
+    ['사번','이름','부서명','직급'],
+    ['2019001','김민준','경영지원팀','과장'],
+    ['2019002','이서연','인사팀','대리'],
+    ['2020003','박지훈','영업1팀','대리'],
+    ['2020004','최수아','영업2팀','주임'],
+    ['2020005','정도윤','마케팅팀','과장'],
+    ['2021006','강하은','마케팅팀','주임'],
+    ['2021007','조은우','개발팀','대리'],
+    ['2021008','윤지민','개발팀','사원'],
+    ['2022009','임서준','재무팀','대리'],
+    ['2022010','한예은','재무팀','사원'],
+    ['2023011','오시우','구매팀','주임'],
+    ['2023012','서지유','구매팀','사원'],
+    ['2024013','신준호','총무팀','사원'],
+    ['2024014','문채원','인사팀','사원'],
+    ['2025015','황민재','영업1팀','사원']
+  ];
+  const 신청 = [
+    ['신청일자','사번','신청자명','품목','수량','부서명'],
+    ['2026-06-01','2019001','김민준','A4용지(박스)',2,''],
+    ['2026-06-01','2021007','조은우','무선마우스',1,''],
+    ['2026-06-02','2020003','박지훈','볼펜(12입)',3,''],
+    ['2026-06-02','2024013','신준호','포스트잇',5,''],
+    ['2026-06-03','2022009','임서준','클리어파일',10,''],
+    ['2026-06-04','2026101','강태오','노트북거치대',1,''],
+    ['2026-06-05','2021006','강하은','보드마카',4,''],
+    ['2026-06-08','2019002','이서연','A4용지(박스)',1,''],
+    ['2026-06-08','2023011','오시우','토너(흑백)',2,''],
+    ['2026-06-09','2020004','최수아','명함케이스',1,''],
+    ['2026-06-10','2021008','윤지민','키보드',1,''],
+    ['2026-06-10','2024014','문채원','스테이플러',2,''],
+    ['2026-06-11','2020005','정도윤','화이트보드',1,''],
+    ['2026-06-12','2022010','한예은','계산기',1,''],
+    ['2026-06-15','2019001','김민준','건전지(AA)',8,''],
+    ['2026-06-15','2025015','황민재','볼펜(12입)',2,''],
+    ['2026-06-16','2021007','조은우','모니터받침대',1,''],
+    ['2026-06-17','2026102','박세린','텀블러',3,''],
+    ['2026-06-18','2023012','서지유','A4용지(박스)',3,''],
+    ['2026-06-18','2020003','박지훈','포스트잇',6,''],
+    ['2026-06-19','2024013','신준호','테이프',5,''],
+    ['2026-06-22','2019002','이서연','라벨지',2,''],
+    ['2026-06-22','2021006','강하은','토너(컬러)',1,''],
+    ['2026-06-23','2022009','임서준','USB허브',1,''],
+    ['2026-06-24','2020004','최수아','클리어파일',8,''],
+    ['2026-06-25','2021008','윤지민','무선마우스',1,''],
+    ['2026-06-25','2024014','문채원','A4용지(박스)',2,''],
+    ['2026-06-26','2020005','정도윤','보드마카',6,''],
+    ['2026-06-29','2023011','오시우','건전지(AAA)',10,''],
+    ['2026-06-30','2025015','황민재','포스트잇',4,'']
+  ];
+  const wb = XLSX.utils.book_new();
+  const ws1 = XLSX.utils.aoa_to_sheet(신청);
+  ws1['!cols'] = [{wch:12},{wch:10},{wch:10},{wch:16},{wch:6},{wch:12}];
+  const ws2 = XLSX.utils.aoa_to_sheet(명단);
+  ws2['!cols'] = [{wch:10},{wch:10},{wch:12},{wch:8}];
+  XLSX.utils.book_append_sheet(wb, ws1, '신청내역');
+  XLSX.utils.book_append_sheet(wb, ws2, '직원명단');
+  XLSX.writeFile(wb, '실습4_비품신청내역.xlsx');
+}
+
+function dlXlsx5() {
+  if (!xlsxReady()) return;
+  const 매출 = [
+    ['지점','1월','2월','3월','4월','5월','6월'],
+    ['강남',420,435,410,465,520,510],
+    ['홍대',310,325,340,330,385,370],
+    ['부산',280,295,290,260,255,240],
+    ['대구',195,200,210,205,230,225],
+    ['광주',150,145,160,155,175,170],
+    ['온라인',380,410,455,490,560,605]
+  ];
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(매출);
+  ws['!cols'] = [{wch:8},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7}];
+  XLSX.utils.book_append_sheet(wb, ws, '상반기매출');
+  XLSX.writeFile(wb, '실습5_지점별매출.xlsx');
+}
+
+document.addEventListener('keydown', e => {
+  if (openId) {
+    if (e.key === 'Escape') { e.preventDefault(); closePop(openId); }
+    return; // 팝업이 열려 있으면 슬라이드 이동 차단
+  }
+  if (['ArrowRight','ArrowDown',' ','Enter','PageDown'].includes(e.key)) { e.preventDefault(); go(cur+1); }
+  else if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); go(cur-1); }
+  else if (e.key === 'Home') go(0);
+  else if (e.key === 'End')  go(total-1);
+  else if (e.key === 'f' || e.key === 'F') toggleFS();
+  else if (e.key === '?') kh.classList.toggle('show');
+});
+
+function toggleFS() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+    bfs.innerHTML = '<i class="fas fa-compress"></i>';
+  } else {
+    document.exitFullscreen();
+    bfs.innerHTML = '<i class="fas fa-expand"></i>';
+  }
+}
+
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend',   e => {
+  if (openId) return;
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) go(cur + (dx > 0 ? 1 : -1));
+});
+
+kh.classList.add('show');
+setTimeout(() => kh.classList.remove('show'), 3000);
+</script>
+</body>
+</html>
