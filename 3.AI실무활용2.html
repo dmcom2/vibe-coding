@@ -537,11 +537,11 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
             </div>
           </div>
           <div class="fl g8" style="flex-wrap:wrap;margin-top:15px;">
-            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_광주.xlsx" download="거래내역_광주.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;"><i class="fas fa-download"></i> 광주 데이터</a>
-            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_대전.xlsx" download="거래내역_대전.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;"><i class="fas fa-download"></i> 대전 데이터</a>
-            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_부산.xlsx" download="거래내역_부산.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;"><i class="fas fa-download"></i> 부산 데이터</a>
-            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_울산.xlsx" download="거래내역_울산.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;"><i class="fas fa-download"></i> 울산 데이터</a>
-            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_인천.xlsx" download="거래내역_인천.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;"><i class="fas fa-download"></i> 인천 데이터</a>
+            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_광주.xlsx" download="거래내역_광주.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;" onclick="return forceDownload(event, this.href, this.download);"><i class="fas fa-download"></i> 광주 데이터</a>
+            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_대전.xlsx" download="거래내역_대전.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;" onclick="return forceDownload(event, this.href, this.download);"><i class="fas fa-download"></i> 대전 데이터</a>
+            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_부산.xlsx" download="거래내역_부산.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;" onclick="return forceDownload(event, this.href, this.download);"><i class="fas fa-download"></i> 부산 데이터</a>
+            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_울산.xlsx" download="거래내역_울산.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;" onclick="return forceDownload(event, this.href, this.download);"><i class="fas fa-download"></i> 울산 데이터</a>
+            <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/거래내역_인천.xlsx" download="거래내역_인천.xlsx" class="lnk-btn" style="padding:6px 12px;font-size:.78rem;" onclick="return forceDownload(event, this.href, this.download);"><i class="fas fa-download"></i> 인천 데이터</a>
           </div>
           <div class="fl" style="margin-top:15px;">
             <button class="prac-btn" onclick="openPop('p2')" style="padding:11px 20px;font-size:.88rem;"><i class="fas fa-flask"></i> 실습 2 열기 — 파일 통합 VBA 만들기 <span class="pb-tag">15분</span></button>
@@ -1422,7 +1422,7 @@ Sheets로 변환·통합 후 다시 Excel로 내보내는<br>
         <div class="pop-sec-t"><i class="fas fa-file-arrow-down"></i> 완성 결과 예시 파일 (먼저 열어보고 시작하세요)</div>
         <div class="scen">5개 지역 파일(총 <b>499행</b>)을 <b>Raw 시트</b>로 통합하고, <b>Log 시트</b>에 파일명·행수·처리시간을 기록한 완성 예시입니다. "내가 만들 결과물이 이런 모습이구나"를 먼저 확인한 뒤 실습을 시작하면 훨씬 수월합니다.</div>
         <div class="fl jcc" style="margin-top:2px;">
-          <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/통합결과_예시.xlsx" download="통합결과_예시.xlsx" class="lnk-btn"><i class="fas fa-file-excel"></i> 통합결과_예시.xlsx 다운로드</a>
+          <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/통합결과_예시.xlsx" download="통합결과_예시.xlsx" class="lnk-btn" onclick="return forceDownload(event, this.href, this.download);"><i class="fas fa-file-excel"></i> 통합결과_예시.xlsx 다운로드</a>
         </div>
       </div>
       <div class="pop-sec">
@@ -2020,6 +2020,33 @@ function fallbackCopy(txt, done) {
   ta.select();
   try { document.execCommand('copy'); done(); } catch(e) {}
   document.body.removeChild(ta);
+}
+
+/* ═══ 데이터 파일 다운로드 (교차 출처 강제 다운로드) ═══ */
+/* 크로스오리진(raw.githubusercontent.com) 링크는 브라우저가 download 속성을
+   무시하고 새 탭에 그냥 열어버릴 수 있어, fetch로 받아 blob(동일 출처) URL을
+   만든 뒤 그 blob URL로 다운로드를 강제한다. fetch 실패(오프라인 등)는 원래
+   링크를 새 탭으로 여는 방식으로 폴백한다. */
+function forceDownload(ev, url, filename) {
+  ev.preventDefault();
+  const btn = ev.currentTarget;
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 다운로드 중...';
+  fetch(url)
+    .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.blob(); })
+    .then(blob => {
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+    })
+    .catch(() => { window.open(url, '_blank'); })
+    .finally(() => { btn.innerHTML = orig; });
+  return false;
 }
 
 document.addEventListener('keydown', e => {
