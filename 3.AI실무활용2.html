@@ -598,8 +598,13 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
         </div>
         <div class="cd" style="margin-top:10px;">원본 실습에서는 이 기법으로 <b>생산계획 자동화</b>(라인 배정·Capa 검증·기종변경 최소화)와 <b>데이터 암호화 도구</b>(마스킹·일반화·암호화 6기능) 같은 복잡한 VBA 시스템을 만들었습니다. <span class="hl">요구사항이 복잡할수록 메타 프롬프팅의 효과가 커집니다.</span></div>
       </div>
-      <div class="fl jcc">
-        <button class="prac-btn" onclick="openPop('p3')"><i class="fas fa-flask"></i> 실습 3 열기 — 메타 프롬프팅으로 보안 도구 만들기 <span class="pb-tag">15분</span></button>
+      <div class="fl fdc">
+        <div class="fl jcc" style="margin-bottom:12px;">
+          <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/게임샘플.xlsx" download="게임샘플.xlsx" class="lnk-btn" onclick="return forceDownload(event, this.href, this.download);"><i class="fas fa-download"></i> 실습용 게임샘플.xlsx 다운로드</a>
+        </div>
+        <div class="fl jcc">
+          <button class="prac-btn" onclick="openPop('p3')"><i class="fas fa-flask"></i> 실습 3 열기 — 메타 프롬프팅으로 보안 도구 만들기 <span class="pb-tag">15분</span></button>
+        </div>
       </div>
     </div>
   </div>
@@ -1544,6 +1549,13 @@ Sheets로 변환·통합 후 다시 Excel로 내보내는<br>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
         <div class="scen">외부 공유용 엑셀에서 민감한 열(제품명·거래처 등)을 <b>마스킹/일반화/암호화</b>하고, 필요하면 복원도 해야 합니다. 요구사항이 복잡해서 한 번에 프롬프트를 잘 쓰기 어렵죠. 그래서 <b>1단계: AI에게 프롬프트를 설계시키고 → 2단계: 그 프롬프트로 코드를 생성</b>합니다.</div>
+      </div>
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-file-arrow-down"></i> 실습용 샘플 파일</div>
+        <div class="scen">'게임명·플랫폼·장르·퍼블리셔' 열이 포함된 <b>비디오 게임 판매량 샘플 데이터</b>입니다. 실제 데이터 대신 이 파일로 마스킹/암호화 VBA를 먼저 테스트해 보세요.</div>
+        <div class="fl jcc" style="margin-top:2px;">
+          <a href="https://raw.githubusercontent.com/dmcom2/vibe-coding/master/data/게임샘플.xlsx" download="게임샘플.xlsx" class="lnk-btn" onclick="return forceDownload(event, this.href, this.download);"><i class="fas fa-file-excel"></i> 게임샘플.xlsx 다운로드</a>
+        </div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-terminal"></i> 1단계 — 기초 프롬프트 (원본 실습 원문)</div>
