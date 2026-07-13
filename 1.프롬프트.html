@@ -763,6 +763,22 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
         <span style="font-size:1.6rem;">🏡</span>
         <div class="co-tx lg"><strong style="color:var(--dk)">.clinerules 파일</strong>은 AI가 매번 지켜야 하는 절대 규칙 파일입니다. 프로젝트 폴더에 한 번 만들어두면 AI가 항상 이 규칙을 따릅니다.</div>
       </div>
+      <div class="co co-sk">
+        <span class="co-ic">💡</span>
+        <div class="co-tx">
+          <strong style="color:var(--dk)">파일 이름은 AI 도구마다 다릅니다.</strong> .clinerules는 <b>Cline</b> 전용 이름이고, Claude Code·Cursor·Gemini 등은 각자 다른 파일을 읽습니다. 아직 완전히 통일된 표준은 없지만, 최근 여러 도구가 함께 인식하기 시작한 공용 파일(<b>AGENTS.md</b>)이 등장하는 추세입니다.
+          <div class="fl g8" style="flex-wrap:wrap;margin-top:10px;">
+            <span class="ba ba-g">Cline → .clinerules</span>
+            <span class="ba ba-p">Claude Code → CLAUDE.md</span>
+            <span class="ba ba-a">Cursor → .cursor/rules/*.mdc</span>
+            <span class="ba ba-r">GitHub Copilot → .github/copilot-instructions.md</span>
+            <span class="ba ba-a">Windsurf → .windsurfrules</span>
+            <span class="ba ba-g">Gemini CLI → GEMINI.md</span>
+            <span class="ba ba-pu">여러 도구 공용 시도 → AGENTS.md</span>
+          </div>
+          <div class="sm" style="color:var(--sb);margin-top:8px;">실무 팁: 여러 도구를 함께 쓴다면 규칙을 <b>한 파일에 기준으로 작성</b>하고, 나머지 파일은 그 내용을 복사하거나 심볼릭 링크로 연결해 동기화하세요. AGENTS.md는 공식 국제 표준 기구가 정한 것은 아니고, 여러 AI 코딩 도구 진영이 자발적으로 맞춰가는 "사실상 표준(de facto)"에 가깝습니다.</div>
+        </div>
+      </div>
       <div class="g2" style="flex:1;gap:16px;align-items:stretch;">
         <div class="card fdc g12">
           <div class="fl g12 aic">
@@ -810,7 +826,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       </div>
       <div class="co co-a">
         <span class="co-ic">📌</span>
-        <div class="co-tx">만드는 법: 프로젝트 폴더에 <code style="background:#1e293b;color:#6ee7b7;padding:2px 8px;border-radius:5px;font-size:.88rem;">.clinerules</code> 파일 생성 → 규칙 작성 → 저장. 끝입니다.</div>
+        <div class="co-tx">만드는 법 (Cline 기준): 프로젝트 폴더에 <code style="background:#1e293b;color:#6ee7b7;padding:2px 8px;border-radius:5px;font-size:.88rem;">.clinerules</code> 파일 생성 → 규칙 작성 → 저장. 끝입니다. 다른 도구를 쓴다면 위 표에서 해당 파일 이름으로만 바꾸면 원리는 동일합니다.</div>
       </div>
     </div>
   </div>
@@ -1004,7 +1020,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <h2 class="stit">업무 유형별 <span class="ag">전처리 실전 가이드</span></h2>
       <div class="sbar"></div>
     </div>
-    <div class="sb g2" style="gap:14px;align-items:stretch;">
+    <div class="sb g2" style="gap:14px;align-items:stretch;overflow-y:auto;">
 
       <!-- CASE 1: 날짜/숫자 -->
       <div class="card fdc g10">

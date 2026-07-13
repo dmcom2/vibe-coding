@@ -1029,6 +1029,9 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
           </div>
         </div>
       </div>
+      <div class="fl jcc">
+        <button class="prac-btn" style="background:linear-gradient(135deg,#6d28d9,var(--pu));box-shadow:0 6px 20px rgba(139,92,246,.4);" onclick="openPop('p9')"><i class="fas fa-file-invoice-dollar"></i> 실전 사례 보기 — 회계 처리 챗봇의 RAG 아키텍처 <span class="pb-tag">케이스 스터디</span></button>
+      </div>
     </div>
   </div>
 </div>
@@ -2468,6 +2471,110 @@ ROI와 다음 실행 과제에 초점을 맞춘다.
         <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 졸업 미션</div>
         <div class="msn">우리 팀이 가장 자주 받는 질문 10개를 뽑아 그 답이 담긴 문서로 <b>팀 전용 미니 챗봇</b>을 만들어 공유해 보세요. 반응이 좋으면 실습 7의 로컬 구축(보안 강화판)으로 확장하는 것이 자연스러운 다음 단계입니다. 여기까지 왔다면 — 다음 강의 <b>바이브 코딩</b>에서 만납니다. 🚀</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P9 회계 챗봇 RAG 실전 사례 ══ -->
+<div class="ov" id="p9" onclick="if(event.target===this)closePop('p9')">
+  <div class="pop">
+    <div class="pop-h">
+      <div class="fl aic g12">
+        <div class="ib ib-pu"><i class="fas fa-file-invoice-dollar"></i></div>
+        <div>
+          <div class="pop-tt">실전 사례 · 회계 처리 챗봇의 RAG 아키텍처</div>
+          <div class="pop-st">실제 서비스 코드(backend/main.py) 기준 · 4부 RAG 챗봇 · 심화 자료</div>
+        </div>
+      </div>
+      <button class="pop-x" onclick="closePop('p9')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-b">
+
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
+        <div class="scen">회계팀이 전표를 입력하면 <b>계정코드·부서·차대변</b>을 잡아주는 사내 챗봇입니다. AI는 우리 회사의 <b>계정코드 583개·부서 82개·과거 전표 1,643건</b>을 학습한 적이 없습니다. 이걸 매번 통째로 프롬프트에 넣으면 토큰이 폭발하고 엉뚱한 항목에 휩쓸려 오답을 냅니다. 그래서 <b>질문과 관련된 항목만 그때그때 검색해 끼워 넣는</b> RAG를 씁니다 — 단, RAG 혼자가 아니라 3중 방어 중 한 축입니다.</div>
+      </div>
+
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-diagram-project"></i> 전체 구조 — RAG는 3단계 중 하나일 뿐</div>
+        <div class="flow">
+          <div class="flow-step" style="border-color:rgba(139,92,246,.35);color:#5b21b6;">0. 백엔드 직답 <span class="tsb" style="font-weight:600;">(조건부)</span></div>
+          <i class="fas fa-arrow-right flow-arw"></i>
+          <div class="flow-step" style="border-color:rgba(139,92,246,.35);color:#5b21b6;">1. 동적 힌트 <span class="tsb" style="font-weight:600;">(규칙엔진)</span></div>
+          <i class="fas fa-arrow-right flow-arw"></i>
+          <div class="flow-step" style="background:rgba(139,92,246,.1);border-color:var(--pu);color:#6d28d9;">2. RAG 검색</div>
+          <i class="fas fa-arrow-right flow-arw"></i>
+          <div class="flow-step" style="border-color:rgba(139,92,246,.35);color:#5b21b6;">3. AI 호출</div>
+          <i class="fas fa-arrow-right flow-arw"></i>
+          <div class="flow-step" style="background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.4);color:#065f46;">4. 사후 검증</div>
+        </div>
+        <div class="cd sm" style="margin-top:2px;">"RAG"라는 이름이 붙어 있지만 정답률을 책임지는 건 검색 하나가 아니라 <b>RAG + 규칙 기반 힌트 + 사후 검증</b>의 3중 구조입니다. RAG는 이 중 "관련 자료를 찾아 참고하게 해주는" 2단계만 담당합니다.</div>
+      </div>
+
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-shoe-prints"></i> 실제 예제로 따라가기 — "생산1본부 활성탄 교체, 법인카드로 15만원"</div>
+        <div class="fl fdc g10">
+          <div class="fl g10 aifs">
+            <div class="sn" style="background:var(--pu);">1</div>
+            <div class="cd sm f1"><b class="tpu">동적 힌트 (규칙 기반, AI 호출 전 확정)</b> — [시스템 금액 힌트] "15만" → <span class="hl-pu">150,000원</span> 정수 확정 / [제·판 구분 힌트] 생산1본부 → <span class="hl-pu">제조(43xx)</span> 계정 사용. 금액 계산은 LLM이 아니라 Python이 직접 계산해 못 박습니다.</div>
+          </div>
+          <div class="fl g10 aifs">
+            <div class="sn" style="background:var(--pu);">2</div>
+            <div class="cd sm f1"><b class="tpu">RAG 검색 (키워드 토큰 매칭)</b> — 토큰화: content_tokens=[생산1본부·활성탄·교체], payment_tokens=[법인카드]. "활성탄" 완전 포함 매칭으로 <span class="hl-pu">43002501 소모품비(일반)</span>이 최고점 매칭 (계정코드 매칭은 가중치 2점).</div>
+          </div>
+          <div class="fl g10 aifs">
+            <div class="sn" style="background:var(--pu);">3</div>
+            <div class="cd sm f1"><b class="tpu">AI 호출</b> — system = 시스템 프롬프트 + 동적 힌트 / user = [RAG 참고자료 최대 12건] + [사용자 입력]을 합쳐 gpt-5.4-mini에 전달, 전표 표 형식으로 생성 지시.</div>
+          </div>
+          <div class="fl g10 aifs">
+            <div class="sn" style="background:var(--pu);">4</div>
+            <div class="cd sm f1"><b class="tpu">사후 검증 (정규식 재검사)</b> — 계정코드 실존 <i class="fas fa-check tg"></i> · 부서코드↔부서명 일치 <i class="fas fa-check tg"></i> · 차대변 합계 일치 <i class="fas fa-check tg"></i>. 틀리면 AI가 쓴 셀을 직접 정정하거나 ⚠️ 경고를 붙입니다.</div>
+          </div>
+        </div>
+        <table class="ttab" style="margin-top:4px;">
+          <tr><th>구분</th><th>계정코드</th><th>계정명</th><th>금액</th></tr>
+          <tr><td>차변</td><td>43002501</td><td>제)소모품비(일반)</td><td>150,000</td></tr>
+          <tr><td>대변</td><td>21100301</td><td>미지급금(법인카드)</td><td>150,000</td></tr>
+        </table>
+        <div class="cd xs">* 계정코드 43002501과 검색·힌트 로직은 실제 문서 내용을 그대로 인용했습니다. 대변 계정과 금액 표기는 흐름 이해를 돕기 위해 구성한 예시입니다.</div>
+      </div>
+
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-vial"></i> 왜 키워드 매칭인가 — 벡터 임베딩을 꺼둔 실제 이유</div>
+        <div class="g2">
+          <div class="cmp-bad">
+            <div class="cmp-t tr">벡터 임베딩 검색 — 실제로 꺼져 있음</div>
+            <div class="cd sm">다국어 문장임베딩 모델(paraphrase-multilingual-MiniLM-L12-v2)로 코사인 유사도를 계산하는 인프라는 다 갖춰져 있습니다. 하지만 짧은 회계 문구에서는 거의 모든 후보가 <b>0.85~0.95 구간에 뭉쳐서</b> 나와 구분력이 없었습니다.</div>
+          </div>
+          <div class="cmp-good">
+            <div class="cmp-t tg">키워드 완전일치 — 실제 채택</div>
+            <div class="cd sm">token in text 방식의 완전 포함 매칭. "활성탄"이라는 단어가 있는지 없는지를 <b>이진적으로 판단</b>하기 때문에, 짧고 도메인이 좁은 회계 문구에서는 오히려 더 정확했습니다.</div>
+          </div>
+        </div>
+        <div class="qt" style="margin-top:2px;"><p>"짧은 한국어 전표 문구에서 벡터 유사도가 거의 모든 항목에 0.85~0.95로 균일하게 나와 구분력이 없고, 정확히 일치하는 항목(예: '활성탄 교체'→43002501 소모품비(일반), 유사도 0.45)이 오히려 순위에서 밀려나는 문제" — 코드 주석에 남은 실제 수정 기록</p></div>
+      </div>
+
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-database"></i> RAG가 검색하는 실제 데이터 3종 (JSON, 총 약 2,400건)</div>
+        <table class="ttab">
+          <tr><th>파일</th><th>건수</th><th>내용</th></tr>
+          <tr><td>enhanced.json</td><td>699건</td><td>계정코드 583 + 부서 82 + 전결규정 28 + 경조사규정 4 + 사이트/영문 매핑 2</td></tr>
+          <tr><td>vouchers.json</td><td>1,699건</td><td>실제 전표 발생 이력 1,643건 + 검증된 특수 케이스 56건</td></tr>
+          <tr><td>synonyms.json</td><td>47건</td><td>은어·약칭 사전 — 예: "개카·갠카·내돈" → 모두 개인청구(21100902)</td></tr>
+        </table>
+        <div class="cd sm">별도 벡터 DB 없이 서버가 뜰 때 이 3개 JSON을 메모리에 올려 두고, 매 요청마다 순회하며 검색합니다. 데이터가 약 2,400건으로 작기 때문에 가능한 설계입니다.</div>
+      </div>
+
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-graduation-cap"></i> 이 사례가 주는 교훈</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>RAG는 "벡터 검색"과 동의어가 아니다</b> — 검색 방식은 키워드든 벡터든 자유롭게 고를 수 있고, 도메인에 따라 단순한 쪽이 이길 수 있다.</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>범용 임베딩 모델이 항상 정답은 아니다</b> — 문장이 짧고 도메인이 좁을수록 유사도 점수가 뭉쳐 구분력이 떨어질 수 있다.</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>LLM에게 계산을 시키지 마라</b> — 금액 환산·한도 비교 같은 확정 연산은 백엔드가 직접 계산해 값으로 박아 넣는 게 안전하다.</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>생성 이후 검증 레이어가 필요하다</b> — RAG와 프롬프트가 아무리 좋아도 LLM이 지시를 어길 가능성은 남으므로, 규칙 기반 사후 검증이 마지막 안전망이 된다.</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
