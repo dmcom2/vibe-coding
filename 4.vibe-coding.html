@@ -931,7 +931,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <h2 class="stit">GitHub & Cline <span class="ac">완전 정복</span></h2>
       <div class="sbar"></div>
     </div>
-    <div class="sb fdc g10">
+    <div class="sb fdc g10" style="overflow-y:auto;">
       <div class="card">
         <div class="fc-h"><div class="ib ib-p"><i class="fas fa-user-plus"></i></div><div class="fc-t">1. GitHub 가입 및 저장소 생성</div></div>
         <div class="cd sm">github.com 가입 후, 'New repository'에서 영문 이름으로 저장소를 만듭니다.</div>
@@ -953,8 +953,26 @@ git remote add origin https://github.com/사용자명/저장소명.git
 git add . && git commit -m "Initial commit"
 git push -u origin master</div>
       </div>
+      <div class="card">
+        <div class="fc-h"><div class="ib ib-sk"><i class="fas fa-code-branch"></i></div><div class="fc-t">4. commit과 push, 무슨 뜻인가요?</div></div>
+        <div class="g2" style="margin-top:6px;gap:12px;">
+          <div style="background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.25);border-radius:var(--rad-s);padding:10px 14px;">
+            <div style="font-weight:800;color:var(--sk);margin-bottom:4px;">📸 git commit — "저장"</div>
+            <div class="cd xs">지금까지 수정한 파일들을 <b>내 컴퓨터(로컬)에만</b> 하나의 버전(스냅샷)으로 기록합니다. 아직 GitHub에는 올라가지 않은 상태입니다.</div>
+            <div class="code" style="font-size:.74rem;margin-top:6px;">git add .<br>git commit -m "로그인 기능 추가"</div>
+          </div>
+          <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.25);border-radius:var(--rad-s);padding:10px 14px;">
+            <div style="font-weight:800;color:var(--gd);margin-bottom:4px;">☁️ git push — "업로드"</div>
+            <div class="cd xs">로컬에 쌓인 commit들을 <b>GitHub 원격 저장소로 전송</b>합니다. push를 해야 비로소 팀원이나 다른 PC에서 내 변경사항을 볼 수 있습니다.</div>
+            <div class="code" style="font-size:.74rem;margin-top:6px;">git push</div>
+          </div>
+        </div>
+        <div class="co co-p" style="margin-top:8px;padding:7px 12px;">
+          <div class="xs">비유: <b>commit</b>은 게임의 "저장(세이브포인트)", <b>push</b>는 그 저장 파일을 "클라우드에 업로드"하는 것과 같습니다. 작업 단위가 끝날 때마다 <b>자주 commit</b>하고, 어느 정도 정리됐을 때 <b>push</b>하세요. (흐름: <code class="hl">add</code> → <code class="hl">commit</code> → <code class="hl">push</code>)</div>
+        </div>
+      </div>
       <div class="card" style="background:rgba(79,70,229,.05);border-color:rgba(79,70,229,.2);">
-        <div class="fc-h"><div class="ib ib-p"><i class="fas fa-check-circle"></i></div><div class="fc-t">4. 연결 확인</div></div>
+        <div class="fc-h"><div class="ib ib-p"><i class="fas fa-check-circle"></i></div><div class="fc-t">5. 연결 확인</div></div>
         <div class="cd sm">터미널에서 <code class="hl">git remote -v</code> 명령어를 입력하여 원격 저장소 주소가 올바르게 표시되는지 확인합니다.</div>
       </div>
     </div>
