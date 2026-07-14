@@ -65,7 +65,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
 .sbar{width:52px;height:4px;background:linear-gradient(90deg,var(--p),var(--pl));border-radius:2px;margin-top:10px;}
 
 /* ═══ BODY ═══ */
-.sb{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:10px;}
+.sb{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
 
 /* ═══ GRIDS ═══ */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
@@ -575,6 +575,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
 </div>
 
 
+
 <!-- ══ S9 설치 1~2 ══ -->
 <div class="slide" id="s9">
   <div class="si">
@@ -583,40 +584,27 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <h2 class="stit">환경 설정 <span class="ac">STEP 1 — 2</span></h2>
       <div class="sbar"></div>
     </div>
-    <div class="sb g2 g16">
-      <div class="card fdc g14">
-        <div class="fl g12 aic">
+    <div class="sb fdc g12">
+      <div class="card fdc g10">
+        <div class="fl g10 aic">
           <div class="sn">1</div>
-          <div class="fw9 lg" style="color:var(--sk);"><i class="fas fa-download"></i> VS Code 설치</div>
+          <div class="fw9 md tp">VS Code 설치</div>
         </div>
-        <div class="cd lh">마이크로소프트의 무료 코드 에디터입니다. 전 세계 개발자가 가장 많이 사용하는 에디터로, 다양한 확장 기능을 지원합니다.</div>
-        <div class="code"><span class="cm"># 다운로드 사이트</span>
-<span class="st">code.visualstudio.com</span>
-
-<span class="cm"># 설치 후 버전 확인</span>
-<span class="ky">code</span> --version</div>
-        <div class="fl g8" style="flex-wrap:wrap;">
-          <span class="ba ba-p">Windows</span>
-          <span class="ba ba-p">Mac</span>
-          <span class="ba ba-p">Linux</span>
-          <span class="ba ba-g">무료</span>
-        </div>
+        <div class="cd">코드 작성 및 AI 에이전트 실행을 위한 필수 에디터입니다.</div>
+        <div class="code" style="font-size:.85rem;">code.visualstudio.com 접속 후 다운로드 및 설치</div>
       </div>
-      <div class="card fdc g14">
-        <div class="fl g12 aic">
-          <div class="sn" style="background:var(--pd);">2</div>
-          <div class="fw9 lg" style="color:var(--pd);"><i class="fas fa-puzzle-piece"></i> Cline 확장 설치</div>
+      <div class="card fdc g10">
+        <div class="fl g10 aic">
+          <div class="sn" style="background:var(--pu);">2</div>
+          <div class="fw9 md tpu">Cline 확장 프로그램 설치</div>
         </div>
-        <div class="cd lh">VS Code 내 AI 에이전트 확장 프로그램입니다. 파일 생성·수정·터미널 실행까지 자율로 수행하며, OpenRouter #1 MCP 클라이언트입니다.</div>
-        <div class="code"><span class="cm"># VS Code에서</span>
-<span class="ky">Ctrl+Shift+X</span>  <span class="cm">← Extensions 열기</span>
-검색: <span class="st">"Cline"</span>
-제작자: <span class="st">saoudrizwan</span>
-→ <span class="ky">Install</span> 클릭</div>
-        <div class="co co-p" style="padding:12px 16px;">
-          <span style="font-size:1rem;">⭐</span>
-          <div class="sm" style="color:var(--pd);">오픈소스 · GitHub 공개 · OpenRouter <strong>#1 MCP 클라이언트</strong></div>
-        </div>
+        <div class="cd">VS Code 내에서 AI 에이전트를 구동하는 핵심 도구입니다.</div>
+        <div class="code" style="font-size:.85rem;">
+① VS Code 좌측 <span class="st">Extensions</span> 아이콘 클릭
+② 검색창에 <span class="st">Cline</span> 입력
+③ <span class="ky">Install</span> 클릭 후 설치 완료
+<a href="2.ai-practice.html" style="color:var(--st);text-decoration:underline;display:block;margin-top:8px;">🚀 AI 실무활용 2 열기</a>
+<a href="Cline 설치 및 API 연결 매뉴얼.pptx" style="color:var(--st);text-decoration:underline;display:block;margin-top:8px;">📥 Cline 설치 및 API 연결 매뉴얼 다운로드</a></div>
       </div>
     </div>
   </div>
@@ -681,7 +669,6 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <div class="fc">
         <div class="fc-h"><div class="ib ib-sk"><i class="fas fa-robot"></i></div><div class="fc-t">1. 내 손발이 되어주는 '자율형 에이전트(Agent)'</div></div>
         <div class="fc-d">코드를 채팅창에 뱉어내고 끝나는 게 아닙니다. AI가 스스로 내 VS Code의 파일 탐색기를 뒤져서 코드를 읽고, 새 파일을 만들고, 기존 코드를 덮어쓰고, 심지어 터미널을 열어 서버를 실행하거나 오류를 테스트하는 등 '진짜 사람처럼' 행동합니다.
-          <br><a href="Cline 설치 및 API 연결 매뉴얼.pptx" download style="color:var(--p);font-weight:700;text-decoration:none;"><i class="fas fa-download"></i> Cline 설치 및 API 연결 매뉴얼 다운로드</a>
         </div>
       </div>
       <div class="fc">
@@ -1577,8 +1564,11 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'Home') go(0);
   else if (e.key === 'End')  go(total-1);
   else if (e.key === 'f' || e.key === 'F') toggleFS();
-  else if (e.key === '?') kh.classList.toggle('show');
+  else if (
+  
+  e.key === '?') kh.classList.toggle('show');
 });
+
 
 function toggleFS() {
   if (!document.fullscreenElement) {
