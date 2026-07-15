@@ -1,1 +1,481 @@
-<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'><title>04_Ŭ��ī����</title></head><body><h1>04_Ŭ��ī����</h1></body></html> 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>실습 04 — 클릭 카운터</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--orange:#ea580c;--amber:#d97706;--text:#1e293b;--sub:#64748b;--surface:#f8fafc;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Segoe UI',sans-serif;}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease;transform:translateX(60px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit{opacity:0;transform:translateX(-60px);}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#ea580c,#f97316);transition:width .35s ease;z-index:999;}
+.nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.1rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--orange);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:var(--orange);color:#fff;transform:scale(1.08);}
+.nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.slide-label{position:fixed;top:16px;left:24px;font-size:.72rem;font-weight:700;z-index:999;}
+.s-title{background:linear-gradient(135deg,#7c2d12 0%,#9a3412 45%,#ea580c 100%);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:.82rem;font-weight:700;margin-bottom:28px;display:inline-block;}
+.s-title h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
+.s-title h1 span{color:#fed7aa;}
+.s-title p{font-size:1rem;opacity:.8;margin-bottom:40px;}
+.meta-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:.88rem;font-weight:600;}
+.s-content{background:var(--surface);}
+.s-grad{background:linear-gradient(150deg,#fff7ed,#ffedd5);}
+.s-dark{background:#1e1e2e;color:#cdd6f4;}
+.slide-header{padding:34px 68px 26px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:14px;}
+.s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
+.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.slide-header h2{font-size:1.7rem;font-weight:800;color:var(--text);}
+.s-dark .slide-header h2{color:#cdd6f4;}
+.slide-header p{font-size:.86rem;color:var(--sub);margin-top:2px;}
+.s-dark .slide-header p{color:#6c7086;}
+.slide-body{flex:1;padding:32px 68px;overflow-y:auto;}
+.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:.81rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
+.code-block .lang{position:absolute;top:9px;right:13px;font-size:.63rem;color:#6c7086;font-family:sans-serif;}
+.kw{color:#cba6f7;}.tg{color:#89b4fa;}.at{color:#a6e3a1;}.st{color:#f38ba8;}.cm{color:#6c7086;font-style:italic;}.vl{color:#fab387;}
+.concept-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.concept-card{background:#fff;border-radius:13px;padding:22px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.concept-card .cc-icon{font-size:1.8rem;margin-bottom:8px;}
+.concept-card h3{font-size:.95rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.concept-card p{font-size:.88rem;color:var(--sub);line-height:1.6;}
+.hl{display:inline-block;background:#fff7ed;color:var(--orange);padding:1px 7px;border-radius:5px;font-weight:700;font-size:.8rem;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+.quote-box{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-left:4px solid var(--orange);border-radius:0 12px 12px 0;padding:16px 20px;font-size:.86rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
+.quote-box strong{color:var(--orange);}
+.step-list{display:flex;flex-direction:column;gap:12px;}
+.step-item{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:11px;padding:16px 20px;border:1px solid #e2e8f0;}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--orange),#f97316);color:#fff;font-weight:900;font-size:.88rem;display:flex;align-items:center;justify-content:center;}
+.step-item h4{font-size:.94rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step-item p{font-size:.86rem;color:var(--sub);}
+.step-item code{background:#f1f5f9;color:var(--orange);padding:1px 6px;border-radius:4px;font-size:.76rem;}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.mission-card{border-radius:13px;padding:20px;}
+.m1{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid #fed7aa;}
+.m2{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;}
+.m3{background:linear-gradient(135deg,#fdf4ff,#fae8ff);border:1px solid #f0abfc;}
+.mission-card .m-star{font-size:1rem;margin-bottom:6px;}
+.mission-card h3{font-size:.88rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+.mission-card p{font-size:.78rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
+.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:.73rem;color:var(--text);line-height:1.6;}
+.check-list{display:flex;flex-direction:column;gap:11px;}
+.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:.86rem;font-weight:600;color:var(--text);}
+.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--orange),#f97316);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;flex-shrink:0;}
+.prompt-box{background:#0f172a;border-radius:13px;padding:24px 28px;border-left:4px solid #ea580c;}
+.prompt-box .prompt-label{font-size:.68rem;font-weight:800;letter-spacing:.1em;color:#ea580c;margin-bottom:12px;}
+.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:.8rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
+.prompt-tip{margin-top:12px;background:rgba(234,88,12,.1);border-radius:7px;padding:9px 14px;font-size:.76rem;color:#fdba74;}
+.s-end{background:linear-gradient(135deg,#7c2d12,#9a3412,#ea580c);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-end h2{font-size:2.3rem;font-weight:900;margin-bottom:14px;}
+.s-end h2 span{color:#fed7aa;}
+.s-end p{font-size:.98rem;opacity:.8;margin-bottom:36px;}
+.s-end .next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:13px 30px;border-radius:13px;font-size:.88rem;display:inline-flex;align-items:center;gap:10px;}
+
+/* ── s-prompt 슬라이드 ── */
+.s-prompt{background:#f0f4ff;justify-content:center;padding:48px 72px;}
+.sp-header{margin-bottom:18px;}
+.sp-badge{font-size:.66rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.sp-header h2{font-size:clamp(22px,2.8vw,30px);font-weight:800;color:var(--text);margin-bottom:6px;}
+.sp-header p{font-size:.83rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
+.sp-label{font-size:.66rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;}
+.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:.72rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:42vh;overflow:auto;border:1px solid #312e81;}
+.sp-row{display:flex;gap:12px;margin-top:14px;}
+.sp-card{flex:1;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:.71rem;color:var(--sub);line-height:1.55;}
+.sp-card b{color:var(--text);display:block;margin-bottom:4px;}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-label" id="slideLabel"></div>
+<div class="deck">
+
+<!-- S1 -->
+<div class="slide s-title active">
+  <div class="badge">바이브코딩 초급 과정</div>
+  <h1>클릭 <span>카운터</span> 만들기</h1>
+  <p>실습 04 — 변수와 조건문으로 클릭 수를 세고 색으로 표현</p>
+  <div class="meta-row">
+    <div class="meta-chip">🔢 let 변수 & DOM 조작</div>
+    <div class="meta-chip">⏱ 소요 시간: 20분</div>
+    <div class="meta-chip">📄 파일 1개 (HTML)</div>
+  </div>
+</div>
+
+<!-- S2 -->
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ffedd5;">🖱️</div>
+    <div><h2>오늘 만드는 것</h2><p>클릭 횟수를 세고 단계별로 색상과 메시지가 바뀌는 카운터</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="concept-cards">
+      <div class="concept-card"><div class="cc-icon">➕</div><h3>증가 / 감소</h3><p>+ 버튼으로 숫자 증가<br>- 버튼으로 숫자 감소<br>0 미만으로 내려가지 않음</p></div>
+      <div class="concept-card"><div class="cc-icon">🎨</div><h3>단계별 색상</h3><p>0 → 흰색 "시작 전"<br>1~5 → 초록 "순조롭게"<br>6~9 → 주황 "열심히"<br>10+ → <span class="hl">빨강 "목표 달성!"</span></p></div>
+      <div class="concept-card"><div class="cc-icon">🔄</div><h3>초기화</h3><p>초기화 버튼 클릭 시<br>숫자가 0으로 리셋<br>색상과 메시지도 초기화</p></div>
+      <div class="concept-card"><div class="cc-icon">💡</div><h3>핵심 개념</h3><p><code style="background:#fff7ed;padding:1px 5px;border-radius:3px;">let</code> 변수 (변경 가능)<br>DOM 텍스트 변경<br>if / else if 조건문</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dcfce7;">🗺️</div>
+    <div><h2>오늘 수업 진행 순서</h2><p>개념은 가볍게, 손은 바쁘게 — 5단계 약 50분</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">1</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:.8rem;">— 오늘의 재료: 변수 · if / else if · DOM 조작 — 딱 이것만 알면 됩니다</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">2</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:.8rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">3</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:.8rem;">— Cline이 만든 index.html을 열어 Go Live로 브라우저 확인</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">4</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:.8rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">5</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:.8rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+    </div>
+    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:.82rem;color:#92400e;line-height:1.6;">
+      💡 <strong>막혀도 괜찮습니다!</strong> 실행이 안 될 때 보는 <strong>"자주 막히는 문제"</strong> 슬라이드가 준비되어 있고, 오류는 AI에게 물어보면 대부분 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#e0e7ff;">📖</div>
+    <div><h2>오늘 나오는 용어 미리보기</h2><p>외우지 마세요 — 눈에만 익혀두면 수업이 술술 풀립니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 변수(let)</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">바뀔 수 있는 값을 담는 <strong>상자</strong>. 클릭 횟수가 여기 담깁니다</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 상수(const)</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">한 번 정하면 <strong>바뀌지 않는</strong> 값. 목표 횟수 같은 것에 씁니다</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 if / else</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">"만약 ~라면 A, 아니면 B"로 갈라지는 조건문. <strong>신호등 규칙</strong>과 같아요</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 DOM</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">화면의 글자·버튼을 코드로 만질 수 있게 해주는 <strong>통로</strong></p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 textContent</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">화면 요소의 <strong>글자 내용을 바꾸는</strong> 명령. 전광판 숫자 갈아끼우기</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 함수</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">증가·감소·초기화처럼 <strong>기능을 묶어</strong> 이름 붙인 것</p></div></div>
+    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:.8rem;color:#166534;line-height:1.6;">
+      🌱 낯선 단어가 나와도 괜찮습니다. 이 슬라이드로 돌아와서 다시 확인하면 됩니다. 코드는 <strong>AI가 쓰고</strong>, 우리는 <strong>읽고 요청</strong>만 하면 돼요!
+    </div>
+  </div>
+</div>
+
+<!-- S3 변수 let vs const -->
+
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;">
+    <div class="icon" style="background:#fff;">📦</div>
+    <div><h2>변수 — let 과 const</h2><p>값이 바뀌면 let, 안 바뀌면 const</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="quote-box"><strong>변수</strong>는 데이터를 담아두는 상자입니다.<br><strong>let</strong>은 나중에 내용을 바꿀 수 있는 상자, <strong>const</strong>는 한 번 채우면 바꿀 수 없는 상자입니다.</div>
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+<span class="cm">// let — 나중에 값을 바꿀 수 있음</span>
+<span class="kw">let</span> count = <span class="vl">0</span>;
+count = count + <span class="vl">1</span>;  <span class="cm">// → 1 (가능!)</span>
+count++;              <span class="cm">// → 2 (가능!)</span>
+count--;              <span class="cm">// → 1 (가능!)</span>
+
+<span class="cm">// const — 한 번 정하면 변경 불가</span>
+<span class="kw">const</span> MAX = <span class="vl">10</span>;
+<span class="cm">// MAX = 20; ← 오류! 변경 불가</span>
+
+<span class="cm">// DOM 조작으로 화면 업데이트</span>
+<span class="kw">const</span> display = document
+  .<span class="at">getElementById</span>(<span class="st">'counter'</span>);
+display.textContent = count;
+        </div>
+      </div>
+      <div>
+        <div class="concept-card">
+          <div class="cc-icon">🤔</div>
+          <h3>언제 let? 언제 const?</h3>
+          <p style="line-height:1.8;">
+          ✅ <strong>let</strong> 사용: 카운터, 점수, 현재 페이지, 상태값 등 <strong>바뀌는 값</strong><br><br>
+          ✅ <strong>const</strong> 사용: 최대값, 버튼, 컬러 코드 등 <strong>고정된 값</strong><br><br>
+          💡 기본적으로 <code style="background:#fff7ed;padding:1px 5px;border-radius:3px;">const</code> 먼저 쓰고, 바꿔야 할 때만 <code style="background:#fff7ed;padding:1px 5px;border-radius:3px;">let</code>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 if/else if 조건문 -->
+<div class="slide s-dark">
+  <div class="slide-header">
+    <div class="icon" style="background:rgba(255,255,255,.1);">🔀</div>
+    <div><h2>if / else if — 조건 분기</h2><p>숫자에 따라 다른 색상과 메시지를 표시하는 조건문</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="code-block" style="background:#11111b;"><span class="lang">JS</span>
+<span class="kw">function</span> <span class="at">updateDisplay</span>() {
+  countEl.textContent = count;
+
+  <span class="kw">if</span> (count === <span class="vl">0</span>) {
+    <span class="cm">// 초기 상태</span>
+    countEl.style.color = <span class="st">'#94a3b8'</span>;
+    msgEl.textContent = <span class="st">'시작해보세요!'</span>;
+  } <span class="kw">else if</span> (count <= <span class="vl">5</span>) {
+    <span class="cm">// 1~5: 초록</span>
+    countEl.style.color = <span class="st">'#059669'</span>;
+    msgEl.textContent = <span class="st">'순조롭게 진행 중'</span>;
+  } <span class="kw">else if</span> (count <= <span class="vl">9</span>) {
+    <span class="cm">// 6~9: 주황</span>
+    countEl.style.color = <span class="st">'#ea580c'</span>;
+    msgEl.textContent = <span class="st">'열심히 하고 있어요!'</span>;
+  } <span class="kw">else</span> {
+    <span class="cm">// 10+: 빨강</span>
+    countEl.style.color = <span class="st">'#dc2626'</span>;
+    msgEl.textContent = <span class="st">'🎉 목표 달성!'</span>;
+  }
+}
+        </div>
+      </div>
+      <div>
+        <p style="font-size:.76rem;font-weight:800;color:#6c7086;margin-bottom:10px;">조건문 흐름도</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#252535;border-radius:9px;padding:12px 16px;border-left:3px solid #6c7086;"><span style="font-size:.78rem;color:#a6adc8;font-weight:700;">count === 0</span><br><span style="font-size:.74rem;color:#6c7086;">→ 회색, "시작해보세요"</span></div>
+          <div style="background:#252535;border-radius:9px;padding:12px 16px;border-left:3px solid #a6e3a1;"><span style="font-size:.78rem;color:#a6adc8;font-weight:700;">count 1~5</span><br><span style="font-size:.74rem;color:#6c7086;">→ 초록색, "순조롭게"</span></div>
+          <div style="background:#252535;border-radius:9px;padding:12px 16px;border-left:3px solid #fab387;"><span style="font-size:.78rem;color:#a6adc8;font-weight:700;">count 6~9</span><br><span style="font-size:.74rem;color:#6c7086;">→ 주황색, "열심히"</span></div>
+          <div style="background:#252535;border-radius:9px;padding:12px 16px;border-left:3px solid #f38ba8;"><span style="font-size:.78rem;color:#a6adc8;font-weight:700;">count 10 이상</span><br><span style="font-size:.74rem;color:#6c7086;">→ 빨강, "목표 달성!"</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5 DOM 조작 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ffedd5;">🖥️</div>
+    <div><h2>DOM 조작 — 화면 바꾸기</h2><p>JavaScript로 HTML 요소의 내용과 스타일을 변경</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+<span class="cm">// 요소 찾기</span>
+<span class="kw">const</span> el = document
+  .<span class="at">getElementById</span>(<span class="st">'myDiv'</span>);
+
+<span class="cm">// 텍스트 바꾸기</span>
+el.textContent = <span class="st">'새로운 내용'</span>;
+
+<span class="cm">// HTML 바꾸기 (태그 포함)</span>
+el.innerHTML = <span class="st">'&lt;b&gt;굵은 글씨&lt;/b&gt;'</span>;
+
+<span class="cm">// 스타일 바꾸기</span>
+el.style.color = <span class="st">'#dc2626'</span>;
+el.style.fontSize = <span class="st">'2rem'</span>;
+el.style.backgroundColor = <span class="st">'#fee2e2'</span>;
+
+<span class="cm">// 클래스 추가/제거</span>
+el.classList.<span class="at">add</span>(<span class="st">'active'</span>);
+el.classList.<span class="at">remove</span>(<span class="st">'hidden'</span>);
+        </div>
+      </div>
+      <div>
+        <div class="concept-card">
+          <div class="cc-icon">🔗</div>
+          <h3>textContent vs innerHTML</h3>
+          <p style="line-height:1.8;">
+          <code style="background:#fff7ed;padding:1px 5px;border-radius:3px;">textContent</code><br>
+          → 순수 텍스트만 설정<br>
+          → <strong>더 안전</strong> (XSS 방지)<br><br>
+          <code style="background:#fff7ed;padding:1px 5px;border-radius:3px;">innerHTML</code><br>
+          → HTML 태그도 해석<br>
+          → 외부 입력엔 <strong>주의</strong> 필요
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 AI 프롬프트 -->
+
+<div class="slide s-prompt">
+  <div class="sp-header">
+    <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
+    <h2>실제 사용한 AI 생성 프롬프트</h2>
+    <p>아래 프롬프트를 VS Code의 Cline에 붙여넣으면 클릭 카운터가 완성됩니다</p>
+  </div>
+  <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
+  <div class="sp-box">HTML 파일 하나로 클릭 카운터를 만들어줘.
+
+기능:
+1. 중앙에 큰 숫자 표시 (처음엔 0)
+2. + 버튼: 숫자 1 증가
+3. - 버튼: 숫자 1 감소 (0 아래로 내려가지 않음)
+4. 리셋 버튼: 0으로 초기화
+5. 숫자가 0이면 검정, 양수면 초록, 음수면 빨강으로 색상 변경
+
+용도 선택 드롭다운 추가:
+- 회의 참석자 수
+- 투표 집계
+- 재고 카운트
+- 직접 입력
+
+페이지 상단에 선택한 용도 표시
+
+디자인: 심플하고 크게, 버튼은 둥글게, 흰 배경
+파일은 index.html 하나로
+코드에 한국어 주석 달아줘</div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:.73rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div class="sp-row">
+    <div class="sp-card"><b>🎯 멀티 카운터</b>카운터를 여러 개 만들 수 있게 해줘. 각 카운터에 이름을 붙이고 개별 리셋 버튼도 추가해줘.</div>
+    <div class="sp-card"><b>🎯 목표 수치</b>목표 수치를 입력하면 진행 바가 표시되고 목표 달성 시 축하 애니메이션이 나오게 해줘.</div>
+    <div class="sp-card"><b>🔊 클릭 소리</b>+ 버튼 클릭 시 짧은 '삑' 소리가 나도록 Web Audio API로 소리를 추가해줘.</div>
+  </div>
+</div>
+
+<!-- S7 실행 방법 -->
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;">
+    <div class="icon" style="background:#fff;">🚀</div>
+    <div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 VS Code에서 실행하는 4단계</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="step-list">
+      <div class="step-item"><div class="step-num">1</div><div><h4>폴더 열기</h4><p>VS Code에서 <code>04_클릭카운터</code> 폴더를 엽니다</p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div><h4>index.html 열기</h4><p>왼쪽 탐색기에서 <code>index.html</code> 파일 클릭</p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div><h4>Go Live 클릭</h4><p>VS Code 우측 하단 <code>Go Live</code> 버튼 클릭</p></div></div>
+      <div class="step-item"><div class="step-num">4</div><div><h4>버튼 클릭 테스트</h4><p>+, - 버튼을 클릭하며 숫자와 색상이 변하는지 확인!</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fee2e2;">🆘</div>
+    <div><h2>자주 막히는 문제 &amp; 해결법</h2><p>여기서 멈추는 게 정상입니다 — 옆 사람도 같은 곳에서 막혀 있어요</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">🔍 "Go Live 버튼이 안 보여요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">VS Code 왼쪽 <strong>확장(Extensions)</strong> 메뉴에서 <strong>Live Server</strong>를 검색해 설치한 뒤, VS Code를 껐다가 다시 켜세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;"><strong>저장(Ctrl+S)</strong>이 먼저입니다! 저장하지 않으면 반영되지 않아요. 저장 후 브라우저에서 <strong>새로고침(F5)</strong> 하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">🔤 "한글이 깨져 보여요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">AI에게 <strong>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</strong>라고 요청하세요. VS Code 오른쪽 아래 인코딩 표시가 <strong>UTF-8</strong>인지도 확인!</p></div>
+    </div>
+    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:.82rem;color:#3730a3;line-height:1.6;">
+      🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<!-- S8 코드 핵심 -->
+<div class="slide s-dark">
+  <div class="slide-header">
+    <div class="icon" style="background:rgba(255,255,255,.1);">🔍</div>
+    <div><h2>코드 핵심 — 증가/감소/초기화</h2><p>세 가지 버튼 함수와 화면 업데이트 패턴</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-block" style="background:#11111b;"><span class="lang">JS</span>
+<span class="kw">let</span> count = <span class="vl">0</span>;  <span class="cm">// 현재 카운트 (변경 가능이라 let)</span>
+<span class="kw">const</span> countEl = document.<span class="at">getElementById</span>(<span class="st">'count'</span>);
+<span class="kw">const</span> msgEl   = document.<span class="at">getElementById</span>(<span class="st">'message'</span>);
+
+<span class="kw">function</span> <span class="at">increment</span>() {
+  count++;          <span class="cm">// count = count + 1</span>
+  <span class="at">updateDisplay</span>();
+}
+
+<span class="kw">function</span> <span class="at">decrement</span>() {
+  <span class="kw">if</span> (count > <span class="vl">0</span>) count--;  <span class="cm">// 0 미만 방지</span>
+  <span class="at">updateDisplay</span>();
+}
+
+<span class="kw">function</span> <span class="at">reset</span>() {
+  count = <span class="vl">0</span>;
+  <span class="at">updateDisplay</span>();
+}
+
+<span class="cm">// HTML: onclick="increment()" 으로 연결</span>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fef3c7;">🔁</div>
+    <div><h2>수정 미션, 이렇게 진행하세요</h2><p>바이브 코딩의 진짜 실력은 "고쳐달라고 잘 말하기"에서 나옵니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">1</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>같은 Cline 대화에서 이어가기</strong><br><span style="color:#64748b;font-size:.78rem;">새 작업(New Task)을 열지 마세요! 코드를 만들어 준 대화에 이어서 요청해야 Cline이 맥락을 기억합니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">2</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>미션 문구 붙여넣기</strong><br><span style="color:#64748b;font-size:.78rem;">다음 슬라이드의 미션 프롬프트를 복사하거나, 원하는 변화를 말로 설명하세요. 문법·전문용어는 몰라도 됩니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">3</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>변경 내용 확인하고 승인</strong><br><span style="color:#64748b;font-size:.78rem;">Cline이 파일을 <strong>직접 고쳐줍니다</strong>. 어떤 부분이 바뀌는지(diff) 훑어보고 승인하세요. 직접 타이핑할 필요가 없어요.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">4</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>저장하고 확인</strong><br><span style="color:#64748b;font-size:.78rem;">저장(Ctrl+S) → 브라우저 새로고침(F5) → 바뀐 부분을 확인합니다.</span></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:14px;">
+      <div style="flex:1;background:#eef2ff;border-radius:10px;padding:11px 16px;font-size:.78rem;color:#3730a3;line-height:1.6;">🔑 <strong>한 번에 하나씩!</strong> 여러 개를 동시에 요청하면 어디가 바뀌었는지 알기 어렵습니다.</div>
+      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:11px 16px;font-size:.78rem;color:#991b1b;line-height:1.6;">😱 <strong>망가졌다면?</strong> AI에게 "방금 수정을 취소하고 이전 코드로 되돌려줘"라고 하면 됩니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S9 미션 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fef3c7;">✏️</div>
+    <div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="mission-grid">
+      <div class="mission-card m1">
+        <div class="m-star">⭐</div>
+        <h3>미션 1<br>목표값 변경</h3>
+        <p>목표 달성 기준을 10이 아닌 다른 숫자로 바꿔봅니다.</p>
+        <div class="mission-code">목표 달성 조건을<br>20으로 바꿔줘.<br>메시지도 수정해줘.</div>
+      </div>
+      <div class="mission-card m2">
+        <div class="m-star">⭐⭐</div>
+        <h3>미션 2<br>+5 빠른 증가</h3>
+        <p>+5, +10씩 빠르게 증가시키는 버튼을 추가합니다.</p>
+        <div class="mission-code">+5 버튼과 +10 버튼을<br>추가해줘.<br>파란색으로 구분.</div>
+      </div>
+      <div class="mission-card m3">
+        <div class="m-star">⭐⭐⭐</div>
+        <h3>미션 3<br>여러 카운터</h3>
+        <p>항목별 카운터를 3개 만들어 각각 독립적으로 집계합니다.</p>
+        <div class="mission-code">카운터를 3개 만들어줘.<br>각각 "업무완료",<br>"회의","전화" 라벨로.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S10 체크리스트 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ffedd5;">✅</div>
+    <div><h2>실습 완료 체크리스트</h2><p>아래 항목을 모두 완료하면 실습 04 마스터!</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="check-list">
+      <div class="check-item"><div class="check-box">☐</div>+ 버튼을 누르면 숫자가 올라간다</div>
+      <div class="check-item"><div class="check-box">☐</div>- 버튼은 0 미만으로 내려가지 않는다</div>
+      <div class="check-item"><div class="check-box">☐</div>숫자에 따라 색상과 메시지가 바뀐다</div>
+      <div class="check-item"><div class="check-box">☐</div>초기화 버튼이 작동한다</div>
+      <div class="check-item"><div class="check-box">☐</div>미션 2 또는 3을 완료했다</div>
+    </div>
+  </div>
+</div>
+
+<!-- S11 마무리 -->
+<div class="slide s-end">
+  <h2>실습 04 <span>완료!</span> 🖱️</h2>
+  <p>변수와 조건문으로 클릭에 반응하는 카운터를 만들었습니다.</p>
+  <div class="next-hint"><span>▶</span> 다음 실습: <strong>실습 05 — 인사말 카드 만들기</strong></div>
+</div>
+
+</div>
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
+  <span class="slide-counter" id="counter">1 / 15</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+</div>
+<script>
+const slides=Array.from(document.querySelectorAll('.slide'));
+const total=slides.length;let current=0;
+function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
+function changeSlide(dir){goTo(current+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
+goTo(0);
+</script>
+</body>
+</html>
