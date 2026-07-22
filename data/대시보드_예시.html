@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게임 판매 현황 대시보드 (실습 5-2 완성 예시)</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface-1:      #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --axis:           #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6; /* 북미 / 단일계열 blue */
+    --series-2:       #eb6834; /* 유럽 orange */
+    --series-3:       #1baf7a; /* 일본 aqua */
+    --series-4:       #eda100; /* 기타 yellow */
+    --good-text:      #006300;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface-1:      #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --axis:           #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --series-3:       #199e70;
+      --series-4:       #c98500;
+      --good-text:      #0ca30c;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --page:           #0d0d0d;
+    --surface-1:      #1a1a19;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --axis:           #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --series-3:       #199e70;
+    --series-4:       #c98500;
+    --good-text:      #0ca30c;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .viz-root {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 28px 20px 60px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  .hd { margin-bottom: 20px; }
+  .hd h1 { font-size: 1.5rem; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .hd p { margin: 0; color: var(--text-secondary); font-size: .9rem; }
+
+  /* 필터: 한 줄, 콘텐츠 위 */
+  .filters {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 18px;
+  }
+  .filters label { font-size: .78rem; color: var(--text-secondary); margin-right: 4px; }
+  .filters select {
+    font-family: inherit; font-size: .84rem; color: var(--text-primary);
+    background: var(--page); border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px 10px; cursor: pointer;
+  }
+  .filters .reset-btn {
+    font-family: inherit; font-size: .78rem; color: var(--text-secondary);
+    background: transparent; border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px 12px; cursor: pointer; margin-left: auto;
+  }
+  .filters .reset-btn:hover { color: var(--text-primary); border-color: var(--axis); }
+
+  /* KPI 행 */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+  .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .stat-tile .label { font-size: .78rem; color: var(--text-secondary); margin-bottom: 6px; }
+  .stat-tile .value { font-size: 1.5rem; font-weight: 700; line-height: 1.25; word-break: keep-all; }
+  .stat-tile .value.small { font-size: 1.05rem; }
+  .stat-tile .sub { font-size: .76rem; color: var(--text-muted); margin-top: 4px; }
+
+  /* 차트 카드 */
+  .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px 16px;
+  }
+  .card-hd { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; gap: 8px; flex-wrap: wrap; }
+  .card-title { font-size: .92rem; font-weight: 700; }
+  .card-sub { font-size: .74rem; color: var(--text-muted); }
+  .table-toggle {
+    font-family: inherit; font-size: .72rem; color: var(--text-secondary);
+    background: transparent; border: 1px solid var(--border); border-radius: 6px;
+    padding: 3px 9px; cursor: pointer;
+  }
+  .table-toggle:hover { color: var(--text-primary); border-color: var(--axis); }
+
+  svg text { fill: var(--text-secondary); font-size: 11px; font-family: inherit; }
+  .axis-line { stroke: var(--axis); stroke-width: 1; }
+  .grid-line { stroke: var(--grid); stroke-width: 1; }
+  .hit { fill: transparent; cursor: pointer; }
+  .mark-hover { filter: brightness(1.08); }
+
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--text-secondary); }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  .mini-table { width: 100%; border-collapse: collapse; font-size: .78rem; margin-top: 8px; }
+  .mini-table th, .mini-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--grid); }
+  .mini-table th { color: var(--text-muted); font-weight: 600; }
+  .mini-table td.num, .mini-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .hidden { display: none !important; }
+
+  .tooltip {
+    position: fixed; pointer-events: none; z-index: 50;
+    background: var(--text-primary); color: var(--surface-1);
+    font-size: .76rem; line-height: 1.5; border-radius: 8px; padding: 8px 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    opacity: 0; transform: translate(-50%, -110%); transition: opacity .1s;
+    max-width: 220px;
+  }
+  .tooltip.show { opacity: 1; }
+  .tooltip .t-val { font-weight: 700; }
+  .tooltip .t-key { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; }
+
+  table.top10 { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  table.top10 th, table.top10 td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--grid); }
+  table.top10 th { color: var(--text-muted); font-weight: 600; font-size: .74rem; text-transform: uppercase; letter-spacing: .02em; }
+  table.top10 td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.top10 tbody tr:hover { background: var(--page); }
+
+  .empty-state { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: .88rem; }
+
+  .footnote { margin-top: 18px; font-size: .74rem; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 860px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .grid2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .kpi-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="wrap">
+
+    <div class="hd">
+      <h1>🎮 게임 판매 현황 대시보드</h1>
+      <p>실습 5-2 완성 예시 — 게임샘플.xlsx(20개 타이틀) 기준. 필터를 바꾸면 아래 KPI·차트·표가 모두 같은 조건으로 다시 계산됩니다.</p>
+    </div>
+
+    <div class="filters">
+      <span>
+        <label for="f-platform">플랫폼</label>
+        <select id="f-platform"></select>
+      </span>
+      <span>
+        <label for="f-genre">장르</label>
+        <select id="f-genre"></select>
+      </span>
+      <span>
+        <label for="f-year">발행연도</label>
+        <select id="f-year"></select>
+      </span>
+      <button class="reset-btn" id="btn-reset">필터 초기화</button>
+    </div>
+
+    <div id="kpi-row" class="kpi-row"></div>
+
+    <div id="main-content">
+      <div class="grid2">
+        <div class="card">
+          <div class="card-hd">
+            <div>
+              <div class="card-title">연도별 글로벌 판매량 추이</div>
+              <div class="card-sub">발행연도 합계, 단위: 백만 장</div>
+            </div>
+            <button class="table-toggle" data-target="trend">표로 보기</button>
+          </div>
+          <div id="trend-chart"></div>
+          <table class="mini-table hidden" id="trend-table"></table>
+        </div>
+        <div class="card">
+          <div class="card-hd">
+            <div>
+              <div class="card-title">지역별 판매 비중</div>
+              <div class="card-sub">북미 · 유럽 · 일본 · 기타, 글로벌 판매량 대비 %</div>
+            </div>
+            <button class="table-toggle" data-target="region">표로 보기</button>
+          </div>
+          <div id="region-chart"></div>
+          <div class="legend" id="region-legend"></div>
+          <table class="mini-table hidden" id="region-table"></table>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-hd">
+            <div>
+              <div class="card-title">Top 퍼블리셔</div>
+              <div class="card-sub">글로벌 판매량 합계 기준 (최대 5개)</div>
+            </div>
+          </div>
+          <div id="pub-chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-hd">
+            <div>
+              <div class="card-title">Top 10 게임</div>
+              <div class="card-sub">글로벌 판매량 기준</div>
+            </div>
+          </div>
+          <div id="top10-wrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="empty-state" class="empty-state hidden">선택한 조건에 해당하는 데이터가 없습니다. 필터를 바꿔보세요.</div>
+
+    <div class="footnote">
+      데이터: 게임샘플.xlsx (dmcom2/vibe-coding 저장소, 20개 타이틀) · 이 페이지는 외부 라이브러리 없이 순수 HTML/CSS/SVG/JS로만 동작합니다 · 실습 5-2 STEP 3~4에서 만드는 결과물이 이런 모습입니다.
+    </div>
+
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+'use strict';
+
+/* ============ 원본 데이터 (게임샘플.xlsx) ============ */
+const RAW = [
+  {title:'Wii 스포츠', platform:'닌텐도 Wii', year:2006, genre:'스포츠', publisher:'닌텐도', na:41.49, eu:29.02, jp:3.77, other:8.46, global:82.74},
+  {title:'슈퍼 마리오브라더스', platform:'닌텐도S', year:1985, genre:'횡스크롤', publisher:'닌텐도', na:29.08, eu:3.58, jp:6.81, other:0.77, global:40.24},
+  {title:'마리오 카트 Wii', platform:'닌텐도 Wii', year:2008, genre:'레이싱', publisher:'닌텐도', na:15.85, eu:12.88, jp:3.79, other:3.31, global:35.82},
+  {title:'Wii 스포츠 리조트', platform:'닌텐도 Wii', year:2009, genre:'스포츠', publisher:'닌텐도', na:15.75, eu:11.01, jp:3.28, other:2.96, global:33},
+  {title:'포켓몬 레드/포켓몬 블루', platform:'게임보이', year:1996, genre:'롤플레잉', publisher:'닌텐도', na:11.27, eu:8.89, jp:10.22, other:1, global:31.37},
+  {title:'테트리스', platform:'게임보이', year:1989, genre:'퍼즐', publisher:'닌텐도', na:23.2, eu:2.26, jp:4.22, other:0.58, global:30.26},
+  {title:'뉴 슈퍼 마리오브라더스', platform:'닌텐도 DS', year:2006, genre:'횡스크롤', publisher:'닌텐도', na:11.38, eu:9.23, jp:6.5, other:2.9, global:30.01},
+  {title:'Wii 플레이', platform:'닌텐도 Wii', year:2006, genre:'기타', publisher:'닌텐도', na:14.03, eu:9.2, jp:2.93, other:2.85, global:29.02},
+  {title:'뉴 슈퍼 마리오브라더스 Wii', platform:'닌텐도 Wii', year:2009, genre:'횡스크롤', publisher:'닌텐도', na:14.59, eu:7.06, jp:4.7, other:2.26, global:28.62},
+  {title:'덕 헌트', platform:'닌텐도S', year:1984, genre:'슈팅', publisher:'닌텐도', na:26.93, eu:0.63, jp:0.28, other:0.47, global:28.31},
+  {title:'닌텐독스', platform:'닌텐도 DS', year:2005, genre:'시뮬레이션', publisher:'닌텐도', na:9.07, eu:11, jp:1.93, other:2.75, global:24.76},
+  {title:'마리오 카트 DS', platform:'닌텐도 DS', year:2005, genre:'레이싱', publisher:'닌텐도', na:9.81, eu:7.57, jp:4.13, other:1.92, global:23.42},
+  {title:'포켓몬 골드/포켓몬 실버', platform:'게임보이', year:1999, genre:'롤플레잉', publisher:'닌텐도', na:9, eu:6.18, jp:7.2, other:0.71, global:23.1},
+  {title:'Wii Fit', platform:'닌텐도 Wii', year:2007, genre:'스포츠', publisher:'닌텐도', na:8.94, eu:8.03, jp:3.6, other:2.15, global:22.72},
+  {title:'Wii Fit 플러스', platform:'닌텐도 Wii', year:2009, genre:'스포츠', publisher:'닌텐도', na:9.09, eu:8.59, jp:2.53, other:1.79, global:22},
+  {title:'키넥트 어드벤처!', platform:'Xbox 360', year:2010, genre:'기타', publisher:'마이크로소프트', na:14.97, eu:4.94, jp:0.24, other:1.67, global:21.82},
+  {title:'그랜드 테프트 오토 V', platform:'플스3', year:2013, genre:'액션', publisher:'테이크투', na:7.01, eu:9.27, jp:0.97, other:4.14, global:21.4},
+  {title:'그랜드 테프트 오토: 산 안드레아스', platform:'플스2', year:2004, genre:'액션', publisher:'테이크투', na:9.43, eu:0.4, jp:0.41, other:10.57, global:20.81},
+  {title:'슈퍼 마리오 월드', platform:'슈퍼 닌텐도', year:1990, genre:'횡스크롤', publisher:'닌텐도', na:12.78, eu:3.75, jp:3.54, other:0.55, global:20.61},
+  {title:'브레인 에이지: 하루 몇 분 만에 두뇌 훈련하기', platform:'닌텐도 DS', year:2005, genre:'기타', publisher:'닌텐도', na:4.75, eu:9.26, jp:4.16, other:2.05, global:20.22}
+];
+
+const REGION_COLORS = {
+  na:    {label:'북미',  varName:'--series-1'},
+  eu:    {label:'유럽',  varName:'--series-2'},
+  jp:    {label:'일본',  varName:'--series-3'},
+  other: {label:'기타',  varName:'--series-4'}
+};
+
+const cssVar = (name) => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(name).trim();
+const fmt1 = (n) => (Math.round(n * 10) / 10).toLocaleString('ko-KR', {minimumFractionDigits:1, maximumFractionDigits:1});
+const fmtInt = (n) => Math.round(n).toLocaleString('ko-KR');
+const SVGNS = 'http://www.w3.org/2000/svg';
+
+function svgEl(tag, attrs, children) {
+  const e = document.createElementNS(SVGNS, tag);
+  for (const k in (attrs || {})) e.setAttribute(k, attrs[k]);
+  (children || []).forEach(c => e.appendChild(c));
+  return e;
+}
+
+/* ============ 필터 상태 ============ */
+const state = { platform: '전체', genre: '전체', year: '전체' };
+
+function uniqueSorted(arr, key) {
+  return Array.from(new Set(arr.map(d => d[key]))).sort((a, b) => (a > b ? 1 : -1));
+}
+
+function populateFilters() {
+  const platforms = ['전체', ...uniqueSorted(RAW, 'platform')];
+  const genres = ['전체', ...uniqueSorted(RAW, 'genre')];
+  const years = ['전체', ...uniqueSorted(RAW, 'year').sort((a, b) => a - b)];
+
+  const fill = (id, values) => {
+    const sel = document.getElementById(id);
+    sel.innerHTML = '';
+    values.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = String(v);
+      opt.textContent = String(v);
+      sel.appendChild(opt);
+    });
+  };
+  fill('f-platform', platforms);
+  fill('f-genre', genres);
+  fill('f-year', years);
+}
+
+function getFiltered() {
+  return RAW.filter(d =>
+    (state.platform === '전체' || d.platform === state.platform) &&
+    (state.genre === '전체' || d.genre === state.genre) &&
+    (state.year === '전체' || String(d.year) === state.year)
+  );
+}
+
+/* ============ 툴팁 ============ */
+const tooltipEl = document.getElementById('tooltip');
+function showTooltip(x, y, html) {
+  tooltipEl.innerHTML = '';
+  const frag = document.createElement('div');
+  frag.innerHTML = html; // 내부 고정 문자열만 사용 (외부 입력 없음)
+  while (frag.firstChild) tooltipEl.appendChild(frag.firstChild);
+  tooltipEl.style.left = x + 'px';
+  tooltipEl.style.top = y + 'px';
+  tooltipEl.classList.add('show');
+}
+function hideTooltip() { tooltipEl.classList.remove('show'); }
+
+/* ============ KPI 렌더 ============ */
+function renderKPI(rows) {
+  const kpiRow = document.getElementById('kpi-row');
+  kpiRow.innerHTML = '';
+  if (rows.length === 0) return;
+
+  const totalGlobal = rows.reduce((s, d) => s + d.global, 0);
+  const top = rows.reduce((a, b) => (a.global > b.global ? a : b));
+  const pubSum = {};
+  rows.forEach(d => { pubSum[d.publisher] = (pubSum[d.publisher] || 0) + d.global; });
+  const topPub = Object.entries(pubSum).sort((a, b) => b[1] - a[1])[0];
+  const topPubShare = (topPub[1] / totalGlobal) * 100;
+
+  const tiles = [
+    {label:'총 글로벌 판매량', value: fmt1(totalGlobal) + 'M', sub: rows.length + '개 타이틀 합계'},
+    {label:'타이틀 수', value: fmtInt(rows.length) + '개', sub: '현재 필터 기준'},
+    {label:'최고 판매 타이틀', value: top.title, sub: fmt1(top.global) + 'M · ' + top.year + '년', small:true},
+    {label:'퍼블리셔 집중도 (1위)', value: fmt1(topPubShare) + '%', sub: topPub[0] + ' 비중'}
+  ];
+
+  tiles.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'stat-tile';
+    const l = document.createElement('div'); l.className = 'label'; l.textContent = t.label;
+    const v = document.createElement('div'); v.className = 'value' + (t.small ? ' small' : ''); v.textContent = t.value;
+    const s = document.createElement('div'); s.className = 'sub'; s.textContent = t.sub;
+    div.appendChild(l); div.appendChild(v); div.appendChild(s);
+    kpiRow.appendChild(div);
+  });
+}
+
+/* ============ 1) 연도별 글로벌 판매량 라인 차트 ============ */
+function renderTrend(rows) {
+  const host = document.getElementById('trend-chart');
+  const tableEl = document.getElementById('trend-table');
+  host.innerHTML = '';
+  tableEl.innerHTML = '';
+
+  const byYear = {};
+  rows.forEach(d => { byYear[d.year] = (byYear[d.year] || 0) + d.global; });
+  const years = Object.keys(byYear).map(Number).sort((a, b) => a - b);
+  if (years.length === 0) return;
+
+  const W = Math.max(host.clientWidth || 460, 320), H = 220;
+  const padL = 40, padR = 20, padT = 16, padB = 28;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  const maxV = Math.max(...years.map(y => byYear[y]));
+  const niceMax = Math.ceil(maxV / 10) * 10 || 10;
+  const x = (i) => padL + (years.length === 1 ? plotW / 2 : (i / (years.length - 1)) * plotW);
+  const y = (v) => padT + plotH - (v / niceMax) * plotH;
+
+  const svg = svgEl('svg', {width: W, height: H, viewBox: '0 0 ' + W + ' ' + H});
+
+  // 그리드 (4단)
+  for (let i = 0; i <= 4; i++) {
+    const gy = padT + (plotH / 4) * i;
+    svg.appendChild(svgEl('line', {x1: padL, x2: W - padR, y1: gy, y2: gy, class: 'grid-line'}));
+    const val = niceMax - (niceMax / 4) * i;
+    const t = svgEl('text', {x: padL - 8, y: gy + 3, 'text-anchor': 'end'});
+    t.textContent = fmtInt(val);
+    svg.appendChild(t);
+  }
+  // 베이스라인
+  svg.appendChild(svgEl('line', {x1: padL, x2: W - padR, y1: padT + plotH, y2: padT + plotH, class: 'axis-line'}));
+
+  // X 라벨 (너무 많으면 절반만)
+  const step = years.length > 10 ? 2 : 1;
+  years.forEach((yr, i) => {
+    if (i % step !== 0 && i !== years.length - 1) return;
+    const t = svgEl('text', {x: x(i), y: H - 8, 'text-anchor': 'middle'});
+    t.textContent = String(yr);
+    svg.appendChild(t);
+  });
+
+  // 라인
+  const pathD = years.map((yr, i) => (i === 0 ? 'M' : 'L') + x(i) + ' ' + y(byYear[yr])).join(' ');
+  svg.appendChild(svgEl('path', {d: pathD, fill: 'none', stroke: cssVar('--series-1'), 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'}));
+
+  // 마커 + 히트영역
+  years.forEach((yr, i) => {
+    const cx = x(i), cy = y(byYear[yr]);
+    const dot = svgEl('circle', {cx, cy, r: 4, fill: cssVar('--series-1'), stroke: cssVar('--surface-1'), 'stroke-width': 2});
+    const hit = svgEl('circle', {cx, cy, r: 14, class: 'hit', tabindex: 0});
+    const onEnter = (evt) => {
+      dot.classList.add('mark-hover');
+      const rect = host.getBoundingClientRect();
+      showTooltip(rect.left + cx, rect.top + cy, '<div>' + yr + '년</div><div class="t-val">' + fmt1(byYear[yr]) + 'M</div>');
+    };
+    const onLeave = () => { dot.classList.remove('mark-hover'); hideTooltip(); };
+    hit.addEventListener('pointerenter', onEnter);
+    hit.addEventListener('pointerleave', onLeave);
+    hit.addEventListener('focus', onEnter);
+    hit.addEventListener('blur', onLeave);
+    svg.appendChild(dot);
+    svg.appendChild(hit);
+  });
+
+  // 마지막 지점 direct label
+  const lastI = years.length - 1;
+  const lt = svgEl('text', {x: x(lastI), y: y(byYear[years[lastI]]) - 10, 'text-anchor': 'middle', 'font-weight': 700, fill: cssVar('--text-primary')});
+  lt.textContent = fmt1(byYear[years[lastI]]) + 'M';
+  svg.appendChild(lt);
+
+  host.appendChild(svg);
+
+  // 표 보기
+  let rowsHtml = '<thead><tr><th>발행연도</th><th class="num">글로벌 판매량(M)</th></tr></thead><tbody>';
+  years.forEach(yr => { rowsHtml += '<tr><td>' + yr + '</td><td class="num">' + fmt1(byYear[yr]) + '</td></tr>'; });
+  rowsHtml += '</tbody>';
+  tableEl.innerHTML = rowsHtml;
+}
+
+/* ============ 2) 지역별 판매 비중 (100% 스택 바) ============ */
+function renderRegion(rows) {
+  const host = document.getElementById('region-chart');
+  const legendEl = document.getElementById('region-legend');
+  const tableEl = document.getElementById('region-table');
+  host.innerHTML = ''; legendEl.innerHTML = ''; tableEl.innerHTML = '';
+
+  const totals = {na:0, eu:0, jp:0, other:0};
+  rows.forEach(d => { totals.na += d.na; totals.eu += d.eu; totals.jp += d.jp; totals.other += d.other; });
+  const grand = totals.na + totals.eu + totals.jp + totals.other;
+  if (grand <= 0) return;
+
+  const W = Math.max(host.clientWidth || 420, 280), H = 64;
+  const gap = 2;
+  const svg = svgEl('svg', {width: W, height: H, viewBox: '0 0 ' + W + ' ' + H});
+
+  const keys = ['na', 'eu', 'jp', 'other'];
+  let cx = 0;
+  keys.forEach((key, idx) => {
+    const isLast = idx === keys.length - 1;
+    const val = totals[key];
+    const share = val / grand;
+    const segW = Math.max(share * W - (isLast ? 0 : gap), 0);
+    const color = cssVar(REGION_COLORS[key].varName);
+    const rect = svgEl('rect', {x: cx, y: 12, width: segW, height: 32, rx: 4, fill: color});
+    const hit = svgEl('rect', {x: cx, y: 0, width: segW + gap, height: H, class: 'hit', tabindex: 0});
+    const label = REGION_COLORS[key].label;
+    const pct = (share * 100);
+
+    // 세그먼트 내부 라벨 (충분히 넓을 때만)
+    if (segW > 34) {
+      const txt = svgEl('text', {x: cx + segW / 2, y: 32, 'text-anchor': 'middle', 'dominant-baseline': 'middle', fill: '#ffffff', 'font-weight': 700});
+      txt.textContent = fmt1(pct) + '%';
+      svg.appendChild(rect);
+      svg.appendChild(txt);
+    } else {
+      svg.appendChild(rect);
+    }
+
+    const onEnter = () => {
+      rect.classList.add('mark-hover');
+      const hostRect = host.getBoundingClientRect();
+      showTooltip(hostRect.left + cx + segW / 2, hostRect.top + 12,
+        '<span class="t-key" style="background:' + color + '"></span>' + label + '<div class="t-val">' + fmt1(val) + 'M (' + fmt1(pct) + '%)</div>');
+    };
+    const onLeave = () => { rect.classList.remove('mark-hover'); hideTooltip(); };
+    hit.addEventListener('pointerenter', onEnter);
+    hit.addEventListener('pointerleave', onLeave);
+    hit.addEventListener('focus', onEnter);
+    hit.addEventListener('blur', onLeave);
+    svg.appendChild(hit);
+
+    cx += segW + gap;
+  });
+
+  host.appendChild(svg);
+
+  // 범례 (4계열 → 항상 표시)
+  keys.forEach(key => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    const sw = document.createElement('span');
+    sw.className = 'legend-swatch';
+    sw.style.background = cssVar(REGION_COLORS[key].varName);
+    item.appendChild(sw);
+    item.appendChild(document.createTextNode(REGION_COLORS[key].label + ' ' + fmt1((totals[key] / grand) * 100) + '%'));
+    legendEl.appendChild(item);
+  });
+
+  // 표 보기
+  let rowsHtml = '<thead><tr><th>지역</th><th class="num">판매량(M)</th><th class="num">비중</th></tr></thead><tbody>';
+  keys.forEach(key => {
+    rowsHtml += '<tr><td>' + REGION_COLORS[key].label + '</td><td class="num">' + fmt1(totals[key]) + '</td><td class="num">' + fmt1((totals[key] / grand) * 100) + '%</td></tr>';
+  });
+  rowsHtml += '</tbody>';
+  tableEl.innerHTML = rowsHtml;
+}
+
+/* ============ 3) Top 퍼블리셔 (가로 막대) ============ */
+function renderPublishers(rows) {
+  const host = document.getElementById('pub-chart');
+  host.innerHTML = '';
+
+  const sums = {};
+  rows.forEach(d => { sums[d.publisher] = (sums[d.publisher] || 0) + d.global; });
+  const list = Object.entries(sums).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  if (list.length === 0) return;
+
+  const W = Math.max(host.clientWidth || 420, 280);
+  const barH = 22, gapH = 14, padL = 96, padR = 46, padT = 8;
+  const H = padT + list.length * (barH + gapH);
+  const plotW = W - padL - padR;
+  const maxV = Math.max(...list.map(d => d[1]));
+
+  const svg = svgEl('svg', {width: W, height: H, viewBox: '0 0 ' + W + ' ' + H});
+  const color = cssVar('--series-1');
+
+  list.forEach(([name, val], i) => {
+    const yTop = padT + i * (barH + gapH);
+    const w = Math.max((val / maxV) * plotW, 2);
+
+    const label = svgEl('text', {x: padL - 10, y: yTop + barH / 2 + 4, 'text-anchor': 'end'});
+    label.textContent = name;
+    svg.appendChild(label);
+
+    const bar = svgEl('rect', {x: padL, y: yTop, width: w, height: barH, rx: 4, fill: color});
+    const hit = svgEl('rect', {x: padL, y: yTop, width: w + 40, height: barH, class: 'hit', tabindex: 0});
+
+    const valText = svgEl('text', {x: padL + w + 8, y: yTop + barH / 2 + 4, fill: 'var(--text-primary)', 'font-weight': 600});
+    valText.textContent = fmt1(val) + 'M';
+
+    const onEnter = () => {
+      bar.classList.add('mark-hover');
+      const hostRect = host.getBoundingClientRect();
+      showTooltip(hostRect.left + padL + w / 2, hostRect.top + yTop, '<div>' + name + '</div><div class="t-val">' + fmt1(val) + 'M</div>');
+    };
+    const onLeave = () => { bar.classList.remove('mark-hover'); hideTooltip(); };
+    hit.addEventListener('pointerenter', onEnter);
+    hit.addEventListener('pointerleave', onLeave);
+    hit.addEventListener('focus', onEnter);
+    hit.addEventListener('blur', onLeave);
+
+    svg.appendChild(bar);
+    svg.appendChild(valText);
+    svg.appendChild(hit);
+  });
+
+  host.appendChild(svg);
+}
+
+/* ============ 4) Top 10 게임 표 ============ */
+function renderTop10(rows) {
+  const wrap = document.getElementById('top10-wrap');
+  wrap.innerHTML = '';
+  if (rows.length === 0) return;
+
+  const top = [...rows].sort((a, b) => b.global - a.global).slice(0, 10);
+  const table = document.createElement('table');
+  table.className = 'top10';
+  table.innerHTML = '<thead><tr><th>#</th><th>게임명</th><th>플랫폼</th><th>퍼블리셔</th><th class="num">글로벌(M)</th></tr></thead>';
+  const tbody = document.createElement('tbody');
+  top.forEach((d, i) => {
+    const tr = document.createElement('tr');
+    const cells = [String(i + 1), d.title, d.platform, d.publisher, fmt1(d.global)];
+    cells.forEach((val, ci) => {
+      const td = document.createElement('td');
+      if (ci === 4) td.className = 'num';
+      td.textContent = val;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrap.appendChild(table);
+}
+
+/* ============ 렌더 총괄 ============ */
+function renderAll() {
+  const rows = getFiltered();
+  const mainContent = document.getElementById('main-content');
+  const emptyState = document.getElementById('empty-state');
+  const kpiRow = document.getElementById('kpi-row');
+
+  if (rows.length === 0) {
+    mainContent.classList.add('hidden');
+    kpiRow.classList.add('hidden');
+    emptyState.classList.remove('hidden');
+    return;
+  }
+  mainContent.classList.remove('hidden');
+  kpiRow.classList.remove('hidden');
+  emptyState.classList.add('hidden');
+
+  renderKPI(rows);
+  renderTrend(rows);
+  renderRegion(rows);
+  renderPublishers(rows);
+  renderTop10(rows);
+}
+
+/* ============ 이벤트 바인딩 ============ */
+populateFilters();
+document.getElementById('f-platform').addEventListener('change', (e) => { state.platform = e.target.value; renderAll(); });
+document.getElementById('f-genre').addEventListener('change', (e) => { state.genre = e.target.value; renderAll(); });
+document.getElementById('f-year').addEventListener('change', (e) => { state.year = e.target.value; renderAll(); });
+document.getElementById('btn-reset').addEventListener('click', () => {
+  state.platform = '전체'; state.genre = '전체'; state.year = '전체';
+  document.getElementById('f-platform').value = '전체';
+  document.getElementById('f-genre').value = '전체';
+  document.getElementById('f-year').value = '전체';
+  renderAll();
+});
+document.querySelectorAll('.table-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.getAttribute('data-target');
+    const chart = document.getElementById(target + '-chart');
+    const table = document.getElementById(target + '-table');
+    const showingTable = !table.classList.contains('hidden');
+    if (showingTable) {
+      table.classList.add('hidden'); chart.classList.remove('hidden'); btn.textContent = '표로 보기';
+    } else {
+      table.classList.remove('hidden'); chart.classList.add('hidden'); btn.textContent = '차트로 보기';
+    }
+  });
+});
+window.addEventListener('resize', () => { renderAll(); });
+
+renderAll();
+</script>
+</body>
+</html>
