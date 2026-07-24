@@ -874,11 +874,18 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
         </div>
       </div>
       <div class="card">
-        <div class="ct"><i class="fas fa-route tg"></i> 설치 순서</div>
+        <div class="ct"><i class="fas fa-terminal tg"></i> Cline으로 설치하기 — 이번에도 AI에게 시킵니다</div>
         <div class="cd" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">1</div><span><b>python.org/downloads</b> 접속 → Download Python 버튼 클릭</span></div>
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">2</div><span>설치 시작 화면에서 <span class="tr fw9">"Add python.exe to PATH" 체크박스를 반드시 체크</span> — 안 하면 터미널에서 python 명령이 안 먹힙니다</span></div>
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">3</div><span>Install Now → 완료 후 4편에서 쓰던 <b>VS Code</b>를 열어 새 폴더에 <code>db_test.py</code> 파일 생성</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">1</div><span>4편에서 쓰던 <b>VS Code + Cline</b>을 엽니다. Cline 채팅창에 <b>"윈도우 winget으로 파이썬 최신 버전을 설치해줘"</b>라고 요청합니다.</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">2</div><span>Cline이 터미널에서 <code>winget install Python.Python.3.12</code> 같은 명령을 직접 실행합니다. 실행 승인을 물으면 <b>허용(Approve)</b>을 눌러줍니다.</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">3</div><span>설치가 끝나면 <span class="tr fw9">터미널을 새로 하나 더 열어서</span> <code>python --version</code>을 입력해 확인합니다 — 기존에 열려있던 터미널은 PATH가 갱신되지 않아 새로 열어야 합니다.</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">4</div><span>버전 번호가 출력되면 설치 성공. 이제 새 폴더에 <code>db_test.py</code> 파일을 만들어 실습을 시작합니다.</span></div>
+        </div>
+      </div>
+      <div class="co co-g">
+        <div class="co-ic"><i class="fas fa-circle-info tg"></i></div>
+        <div>
+          <div class="co-tx">winget이 없는 구버전 윈도우거나 오류가 난다면, <b>python.org/downloads</b>에서 설치 파일을 받아 직접 실행해도 됩니다 — 이때는 설치 화면의 <b>"Add python.exe to PATH"</b> 체크박스를 꼭 체크해야 터미널에서 python 명령이 동작합니다.</div>
         </div>
       </div>
       <div class="fl jcc">
