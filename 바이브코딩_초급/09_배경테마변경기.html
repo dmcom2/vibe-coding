@@ -105,9 +105,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="slide s-title active">
   <div class="badge">바이브코딩 초급 과정</div>
   <h1>배경 <span>테마 변경기</span></h1>
-  <p>실습 09 — CSS 변수와 setProperty로 전체 테마를 한 번에 바꾸기</p>
+  <p>실습 09 — CSS 변수와 setProperty로 문서를 눈 편하게 읽는 뷰어 만들기</p>
   <div class="meta-row">
-    <div class="meta-chip">🎨 CSS 변수 & setProperty</div>
+    <div class="meta-chip">📄 문서 다크모드 뷰어</div>
     <div class="meta-chip">⏱ 소요 시간: 20분</div>
     <div class="meta-chip">📄 파일 1개 (HTML)</div>
   </div>
@@ -118,14 +118,14 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="slide s-content">
   <div class="slide-header">
     <div class="icon" style="background:#ede9fe;">🎨</div>
-    <div><h2>오늘 만드는 것</h2><p>버튼 한 번으로 페이지 전체 색상 테마가 바뀌는 도구</p></div>
+    <div><h2>오늘 만드는 것</h2><p>버튼 한 번으로 문서를 더 편하게 읽을 수 있게 바꾸는 도구</p></div>
   </div>
   <div class="slide-body">
     <div class="concept-cards">
-      <div class="concept-card"><div class="cc-icon">🌞</div><h3>라이트 모드</h3><p>밝은 배경, 어두운 텍스트<br>기본 업무 환경</p></div>
+      <div class="concept-card"><div class="cc-icon">🌞</div><h3>라이트 모드</h3><p>밝은 배경, 어두운 텍스트<br>기본 문서 작업용</p></div>
       <div class="concept-card"><div class="cc-icon">🌙</div><h3>다크 모드</h3><p>어두운 배경, 밝은 텍스트<br>눈의 피로 감소</p></div>
-      <div class="concept-card"><div class="cc-icon">🌸</div><h3>커스텀 테마</h3><p>봄 핑크, 오션 블루, 포레스트 그린<br>색상 팔레트로 직접 선택</p></div>
-      <div class="concept-card"><div class="cc-icon">💾</div><h3>테마 저장</h3><p>선택한 테마를 localStorage에 저장<br>새로고침해도 유지</p></div>
+      <div class="concept-card"><div class="cc-icon">📜</div><h3>세피아 모드</h3><p>따뜻한 색조의 종이 느낌<br>장시간 독서에 편안</p></div>
+      <div class="concept-card"><div class="cc-icon">💾</div><h3>설정 저장</h3><p>선택한 모드와 글자 크기를 localStorage에 저장<br>새로고침해도 유지</p></div>
     </div>
   </div>
 </div>
@@ -324,38 +324,36 @@ window.<span class="at">matchMedia</span>(<span class="st">'(prefers-color-schem
   <div class="sp-header">
     <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
     <h2>실제 사용한 AI 생성 프롬프트</h2>
-    <p>아래 프롬프트를 VS Code의 Cline에 붙여넣으면 테마 변경 페이지가 완성됩니다</p>
+    <p>아래 프롬프트를 VS Code의 Cline에 붙여넣으면 문서 다크모드 뷰어가 완성됩니다</p>
   </div>
   <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
-  <div class="sp-box">HTML 파일 하나로 테마 변경 페이지를 만들어줘.
+  <div class="sp-box">HTML 파일 하나로 문서 다크모드 뷰어를 만들어줘.
 
-CSS 변수(--bg-color, --text-color 등)를 사용해서
-테마 전환 시 CSS 클래스만 바꾸면 전체가 변하도록 구현.
+CSS 변수(--bg, --paper, --text, --accent 등)를 사용해서
+읽기 모드 전환 시 변수만 바꾸면 전체가 변하도록 구현.
 
-테마 종류 (6가지):
-1. 라이트 (기본 흰 배경)
-2. 다크 (어두운 배경)
-3. 블루 (파란 계열)
-4. 그린 (초록 계열)
-5. 퍼플 (보라 계열)
-6. 선셋 (주황-핑크 그라데이션)
+읽기 모드 (3가지):
+1. 라이트 (밝은 배경, 기본 문서 작업용)
+2. 다크 (어두운 배경, 눈의 피로 감소)
+3. 세피아 (따뜻한 색조, 장시간 독서용)
 
 페이지 구성:
-- 상단: 제목 + 현재 테마 이름 표시
-- 가운데: 테마 선택 버튼들 (큰 컬러 원형 버튼)
-- 하단: 테마 미리보기 카드 (제목, 본문, 버튼 포함)
+- 상단: 제목 + 현재 모드 이름 표시
+- 툴바: 모드 선택 버튼(큰 컬러 원형 버튼) + 글자 크기 조절 버튼(가-/가+)
+- 하단: 실제 회사 공지문 형태의 문서 미리보기 (제목, 날짜, 본문, 서명 포함)
 
 기능:
-- 선택된 테마 버튼에 체크 표시
-- localStorage에 선택 기억 (새로고침해도 유지)
-- 테마 전환 시 부드러운 transition 효과
+- 선택된 모드 버튼에 체크 표시
+- 글자 크기는 14px~24px 사이에서 2px 단위로 조절
+- localStorage에 모드와 글자 크기 기억 (새로고침해도 유지)
+- 모드 전환 시 부드러운 transition 효과
 
 파일은 index.html 하나로, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">
-    <div class="sp-card"><b>🎨 커스텀 색상</b>사용자가 직접 배경색과 글자색을 컬러피커로 골라서 나만의 커스텀 테마를 만들 수 있게 해줘.</div>
-    <div class="sp-card"><b>🌇 그라데이션 배경</b>단색 배경 외에 두 가지 색상의 그라데이션 배경 테마도 추가하고 방향(각도)도 선택 가능하게 해줘.</div>
-    <div class="sp-card"><b>💾 테마 저장</b>마음에 드는 테마를 localStorage에 저장해서 즐겨찾기처럼 관리하고 이름을 붙일 수 있게 해줘.</div>
+    <div class="sp-card"><b>🖨️ 인쇄 버튼</b>문서 내용을 그대로 인쇄할 수 있는 "인쇄하기" 버튼을 추가해줘.</div>
+    <div class="sp-card"><b>🕒 시간대 자동 모드</b>오전 6시~18시는 라이트, 그 외 시간엔 자동으로 다크 모드가 적용되는 버튼도 추가해줘.</div>
+    <div class="sp-card"><b>💾 모드 즐겨찾기</b>자주 쓰는 모드와 글자 크기 조합을 이름 붙여 저장하고 불러올 수 있게 해줘.</div>
   </div>
 </div>
 
@@ -399,48 +397,53 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
   <div class="slide-body">
     <div class="two-col">
       <div>
-        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">① 테마 적용 (applyTheme)</p>
+        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">① 모드 적용 (applyMode)</p>
         <div class="code-block" style="background:#11111b;font-size:0.96rem;margin-bottom:14px;">
-<span class="kw">function</span> <span class="at">applyTheme</span>(key) {
-  <span class="kw">const</span> theme = THEMES[key];
+<span class="kw">function</span> <span class="at">applyMode</span>(key) {
+  <span class="kw">const</span> mode = READING_MODES[key];
   <span class="kw">const</span> root = document.documentElement;
 
   <span class="cm">// CSS 변수 일괄 변경</span>
-  <span class="tg">Object</span>.<span class="at">entries</span>(theme.vars).<span class="at">forEach</span>(
+  <span class="tg">Object</span>.<span class="at">entries</span>(mode.vars).<span class="at">forEach</span>(
     ([prop, val]) => root.style.<span class="at">setProperty</span>(prop, val)
   );
 
-  <span class="cm">// 현재 테마 이름 & 버튼 표시 갱신</span>
+  <span class="cm">// 현재 모드 이름 & 버튼 표시 갱신</span>
   document.getElementById(<span class="st">'current-name'</span>)
-    .textContent = theme.name;
+    .textContent = mode.name;
 
   <span class="cm">// localStorage에 저장</span>
-  localStorage.<span class="at">setItem</span>(<span class="st">'selected-theme'</span>, key);
+  localStorage.<span class="at">setItem</span>(<span class="st">'reading-mode'</span>, key);
 }
         </div>
         <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px 16px;font-size:1.04rem;line-height:1.8;color:#a6adc8;">
-          • <code style="color:#a6e3a1;">Object.entries(theme.vars)</code> — 테마 색상을 <strong>한 번에 순회</strong><br>
+          • <code style="color:#a6e3a1;">Object.entries(mode.vars)</code> — 모드 색상을 <strong>한 번에 순회</strong><br>
           • <code style="color:#cba6f7;">setProperty</code> 한 줄이면 그 변수를 쓰는 모든 CSS가 갱신<br>
-          • 마지막 줄이 <strong>테마 기억</strong>의 핵심
+          • 마지막 줄이 <strong>모드 기억</strong>의 핵심
         </div>
       </div>
       <div>
-        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">② 초기화 (페이지 로드 시)</p>
+        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">② 글자 크기 조절 (changeFontSize)</p>
         <div class="code-block" style="background:#11111b;font-size:0.96rem;margin-bottom:14px;">
-<span class="cm">// 버튼 목록 그리기</span>
-<span class="at">renderThemeButtons</span>();
+<span class="kw">function</span> <span class="at">changeFontSize</span>(delta) {
+  <span class="kw">const</span> root = document.documentElement;
+  <span class="kw">const</span> current = <span class="at">parseInt</span>(
+    <span class="at">getComputedStyle</span>(root)
+      .<span class="at">getPropertyValue</span>(<span class="st">'--font-size'</span>)
+  );
 
-<span class="cm">// 저장된 테마 없으면 'light' 기본값</span>
-<span class="kw">const</span> savedTheme =
-  localStorage.<span class="at">getItem</span>(<span class="st">'selected-theme'</span>)
-  || <span class="st">'light'</span>;
+  <span class="cm">// 14px ~ 24px 범위로 제한</span>
+  <span class="kw">const</span> next = <span class="tg">Math</span>.<span class="at">min</span>(24,
+    <span class="tg">Math</span>.<span class="at">max</span>(14, current + delta));
 
-<span class="at">applyTheme</span>(savedTheme);
+  root.style.<span class="at">setProperty</span>(<span class="st">'--font-size'</span>, next + <span class="st">'px'</span>);
+  localStorage.<span class="at">setItem</span>(<span class="st">'reading-font-size'</span>, next);
+}
         </div>
         <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px 16px;font-size:1.04rem;line-height:1.8;color:#a6adc8;">
-          • <code style="color:#f9e2af;">||</code> — 왼쪽 값이 없으면(null) 오른쪽 기본값 사용<br>
-          • 스크립트가 실행되는 순간 바로 호출되어 <strong>새로고침해도 유지</strong><br>
-          • 별도의 <code style="color:#89b4fa;">DOMContentLoaded</code> 없이 스크립트 맨 아래에서 바로 실행
+          • <code style="color:#89b4fa;">Math.min / Math.max</code> — 값이 범위를 벗어나지 않게 <strong>고정</strong><br>
+          • <code style="color:#cba6f7;">--font-size</code> 하나만 바꾸면 문서 전체 글자가 <strong>비율대로</strong> 커짐(em 단위)<br>
+          • 모드처럼 <strong>localStorage</strong>에 저장해 새로고침해도 유지
         </div>
       </div>
     </div>
@@ -473,21 +476,21 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
     <div class="mission-grid">
       <div class="mission-card m1">
         <div class="m-star">⭐</div>
-        <h3>미션 1<br>테마 이름 변경</h3>
-        <p>기존 테마 이름을 회사/팀 이름으로 바꾸고 색상을 커스텀합니다.</p>
-        <div class="mission-code">테마 이름을 "기본",<br>"야간근무", "집중모드"로<br>바꾸고 색상 수정.</div>
+        <h3>미션 1<br>모드 커스터마이징</h3>
+        <p>기존 모드 이름을 회사/팀 스타일로 바꾸고 색상을 커스텀합니다.</p>
+        <div class="mission-code">모드 이름을 "집중모드",<br>"야간근무모드"로<br>바꾸고 색상 수정.</div>
       </div>
       <div class="mission-card m2">
         <div class="m-star">⭐⭐</div>
-        <h3>미션 2<br>폰트 크기 조절</h3>
-        <p>테마와 함께 폰트 크기도 조절하는 슬라이더를 추가합니다.</p>
-        <div class="mission-code">폰트 크기 슬라이더 추가<br>(12px~24px).<br>현재 크기 숫자 표시.</div>
+        <h3>미션 2<br>인쇄 버튼 추가</h3>
+        <p>문서 내용을 그대로 인쇄할 수 있는 버튼을 추가합니다.</p>
+        <div class="mission-code">"인쇄하기" 버튼 추가.<br>window.print() 활용.<br>툴바는 인쇄 시 숨기기.</div>
       </div>
       <div class="mission-card m3">
         <div class="m-star">⭐⭐⭐</div>
-        <h3>미션 3<br>시간대 자동 테마</h3>
-        <p>오전/오후/저녁/야간 시간대에 따라 테마가 자동으로 바뀝니다.</p>
-        <div class="mission-code">시간에 따라 자동 변경.<br>09~18시 라이트,<br>나머지 다크 테마.</div>
+        <h3>미션 3<br>시간대 자동 모드</h3>
+        <p>오전/오후/저녁/야간 시간대에 따라 모드가 자동으로 바뀝니다.</p>
+        <div class="mission-code">시간에 따라 자동 변경.<br>09~18시 라이트,<br>나머지 다크 모드.</div>
       </div>
     </div>
   </div>
@@ -501,17 +504,17 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
   </div>
   <div class="slide-body">
     <div class="check-list">
-      <div class="check-item"><div class="check-box">☐</div>테마 버튼 클릭 시 전체 색상이 바뀐다</div>
-      <div class="check-item"><div class="check-box">☐</div>새로고침 후에도 테마가 유지된다</div>
-      <div class="check-item"><div class="check-box">☐</div>색상 선택기로 직접 색을 바꿀 수 있다</div>
-      <div class="check-item"><div class="check-box">☐</div>테마 전환 시 부드러운 애니메이션이 있다</div>
-      <div class="check-item"><div class="check-box">☐</div>회사 색상으로 커스텀 테마를 만들었다</div>
+      <div class="check-item"><div class="check-box">☐</div>모드 버튼 클릭 시 문서 색상이 바뀐다</div>
+      <div class="check-item"><div class="check-box">☐</div>글자 크기를 가-/가+ 버튼으로 조절할 수 있다</div>
+      <div class="check-item"><div class="check-box">☐</div>새로고침 후에도 모드와 글자 크기가 유지된다</div>
+      <div class="check-item"><div class="check-box">☐</div>모드 전환 시 부드러운 애니메이션이 있다</div>
+      <div class="check-item"><div class="check-box">☐</div>미션 하나 이상 도전했다</div>
     </div>
     <div style="margin-top:24px;background:linear-gradient(135deg,#faf5ff,#ede9fe);border-radius:14px;padding:20px 24px;border:1px solid #ddd6fe;">
       <p style="font-size:1.14rem;font-weight:800;color:var(--violet);margin-bottom:8px;">🎉 모든 미션 완료 후 도전해볼 것</p>
       <p style="font-size:1.08rem;color:var(--sub);line-height:1.8;">
-        AI에게 <strong>"테마 전환 버튼에 키보드 단축키를 추가해줘"</strong> 또는<br>
-        <strong>"랜덤 테마 뽑기 버튼을 추가해줘"</strong> 같은 심화 요청을 해보세요!
+        AI에게 <strong>"모드 전환 버튼에 키보드 단축키를 추가해줘"</strong> 또는<br>
+        <strong>"고대비 모드도 추가해줘"</strong> 같은 심화 요청을 해보세요!
       </p>
     </div>
   </div>
@@ -522,7 +525,7 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
   <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
   <div class="result-link-tip">완성 예제 보기</div>
   <h2>실습 09 <span>완료!</span> 🎨</h2>
-  <p>CSS 변수와 setProperty로 다크/라이트 테마 전환기를 만들었습니다.</p>
+  <p>CSS 변수와 setProperty로 눈이 편안한 문서 다크모드 뷰어를 만들었습니다.</p>
   <div class="next-hint"><span>▶</span> 다음 실습: <strong>실습 10 — OX 퀴즈 게임 만들기</strong></div>
 </div>
 
@@ -534,9 +537,9 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
   <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
 </div>
 <script>
-const RESULT_HTML_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICA8dGl0bGU+67Cw6rK9IO2FjOuniCDrs4Dqsr3quLA8L3RpdGxlPgogIDxzdHlsZT4KICAgIC8qID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBDU1Mg67OA7IiYIOq4sOuzuOqwkiAo65287J207Yq4IO2FjOuniCkKICAgICAgID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ICovCiAgICA6cm9vdCB7CiAgICAgIC0tYmc6ICAgICAgI2Y4ZmFmYzsKICAgICAgLS1zdXJmYWNlOiAjZmZmZmZmOwogICAgICAtLXRleHQ6ICAgICMxZTI5M2I7CiAgICAgIC0tc3VidGV4dDogIzY0NzQ4YjsKICAgICAgLS1ib3JkZXI6ICAjZTJlOGYwOwogICAgICAtLWFjY2VudDogICMzYjgyZjY7CiAgICAgIC0tYWNjZW50MjogIzFkNGVkODsKICAgICAgLS1idG4tdGV4dDogI2ZmZmZmZjsKICAgIH0KCiAgICAvKiDrqqjrk6Ag7IOJ7IOBIOuzgO2ZmOyXkCB0cmFuc2l0aW9uIOyggeyaqSAqLwogICAgKiwgKjo6YmVmb3JlLCAqOjphZnRlciB7CiAgICAgIHRyYW5zaXRpb246IGJhY2tncm91bmQtY29sb3IgMC40cyBlYXNlLCBjb2xvciAwLjRzIGVhc2UsIGJvcmRlci1jb2xvciAwLjRzIGVhc2U7CiAgICAgIGJveC1zaXppbmc6IGJvcmRlci1ib3g7CiAgICAgIG1hcmdpbjogMDsgcGFkZGluZzogMDsKICAgIH0KCiAgICBib2R5IHsKICAgICAgZm9udC1mYW1pbHk6ICdTZWdvZSBVSScsICfrp5HsnYAg6rOg65SVJywgc2Fucy1zZXJpZjsKICAgICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYmcpOwogICAgICBjb2xvcjogdmFyKC0tdGV4dCk7CiAgICAgIG1pbi1oZWlnaHQ6IDEwMHZoOwogICAgICBwYWRkaW5nOiAzNnB4IDE2cHg7CiAgICB9CgogICAgLyog7KCc66qpIOyYgeyXrSAqLwogICAgLmhlYWRlciB7CiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgICAgbWFyZ2luLWJvdHRvbTogMzZweDsKICAgIH0KCiAgICAuaGVhZGVyIGgxIHsKICAgICAgZm9udC1zaXplOiAxLjdyZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA4MDA7CiAgICAgIG1hcmdpbi1ib3R0b206IDZweDsKICAgIH0KCiAgICAuY3VycmVudC10aGVtZS1sYWJlbCB7CiAgICAgIGZvbnQtc2l6ZTogMC45cmVtOwogICAgICBjb2xvcjogdmFyKC0tc3VidGV4dCk7CiAgICB9CgogICAgLmN1cnJlbnQtdGhlbWUtbmFtZSB7CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGNvbG9yOiB2YXIoLS1hY2NlbnQpOwogICAgfQoKICAgIC8qIO2FjOuniCDshKDtg50g67KE7Yq8IOyYgeyXrSAqLwogICAgLnRoZW1lLXBpY2tlciB7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyOwogICAgICBmbGV4LXdyYXA6IHdyYXA7CiAgICAgIGdhcDogMThweDsKICAgICAgbWFyZ2luLWJvdHRvbTogNDBweDsKICAgICAgbWF4LXdpZHRoOiA1NjBweDsKICAgICAgbWFyZ2luLWxlZnQ6IGF1dG87CiAgICAgIG1hcmdpbi1yaWdodDogYXV0bzsKICAgIH0KCiAgICAvKiDthYzrp4gg67KE7Yq8ICjsg4nsg4Eg7JuQKSAqLwogICAgLnRoZW1lLWJ0biB7CiAgICAgIHdpZHRoOiA2NHB4OwogICAgICBoZWlnaHQ6IDY0cHg7CiAgICAgIGJvcmRlci1yYWRpdXM6IDUwJTsKICAgICAgYm9yZGVyOiA0cHggc29saWQgdHJhbnNwYXJlbnQ7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAgZ2FwOiA2cHg7CiAgICAgIHBvc2l0aW9uOiByZWxhdGl2ZTsKICAgICAgdHJhbnNpdGlvbjogdHJhbnNmb3JtIDAuMnMsIGJvcmRlci1jb2xvciAwLjJzICFpbXBvcnRhbnQ7CiAgICB9CgogICAgLnRoZW1lLWJ0bjpob3ZlciB7IHRyYW5zZm9ybTogc2NhbGUoMS4xKTsgfQoKICAgIC50aGVtZS1idG4uYWN0aXZlIHsKICAgICAgYm9yZGVyLWNvbG9yOiB2YXIoLS10ZXh0KTsKICAgICAgdHJhbnNmb3JtOiBzY2FsZSgxLjE1KTsKICAgIH0KCiAgICAudGhlbWUtYnRuIC5jaGVjayB7CiAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICAgICAgdG9wOiAtNHB4OwogICAgICByaWdodDogLTRweDsKICAgICAgd2lkdGg6IDIwcHg7CiAgICAgIGhlaWdodDogMjBweDsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tdGV4dCk7CiAgICAgIGNvbG9yOiB2YXIoLS1iZyk7CiAgICAgIGJvcmRlci1yYWRpdXM6IDUwJTsKICAgICAgZm9udC1zaXplOiAwLjdyZW07CiAgICAgIGRpc3BsYXk6IG5vbmU7CiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyOwogICAgICBmb250LXdlaWdodDogOTAwOwogICAgfQoKICAgIC50aGVtZS1idG4uYWN0aXZlIC5jaGVjayB7IGRpc3BsYXk6IGZsZXg7IH0KCiAgICAudGhlbWUtbGFiZWwgewogICAgICBtYXJnaW4tdG9wOiA3MnB4OwogICAgICBmb250LXNpemU6IDAuNzVyZW07CiAgICAgIGNvbG9yOiB2YXIoLS1zdWJ0ZXh0KTsKICAgICAgd2hpdGUtc3BhY2U6IG5vd3JhcDsKICAgIH0KCiAgICAvKiDrr7jrpqzrs7TquLAg7Lm065OcICovCiAgICAucHJldmlldy1zZWN0aW9uIHsKICAgICAgbWF4LXdpZHRoOiA1MDBweDsKICAgICAgbWFyZ2luOiAwIGF1dG8gMzZweDsKICAgIH0KCiAgICAucHJldmlldy1zZWN0aW9uIGgyIHsKICAgICAgZm9udC1zaXplOiAwLjg1cmVtOwogICAgICBjb2xvcjogdmFyKC0tc3VidGV4dCk7CiAgICAgIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7CiAgICAgIGxldHRlci1zcGFjaW5nOiAxcHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDE2cHg7CiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgIH0KCiAgICAucHJldmlldy1jYXJkIHsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tc3VyZmFjZSk7CiAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWJvcmRlcik7CiAgICAgIGJvcmRlci1yYWRpdXM6IDIwcHg7CiAgICAgIHBhZGRpbmc6IDI4cHg7CiAgICAgIGJveC1zaGFkb3c6IDAgNHB4IDIwcHggcmdiYSgwLDAsMCwwLjA4KTsKICAgIH0KCiAgICAucHJldmlldy1jYXJkIGgzIHsKICAgICAgZm9udC1zaXplOiAxLjE1cmVtOwogICAgICBjb2xvcjogdmFyKC0tdGV4dCk7CiAgICAgIG1hcmdpbi1ib3R0b206IDEwcHg7CiAgICB9CgogICAgLnByZXZpZXctY2FyZCBwIHsKICAgICAgZm9udC1zaXplOiAwLjlyZW07CiAgICAgIGNvbG9yOiB2YXIoLS1zdWJ0ZXh0KTsKICAgICAgbGluZS1oZWlnaHQ6IDEuNzsKICAgICAgbWFyZ2luLWJvdHRvbTogMThweDsKICAgIH0KCiAgICAucHJldmlldy1jYXJkIC5iYWRnZSB7CiAgICAgIGRpc3BsYXk6IGlubGluZS1ibG9jazsKICAgICAgcGFkZGluZzogM3B4IDEycHg7CiAgICAgIGJvcmRlci1yYWRpdXM6IDEycHg7CiAgICAgIGZvbnQtc2l6ZTogMC43OHJlbTsKICAgICAgZm9udC13ZWlnaHQ6IDcwMDsKICAgICAgbWFyZ2luLXJpZ2h0OiA2cHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDE0cHg7CiAgICB9CgogICAgLmJhZGdlLWFjY2VudCB7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLWFjY2VudCk7CiAgICAgIGNvbG9yOiB2YXIoLS1idG4tdGV4dCk7CiAgICB9CgogICAgLmJhZGdlLW91dGxpbmUgewogICAgICBib3JkZXI6IDJweCBzb2xpZCB2YXIoLS1ib3JkZXIpOwogICAgICBjb2xvcjogdmFyKC0tc3VidGV4dCk7CiAgICB9CgogICAgLnByZXZpZXctYnRucyB7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGdhcDogMTBweDsKICAgIH0KCiAgICAucHJldmlldy1idG4tcHJpbWFyeSB7CiAgICAgIGZsZXg6IDE7CiAgICAgIHBhZGRpbmc6IDEwcHg7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLWFjY2VudCk7CiAgICAgIGNvbG9yOiB2YXIoLS1idG4tdGV4dCk7CiAgICAgIGJvcmRlcjogbm9uZTsKICAgICAgYm9yZGVyLXJhZGl1czogMTBweDsKICAgICAgZm9udC1zaXplOiAwLjlyZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAwLjJzICFpbXBvcnRhbnQ7CiAgICB9CgogICAgLnByZXZpZXctYnRuLXByaW1hcnk6aG92ZXIgeyBiYWNrZ3JvdW5kOiB2YXIoLS1hY2NlbnQyKTsgfQoKICAgIC5wcmV2aWV3LWJ0bi1vdXRsaW5lIHsKICAgICAgcGFkZGluZzogMTBweCAxOHB4OwogICAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDsKICAgICAgY29sb3I6IHZhcigtLXRleHQpOwogICAgICBib3JkZXI6IDJweCBzb2xpZCB2YXIoLS1ib3JkZXIpOwogICAgICBib3JkZXItcmFkaXVzOiAxMHB4OwogICAgICBmb250LXNpemU6IDAuOXJlbTsKICAgICAgY3Vyc29yOiBwb2ludGVyOwogICAgfQoKICAgIC8qIOyEpOuqhSDthY3siqTtirggKi8KICAgIC5pbmZvIHsKICAgICAgdGV4dC1hbGlnbjogY2VudGVyOwogICAgICBmb250LXNpemU6IDAuODJyZW07CiAgICAgIGNvbG9yOiB2YXIoLS1zdWJ0ZXh0KTsKICAgICAgbWFyZ2luLXRvcDogMTJweDsKICAgIH0KICA8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5PgoKICA8IS0tIOygnOuqqSAtLT4KICA8ZGl2IGNsYXNzPSJoZWFkZXIiPgogICAgPGgxPvCfjqgg67Cw6rK9IO2FjOuniCDrs4Dqsr3quLA8L2gxPgogICAgPHAgY2xhc3M9ImN1cnJlbnQtdGhlbWUtbGFiZWwiPgogICAgICDtmITsnqwg7YWM66eIOiA8c3BhbiBjbGFzcz0iY3VycmVudC10aGVtZS1uYW1lIiBpZD0iY3VycmVudC1uYW1lIj7rnbzsnbTtirg8L3NwYW4+CiAgICA8L3A+CiAgPC9kaXY+CgogIDwhLS0g7YWM66eIIOyEoO2DnSDrsoTtirwgLS0+CiAgPGRpdiBjbGFzcz0idGhlbWUtcGlja2VyIiBpZD0idGhlbWUtcGlja2VyIj4KICAgIDwhLS0gSmF2YVNjcmlwdOuhnCDsg53shLEgLS0+CiAgPC9kaXY+CgogIDwhLS0g66+466as67O06riwIOy5tOuTnCAtLT4KICA8ZGl2IGNsYXNzPSJwcmV2aWV3LXNlY3Rpb24iPgogICAgPGgyPuuvuOumrOuztOq4sDwvaDI+CiAgICA8ZGl2IGNsYXNzPSJwcmV2aWV3LWNhcmQiPgogICAgICA8aDM+8J+ThCDsl4XrrLQg67O06rOg7IScPC9oMz4KICAgICAgPGRpdj4KICAgICAgICA8c3BhbiBjbGFzcz0iYmFkZ2UgYmFkZ2UtYWNjZW50Ij7sp4TtlonspJE8L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9ImJhZGdlIGJhZGdlLW91dGxpbmUiPjLrtoTquLA8L3NwYW4+CiAgICAgIDwvZGl2PgogICAgICA8cD7snbQg7Lm065Oc64qUIO2YhOyerCDshKDtg53rkJwg7YWM66eI6rCAIOyLpOygnCDsvZjthZDsuKDsl5Ag7Ja065a76rKMIOyggeyaqeuQmOuKlOyngCDrs7Tsl6zso7zripQg66+466as67O06riw7J6F64uI64ukLiDrsLDqsr3sg4ksIOq4gOyekOyDiSwg67KE7Yq8IOyDieyDgeydtCDrqqjrkZAg7YWM66eI7JeQIOunnuqyjCDrs4Dqsr3rkKnri4jri6QuPC9wPgogICAgICA8ZGl2IGNsYXNzPSJwcmV2aWV3LWJ0bnMiPgogICAgICAgIDxidXR0b24gY2xhc3M9InByZXZpZXctYnRuLXByaW1hcnkiPuyggOyepe2VmOq4sDwvYnV0dG9uPgogICAgICAgIDxidXR0b24gY2xhc3M9InByZXZpZXctYnRuLW91dGxpbmUiPuy3qOyGjDwvYnV0dG9uPgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogIDwvZGl2PgoKICA8cCBjbGFzcz0iaW5mbyI+8J+SviDshKDtg53tlZwg7YWM66eI64qUIOyDiOuhnOqzoOy5qCDtm4Tsl5Drj4Qg7Jyg7KeA65Cp64uI64ukLjwvcD4KCiAgPHNjcmlwdD4KICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDthYzrp4gg642w7J207YSwIOygleydmAogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGNvbnN0IFRIRU1FUyA9IHsKICAgICAgbGlnaHQ6IHsKICAgICAgICBuYW1lOiAn65287J207Yq4JywKICAgICAgICBjaXJjbGU6ICdsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCNmOGZhZmMsI2UyZThmMCknLAogICAgICAgIHZhcnM6IHsKICAgICAgICAgICctLWJnJzogICAgICAnI2Y4ZmFmYycsCiAgICAgICAgICAnLS1zdXJmYWNlJzogJyNmZmZmZmYnLAogICAgICAgICAgJy0tdGV4dCc6ICAgICcjMWUyOTNiJywKICAgICAgICAgICctLXN1YnRleHQnOiAnIzY0NzQ4YicsCiAgICAgICAgICAnLS1ib3JkZXInOiAgJyNlMmU4ZjAnLAogICAgICAgICAgJy0tYWNjZW50JzogICcjM2I4MmY2JywKICAgICAgICAgICctLWFjY2VudDInOiAnIzFkNGVkOCcsCiAgICAgICAgICAnLS1idG4tdGV4dCc6JyNmZmZmZmYnLAogICAgICAgIH0KICAgICAgfSwKICAgICAgZGFyazogewogICAgICAgIG5hbWU6ICfri6TtgawnLAogICAgICAgIGNpcmNsZTogJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsIzFlMjkzYiwjMGYxNzJhKScsCiAgICAgICAgdmFyczogewogICAgICAgICAgJy0tYmcnOiAgICAgICcjMGYxNzJhJywKICAgICAgICAgICctLXN1cmZhY2UnOiAnIzFlMjkzYicsCiAgICAgICAgICAnLS10ZXh0JzogICAgJyNmMWY1ZjknLAogICAgICAgICAgJy0tc3VidGV4dCc6ICcjOTRhM2I4JywKICAgICAgICAgICctLWJvcmRlcic6ICAnIzMzNDE1NScsCiAgICAgICAgICAnLS1hY2NlbnQnOiAgJyM2MGE1ZmEnLAogICAgICAgICAgJy0tYWNjZW50Mic6ICcjM2I4MmY2JywKICAgICAgICAgICctLWJ0bi10ZXh0JzonIzBmMTcyYScsCiAgICAgICAgfQogICAgICB9LAogICAgICBibHVlOiB7CiAgICAgICAgbmFtZTogJ+u4lOujqCcsCiAgICAgICAgY2lyY2xlOiAnbGluZWFyLWdyYWRpZW50KDEzNWRlZywjM2I4MmY2LCMxZTQwYWYpJywKICAgICAgICB2YXJzOiB7CiAgICAgICAgICAnLS1iZyc6ICAgICAgJyNlZmY2ZmYnLAogICAgICAgICAgJy0tc3VyZmFjZSc6ICcjZGJlYWZlJywKICAgICAgICAgICctLXRleHQnOiAgICAnIzFlM2E4YScsCiAgICAgICAgICAnLS1zdWJ0ZXh0JzogJyMzYjgyZjYnLAogICAgICAgICAgJy0tYm9yZGVyJzogICcjYmZkYmZlJywKICAgICAgICAgICctLWFjY2VudCc6ICAnIzI1NjNlYicsCiAgICAgICAgICAnLS1hY2NlbnQyJzogJyMxZDRlZDgnLAogICAgICAgICAgJy0tYnRuLXRleHQnOicjZmZmZmZmJywKICAgICAgICB9CiAgICAgIH0sCiAgICAgIGdyZWVuOiB7CiAgICAgICAgbmFtZTogJ+q3uOumsCcsCiAgICAgICAgY2lyY2xlOiAnbGluZWFyLWdyYWRpZW50KDEzNWRlZywjMTBiOTgxLCMwNjVmNDYpJywKICAgICAgICB2YXJzOiB7CiAgICAgICAgICAnLS1iZyc6ICAgICAgJyNmMGZkZjQnLAogICAgICAgICAgJy0tc3VyZmFjZSc6ICcjZGNmY2U3JywKICAgICAgICAgICctLXRleHQnOiAgICAnIzA2NGUzYicsCiAgICAgICAgICAnLS1zdWJ0ZXh0JzogJyMwNTk2NjknLAogICAgICAgICAgJy0tYm9yZGVyJzogICcjYTdmM2QwJywKICAgICAgICAgICctLWFjY2VudCc6ICAnIzEwYjk4MScsCiAgICAgICAgICAnLS1hY2NlbnQyJzogJyMwNTk2NjknLAogICAgICAgICAgJy0tYnRuLXRleHQnOicjZmZmZmZmJywKICAgICAgICB9CiAgICAgIH0sCiAgICAgIHB1cnBsZTogewogICAgICAgIG5hbWU6ICftjbztlIwnLAogICAgICAgIGNpcmNsZTogJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsIzhiNWNmNiwjNGMxZDk1KScsCiAgICAgICAgdmFyczogewogICAgICAgICAgJy0tYmcnOiAgICAgICcjZmFmNWZmJywKICAgICAgICAgICctLXN1cmZhY2UnOiAnI2VkZTlmZScsCiAgICAgICAgICAnLS10ZXh0JzogICAgJyMzYjA3NjQnLAogICAgICAgICAgJy0tc3VidGV4dCc6ICcjN2MzYWVkJywKICAgICAgICAgICctLWJvcmRlcic6ICAnI2RkZDZmZScsCiAgICAgICAgICAnLS1hY2NlbnQnOiAgJyM3YzNhZWQnLAogICAgICAgICAgJy0tYWNjZW50Mic6ICcjNmQyOGQ5JywKICAgICAgICAgICctLWJ0bi10ZXh0JzonI2ZmZmZmZicsCiAgICAgICAgfQogICAgICB9LAogICAgICBzdW5zZXQ6IHsKICAgICAgICBuYW1lOiAn7ISg7IWLJywKICAgICAgICBjaXJjbGU6ICdsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCNmOTczMTYsI2VjNDg5OSknLAogICAgICAgIHZhcnM6IHsKICAgICAgICAgICctLWJnJzogICAgICAnI2ZmZjdlZCcsCiAgICAgICAgICAnLS1zdXJmYWNlJzogJyNmZmVkZDUnLAogICAgICAgICAgJy0tdGV4dCc6ICAgICcjN2MyZDEyJywKICAgICAgICAgICctLXN1YnRleHQnOiAnI2VhNTgwYycsCiAgICAgICAgICAnLS1ib3JkZXInOiAgJyNmZWQ3YWEnLAogICAgICAgICAgJy0tYWNjZW50JzogICcjZjk3MzE2JywKICAgICAgICAgICctLWFjY2VudDInOiAnI2VhNTgwYycsCiAgICAgICAgICAnLS1idG4tdGV4dCc6JyNmZmZmZmYnLAogICAgICAgIH0KICAgICAgfQogICAgfTsKCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g7YWM66eIIOuyhO2KvCDroIzrjZTrp4EKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBmdW5jdGlvbiByZW5kZXJUaGVtZUJ1dHRvbnMoKSB7CiAgICAgIGNvbnN0IHBpY2tlciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0aGVtZS1waWNrZXInKTsKICAgICAgcGlja2VyLmlubmVySFRNTCA9IE9iamVjdC5lbnRyaWVzKFRIRU1FUykubWFwKChba2V5LCB0aGVtZV0pID0+IGAKICAgICAgICA8ZGl2IHN0eWxlPSJkaXNwbGF5OmZsZXg7ZmxleC1kaXJlY3Rpb246Y29sdW1uO2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6OHB4Ij4KICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgY2xhc3M9InRoZW1lLWJ0biIgaWQ9ImJ0bi0ke2tleX0iCiAgICAgICAgICAgIG9uY2xpY2s9ImFwcGx5VGhlbWUoJyR7a2V5fScpIgogICAgICAgICAgICB0aXRsZT0iJHt0aGVtZS5uYW1lfSIKICAgICAgICAgICAgc3R5bGU9ImJhY2tncm91bmQ6JHt0aGVtZS5jaXJjbGV9IgogICAgICAgICAgPgogICAgICAgICAgICA8c3BhbiBjbGFzcz0iY2hlY2siPuKckzwvc3Bhbj4KICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICAgPHNwYW4gY2xhc3M9InRoZW1lLWxhYmVsIj4ke3RoZW1lLm5hbWV9PC9zcGFuPgogICAgICAgIDwvZGl2PgogICAgICBgKS5qb2luKCcnKTsKICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g7YWM66eIIOyggeyaqQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIGFwcGx5VGhlbWUoa2V5KSB7CiAgICAgIGNvbnN0IHRoZW1lID0gVEhFTUVTW2tleV07CiAgICAgIGlmICghdGhlbWUpIHJldHVybjsKCiAgICAgIGNvbnN0IHJvb3QgPSBkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQ7CgogICAgICAvLyBDU1Mg67OA7IiYIOydvOq0hCDrs4Dqsr0KICAgICAgT2JqZWN0LmVudHJpZXModGhlbWUudmFycykuZm9yRWFjaCgoW3Byb3AsIHZhbF0pID0+IHsKICAgICAgICByb290LnN0eWxlLnNldFByb3BlcnR5KHByb3AsIHZhbCk7CiAgICAgIH0pOwoKICAgICAgLy8g7ZiE7J6sIO2FjOuniCDsnbTrpoQg7JeF642w7J207Yq4CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXJyZW50LW5hbWUnKS50ZXh0Q29udGVudCA9IHRoZW1lLm5hbWU7CgogICAgICAvLyDrsoTtirwg7Zmc7ISx7ZmUIO2RnOyLnAogICAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcudGhlbWUtYnRuJykuZm9yRWFjaChidG4gPT4gYnRuLmNsYXNzTGlzdC5yZW1vdmUoJ2FjdGl2ZScpKTsKICAgICAgY29uc3QgYWN0aXZlQnRuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2J0bi0nICsga2V5KTsKICAgICAgaWYgKGFjdGl2ZUJ0bikgYWN0aXZlQnRuLmNsYXNzTGlzdC5hZGQoJ2FjdGl2ZScpOwoKICAgICAgLy8gbG9jYWxTdG9yYWdl7JeQIOyggOyepQogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgnc2VsZWN0ZWQtdGhlbWUnLCBrZXkpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDstIjquLDtmZQ6IOyggOyepeuQnCDthYzrp4gg67aI65+s7Jik6riwCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgcmVuZGVyVGhlbWVCdXR0b25zKCk7CgogICAgY29uc3Qgc2F2ZWRUaGVtZSA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdzZWxlY3RlZC10aGVtZScpIHx8ICdsaWdodCc7CiAgICBhcHBseVRoZW1lKHNhdmVkVGhlbWUpOwogIDwvc2NyaXB0PgoKPC9ib2R5Pgo8L2h0bWw+Cg==";
+const RESULT_HTML_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICA8dGl0bGU+66y47IScIOuLpO2BrOuqqOuTnCDrt7DslrQ8L3RpdGxlPgogIDxzdHlsZT4KICAgIC8qID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBDU1Mg67OA7IiYIOq4sOuzuOqwkiAo65287J207Yq4IOuqqOuTnCkKICAgICAgID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ICovCiAgICA6cm9vdCB7CiAgICAgIC0tYmc6ICAgICAgI2YxZjVmOTsKICAgICAgLS1wYXBlcjogICAjZmZmZmZmOwogICAgICAtLXRleHQ6ICAgICMxZTI5M2I7CiAgICAgIC0tc3VidGV4dDogIzY0NzQ4YjsKICAgICAgLS1ib3JkZXI6ICAjZTJlOGYwOwogICAgICAtLWFjY2VudDogICMyNTYzZWI7CiAgICAgIC0tZm9udC1zaXplOiAxNnB4OwogICAgfQoKICAgIC8qIOuqqOuToCDsg4nsg4Eg67OA7ZmY7JeQIHRyYW5zaXRpb24g7KCB7JqpICovCiAgICAqLCAqOjpiZWZvcmUsICo6OmFmdGVyIHsKICAgICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZC1jb2xvciAwLjRzIGVhc2UsIGNvbG9yIDAuNHMgZWFzZSwgYm9yZGVyLWNvbG9yIDAuNHMgZWFzZTsKICAgICAgYm94LXNpemluZzogYm9yZGVyLWJveDsKICAgICAgbWFyZ2luOiAwOyBwYWRkaW5nOiAwOwogICAgfQoKICAgIGJvZHkgewogICAgICBmb250LWZhbWlseTogJ1NlZ29lIFVJJywgJ+unkeydgCDqs6DrlJUnLCBzYW5zLXNlcmlmOwogICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1iZyk7CiAgICAgIGNvbG9yOiB2YXIoLS10ZXh0KTsKICAgICAgbWluLWhlaWdodDogMTAwdmg7CiAgICAgIHBhZGRpbmc6IDM2cHggMTZweDsKICAgIH0KCiAgICAvKiDsoJzrqqkg7JiB7JetICovCiAgICAuaGVhZGVyIHsKICAgICAgdGV4dC1hbGlnbjogY2VudGVyOwogICAgICBtYXJnaW4tYm90dG9tOiAyOHB4OwogICAgfQoKICAgIC5oZWFkZXIgaDEgewogICAgICBmb250LXNpemU6IDEuN3JlbTsKICAgICAgZm9udC13ZWlnaHQ6IDgwMDsKICAgICAgbWFyZ2luLWJvdHRvbTogNnB4OwogICAgfQoKICAgIC5jdXJyZW50LW1vZGUtbGFiZWwgewogICAgICBmb250LXNpemU6IDAuOXJlbTsKICAgICAgY29sb3I6IHZhcigtLXN1YnRleHQpOwogICAgfQoKICAgIC5jdXJyZW50LW1vZGUtbmFtZSB7CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGNvbG9yOiB2YXIoLS1hY2NlbnQpOwogICAgfQoKICAgIC8qIO2ItOuwlCAo66qo65OcIOyEoO2DnSArIOq4gOyekCDtgazquLAg7KGw7KCIKSAqLwogICAgLnRvb2xiYXIgewogICAgICBkaXNwbGF5OiBmbGV4OwogICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsKICAgICAgYWxpZ24taXRlbXM6IGZsZXgtc3RhcnQ7CiAgICAgIGZsZXgtd3JhcDogd3JhcDsKICAgICAgZ2FwOiAzNnB4OwogICAgICBtYXJnaW4tYm90dG9tOiAzMnB4OwogICAgfQoKICAgIC8qIOuqqOuTnCDshKDtg50g67KE7Yq8ICjsg4nsg4Eg7JuQKSAqLwogICAgLm1vZGUtcGlja2VyIHsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgZ2FwOiAxOHB4OwogICAgfQoKICAgIC5tb2RlLWJ0biB7CiAgICAgIHdpZHRoOiA1NnB4OwogICAgICBoZWlnaHQ6IDU2cHg7CiAgICAgIGJvcmRlci1yYWRpdXM6IDUwJTsKICAgICAgYm9yZGVyOiA0cHggc29saWQgdHJhbnNwYXJlbnQ7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAgZ2FwOiA2cHg7CiAgICAgIHBvc2l0aW9uOiByZWxhdGl2ZTsKICAgICAgdHJhbnNpdGlvbjogdHJhbnNmb3JtIDAuMnMsIGJvcmRlci1jb2xvciAwLjJzICFpbXBvcnRhbnQ7CiAgICB9CgogICAgLm1vZGUtYnRuOmhvdmVyIHsgdHJhbnNmb3JtOiBzY2FsZSgxLjEpOyB9CgogICAgLm1vZGUtYnRuLmFjdGl2ZSB7CiAgICAgIGJvcmRlci1jb2xvcjogdmFyKC0tdGV4dCk7CiAgICAgIHRyYW5zZm9ybTogc2NhbGUoMS4xNSk7CiAgICB9CgogICAgLm1vZGUtYnRuIC5jaGVjayB7CiAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICAgICAgdG9wOiAtNHB4OwogICAgICByaWdodDogLTRweDsKICAgICAgd2lkdGg6IDE4cHg7CiAgICAgIGhlaWdodDogMThweDsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tdGV4dCk7CiAgICAgIGNvbG9yOiB2YXIoLS1iZyk7CiAgICAgIGJvcmRlci1yYWRpdXM6IDUwJTsKICAgICAgZm9udC1zaXplOiAwLjY1cmVtOwogICAgICBkaXNwbGF5OiBub25lOwogICAgICBhbGlnbi1pdGVtczogY2VudGVyOwogICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsKICAgICAgZm9udC13ZWlnaHQ6IDkwMDsKICAgIH0KCiAgICAubW9kZS1idG4uYWN0aXZlIC5jaGVjayB7IGRpc3BsYXk6IGZsZXg7IH0KCiAgICAubW9kZS1sYWJlbCB7CiAgICAgIG1hcmdpbi10b3A6IDY0cHg7CiAgICAgIGZvbnQtc2l6ZTogMC43NXJlbTsKICAgICAgY29sb3I6IHZhcigtLXN1YnRleHQpOwogICAgICB3aGl0ZS1zcGFjZTogbm93cmFwOwogICAgfQoKICAgIC8qIOq4gOyekCDtgazquLAg7KGw7KCIICovCiAgICAuZm9udC1jb250cm9sIHsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAgZ2FwOiAxMHB4OwogICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1wYXBlcik7CiAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWJvcmRlcik7CiAgICAgIGJvcmRlci1yYWRpdXM6IDE0cHg7CiAgICAgIHBhZGRpbmc6IDEwcHggMTZweDsKICAgIH0KCiAgICAuZm9udC1idG4gewogICAgICB3aWR0aDogMzRweDsKICAgICAgaGVpZ2h0OiAzNHB4OwogICAgICBib3JkZXItcmFkaXVzOiA4cHg7CiAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWJvcmRlcik7CiAgICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50OwogICAgICBjb2xvcjogdmFyKC0tdGV4dCk7CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAwLjJzICFpbXBvcnRhbnQ7CiAgICB9CgogICAgLmZvbnQtYnRuOmhvdmVyIHsgYmFja2dyb3VuZDogdmFyKC0tYmcpOyB9CgogICAgLmZvbnQtc2l6ZS1sYWJlbCB7CiAgICAgIGZvbnQtc2l6ZTogMC45cmVtOwogICAgICBjb2xvcjogdmFyKC0tc3VidGV4dCk7CiAgICAgIG1pbi13aWR0aDogNDJweDsKICAgICAgdGV4dC1hbGlnbjogY2VudGVyOwogICAgfQoKICAgIC8qIOusuOyEnCDsmIHsl60gKi8KICAgIC5kb2MtcGFnZSB7CiAgICAgIG1heC13aWR0aDogNjgwcHg7CiAgICAgIG1hcmdpbjogMCBhdXRvIDI0cHg7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLXBhcGVyKTsKICAgICAgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tYm9yZGVyKTsKICAgICAgYm9yZGVyLXJhZGl1czogMTJweDsKICAgICAgcGFkZGluZzogNDhweCA1NnB4OwogICAgICBib3gtc2hhZG93OiAwIDRweCAyNHB4IHJnYmEoMCwwLDAsMC4wOCk7CiAgICAgIGZvbnQtc2l6ZTogdmFyKC0tZm9udC1zaXplKTsKICAgIH0KCiAgICAuZG9jLWhlYWRlciB7CiAgICAgIGJvcmRlci1ib3R0b206IDJweCBzb2xpZCB2YXIoLS1ib3JkZXIpOwogICAgICBwYWRkaW5nLWJvdHRvbTogMThweDsKICAgICAgbWFyZ2luLWJvdHRvbTogMjRweDsKICAgIH0KCiAgICAuZG9jLWhlYWRlciBoMiB7CiAgICAgIGZvbnQtc2l6ZTogMS41ZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA4MDA7CiAgICAgIGNvbG9yOiB2YXIoLS10ZXh0KTsKICAgICAgbWFyZ2luLWJvdHRvbTogOHB4OwogICAgfQoKICAgIC5kb2MtbWV0YSB7CiAgICAgIGZvbnQtc2l6ZTogMC44NWVtOwogICAgICBjb2xvcjogdmFyKC0tc3VidGV4dCk7CiAgICB9CgogICAgLmRvYy1ib2R5IGgzIHsKICAgICAgZm9udC1zaXplOiAxLjE1ZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGNvbG9yOiB2YXIoLS1hY2NlbnQpOwogICAgICBtYXJnaW46IDIycHggMCA4cHg7CiAgICB9CgogICAgLmRvYy1ib2R5IHAgewogICAgICBmb250LXNpemU6IDFlbTsKICAgICAgbGluZS1oZWlnaHQ6IDEuOTsKICAgICAgY29sb3I6IHZhcigtLXRleHQpOwogICAgfQoKICAgIC5kb2Mtbm90ZSB7CiAgICAgIG1hcmdpbi10b3A6IDIwcHg7CiAgICAgIGZvbnQtc2l6ZTogMC45ZW07CiAgICAgIGNvbG9yOiB2YXIoLS1zdWJ0ZXh0KTsKICAgICAgYm9yZGVyLWxlZnQ6IDNweCBzb2xpZCB2YXIoLS1hY2NlbnQpOwogICAgICBwYWRkaW5nLWxlZnQ6IDEycHg7CiAgICB9CgogICAgLmRvYy1mb290ZXIgewogICAgICBtYXJnaW4tdG9wOiAzMnB4OwogICAgICBwYWRkaW5nLXRvcDogMThweDsKICAgICAgYm9yZGVyLXRvcDogMnB4IHNvbGlkIHZhcigtLWJvcmRlcik7CiAgICAgIGZvbnQtc2l6ZTogMC45NWVtOwogICAgICBsaW5lLWhlaWdodDogMS44OwogICAgICBjb2xvcjogdmFyKC0tdGV4dCk7CiAgICAgIHRleHQtYWxpZ246IHJpZ2h0OwogICAgfQoKICAgIC8qIOyEpOuqhSDthY3siqTtirggKi8KICAgIC5pbmZvIHsKICAgICAgdGV4dC1hbGlnbjogY2VudGVyOwogICAgICBmb250LXNpemU6IDAuODJyZW07CiAgICAgIGNvbG9yOiB2YXIoLS1zdWJ0ZXh0KTsKICAgIH0KCiAgICBAbWVkaWEgKG1heC13aWR0aDogNjAwcHgpIHsKICAgICAgLmRvYy1wYWdlIHsgcGFkZGluZzogMzJweCAyNHB4OyB9CiAgICB9CiAgPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KCiAgPCEtLSDsoJzrqqkgLS0+CiAgPGRpdiBjbGFzcz0iaGVhZGVyIj4KICAgIDxoMT7wn5OEIOusuOyEnCDri6Ttgazrqqjrk5wg67ew7Ja0PC9oMT4KICAgIDxwIGNsYXNzPSJjdXJyZW50LW1vZGUtbGFiZWwiPgogICAgICDtmITsnqwg66qo65OcOiA8c3BhbiBjbGFzcz0iY3VycmVudC1tb2RlLW5hbWUiIGlkPSJjdXJyZW50LW5hbWUiPuudvOydtO2KuDwvc3Bhbj4KICAgIDwvcD4KICA8L2Rpdj4KCiAgPCEtLSDtiLTrsJQgLS0+CiAgPGRpdiBjbGFzcz0idG9vbGJhciI+CiAgICA8ZGl2IGNsYXNzPSJtb2RlLXBpY2tlciIgaWQ9Im1vZGUtcGlja2VyIj4KICAgICAgPCEtLSBKYXZhU2NyaXB066GcIOyDneyEsSAtLT4KICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0iZm9udC1jb250cm9sIj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iZm9udC1idG4iIG9uY2xpY2s9ImNoYW5nZUZvbnRTaXplKC0yKSIgdGl0bGU9Iuq4gOyekCDsnpHqsowiPuqwgC08L2J1dHRvbj4KICAgICAgPHNwYW4gY2xhc3M9ImZvbnQtc2l6ZS1sYWJlbCIgaWQ9ImZvbnQtc2l6ZS1sYWJlbCI+MTZweDwvc3Bhbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iZm9udC1idG4iIG9uY2xpY2s9ImNoYW5nZUZvbnRTaXplKDIpIiB0aXRsZT0i6riA7J6QIO2BrOqyjCI+6rCAKzwvYnV0dG9uPgogICAgPC9kaXY+CiAgPC9kaXY+CgogIDwhLS0g7Iuk7KCcIOyXheustCDrrLjshJwg66+466as67O06riwIC0tPgogIDxkaXYgY2xhc3M9ImRvYy1wYWdlIj4KICAgIDxkaXYgY2xhc3M9ImRvYy1oZWFkZXIiPgogICAgICA8aDI+MjAyNeuFhCDtlZjrsJjquLAg7KCV6riwIOybjO2BrOyIjSDslYjrgrQ8L2gyPgogICAgICA8cCBjbGFzcz0iZG9jLW1ldGEiPuyekeyEseydvDogMjAyNS4wOC4wMSDCtyDsnpHshLHsnpA6IOy0neustO2MgDwvcD4KICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0iZG9jLWJvZHkiPgogICAgICA8cD7slYjrhZXtlZjshLjsmpQsIOy0neustO2MgOyeheuLiOuLpC48YnI+MjAyNeuFhCDtlZjrsJjquLAg7KCV6riwIOybjO2BrOyIjSDsnbzsoJXsnYQg7JWE656Y7JmAIOqwmeydtCDslYjrgrTrk5zrpqzsmKTri4gg7LC46rOg7ZWY7Iuc7Ja0IOywuOyEnSDrtoDtg4Hrk5zrpr3ri4jri6QuPC9wPgoKICAgICAgPGgzPjEuIOydvOyLnCDrsI8g7J6l7IaMPC9oMz4KICAgICAgPHA+LSDsnbzsi5w6IDIwMjXrhYQgOeyblCAxMuydvCjquIgpIDEwOjAwIH4gMTc6MDA8YnI+LSDsnqXshow6IOqwleybkOuPhCDtj4nssL0gT0/rpqzsobDtirg8L3A+CgogICAgICA8aDM+Mi4g7LC47ISdIOuMgOyDgTwvaDM+CiAgICAgIDxwPuyghCDsp4Hsm5AgKOu2gOyEnOuzhCDtlYTsiJgg7J247JuQ7J2AIOyCrOyghCDsobDsnKgpPC9wPgoKICAgICAgPGgzPjMuIOykgOu5hCDsgqztla08L2gzPgogICAgICA8cD4tIO2OuOyViO2VnCDrs7XsnqU8YnI+LSDqsJzsnbgg7IS466m064+E6rWsPGJyPi0g7IKs7KCEIOyEpOusuCDssLjsl6wgKOunge2BrCDrs4Trj4Qg7JWI64K0KTwvcD4KCiAgICAgIDxkaXYgY2xhc3M9ImRvYy1ub3RlIj7igLsg7LC47ISdIOyXrOu2gOuKlCA57JuUIDHsnbwo7JuUKeq5jOyngCDtjIDsnqXri5jqu5gg7ZqM7IugIOu2gO2DgeuTnOumveuLiOuLpC48L2Rpdj4KICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0iZG9jLWZvb3RlciI+CiAgICAgIOqwkOyCrO2VqeuLiOuLpC48YnI+PHN0cm9uZz7stJ3rrLTtjIAg65Oc66a8PC9zdHJvbmc+CiAgICA8L2Rpdj4KICA8L2Rpdj4KCiAgPHAgY2xhc3M9ImluZm8iPvCfkr4g7ISg7YOd7ZWcIOuqqOuTnOyZgCDquIDsnpAg7YGs6riw64qUIOyDiOuhnOqzoOy5qCDtm4Tsl5Drj4Qg7Jyg7KeA65Cp64uI64ukLjwvcD4KCiAgPHNjcmlwdD4KICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDsnb3quLAg66qo65OcIOuNsOydtO2EsCDsoJXsnZgKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBjb25zdCBSRUFESU5HX01PREVTID0gewogICAgICBsaWdodDogewogICAgICAgIG5hbWU6ICfrnbzsnbTtirgnLAogICAgICAgIGNpcmNsZTogJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsI2Y4ZmFmYywjZTJlOGYwKScsCiAgICAgICAgdmFyczogewogICAgICAgICAgJy0tYmcnOiAgICAgICcjZjFmNWY5JywKICAgICAgICAgICctLXBhcGVyJzogICAnI2ZmZmZmZicsCiAgICAgICAgICAnLS10ZXh0JzogICAgJyMxZTI5M2InLAogICAgICAgICAgJy0tc3VidGV4dCc6ICcjNjQ3NDhiJywKICAgICAgICAgICctLWJvcmRlcic6ICAnI2UyZThmMCcsCiAgICAgICAgICAnLS1hY2NlbnQnOiAgJyMyNTYzZWInLAogICAgICAgIH0KICAgICAgfSwKICAgICAgZGFyazogewogICAgICAgIG5hbWU6ICfri6TtgawnLAogICAgICAgIGNpcmNsZTogJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsIzFlMjkzYiwjMGYxNzJhKScsCiAgICAgICAgdmFyczogewogICAgICAgICAgJy0tYmcnOiAgICAgICcjMGYxNzJhJywKICAgICAgICAgICctLXBhcGVyJzogICAnIzFlMjkzYicsCiAgICAgICAgICAnLS10ZXh0JzogICAgJyNmMWY1ZjknLAogICAgICAgICAgJy0tc3VidGV4dCc6ICcjOTRhM2I4JywKICAgICAgICAgICctLWJvcmRlcic6ICAnIzMzNDE1NScsCiAgICAgICAgICAnLS1hY2NlbnQnOiAgJyM2MGE1ZmEnLAogICAgICAgIH0KICAgICAgfSwKICAgICAgc2VwaWE6IHsKICAgICAgICBuYW1lOiAn7IS47ZS87JWEJywKICAgICAgICBjaXJjbGU6ICdsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCNmNGVjZDgsI2UzZDViOCknLAogICAgICAgIHZhcnM6IHsKICAgICAgICAgICctLWJnJzogICAgICAnI2VmZTNjOCcsCiAgICAgICAgICAnLS1wYXBlcic6ICAgJyNmYmYzZTAnLAogICAgICAgICAgJy0tdGV4dCc6ICAgICcjNWI0NjM2JywKICAgICAgICAgICctLXN1YnRleHQnOiAnIzhhNzM2MCcsCiAgICAgICAgICAnLS1ib3JkZXInOiAgJyNlM2Q1YjgnLAogICAgICAgICAgJy0tYWNjZW50JzogICcjYjQ1MzA5JywKICAgICAgICB9CiAgICAgIH0KICAgIH07CgogICAgLy8g6riA7J6QIO2BrOq4sCDrspTsnIQKICAgIGNvbnN0IEZPTlRfTUlOID0gMTQ7CiAgICBjb25zdCBGT05UX01BWCA9IDI0OwoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDrqqjrk5wg67KE7Yq8IOugjOuNlOungQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIHJlbmRlck1vZGVCdXR0b25zKCkgewogICAgICBjb25zdCBwaWNrZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbW9kZS1waWNrZXInKTsKICAgICAgcGlja2VyLmlubmVySFRNTCA9IE9iamVjdC5lbnRyaWVzKFJFQURJTkdfTU9ERVMpLm1hcCgoW2tleSwgbW9kZV0pID0+IGAKICAgICAgICA8ZGl2IHN0eWxlPSJkaXNwbGF5OmZsZXg7ZmxleC1kaXJlY3Rpb246Y29sdW1uO2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6OHB4Ij4KICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgY2xhc3M9Im1vZGUtYnRuIiBpZD0iYnRuLSR7a2V5fSIKICAgICAgICAgICAgb25jbGljaz0iYXBwbHlNb2RlKCcke2tleX0nKSIKICAgICAgICAgICAgdGl0bGU9IiR7bW9kZS5uYW1lfSIKICAgICAgICAgICAgc3R5bGU9ImJhY2tncm91bmQ6JHttb2RlLmNpcmNsZX0iCiAgICAgICAgICA+CiAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJjaGVjayI+4pyTPC9zcGFuPgogICAgICAgICAgPC9idXR0b24+CiAgICAgICAgICA8c3BhbiBjbGFzcz0ibW9kZS1sYWJlbCI+JHttb2RlLm5hbWV9PC9zcGFuPgogICAgICAgIDwvZGl2PgogICAgICBgKS5qb2luKCcnKTsKICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g66qo65OcIOyggeyaqQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIGFwcGx5TW9kZShrZXkpIHsKICAgICAgY29uc3QgbW9kZSA9IFJFQURJTkdfTU9ERVNba2V5XTsKICAgICAgaWYgKCFtb2RlKSByZXR1cm47CgogICAgICBjb25zdCByb290ID0gZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50OwoKICAgICAgLy8gQ1NTIOuzgOyImCDsnbzqtIQg67OA6rK9CiAgICAgIE9iamVjdC5lbnRyaWVzKG1vZGUudmFycykuZm9yRWFjaCgoW3Byb3AsIHZhbF0pID0+IHsKICAgICAgICByb290LnN0eWxlLnNldFByb3BlcnR5KHByb3AsIHZhbCk7CiAgICAgIH0pOwoKICAgICAgLy8g7ZiE7J6sIOuqqOuTnCDsnbTrpoQg7JeF642w7J207Yq4CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXJyZW50LW5hbWUnKS50ZXh0Q29udGVudCA9IG1vZGUubmFtZTsKCiAgICAgIC8vIOuyhO2KvCDtmZzshLHtmZQg7ZGc7IucCiAgICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5tb2RlLWJ0bicpLmZvckVhY2goYnRuID0+IGJ0bi5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKSk7CiAgICAgIGNvbnN0IGFjdGl2ZUJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdidG4tJyArIGtleSk7CiAgICAgIGlmIChhY3RpdmVCdG4pIGFjdGl2ZUJ0bi5jbGFzc0xpc3QuYWRkKCdhY3RpdmUnKTsKCiAgICAgIC8vIGxvY2FsU3RvcmFnZeyXkCDsoIDsnqUKICAgICAgbG9jYWxTdG9yYWdlLnNldEl0ZW0oJ3JlYWRpbmctbW9kZScsIGtleSk7CiAgICB9CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOq4gOyekCDtgazquLAg7KGw7KCICiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gY2hhbmdlRm9udFNpemUoZGVsdGEpIHsKICAgICAgY29uc3Qgcm9vdCA9IGRvY3VtZW50LmRvY3VtZW50RWxlbWVudDsKICAgICAgY29uc3QgY3VycmVudCA9IHBhcnNlSW50KGdldENvbXB1dGVkU3R5bGUocm9vdCkuZ2V0UHJvcGVydHlWYWx1ZSgnLS1mb250LXNpemUnKSk7CiAgICAgIGNvbnN0IG5leHQgPSBNYXRoLm1pbihGT05UX01BWCwgTWF0aC5tYXgoRk9OVF9NSU4sIGN1cnJlbnQgKyBkZWx0YSkpOwoKICAgICAgcm9vdC5zdHlsZS5zZXRQcm9wZXJ0eSgnLS1mb250LXNpemUnLCBuZXh0ICsgJ3B4Jyk7CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdmb250LXNpemUtbGFiZWwnKS50ZXh0Q29udGVudCA9IG5leHQgKyAncHgnOwogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgncmVhZGluZy1mb250LXNpemUnLCBuZXh0KTsKICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g7LSI6riw7ZmUOiDsoIDsnqXrkJwg66qo65OcICYg6riA7J6QIO2BrOq4sCDrtojrn6zsmKTquLAKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICByZW5kZXJNb2RlQnV0dG9ucygpOwoKICAgIGNvbnN0IHNhdmVkTW9kZSA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdyZWFkaW5nLW1vZGUnKSB8fCAnbGlnaHQnOwogICAgYXBwbHlNb2RlKHNhdmVkTW9kZSk7CgogICAgY29uc3Qgc2F2ZWRGb250U2l6ZSA9IHBhcnNlSW50KGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdyZWFkaW5nLWZvbnQtc2l6ZScpKSB8fCAxNjsKICAgIGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5zdHlsZS5zZXRQcm9wZXJ0eSgnLS1mb250LXNpemUnLCBzYXZlZEZvbnRTaXplICsgJ3B4Jyk7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZm9udC1zaXplLWxhYmVsJykudGV4dENvbnRlbnQgPSBzYXZlZEZvbnRTaXplICsgJ3B4JzsKICA8L3NjcmlwdD4KCjwvYm9keT4KPC9odG1sPgo=";
 function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
-function openResultPopup(){const w=window.open('','resultPopup',`width=${screen.availWidth},height=${screen.availHeight},left=0,top=0,resizable=yes,scrollbars=yes`);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
+function openResultPopup(){const w=window.open('','resultPopup','left=0,top=0,resizable=yes,scrollbars=yes');w.moveTo(0,0);w.resizeTo(screen.availWidth,screen.availHeight);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
 const slides=Array.from(document.querySelectorAll('.slide'));
 const total=slides.length;let current=0;
 const dotsWrap=document.getElementById('navDots');
