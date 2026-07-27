@@ -14,78 +14,85 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .slide.exit{opacity:0;transform:translateX(-60px);}
 .progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#7c3aed,#9333ea);transition:width .35s ease;z-index:999;}
 .nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
-.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.1rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--violet);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.43rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--violet);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
 .nav-btn:hover{background:var(--violet);color:#fff;transform:scale(1.08);}
 .nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
-.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
-.slide-label{position:fixed;top:16px;left:24px;font-size:.72rem;font-weight:700;z-index:999;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:1.04rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.slide-label{position:fixed;top:16px;left:24px;font-size:0.94rem;font-weight:700;z-index:999;}
+.nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
+.nav-dot:hover{background:#94a3b8;}
+.nav-dot.active{width:22px;border-radius:5px;background:#6366f1;}
+.result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
+.result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
+.result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
 .s-title{background:linear-gradient(135deg,#4c1d95 0%,#5b21b6 45%,#7c3aed 100%);align-items:center;justify-content:center;text-align:center;color:#fff;}
-.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:.82rem;font-weight:700;margin-bottom:28px;display:inline-block;}
-.s-title h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:1.07rem;font-weight:700;margin-bottom:28px;display:inline-block;}
+.s-title h1{font-size:clamp(2.2rem,6.5vw,3.52rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
 .s-title h1 span{color:#ddd6fe;}
-.s-title p{font-size:1rem;opacity:.8;margin-bottom:40px;}
+.s-title p{font-size:1.3rem;opacity:.8;margin-bottom:40px;}
 .meta-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
-.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:.88rem;font-weight:600;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:1.14rem;font-weight:600;}
 .s-content{background:var(--surface);}
 .s-grad{background:linear-gradient(150deg,#faf5ff,#ede9fe);}
 .s-dark{background:#1e1e2e;color:#cdd6f4;}
 .slide-header{padding:34px 68px 26px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:14px;}
 .s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
-.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
-.slide-header h2{font-size:1.7rem;font-weight:800;color:var(--text);}
+.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.54rem;flex-shrink:0;}
+.slide-header h2{font-size:1.87rem;font-weight:800;color:var(--text);}
 .s-dark .slide-header h2{color:#cdd6f4;}
-.slide-header p{font-size:.86rem;color:var(--sub);margin-top:2px;}
+.slide-header p{font-size:1.12rem;color:var(--sub);margin-top:2px;}
 .s-dark .slide-header p{color:#6c7086;}
 .slide-body{flex:1;padding:32px 68px;overflow-y:auto;}
-.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:.81rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
-.code-block .lang{position:absolute;top:9px;right:13px;font-size:.63rem;color:#6c7086;font-family:sans-serif;}
+.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:1.05rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
+.code-block .lang{position:absolute;top:9px;right:13px;font-size:0.82rem;color:#6c7086;font-family:sans-serif;}
 .kw{color:#cba6f7;}.tg{color:#89b4fa;}.at{color:#a6e3a1;}.st{color:#f38ba8;}.cm{color:#6c7086;font-style:italic;}.vl{color:#fab387;}.py{color:#f9e2af;}
 .concept-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .concept-card{background:#fff;border-radius:13px;padding:22px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-.concept-card .cc-icon{font-size:1.8rem;margin-bottom:8px;}
-.concept-card h3{font-size:.95rem;font-weight:800;color:var(--text);margin-bottom:6px;}
-.concept-card p{font-size:.88rem;color:var(--sub);line-height:1.6;}
+.concept-card .cc-icon{font-size:1.98rem;margin-bottom:8px;}
+.concept-card h3{font-size:1.23rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.concept-card p{font-size:1.14rem;color:var(--sub);line-height:1.6;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-.quote-box{background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid var(--violet);border-radius:0 12px 12px 0;padding:16px 20px;font-size:.86rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
+.quote-box{background:linear-gradient(135deg,#faf5ff,#ede9fe);border-left:4px solid var(--violet);border-radius:0 12px 12px 0;padding:16px 20px;font-size:1.12rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
 .quote-box strong{color:var(--violet);}
 .step-list{display:flex;flex-direction:column;gap:12px;}
 .step-item{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:11px;padding:16px 20px;border:1px solid #e2e8f0;}
-.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--violet),var(--purple));color:#fff;font-weight:900;font-size:.88rem;display:flex;align-items:center;justify-content:center;}
-.step-item h4{font-size:.94rem;font-weight:800;color:var(--text);margin-bottom:2px;}
-.step-item p{font-size:.86rem;color:var(--sub);}
-.step-item code{background:#f1f5f9;color:var(--violet);padding:1px 6px;border-radius:4px;font-size:.76rem;}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--violet),var(--purple));color:#fff;font-weight:900;font-size:1.14rem;display:flex;align-items:center;justify-content:center;}
+.step-item h4{font-size:1.22rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step-item p{font-size:1.12rem;color:var(--sub);}
+.step-item code{background:#f1f5f9;color:var(--violet);padding:1px 6px;border-radius:4px;font-size:0.99rem;}
 .mission-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
 .mission-card{border-radius:13px;padding:20px;}
 .m1{background:linear-gradient(135deg,#faf5ff,#ede9fe);border:1px solid #ddd6fe;}
 .m2{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;}
 .m3{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid #fed7aa;}
-.mission-card .m-star{font-size:1rem;margin-bottom:6px;}
-.mission-card h3{font-size:.88rem;font-weight:800;color:var(--text);margin-bottom:8px;}
-.mission-card p{font-size:.78rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
-.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:.73rem;color:var(--text);line-height:1.6;}
+.mission-card .m-star{font-size:1.3rem;margin-bottom:6px;}
+.mission-card h3{font-size:1.14rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+.mission-card p{font-size:1.01rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
+.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:0.95rem;color:var(--text);line-height:1.6;}
 .check-list{display:flex;flex-direction:column;gap:11px;}
-.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:.86rem;font-weight:600;color:var(--text);}
-.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--violet),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;flex-shrink:0;}
+.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:1.12rem;font-weight:600;color:var(--text);}
+.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--violet),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.17rem;flex-shrink:0;}
 .prompt-box{background:#0f172a;border-radius:13px;padding:24px 28px;border-left:4px solid #7c3aed;}
-.prompt-box .prompt-label{font-size:.68rem;font-weight:800;letter-spacing:.1em;color:#a78bfa;margin-bottom:12px;}
-.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:.8rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
-.prompt-tip{margin-top:12px;background:rgba(124,58,237,.1);border-radius:7px;padding:9px 14px;font-size:.76rem;color:#c4b5fd;}
+.prompt-box .prompt-label{font-size:0.88rem;font-weight:800;letter-spacing:.1em;color:#a78bfa;margin-bottom:12px;}
+.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:1.04rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
+.prompt-tip{margin-top:12px;background:rgba(124,58,237,.1);border-radius:7px;padding:9px 14px;font-size:0.99rem;color:#c4b5fd;}
 .s-end{background:linear-gradient(135deg,#4c1d95,#5b21b6,#7c3aed);align-items:center;justify-content:center;text-align:center;color:#fff;}
-.s-end h2{font-size:2.3rem;font-weight:900;margin-bottom:14px;}
+.s-end h2{font-size:2.53rem;font-weight:900;margin-bottom:14px;}
 .s-end h2 span{color:#ddd6fe;}
-.s-end p{font-size:.98rem;opacity:.8;margin-bottom:36px;}
-.s-end .next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:13px 30px;border-radius:13px;font-size:.88rem;display:inline-flex;align-items:center;gap:10px;}
+.s-end p{font-size:1.27rem;opacity:.8;margin-bottom:36px;}
+.s-end .next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:13px 30px;border-radius:13px;font-size:1.14rem;display:inline-flex;align-items:center;gap:10px;}
 
 /* ── s-prompt 슬라이드 ── */
 .s-prompt{background:#f0f4ff;justify-content:center;padding:48px 72px;}
 .sp-header{margin-bottom:18px;}
-.sp-badge{font-size:.66rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
-.sp-header h2{font-size:clamp(22px,2.8vw,30px);font-weight:800;color:var(--text);margin-bottom:6px;}
-.sp-header p{font-size:.83rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
-.sp-label{font-size:.66rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;}
-.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:.72rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:42vh;overflow:auto;border:1px solid #312e81;}
+.sp-badge{font-size:0.86rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.sp-header h2{font-size:clamp(24px,3.64vw,33px);font-weight:800;color:var(--text);margin-bottom:6px;}
+.sp-header p{font-size:1.08rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
+.sp-label{font-size:0.86rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;}
+.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:0.94rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:42vh;overflow:auto;border:1px solid #312e81;}
 .sp-row{display:flex;gap:12px;margin-top:14px;}
-.sp-card{flex:1;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:.71rem;color:var(--sub);line-height:1.55;}
+.sp-card{flex:1;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:0.92rem;color:var(--sub);line-height:1.55;}
 .sp-card b{color:var(--text);display:block;margin-bottom:4px;}
 </style>
 </head>
@@ -130,14 +137,29 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
   <div class="slide-body">
     <div style="display:flex;flex-direction:column;gap:11px;">
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">1</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:.8rem;">— 오늘의 재료: CSS 변수 (Custom Properties) · setProperty · 시스템 다크모드 자동 감지 — 딱 이것만 알면 됩니다</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">2</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:.8rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">3</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:.8rem;">— Cline이 만든 index.html을 열어 Go Live로 브라우저 확인</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">4</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:.8rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">5</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:.8rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: CSS 변수 (Custom Properties) · setProperty · 시스템 다크모드 자동 감지 — 딱 이것만 알면 됩니다</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html을 열어 Go Live로 브라우저 확인</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
     </div>
-    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:.82rem;color:#92400e;line-height:1.6;">
+    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">
       💡 <strong>막혀도 괜찮습니다!</strong> 실행이 안 될 때 보는 <strong>"자주 막히는 문제"</strong> 슬라이드가 준비되어 있고, 오류는 AI에게 물어보면 대부분 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">🎒</div>
+    <div><h2>시작 전 준비물 체크</h2><p>4가지만 준비되면 바로 시작할 수 있습니다 (이미 되어 있다면 통과!)</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">💻</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>VS Code 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">code.visualstudio.com 에서 무료 다운로드. 코드를 작성·실행하는 우리의 작업대입니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🟢</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Live Server 확장 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">VS Code 왼쪽 확장(Extensions) 메뉴에서 "Live Server" 검색 → Install. 파일을 브라우저로 바로 열어줍니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🤖</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Cline 확장 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">VS Code 확장 메뉴에서 "Cline" 검색 → Install. 코드를 대신 써 줄 AI 파트너입니다. (API 설정은 강사 안내에 따라)</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📁</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>실습 폴더 만들기</strong><br><span style="color:#64748b;font-size:1.01rem;">바탕화면에 "바이브코딩" 폴더를 만들어두세요. 차시별 결과물을 여기 모읍니다.</span></div></div>
+    </div>
+    <div style="margin-top:14px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#92400e;line-height:1.6;">
+      ⏱️ 설치가 안 된 분은 손을 들어주세요 — 옆 사람과 함께 5분 안에 끝낼 수 있습니다.
     </div>
   </div>
 </div>
@@ -148,8 +170,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
     <div><h2>오늘 나오는 용어 미리보기</h2><p>외우지 마세요 — 눈에만 익혀두면 수업이 술술 풀립니다</p></div>
   </div>
   <div class="slide-body">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 CSS 변수</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">색상 값에 <code>--main-color</code>처럼 <strong>이름표</strong>를 붙여두는 것. 한 곳만 바꾸면 전체 적용!</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 :root</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">문서 <strong>전체에 적용되는 기준점</strong>. CSS 변수를 여기 모아둡니다</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 setProperty</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">JS에서 CSS 변수 값을 바꾸는 명령. <strong>테마 전환의 핵심</strong></p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 다크모드</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">어두운 배경의 화면 테마. 눈의 피로를 줄여줍니다</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 prefers-color-scheme</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">사용자 컴퓨터의 <strong>다크모드 설정을 읽어오는</strong> 방법</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 localStorage</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">선택한 테마를 <strong>기억해두는</strong> 브라우저 저장소</p></div></div>
-    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:.8rem;color:#166534;line-height:1.6;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 CSS 변수</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">색상 값에 <code>--main-color</code>처럼 <strong>이름표</strong>를 붙여두는 것. 한 곳만 바꾸면 전체 적용!</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 :root</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">문서 <strong>전체에 적용되는 기준점</strong>. CSS 변수를 여기 모아둡니다</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 setProperty</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">JS에서 CSS 변수 값을 바꾸는 명령. <strong>테마 전환의 핵심</strong></p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 다크모드</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">어두운 배경의 화면 테마. 눈의 피로를 줄여줍니다</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 prefers-color-scheme</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">사용자 컴퓨터의 <strong>다크모드 설정을 읽어오는</strong> 방법</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 localStorage</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">선택한 테마를 <strong>기억해두는</strong> 브라우저 저장소</p></div></div>
+    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#166534;line-height:1.6;">
       🌱 낯선 단어가 나와도 괜찮습니다. 이 슬라이드로 돌아와서 다시 확인하면 됩니다. 코드는 <strong>AI가 쓰고</strong>, 우리는 <strong>읽고 요청</strong>만 하면 돼요!
     </div>
   </div>
@@ -226,8 +248,8 @@ localStorage.<span class="at">setItem</span>(<span class="st">'theme'</span>, <s
         </div>
       </div>
       <div>
-        <p style="font-size:.76rem;font-weight:800;color:#6c7086;margin-bottom:10px;">테마 객체 패턴</p>
-        <div class="code-block" style="background:#11111b;font-size:.75rem;"><span class="lang">JS</span>
+        <p style="font-size:0.99rem;font-weight:800;color:#6c7086;margin-bottom:10px;">테마 객체 패턴</p>
+        <div class="code-block" style="background:#11111b;font-size:0.98rem;"><span class="lang">JS</span>
 <span class="kw">const</span> THEMES = {
   light: {
     <span class="st">'--bg-color'</span>: <span class="st">'#ffffff'</span>,
@@ -329,7 +351,7 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
 - 테마 전환 시 부드러운 transition 효과
 
 파일은 index.html 하나로, 코드에 한국어 주석 달아줘</div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:.73rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">
     <div class="sp-card"><b>🎨 커스텀 색상</b>사용자가 직접 배경색과 글자색을 컬러피커로 골라서 나만의 커스텀 테마를 만들 수 있게 해줘.</div>
     <div class="sp-card"><b>🌇 그라데이션 배경</b>단색 배경 외에 두 가지 색상의 그라데이션 배경 테마도 추가하고 방향(각도)도 선택 가능하게 해줘.</div>
@@ -360,9 +382,9 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
   </div>
   <div class="slide-body">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">🔍 "Go Live 버튼이 안 보여요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">VS Code 왼쪽 <strong>확장(Extensions)</strong> 메뉴에서 <strong>Live Server</strong>를 검색해 설치한 뒤, VS Code를 껐다가 다시 켜세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;"><strong>저장(Ctrl+S)</strong>이 먼저입니다! 저장하지 않으면 반영되지 않아요. 저장 후 브라우저에서 <strong>새로고침(F5)</strong> 하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">🔤 "한글이 깨져 보여요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">AI에게 <strong>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</strong>라고 요청하세요. VS Code 오른쪽 아래 인코딩 표시가 <strong>UTF-8</strong>인지도 확인!</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔍 "Go Live 버튼이 안 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">VS Code 왼쪽 <strong>확장(Extensions)</strong> 메뉴에서 <strong>Live Server</strong>를 검색해 설치한 뒤, VS Code를 껐다가 다시 켜세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><strong>저장(Ctrl+S)</strong>이 먼저입니다! 저장하지 않으면 반영되지 않아요. 저장 후 브라우저에서 <strong>새로고침(F5)</strong> 하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔤 "한글이 깨져 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">AI에게 <strong>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</strong>라고 요청하세요. VS Code 오른쪽 아래 인코딩 표시가 <strong>UTF-8</strong>인지도 확인!</p></div>
     </div>
-    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:.82rem;color:#3730a3;line-height:1.6;">
+    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#3730a3;line-height:1.6;">
       🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.
     </div>
   </div>
@@ -372,38 +394,55 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
 <div class="slide s-dark">
   <div class="slide-header">
     <div class="icon" style="background:rgba(255,255,255,.1);">🔍</div>
-    <div><h2>코드 핵심 — 초기화 & 저장 패턴</h2><p>페이지 로드 시 저장된 테마를 불러오는 패턴</p></div>
+    <div><h2>코드 핵심 설명</h2><p style="color:#6c7086;">index.html 파일에서 찾아봐야 할 핵심 부분</p></div>
   </div>
   <div class="slide-body">
-    <div class="code-block" style="background:#11111b;font-size:.78rem;"><span class="lang">JS</span>
-<span class="cm">// 페이지 로드 시 실행</span>
-<span class="kw">function</span> <span class="at">init</span>() {
-  <span class="cm">// 1) 저장된 테마 확인</span>
-  <span class="kw">const</span> saved = localStorage.<span class="at">getItem</span>(<span class="st">'theme'</span>);
+    <div class="two-col">
+      <div>
+        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">① 테마 적용 (applyTheme)</p>
+        <div class="code-block" style="background:#11111b;font-size:0.96rem;margin-bottom:14px;">
+<span class="kw">function</span> <span class="at">applyTheme</span>(key) {
+  <span class="kw">const</span> theme = THEMES[key];
+  <span class="kw">const</span> root = document.documentElement;
 
-  <span class="kw">if</span> (saved && THEMES[saved]) {
-    <span class="cm">// 2a) 저장된 테마 적용</span>
-    <span class="at">applyTheme</span>(saved);
-    <span class="at">markActive</span>(saved);
-  } <span class="kw">else</span> {
-    <span class="cm">// 2b) 시스템 설정 감지</span>
-    <span class="kw">const</span> isDark = window.<span class="at">matchMedia</span>(
-      <span class="st">'(prefers-color-scheme: dark)'</span>
-    ).matches;
-    <span class="at">applyTheme</span>(isDark ? <span class="st">'dark'</span> : <span class="st">'light'</span>);
-  }
-}
-
-<span class="cm">// 테마 적용 + 저장</span>
-<span class="kw">function</span> <span class="at">applyTheme</span>(name) {
-  <span class="tg">Object</span>.<span class="at">entries</span>(THEMES[name]).<span class="at">forEach</span>(([k,v]) =>
-    document.documentElement.style.<span class="at">setProperty</span>(k, v)
+  <span class="cm">// CSS 변수 일괄 변경</span>
+  <span class="tg">Object</span>.<span class="at">entries</span>(theme.vars).<span class="at">forEach</span>(
+    ([prop, val]) => root.style.<span class="at">setProperty</span>(prop, val)
   );
-  localStorage.<span class="at">setItem</span>(<span class="st">'theme'</span>, name);
-  <span class="at">markActive</span>(name);
-}
 
-<span class="at">init</span>(); <span class="cm">// 로드 시 즉시 실행</span>
+  <span class="cm">// 현재 테마 이름 & 버튼 표시 갱신</span>
+  document.getElementById(<span class="st">'current-name'</span>)
+    .textContent = theme.name;
+
+  <span class="cm">// localStorage에 저장</span>
+  localStorage.<span class="at">setItem</span>(<span class="st">'selected-theme'</span>, key);
+}
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px 16px;font-size:1.04rem;line-height:1.8;color:#a6adc8;">
+          • <code style="color:#a6e3a1;">Object.entries(theme.vars)</code> — 테마 색상을 <strong>한 번에 순회</strong><br>
+          • <code style="color:#cba6f7;">setProperty</code> 한 줄이면 그 변수를 쓰는 모든 CSS가 갱신<br>
+          • 마지막 줄이 <strong>테마 기억</strong>의 핵심
+        </div>
+      </div>
+      <div>
+        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">② 초기화 (페이지 로드 시)</p>
+        <div class="code-block" style="background:#11111b;font-size:0.96rem;margin-bottom:14px;">
+<span class="cm">// 버튼 목록 그리기</span>
+<span class="at">renderThemeButtons</span>();
+
+<span class="cm">// 저장된 테마 없으면 'light' 기본값</span>
+<span class="kw">const</span> savedTheme =
+  localStorage.<span class="at">getItem</span>(<span class="st">'selected-theme'</span>)
+  || <span class="st">'light'</span>;
+
+<span class="at">applyTheme</span>(savedTheme);
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px 16px;font-size:1.04rem;line-height:1.8;color:#a6adc8;">
+          • <code style="color:#f9e2af;">||</code> — 왼쪽 값이 없으면(null) 오른쪽 기본값 사용<br>
+          • 스크립트가 실행되는 순간 바로 호출되어 <strong>새로고침해도 유지</strong><br>
+          • 별도의 <code style="color:#89b4fa;">DOMContentLoaded</code> 없이 스크립트 맨 아래에서 바로 실행
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -415,11 +454,11 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
   </div>
   <div class="slide-body">
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">1</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>같은 Cline 대화에서 이어가기</strong><br><span style="color:#64748b;font-size:.78rem;">새 작업(New Task)을 열지 마세요! 코드를 만들어 준 대화에 이어서 요청해야 Cline이 맥락을 기억합니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">2</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>미션 문구 붙여넣기</strong><br><span style="color:#64748b;font-size:.78rem;">다음 슬라이드의 미션 프롬프트를 복사하거나, 원하는 변화를 말로 설명하세요. 문법·전문용어는 몰라도 됩니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">3</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>변경 내용 확인하고 승인</strong><br><span style="color:#64748b;font-size:.78rem;">Cline이 파일을 <strong>직접 고쳐줍니다</strong>. 어떤 부분이 바뀌는지(diff) 훑어보고 승인하세요. 직접 타이핑할 필요가 없어요.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">4</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>저장하고 확인</strong><br><span style="color:#64748b;font-size:.78rem;">저장(Ctrl+S) → 브라우저 새로고침(F5) → 바뀐 부분을 확인합니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">1</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>같은 Cline 대화에서 이어가기</strong><br><span style="color:#64748b;font-size:1.01rem;">새 작업(New Task)을 열지 마세요! 코드를 만들어 준 대화에 이어서 요청해야 Cline이 맥락을 기억합니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">2</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>미션 문구 붙여넣기</strong><br><span style="color:#64748b;font-size:1.01rem;">다음 슬라이드의 미션 프롬프트를 복사하거나, 원하는 변화를 말로 설명하세요. 문법·전문용어는 몰라도 됩니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">3</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>변경 내용 확인하고 승인</strong><br><span style="color:#64748b;font-size:1.01rem;">Cline이 파일을 <strong>직접 고쳐줍니다</strong>. 어떤 부분이 바뀌는지(diff) 훑어보고 승인하세요. 직접 타이핑할 필요가 없어요.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">4</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>저장하고 확인</strong><br><span style="color:#64748b;font-size:1.01rem;">저장(Ctrl+S) → 브라우저 새로고침(F5) → 바뀐 부분을 확인합니다.</span></div></div>
     </div>
     <div style="display:flex;gap:12px;margin-top:14px;">
-      <div style="flex:1;background:#eef2ff;border-radius:10px;padding:11px 16px;font-size:.78rem;color:#3730a3;line-height:1.6;">🔑 <strong>한 번에 하나씩!</strong> 여러 개를 동시에 요청하면 어디가 바뀌었는지 알기 어렵습니다.</div>
-      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:11px 16px;font-size:.78rem;color:#991b1b;line-height:1.6;">😱 <strong>망가졌다면?</strong> AI에게 "방금 수정을 취소하고 이전 코드로 되돌려줘"라고 하면 됩니다.</div>
+      <div style="flex:1;background:#eef2ff;border-radius:10px;padding:11px 16px;font-size:1.01rem;color:#3730a3;line-height:1.6;">🔑 <strong>한 번에 하나씩!</strong> 여러 개를 동시에 요청하면 어디가 바뀌었는지 알기 어렵습니다.</div>
+      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:11px 16px;font-size:1.01rem;color:#991b1b;line-height:1.6;">😱 <strong>망가졌다면?</strong> AI에게 "방금 수정을 취소하고 이전 코드로 되돌려줘"라고 하면 됩니다.</div>
     </div>
   </div>
 </div>
@@ -468,26 +507,41 @@ CSS 변수(--bg-color, --text-color 등)를 사용해서
       <div class="check-item"><div class="check-box">☐</div>테마 전환 시 부드러운 애니메이션이 있다</div>
       <div class="check-item"><div class="check-box">☐</div>회사 색상으로 커스텀 테마를 만들었다</div>
     </div>
+    <div style="margin-top:24px;background:linear-gradient(135deg,#faf5ff,#ede9fe);border-radius:14px;padding:20px 24px;border:1px solid #ddd6fe;">
+      <p style="font-size:1.14rem;font-weight:800;color:var(--violet);margin-bottom:8px;">🎉 모든 미션 완료 후 도전해볼 것</p>
+      <p style="font-size:1.08rem;color:var(--sub);line-height:1.8;">
+        AI에게 <strong>"테마 전환 버튼에 키보드 단축키를 추가해줘"</strong> 또는<br>
+        <strong>"랜덤 테마 뽑기 버튼을 추가해줘"</strong> 같은 심화 요청을 해보세요!
+      </p>
+    </div>
   </div>
 </div>
 
 <!-- S11 마무리 -->
 <div class="slide s-end">
+  <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
+  <div class="result-link-tip">완성 예제 보기</div>
   <h2>실습 09 <span>완료!</span> 🎨</h2>
   <p>CSS 변수와 setProperty로 다크/라이트 테마 전환기를 만들었습니다.</p>
   <div class="next-hint"><span>▶</span> 다음 실습: <strong>실습 10 — OX 퀴즈 게임 만들기</strong></div>
 </div>
 
 </div>
+<div class="nav-dots" id="navDots"></div>
 <div class="nav">
   <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
-  <span class="slide-counter" id="counter">1 / 15</span>
+  <span class="slide-counter" id="counter">1 / 16</span>
   <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
 </div>
 <script>
+const RESULT_HTML_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICA8dGl0bGU+67Cw6rK9IO2FjOuniCDrs4Dqsr3quLA8L3RpdGxlPgogIDxzdHlsZT4KICAgIC8qID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBDU1Mg67OA7IiYIOq4sOuzuOqwkiAo65287J207Yq4IO2FjOuniCkKICAgICAgID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ICovCiAgICA6cm9vdCB7CiAgICAgIC0tYmc6ICAgICAgI2Y4ZmFmYzsKICAgICAgLS1zdXJmYWNlOiAjZmZmZmZmOwogICAgICAtLXRleHQ6ICAgICMxZTI5M2I7CiAgICAgIC0tc3VidGV4dDogIzY0NzQ4YjsKICAgICAgLS1ib3JkZXI6ICAjZTJlOGYwOwogICAgICAtLWFjY2VudDogICMzYjgyZjY7CiAgICAgIC0tYWNjZW50MjogIzFkNGVkODsKICAgICAgLS1idG4tdGV4dDogI2ZmZmZmZjsKICAgIH0KCiAgICAvKiDrqqjrk6Ag7IOJ7IOBIOuzgO2ZmOyXkCB0cmFuc2l0aW9uIOyggeyaqSAqLwogICAgKiwgKjo6YmVmb3JlLCAqOjphZnRlciB7CiAgICAgIHRyYW5zaXRpb246IGJhY2tncm91bmQtY29sb3IgMC40cyBlYXNlLCBjb2xvciAwLjRzIGVhc2UsIGJvcmRlci1jb2xvciAwLjRzIGVhc2U7CiAgICAgIGJveC1zaXppbmc6IGJvcmRlci1ib3g7CiAgICAgIG1hcmdpbjogMDsgcGFkZGluZzogMDsKICAgIH0KCiAgICBib2R5IHsKICAgICAgZm9udC1mYW1pbHk6ICdTZWdvZSBVSScsICfrp5HsnYAg6rOg65SVJywgc2Fucy1zZXJpZjsKICAgICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYmcpOwogICAgICBjb2xvcjogdmFyKC0tdGV4dCk7CiAgICAgIG1pbi1oZWlnaHQ6IDEwMHZoOwogICAgICBwYWRkaW5nOiAzNnB4IDE2cHg7CiAgICB9CgogICAgLyog7KCc66qpIOyYgeyXrSAqLwogICAgLmhlYWRlciB7CiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgICAgbWFyZ2luLWJvdHRvbTogMzZweDsKICAgIH0KCiAgICAuaGVhZGVyIGgxIHsKICAgICAgZm9udC1zaXplOiAxLjdyZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA4MDA7CiAgICAgIG1hcmdpbi1ib3R0b206IDZweDsKICAgIH0KCiAgICAuY3VycmVudC10aGVtZS1sYWJlbCB7CiAgICAgIGZvbnQtc2l6ZTogMC45cmVtOwogICAgICBjb2xvcjogdmFyKC0tc3VidGV4dCk7CiAgICB9CgogICAgLmN1cnJlbnQtdGhlbWUtbmFtZSB7CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGNvbG9yOiB2YXIoLS1hY2NlbnQpOwogICAgfQoKICAgIC8qIO2FjOuniCDshKDtg50g67KE7Yq8IOyYgeyXrSAqLwogICAgLnRoZW1lLXBpY2tlciB7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyOwogICAgICBmbGV4LXdyYXA6IHdyYXA7CiAgICAgIGdhcDogMThweDsKICAgICAgbWFyZ2luLWJvdHRvbTogNDBweDsKICAgICAgbWF4LXdpZHRoOiA1NjBweDsKICAgICAgbWFyZ2luLWxlZnQ6IGF1dG87CiAgICAgIG1hcmdpbi1yaWdodDogYXV0bzsKICAgIH0KCiAgICAvKiDthYzrp4gg67KE7Yq8ICjsg4nsg4Eg7JuQKSAqLwogICAgLnRoZW1lLWJ0biB7CiAgICAgIHdpZHRoOiA2NHB4OwogICAgICBoZWlnaHQ6IDY0cHg7CiAgICAgIGJvcmRlci1yYWRpdXM6IDUwJTsKICAgICAgYm9yZGVyOiA0cHggc29saWQgdHJhbnNwYXJlbnQ7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAgZ2FwOiA2cHg7CiAgICAgIHBvc2l0aW9uOiByZWxhdGl2ZTsKICAgICAgdHJhbnNpdGlvbjogdHJhbnNmb3JtIDAuMnMsIGJvcmRlci1jb2xvciAwLjJzICFpbXBvcnRhbnQ7CiAgICB9CgogICAgLnRoZW1lLWJ0bjpob3ZlciB7IHRyYW5zZm9ybTogc2NhbGUoMS4xKTsgfQoKICAgIC50aGVtZS1idG4uYWN0aXZlIHsKICAgICAgYm9yZGVyLWNvbG9yOiB2YXIoLS10ZXh0KTsKICAgICAgdHJhbnNmb3JtOiBzY2FsZSgxLjE1KTsKICAgIH0KCiAgICAudGhlbWUtYnRuIC5jaGVjayB7CiAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICAgICAgdG9wOiAtNHB4OwogICAgICByaWdodDogLTRweDsKICAgICAgd2lkdGg6IDIwcHg7CiAgICAgIGhlaWdodDogMjBweDsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tdGV4dCk7CiAgICAgIGNvbG9yOiB2YXIoLS1iZyk7CiAgICAgIGJvcmRlci1yYWRpdXM6IDUwJTsKICAgICAgZm9udC1zaXplOiAwLjdyZW07CiAgICAgIGRpc3BsYXk6IG5vbmU7CiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyOwogICAgICBmb250LXdlaWdodDogOTAwOwogICAgfQoKICAgIC50aGVtZS1idG4uYWN0aXZlIC5jaGVjayB7IGRpc3BsYXk6IGZsZXg7IH0KCiAgICAudGhlbWUtbGFiZWwgewogICAgICBtYXJnaW4tdG9wOiA3MnB4OwogICAgICBmb250LXNpemU6IDAuNzVyZW07CiAgICAgIGNvbG9yOiB2YXIoLS1zdWJ0ZXh0KTsKICAgICAgd2hpdGUtc3BhY2U6IG5vd3JhcDsKICAgIH0KCiAgICAvKiDrr7jrpqzrs7TquLAg7Lm065OcICovCiAgICAucHJldmlldy1zZWN0aW9uIHsKICAgICAgbWF4LXdpZHRoOiA1MDBweDsKICAgICAgbWFyZ2luOiAwIGF1dG8gMzZweDsKICAgIH0KCiAgICAucHJldmlldy1zZWN0aW9uIGgyIHsKICAgICAgZm9udC1zaXplOiAwLjg1cmVtOwogICAgICBjb2xvcjogdmFyKC0tc3VidGV4dCk7CiAgICAgIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7CiAgICAgIGxldHRlci1zcGFjaW5nOiAxcHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDE2cHg7CiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgIH0KCiAgICAucHJldmlldy1jYXJkIHsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tc3VyZmFjZSk7CiAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWJvcmRlcik7CiAgICAgIGJvcmRlci1yYWRpdXM6IDIwcHg7CiAgICAgIHBhZGRpbmc6IDI4cHg7CiAgICAgIGJveC1zaGFkb3c6IDAgNHB4IDIwcHggcmdiYSgwLDAsMCwwLjA4KTsKICAgIH0KCiAgICAucHJldmlldy1jYXJkIGgzIHsKICAgICAgZm9udC1zaXplOiAxLjE1cmVtOwogICAgICBjb2xvcjogdmFyKC0tdGV4dCk7CiAgICAgIG1hcmdpbi1ib3R0b206IDEwcHg7CiAgICB9CgogICAgLnByZXZpZXctY2FyZCBwIHsKICAgICAgZm9udC1zaXplOiAwLjlyZW07CiAgICAgIGNvbG9yOiB2YXIoLS1zdWJ0ZXh0KTsKICAgICAgbGluZS1oZWlnaHQ6IDEuNzsKICAgICAgbWFyZ2luLWJvdHRvbTogMThweDsKICAgIH0KCiAgICAucHJldmlldy1jYXJkIC5iYWRnZSB7CiAgICAgIGRpc3BsYXk6IGlubGluZS1ibG9jazsKICAgICAgcGFkZGluZzogM3B4IDEycHg7CiAgICAgIGJvcmRlci1yYWRpdXM6IDEycHg7CiAgICAgIGZvbnQtc2l6ZTogMC43OHJlbTsKICAgICAgZm9udC13ZWlnaHQ6IDcwMDsKICAgICAgbWFyZ2luLXJpZ2h0OiA2cHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDE0cHg7CiAgICB9CgogICAgLmJhZGdlLWFjY2VudCB7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLWFjY2VudCk7CiAgICAgIGNvbG9yOiB2YXIoLS1idG4tdGV4dCk7CiAgICB9CgogICAgLmJhZGdlLW91dGxpbmUgewogICAgICBib3JkZXI6IDJweCBzb2xpZCB2YXIoLS1ib3JkZXIpOwogICAgICBjb2xvcjogdmFyKC0tc3VidGV4dCk7CiAgICB9CgogICAgLnByZXZpZXctYnRucyB7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGdhcDogMTBweDsKICAgIH0KCiAgICAucHJldmlldy1idG4tcHJpbWFyeSB7CiAgICAgIGZsZXg6IDE7CiAgICAgIHBhZGRpbmc6IDEwcHg7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLWFjY2VudCk7CiAgICAgIGNvbG9yOiB2YXIoLS1idG4tdGV4dCk7CiAgICAgIGJvcmRlcjogbm9uZTsKICAgICAgYm9yZGVyLXJhZGl1czogMTBweDsKICAgICAgZm9udC1zaXplOiAwLjlyZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAwLjJzICFpbXBvcnRhbnQ7CiAgICB9CgogICAgLnByZXZpZXctYnRuLXByaW1hcnk6aG92ZXIgeyBiYWNrZ3JvdW5kOiB2YXIoLS1hY2NlbnQyKTsgfQoKICAgIC5wcmV2aWV3LWJ0bi1vdXRsaW5lIHsKICAgICAgcGFkZGluZzogMTBweCAxOHB4OwogICAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDsKICAgICAgY29sb3I6IHZhcigtLXRleHQpOwogICAgICBib3JkZXI6IDJweCBzb2xpZCB2YXIoLS1ib3JkZXIpOwogICAgICBib3JkZXItcmFkaXVzOiAxMHB4OwogICAgICBmb250LXNpemU6IDAuOXJlbTsKICAgICAgY3Vyc29yOiBwb2ludGVyOwogICAgfQoKICAgIC8qIOyEpOuqhSDthY3siqTtirggKi8KICAgIC5pbmZvIHsKICAgICAgdGV4dC1hbGlnbjogY2VudGVyOwogICAgICBmb250LXNpemU6IDAuODJyZW07CiAgICAgIGNvbG9yOiB2YXIoLS1zdWJ0ZXh0KTsKICAgICAgbWFyZ2luLXRvcDogMTJweDsKICAgIH0KICA8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5PgoKICA8IS0tIOygnOuqqSAtLT4KICA8ZGl2IGNsYXNzPSJoZWFkZXIiPgogICAgPGgxPvCfjqgg67Cw6rK9IO2FjOuniCDrs4Dqsr3quLA8L2gxPgogICAgPHAgY2xhc3M9ImN1cnJlbnQtdGhlbWUtbGFiZWwiPgogICAgICDtmITsnqwg7YWM66eIOiA8c3BhbiBjbGFzcz0iY3VycmVudC10aGVtZS1uYW1lIiBpZD0iY3VycmVudC1uYW1lIj7rnbzsnbTtirg8L3NwYW4+CiAgICA8L3A+CiAgPC9kaXY+CgogIDwhLS0g7YWM66eIIOyEoO2DnSDrsoTtirwgLS0+CiAgPGRpdiBjbGFzcz0idGhlbWUtcGlja2VyIiBpZD0idGhlbWUtcGlja2VyIj4KICAgIDwhLS0gSmF2YVNjcmlwdOuhnCDsg53shLEgLS0+CiAgPC9kaXY+CgogIDwhLS0g66+466as67O06riwIOy5tOuTnCAtLT4KICA8ZGl2IGNsYXNzPSJwcmV2aWV3LXNlY3Rpb24iPgogICAgPGgyPuuvuOumrOuztOq4sDwvaDI+CiAgICA8ZGl2IGNsYXNzPSJwcmV2aWV3LWNhcmQiPgogICAgICA8aDM+8J+ThCDsl4XrrLQg67O06rOg7IScPC9oMz4KICAgICAgPGRpdj4KICAgICAgICA8c3BhbiBjbGFzcz0iYmFkZ2UgYmFkZ2UtYWNjZW50Ij7sp4TtlonspJE8L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9ImJhZGdlIGJhZGdlLW91dGxpbmUiPjLrtoTquLA8L3NwYW4+CiAgICAgIDwvZGl2PgogICAgICA8cD7snbQg7Lm065Oc64qUIO2YhOyerCDshKDtg53rkJwg7YWM66eI6rCAIOyLpOygnCDsvZjthZDsuKDsl5Ag7Ja065a76rKMIOyggeyaqeuQmOuKlOyngCDrs7Tsl6zso7zripQg66+466as67O06riw7J6F64uI64ukLiDrsLDqsr3sg4ksIOq4gOyekOyDiSwg67KE7Yq8IOyDieyDgeydtCDrqqjrkZAg7YWM66eI7JeQIOunnuqyjCDrs4Dqsr3rkKnri4jri6QuPC9wPgogICAgICA8ZGl2IGNsYXNzPSJwcmV2aWV3LWJ0bnMiPgogICAgICAgIDxidXR0b24gY2xhc3M9InByZXZpZXctYnRuLXByaW1hcnkiPuyggOyepe2VmOq4sDwvYnV0dG9uPgogICAgICAgIDxidXR0b24gY2xhc3M9InByZXZpZXctYnRuLW91dGxpbmUiPuy3qOyGjDwvYnV0dG9uPgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogIDwvZGl2PgoKICA8cCBjbGFzcz0iaW5mbyI+8J+SviDshKDtg53tlZwg7YWM66eI64qUIOyDiOuhnOqzoOy5qCDtm4Tsl5Drj4Qg7Jyg7KeA65Cp64uI64ukLjwvcD4KCiAgPHNjcmlwdD4KICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDthYzrp4gg642w7J207YSwIOygleydmAogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGNvbnN0IFRIRU1FUyA9IHsKICAgICAgbGlnaHQ6IHsKICAgICAgICBuYW1lOiAn65287J207Yq4JywKICAgICAgICBjaXJjbGU6ICdsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCNmOGZhZmMsI2UyZThmMCknLAogICAgICAgIHZhcnM6IHsKICAgICAgICAgICctLWJnJzogICAgICAnI2Y4ZmFmYycsCiAgICAgICAgICAnLS1zdXJmYWNlJzogJyNmZmZmZmYnLAogICAgICAgICAgJy0tdGV4dCc6ICAgICcjMWUyOTNiJywKICAgICAgICAgICctLXN1YnRleHQnOiAnIzY0NzQ4YicsCiAgICAgICAgICAnLS1ib3JkZXInOiAgJyNlMmU4ZjAnLAogICAgICAgICAgJy0tYWNjZW50JzogICcjM2I4MmY2JywKICAgICAgICAgICctLWFjY2VudDInOiAnIzFkNGVkOCcsCiAgICAgICAgICAnLS1idG4tdGV4dCc6JyNmZmZmZmYnLAogICAgICAgIH0KICAgICAgfSwKICAgICAgZGFyazogewogICAgICAgIG5hbWU6ICfri6TtgawnLAogICAgICAgIGNpcmNsZTogJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsIzFlMjkzYiwjMGYxNzJhKScsCiAgICAgICAgdmFyczogewogICAgICAgICAgJy0tYmcnOiAgICAgICcjMGYxNzJhJywKICAgICAgICAgICctLXN1cmZhY2UnOiAnIzFlMjkzYicsCiAgICAgICAgICAnLS10ZXh0JzogICAgJyNmMWY1ZjknLAogICAgICAgICAgJy0tc3VidGV4dCc6ICcjOTRhM2I4JywKICAgICAgICAgICctLWJvcmRlcic6ICAnIzMzNDE1NScsCiAgICAgICAgICAnLS1hY2NlbnQnOiAgJyM2MGE1ZmEnLAogICAgICAgICAgJy0tYWNjZW50Mic6ICcjM2I4MmY2JywKICAgICAgICAgICctLWJ0bi10ZXh0JzonIzBmMTcyYScsCiAgICAgICAgfQogICAgICB9LAogICAgICBibHVlOiB7CiAgICAgICAgbmFtZTogJ+u4lOujqCcsCiAgICAgICAgY2lyY2xlOiAnbGluZWFyLWdyYWRpZW50KDEzNWRlZywjM2I4MmY2LCMxZTQwYWYpJywKICAgICAgICB2YXJzOiB7CiAgICAgICAgICAnLS1iZyc6ICAgICAgJyNlZmY2ZmYnLAogICAgICAgICAgJy0tc3VyZmFjZSc6ICcjZGJlYWZlJywKICAgICAgICAgICctLXRleHQnOiAgICAnIzFlM2E4YScsCiAgICAgICAgICAnLS1zdWJ0ZXh0JzogJyMzYjgyZjYnLAogICAgICAgICAgJy0tYm9yZGVyJzogICcjYmZkYmZlJywKICAgICAgICAgICctLWFjY2VudCc6ICAnIzI1NjNlYicsCiAgICAgICAgICAnLS1hY2NlbnQyJzogJyMxZDRlZDgnLAogICAgICAgICAgJy0tYnRuLXRleHQnOicjZmZmZmZmJywKICAgICAgICB9CiAgICAgIH0sCiAgICAgIGdyZWVuOiB7CiAgICAgICAgbmFtZTogJ+q3uOumsCcsCiAgICAgICAgY2lyY2xlOiAnbGluZWFyLWdyYWRpZW50KDEzNWRlZywjMTBiOTgxLCMwNjVmNDYpJywKICAgICAgICB2YXJzOiB7CiAgICAgICAgICAnLS1iZyc6ICAgICAgJyNmMGZkZjQnLAogICAgICAgICAgJy0tc3VyZmFjZSc6ICcjZGNmY2U3JywKICAgICAgICAgICctLXRleHQnOiAgICAnIzA2NGUzYicsCiAgICAgICAgICAnLS1zdWJ0ZXh0JzogJyMwNTk2NjknLAogICAgICAgICAgJy0tYm9yZGVyJzogICcjYTdmM2QwJywKICAgICAgICAgICctLWFjY2VudCc6ICAnIzEwYjk4MScsCiAgICAgICAgICAnLS1hY2NlbnQyJzogJyMwNTk2NjknLAogICAgICAgICAgJy0tYnRuLXRleHQnOicjZmZmZmZmJywKICAgICAgICB9CiAgICAgIH0sCiAgICAgIHB1cnBsZTogewogICAgICAgIG5hbWU6ICftjbztlIwnLAogICAgICAgIGNpcmNsZTogJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsIzhiNWNmNiwjNGMxZDk1KScsCiAgICAgICAgdmFyczogewogICAgICAgICAgJy0tYmcnOiAgICAgICcjZmFmNWZmJywKICAgICAgICAgICctLXN1cmZhY2UnOiAnI2VkZTlmZScsCiAgICAgICAgICAnLS10ZXh0JzogICAgJyMzYjA3NjQnLAogICAgICAgICAgJy0tc3VidGV4dCc6ICcjN2MzYWVkJywKICAgICAgICAgICctLWJvcmRlcic6ICAnI2RkZDZmZScsCiAgICAgICAgICAnLS1hY2NlbnQnOiAgJyM3YzNhZWQnLAogICAgICAgICAgJy0tYWNjZW50Mic6ICcjNmQyOGQ5JywKICAgICAgICAgICctLWJ0bi10ZXh0JzonI2ZmZmZmZicsCiAgICAgICAgfQogICAgICB9LAogICAgICBzdW5zZXQ6IHsKICAgICAgICBuYW1lOiAn7ISg7IWLJywKICAgICAgICBjaXJjbGU6ICdsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCNmOTczMTYsI2VjNDg5OSknLAogICAgICAgIHZhcnM6IHsKICAgICAgICAgICctLWJnJzogICAgICAnI2ZmZjdlZCcsCiAgICAgICAgICAnLS1zdXJmYWNlJzogJyNmZmVkZDUnLAogICAgICAgICAgJy0tdGV4dCc6ICAgICcjN2MyZDEyJywKICAgICAgICAgICctLXN1YnRleHQnOiAnI2VhNTgwYycsCiAgICAgICAgICAnLS1ib3JkZXInOiAgJyNmZWQ3YWEnLAogICAgICAgICAgJy0tYWNjZW50JzogICcjZjk3MzE2JywKICAgICAgICAgICctLWFjY2VudDInOiAnI2VhNTgwYycsCiAgICAgICAgICAnLS1idG4tdGV4dCc6JyNmZmZmZmYnLAogICAgICAgIH0KICAgICAgfQogICAgfTsKCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g7YWM66eIIOuyhO2KvCDroIzrjZTrp4EKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBmdW5jdGlvbiByZW5kZXJUaGVtZUJ1dHRvbnMoKSB7CiAgICAgIGNvbnN0IHBpY2tlciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0aGVtZS1waWNrZXInKTsKICAgICAgcGlja2VyLmlubmVySFRNTCA9IE9iamVjdC5lbnRyaWVzKFRIRU1FUykubWFwKChba2V5LCB0aGVtZV0pID0+IGAKICAgICAgICA8ZGl2IHN0eWxlPSJkaXNwbGF5OmZsZXg7ZmxleC1kaXJlY3Rpb246Y29sdW1uO2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6OHB4Ij4KICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgY2xhc3M9InRoZW1lLWJ0biIgaWQ9ImJ0bi0ke2tleX0iCiAgICAgICAgICAgIG9uY2xpY2s9ImFwcGx5VGhlbWUoJyR7a2V5fScpIgogICAgICAgICAgICB0aXRsZT0iJHt0aGVtZS5uYW1lfSIKICAgICAgICAgICAgc3R5bGU9ImJhY2tncm91bmQ6JHt0aGVtZS5jaXJjbGV9IgogICAgICAgICAgPgogICAgICAgICAgICA8c3BhbiBjbGFzcz0iY2hlY2siPuKckzwvc3Bhbj4KICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICAgPHNwYW4gY2xhc3M9InRoZW1lLWxhYmVsIj4ke3RoZW1lLm5hbWV9PC9zcGFuPgogICAgICAgIDwvZGl2PgogICAgICBgKS5qb2luKCcnKTsKICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g7YWM66eIIOyggeyaqQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIGFwcGx5VGhlbWUoa2V5KSB7CiAgICAgIGNvbnN0IHRoZW1lID0gVEhFTUVTW2tleV07CiAgICAgIGlmICghdGhlbWUpIHJldHVybjsKCiAgICAgIGNvbnN0IHJvb3QgPSBkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQ7CgogICAgICAvLyBDU1Mg67OA7IiYIOydvOq0hCDrs4Dqsr0KICAgICAgT2JqZWN0LmVudHJpZXModGhlbWUudmFycykuZm9yRWFjaCgoW3Byb3AsIHZhbF0pID0+IHsKICAgICAgICByb290LnN0eWxlLnNldFByb3BlcnR5KHByb3AsIHZhbCk7CiAgICAgIH0pOwoKICAgICAgLy8g7ZiE7J6sIO2FjOuniCDsnbTrpoQg7JeF642w7J207Yq4CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXJyZW50LW5hbWUnKS50ZXh0Q29udGVudCA9IHRoZW1lLm5hbWU7CgogICAgICAvLyDrsoTtirwg7Zmc7ISx7ZmUIO2RnOyLnAogICAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcudGhlbWUtYnRuJykuZm9yRWFjaChidG4gPT4gYnRuLmNsYXNzTGlzdC5yZW1vdmUoJ2FjdGl2ZScpKTsKICAgICAgY29uc3QgYWN0aXZlQnRuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2J0bi0nICsga2V5KTsKICAgICAgaWYgKGFjdGl2ZUJ0bikgYWN0aXZlQnRuLmNsYXNzTGlzdC5hZGQoJ2FjdGl2ZScpOwoKICAgICAgLy8gbG9jYWxTdG9yYWdl7JeQIOyggOyepQogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgnc2VsZWN0ZWQtdGhlbWUnLCBrZXkpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDstIjquLDtmZQ6IOyggOyepeuQnCDthYzrp4gg67aI65+s7Jik6riwCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgcmVuZGVyVGhlbWVCdXR0b25zKCk7CgogICAgY29uc3Qgc2F2ZWRUaGVtZSA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdzZWxlY3RlZC10aGVtZScpIHx8ICdsaWdodCc7CiAgICBhcHBseVRoZW1lKHNhdmVkVGhlbWUpOwogIDwvc2NyaXB0PgoKPC9ib2R5Pgo8L2h0bWw+Cg==";
+function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
+function openResultPopup(){const w=window.open('','resultPopup',`width=${screen.availWidth},height=${screen.availHeight},left=0,top=0,resizable=yes,scrollbars=yes`);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
 const slides=Array.from(document.querySelectorAll('.slide'));
 const total=slides.length;let current=0;
-function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
+const dotsWrap=document.getElementById('navDots');
+slides.forEach((_,i)=>{const dot=document.createElement('button');dot.className='nav-dot'+(i===0?' active':'');dot.setAttribute('aria-label',`${i+1}번 슬라이드로 이동`);dot.onclick=()=>goTo(i);dotsWrap.appendChild(dot);});
+function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
 function changeSlide(dir){goTo(current+dir);}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
 goTo(0);

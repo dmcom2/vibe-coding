@@ -14,79 +14,86 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .slide.exit{opacity:0;transform:translateX(-60px);}
 .progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#059669,#10b981);transition:width .35s ease;z-index:999;}
 .nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
-.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.1rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--green);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.43rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--green);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
 .nav-btn:hover{background:var(--green);color:#fff;transform:scale(1.08);}
 .nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
-.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
-.slide-label{position:fixed;top:16px;left:24px;font-size:.72rem;font-weight:700;color:rgba(0,0,0,.25);z-index:999;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:1.04rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.slide-label{position:fixed;top:16px;left:24px;font-size:0.94rem;font-weight:700;color:rgba(0,0,0,.25);z-index:999;}
+.nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
+.nav-dot:hover{background:#94a3b8;}
+.nav-dot.active{width:22px;border-radius:5px;background:#6366f1;}
+.result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
+.result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
+.result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
 .s-title{background:linear-gradient(135deg,#064e3b 0%,#065f46 45%,#059669 100%);align-items:center;justify-content:center;text-align:center;color:#fff;}
-.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:.82rem;font-weight:700;margin-bottom:28px;display:inline-block;}
-.s-title h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:1.07rem;font-weight:700;margin-bottom:28px;display:inline-block;}
+.s-title h1{font-size:clamp(2.2rem,6.5vw,3.52rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
 .s-title h1 span{color:#6ee7b7;}
-.s-title p{font-size:1rem;opacity:.8;margin-bottom:40px;}
+.s-title p{font-size:1.3rem;opacity:.8;margin-bottom:40px;}
 .meta-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
-.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:.88rem;font-weight:600;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:1.14rem;font-weight:600;}
 .s-content{background:var(--surface);}
 .s-grad{background:linear-gradient(150deg,#f0fdf4,#dcfce7);}
 .s-dark{background:#1e1e2e;color:#cdd6f4;}
 .slide-header{padding:34px 68px 26px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:14px;}
 .s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
-.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
-.slide-header h2{font-size:1.7rem;font-weight:800;color:var(--text);}
+.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.54rem;flex-shrink:0;}
+.slide-header h2{font-size:1.87rem;font-weight:800;color:var(--text);}
 .s-dark .slide-header h2{color:#cdd6f4;}
-.slide-header p{font-size:.86rem;color:var(--sub);margin-top:2px;}
+.slide-header p{font-size:1.12rem;color:var(--sub);margin-top:2px;}
 .s-dark .slide-header p{color:#6c7086;}
 .slide-body{flex:1;padding:32px 68px;overflow-y:auto;}
-.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:.81rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
-.code-block .lang{position:absolute;top:9px;right:13px;font-size:.63rem;color:#6c7086;font-family:sans-serif;}
+.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:1.05rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
+.code-block .lang{position:absolute;top:9px;right:13px;font-size:0.82rem;color:#6c7086;font-family:sans-serif;}
 .kw{color:#cba6f7;}.tg{color:#89b4fa;}.at{color:#a6e3a1;}.st{color:#f38ba8;}.cm{color:#6c7086;font-style:italic;}.vl{color:#fab387;}.py{color:#f9e2af;}
 .concept-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .concept-card{background:#fff;border-radius:13px;padding:22px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-.concept-card .cc-icon{font-size:1.8rem;margin-bottom:8px;}
-.concept-card h3{font-size:.95rem;font-weight:800;color:var(--text);margin-bottom:6px;}
-.concept-card p{font-size:.88rem;color:var(--sub);line-height:1.6;}
-.hl{display:inline-block;background:#f0fdf4;color:var(--green);padding:1px 7px;border-radius:5px;font-weight:700;font-size:.8rem;}
+.concept-card .cc-icon{font-size:1.98rem;margin-bottom:8px;}
+.concept-card h3{font-size:1.23rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.concept-card p{font-size:1.14rem;color:var(--sub);line-height:1.6;}
+.hl{display:inline-block;background:#f0fdf4;color:var(--green);padding:1px 7px;border-radius:5px;font-weight:700;font-size:1.04rem;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-.quote-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid var(--green);border-radius:0 12px 12px 0;padding:16px 20px;font-size:.86rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
+.quote-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-left:4px solid var(--green);border-radius:0 12px 12px 0;padding:16px 20px;font-size:1.12rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
 .quote-box strong{color:var(--green);}
 .step-list{display:flex;flex-direction:column;gap:12px;}
 .step-item{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:11px;padding:16px 20px;border:1px solid #e2e8f0;}
-.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--green),#10b981);color:#fff;font-weight:900;font-size:.88rem;display:flex;align-items:center;justify-content:center;}
-.step-item h4{font-size:.94rem;font-weight:800;color:var(--text);margin-bottom:2px;}
-.step-item p{font-size:.86rem;color:var(--sub);}
-.step-item code{background:#f1f5f9;color:var(--green);padding:1px 6px;border-radius:4px;font-size:.76rem;}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--green),#10b981);color:#fff;font-weight:900;font-size:1.14rem;display:flex;align-items:center;justify-content:center;}
+.step-item h4{font-size:1.22rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step-item p{font-size:1.12rem;color:var(--sub);}
+.step-item code{background:#f1f5f9;color:var(--green);padding:1px 6px;border-radius:4px;font-size:0.99rem;}
 .mission-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
 .mission-card{border-radius:13px;padding:20px;}
 .m1{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;}
 .m2{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;}
 .m3{background:linear-gradient(135deg,#fdf4ff,#fae8ff);border:1px solid #f0abfc;}
-.mission-card .m-star{font-size:1rem;margin-bottom:6px;}
-.mission-card h3{font-size:.88rem;font-weight:800;color:var(--text);margin-bottom:8px;}
-.mission-card p{font-size:.78rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
-.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:.73rem;color:var(--text);line-height:1.6;}
+.mission-card .m-star{font-size:1.3rem;margin-bottom:6px;}
+.mission-card h3{font-size:1.14rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+.mission-card p{font-size:1.01rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
+.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:0.95rem;color:var(--text);line-height:1.6;}
 .check-list{display:flex;flex-direction:column;gap:11px;}
-.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:.86rem;font-weight:600;color:var(--text);}
-.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--green),#10b981);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;flex-shrink:0;}
+.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:1.12rem;font-weight:600;color:var(--text);}
+.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--green),#10b981);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.17rem;flex-shrink:0;}
 .prompt-box{background:#0f172a;border-radius:13px;padding:24px 28px;border-left:4px solid #059669;}
-.prompt-box .prompt-label{font-size:.68rem;font-weight:800;letter-spacing:.1em;color:#059669;margin-bottom:12px;}
-.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:.8rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
-.prompt-tip{margin-top:12px;background:rgba(5,150,105,.1);border-radius:7px;padding:9px 14px;font-size:.76rem;color:#6ee7b7;}
+.prompt-box .prompt-label{font-size:0.88rem;font-weight:800;letter-spacing:.1em;color:#059669;margin-bottom:12px;}
+.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:1.04rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
+.prompt-tip{margin-top:12px;background:rgba(5,150,105,.1);border-radius:7px;padding:9px 14px;font-size:0.99rem;color:#6ee7b7;}
 .s-end{background:linear-gradient(135deg,#064e3b,#065f46,#059669);align-items:center;justify-content:center;text-align:center;color:#fff;}
-.s-end h2{font-size:2.3rem;font-weight:900;margin-bottom:14px;}
+.s-end h2{font-size:2.53rem;font-weight:900;margin-bottom:14px;}
 .s-end h2 span{color:#6ee7b7;}
-.s-end p{font-size:.98rem;opacity:.8;margin-bottom:36px;}
-.s-end .next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:13px 30px;border-radius:13px;font-size:.88rem;display:inline-flex;align-items:center;gap:10px;}
+.s-end p{font-size:1.27rem;opacity:.8;margin-bottom:36px;}
+.s-end .next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:13px 30px;border-radius:13px;font-size:1.14rem;display:inline-flex;align-items:center;gap:10px;}
 
 /* ── s-prompt 슬라이드 ── */
 .s-prompt{background:#f0f4ff;justify-content:center;padding:48px 72px;}
 .sp-header{margin-bottom:18px;}
-.sp-badge{font-size:.66rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
-.sp-header h2{font-size:clamp(22px,2.8vw,30px);font-weight:800;color:var(--text);margin-bottom:6px;}
-.sp-header p{font-size:.83rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
-.sp-label{font-size:.66rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;}
-.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:.72rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:42vh;overflow:auto;border:1px solid #312e81;}
+.sp-badge{font-size:0.86rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.sp-header h2{font-size:clamp(24px,3.64vw,33px);font-weight:800;color:var(--text);margin-bottom:6px;}
+.sp-header p{font-size:1.08rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
+.sp-label{font-size:0.86rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;}
+.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:0.94rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:42vh;overflow:auto;border:1px solid #312e81;}
 .sp-row{display:flex;gap:12px;margin-top:14px;}
-.sp-card{flex:1;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:.71rem;color:var(--sub);line-height:1.55;}
+.sp-card{flex:1;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:0.92rem;color:var(--sub);line-height:1.55;}
 .sp-card b{color:var(--text);display:block;margin-bottom:4px;}
 </style>
 </head>
@@ -131,14 +138,29 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
   <div class="slide-body">
     <div style="display:flex;flex-direction:column;gap:11px;">
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">1</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:.8rem;">— 오늘의 재료: addEventListener · localStorage · JSON — 딱 이것만 알면 됩니다</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">2</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:.8rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">3</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:.8rem;">— Cline이 만든 index.html을 열어 Go Live로 브라우저 확인</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">4</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:.8rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">5</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:.8rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: addEventListener · localStorage · JSON — 딱 이것만 알면 됩니다</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html을 열어 Go Live로 브라우저 확인</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
     </div>
-    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:.82rem;color:#92400e;line-height:1.6;">
+    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">
       💡 <strong>막혀도 괜찮습니다!</strong> 실행이 안 될 때 보는 <strong>"자주 막히는 문제"</strong> 슬라이드가 준비되어 있고, 오류는 AI에게 물어보면 대부분 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">🎒</div>
+    <div><h2>시작 전 준비물 체크</h2><p>4가지만 준비되면 바로 시작할 수 있습니다 (이미 되어 있다면 통과!)</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">💻</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>VS Code 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">code.visualstudio.com 에서 무료 다운로드. 코드를 작성·실행하는 우리의 작업대입니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🟢</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Live Server 확장 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">VS Code 왼쪽 확장(Extensions) 메뉴에서 "Live Server" 검색 → Install. 파일을 브라우저로 바로 열어줍니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🤖</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Cline 확장 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">VS Code 확장 메뉴에서 "Cline" 검색 → Install. 코드를 대신 써 줄 AI 파트너입니다. (API 설정은 강사 안내에 따라)</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📁</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>실습 폴더 만들기</strong><br><span style="color:#64748b;font-size:1.01rem;">바탕화면에 "바이브코딩" 폴더를 만들어두세요. 차시별 결과물을 여기 모읍니다.</span></div></div>
+    </div>
+    <div style="margin-top:14px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#92400e;line-height:1.6;">
+      ⏱️ 설치가 안 된 분은 손을 들어주세요 — 옆 사람과 함께 5분 안에 끝낼 수 있습니다.
     </div>
   </div>
 </div>
@@ -149,8 +171,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
     <div><h2>오늘 나오는 용어 미리보기</h2><p>외우지 마세요 — 눈에만 익혀두면 수업이 술술 풀립니다</p></div>
   </div>
   <div class="slide-body">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 이벤트</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">클릭, 키보드 입력처럼 <strong>사용자가 하는 동작</strong>을 부르는 말</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 addEventListener</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">"버튼이 눌리면 알려줘"라고 감시를 붙이는 명령. <strong>초인종</strong>을 다는 일이에요</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 localStorage</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">브라우저 안의 작은 <strong>저장 서랍</strong>. 브라우저를 껐다 켜도 내용이 남아요</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 JSON</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">데이터를 저장·전달하기 좋게 <strong>문자열로 포장</strong>하는 형식</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 배열</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">값 여러 개를 순서대로 줄 세운 <strong>목록</strong>. 메모 여러 장을 파일철에 끼우는 것</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 새로고침(F5)</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">브라우저가 파일을 <strong>다시 읽게</strong> 하는 것. 수정 확인의 필수 단계!</p></div></div>
-    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:.8rem;color:#166534;line-height:1.6;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 이벤트</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">클릭, 키보드 입력처럼 <strong>사용자가 하는 동작</strong>을 부르는 말</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 addEventListener</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">"버튼이 눌리면 알려줘"라고 감시를 붙이는 명령. <strong>초인종</strong>을 다는 일이에요</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 localStorage</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">브라우저 안의 작은 <strong>저장 서랍</strong>. 브라우저를 껐다 켜도 내용이 남아요</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 JSON</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">데이터를 저장·전달하기 좋게 <strong>문자열로 포장</strong>하는 형식</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 배열</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">값 여러 개를 순서대로 줄 세운 <strong>목록</strong>. 메모 여러 장을 파일철에 끼우는 것</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 새로고침(F5)</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">브라우저가 파일을 <strong>다시 읽게</strong> 하는 것. 수정 확인의 필수 단계!</p></div></div>
+    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#166534;line-height:1.6;">
       🌱 낯선 단어가 나와도 괜찮습니다. 이 슬라이드로 돌아와서 다시 확인하면 됩니다. 코드는 <strong>AI가 쓰고</strong>, 우리는 <strong>읽고 요청</strong>만 하면 돼요!
     </div>
   </div>
@@ -192,10 +214,10 @@ input.<span class="at">addEventListener</span>(<span class="st">'keydown'</span>
         <div class="concept-card">
           <div class="cc-icon">📌</div>
           <h3>자주 쓰는 이벤트</h3>
-          <p><code style="background:#f0fdf4;padding:2px 5px;border-radius:4px;font-size:.8rem;">'click'</code> 클릭할 때<br>
-          <code style="background:#f0fdf4;padding:2px 5px;border-radius:4px;font-size:.8rem;">'keydown'</code> 키를 누를 때<br>
-          <code style="background:#f0fdf4;padding:2px 5px;border-radius:4px;font-size:.8rem;">'input'</code> 값이 바뀔 때<br>
-          <code style="background:#f0fdf4;padding:2px 5px;border-radius:4px;font-size:.8rem;">'submit'</code> 폼 제출할 때</p>
+          <p><code style="background:#f0fdf4;padding:2px 5px;border-radius:4px;font-size:1.04rem;">'click'</code> 클릭할 때<br>
+          <code style="background:#f0fdf4;padding:2px 5px;border-radius:4px;font-size:1.04rem;">'keydown'</code> 키를 누를 때<br>
+          <code style="background:#f0fdf4;padding:2px 5px;border-radius:4px;font-size:1.04rem;">'input'</code> 값이 바뀔 때<br>
+          <code style="background:#f0fdf4;padding:2px 5px;border-radius:4px;font-size:1.04rem;">'submit'</code> 폼 제출할 때</p>
         </div>
       </div>
     </div>
@@ -211,7 +233,7 @@ input.<span class="at">addEventListener</span>(<span class="st">'keydown'</span>
   <div class="slide-body">
     <div class="two-col">
       <div>
-        <p style="font-size:.76rem;font-weight:800;color:#6c7086;margin-bottom:10px;">기본 사용법</p>
+        <p style="font-size:0.99rem;font-weight:800;color:#6c7086;margin-bottom:10px;">기본 사용법</p>
         <div class="code-block" style="background:#11111b;"><span class="lang">JS</span>
 <span class="cm">// 문자열 저장 (key, value)</span>
 localStorage.<span class="at">setItem</span>(<span class="st">'name'</span>, <span class="st">'홍길동'</span>);
@@ -234,8 +256,8 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
         </div>
       </div>
       <div>
-        <p style="font-size:.76rem;font-weight:800;color:#6c7086;margin-bottom:10px;">메모 저장 전체 흐름</p>
-        <div class="code-block" style="background:#11111b;font-size:.76rem;"><span class="lang">JS</span>
+        <p style="font-size:0.99rem;font-weight:800;color:#6c7086;margin-bottom:10px;">메모 저장 전체 흐름</p>
+        <div class="code-block" style="background:#11111b;font-size:0.99rem;"><span class="lang">JS</span>
 <span class="cm">// 1) 기존 메모 불러오기</span>
 <span class="kw">let</span> memos = <span class="tg">JSON</span>.<span class="at">parse</span>(
   localStorage.<span class="at">getItem</span>(<span class="st">'memos'</span>) || <span class="st">'[]'</span>
@@ -289,7 +311,7 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
           <div class="cc-icon">⚠️</div>
           <h3>null 처리 패턴</h3>
           <p>처음 실행할 때는 localStorage에 데이터가 없어서 <code style="background:#fef9c3;padding:1px 4px;border-radius:3px;">null</code>을 반환합니다.</p>
-          <div style="margin-top:10px;background:#f8fafc;border-radius:8px;padding:12px;font-family:monospace;font-size:.76rem;line-height:1.8;">
+          <div style="margin-top:10px;background:#f8fafc;border-radius:8px;padding:12px;font-family:monospace;font-size:0.99rem;line-height:1.8;">
             <span style="color:#7c3aed;">const</span> data = JSON.parse(<br>
             &nbsp;&nbsp;localStorage.getItem(<span style="color:#dc2626;">'memos'</span>)<br>
             &nbsp;&nbsp;<span style="color:#059669;">|| '[]'</span>  <span style="color:#94a3b8;">// null이면 빈 배열</span><br>
@@ -297,6 +319,25 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ede9fe;">💬</div>
+    <div><h2>AI에게 말 거는 법 — 프롬프트 3단 구조</h2><p>말하듯 쓰면 됩니다. 이 순서만 기억하세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#6366f1;flex-shrink:0;">①</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">무엇을</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"간단한 메모장을 만들어줘"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">만들 것을 <strong>한 문장</strong>으로. 첫 줄이 가장 중요합니다</span></div></div><div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#6366f1;flex-shrink:0;">②</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">내용</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"입력창, 저장 버튼, 삭제 버튼, 시간 표시"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">들어갈 정보를 <strong>목록</strong>으로 나열합니다</span></div></div><div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#6366f1;flex-shrink:0;">③</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">조건</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"새로고침해도 유지, 노트 느낌 배경, 파일 하나로"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">원하는 <strong>동작과 형식</strong>을 구체적으로 적습니다</span></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:14px;">
+      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:12px 16px;font-size:1.01rem;color:#991b1b;line-height:1.7;">❌ <strong>아쉬운 프롬프트</strong><br>"메모장 만들어줘"<br><span style="color:#b91c1c;opacity:.75;">→ AI가 마음대로 만듭니다 (저장이 안 될 수도!)</span></div>
+      <div style="flex:1;background:#f0fdf4;border-radius:10px;padding:12px 16px;font-size:1.01rem;color:#166534;line-height:1.7;">✅ <strong>좋은 프롬프트</strong><br>"localStorage에 자동 저장, 새로고침해도 유지, 따뜻한 크림색 배경"<br><span style="color:#15803d;opacity:.75;">→ 원하는 대로 나옵니다</span></div>
+    </div>
+    <div style="margin-top:12px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#3730a3;line-height:1.6;">
+      💡 전문용어를 몰라도 됩니다. "새로고침해도 안 지워지게", "노트처럼"처럼 <strong>말로 설명해도</strong> AI가 알아듣습니다.
     </div>
   </div>
 </div>
@@ -326,7 +367,7 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
 - 메모 카드는 흰색 카드 형태
 - 파일은 index.html 하나로 (CSS, JS 모두 포함)
 - 코드에 한국어 주석 달아줘</div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:.73rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">
     <div class="sp-card"><b>🏷️ 카테고리 태그</b>메모 저장 시 태그(업무/개인/중요)를 선택하면 태그별로 필터링해서 볼 수 있게 해줘.</div>
     <div class="sp-card"><b>🔍 메모 검색</b>검색창에 키워드를 입력하면 해당 단어가 포함된 메모만 실시간으로 필터링되게 해줘.</div>
@@ -357,9 +398,9 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
   </div>
   <div class="slide-body">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">🔍 "Go Live 버튼이 안 보여요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">VS Code 왼쪽 <strong>확장(Extensions)</strong> 메뉴에서 <strong>Live Server</strong>를 검색해 설치한 뒤, VS Code를 껐다가 다시 켜세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;"><strong>저장(Ctrl+S)</strong>이 먼저입니다! 저장하지 않으면 반영되지 않아요. 저장 후 브라우저에서 <strong>새로고침(F5)</strong> 하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">🔤 "한글이 깨져 보여요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">AI에게 <strong>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</strong>라고 요청하세요. VS Code 오른쪽 아래 인코딩 표시가 <strong>UTF-8</strong>인지도 확인!</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔍 "Go Live 버튼이 안 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">VS Code 왼쪽 <strong>확장(Extensions)</strong> 메뉴에서 <strong>Live Server</strong>를 검색해 설치한 뒤, VS Code를 껐다가 다시 켜세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><strong>저장(Ctrl+S)</strong>이 먼저입니다! 저장하지 않으면 반영되지 않아요. 저장 후 브라우저에서 <strong>새로고침(F5)</strong> 하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔤 "한글이 깨져 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">AI에게 <strong>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</strong>라고 요청하세요. VS Code 오른쪽 아래 인코딩 표시가 <strong>UTF-8</strong>인지도 확인!</p></div>
     </div>
-    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:.82rem;color:#3730a3;line-height:1.6;">
+    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#3730a3;line-height:1.6;">
       🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.
     </div>
   </div>
@@ -374,8 +415,8 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
   <div class="slide-body">
     <div class="two-col">
       <div>
-        <p style="font-size:.76rem;font-weight:800;color:#6c7086;margin-bottom:10px;">메모 저장 함수</p>
-        <div class="code-block" style="background:#11111b;font-size:.76rem;"><span class="lang">JS</span>
+        <p style="font-size:0.99rem;font-weight:800;color:#6c7086;margin-bottom:10px;">메모 저장 함수</p>
+        <div class="code-block" style="background:#11111b;font-size:0.99rem;"><span class="lang">JS</span>
 <span class="kw">function</span> <span class="at">saveMemo</span>() {
   <span class="kw">const</span> text = input.value.<span class="at">trim</span>();
   <span class="kw">if</span> (!text) <span class="kw">return</span>; <span class="cm">// 빈 내용 차단</span>
@@ -395,8 +436,8 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
         </div>
       </div>
       <div>
-        <p style="font-size:.76rem;font-weight:800;color:#6c7086;margin-bottom:10px;">메모 렌더링 함수</p>
-        <div class="code-block" style="background:#11111b;font-size:.76rem;"><span class="lang">JS</span>
+        <p style="font-size:0.99rem;font-weight:800;color:#6c7086;margin-bottom:10px;">메모 렌더링 함수</p>
+        <div class="code-block" style="background:#11111b;font-size:0.99rem;"><span class="lang">JS</span>
 <span class="kw">function</span> <span class="at">renderMemos</span>() {
   <span class="kw">const</span> memos = <span class="at">loadMemos</span>();
   <span class="kw">const</span> list = document.<span class="at">getElementById</span>(<span class="st">'list'</span>);
@@ -424,11 +465,11 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
   </div>
   <div class="slide-body">
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">1</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>같은 Cline 대화에서 이어가기</strong><br><span style="color:#64748b;font-size:.78rem;">새 작업(New Task)을 열지 마세요! 코드를 만들어 준 대화에 이어서 요청해야 Cline이 맥락을 기억합니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">2</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>미션 문구 붙여넣기</strong><br><span style="color:#64748b;font-size:.78rem;">다음 슬라이드의 미션 프롬프트를 복사하거나, 원하는 변화를 말로 설명하세요. 문법·전문용어는 몰라도 됩니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">3</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>변경 내용 확인하고 승인</strong><br><span style="color:#64748b;font-size:.78rem;">Cline이 파일을 <strong>직접 고쳐줍니다</strong>. 어떤 부분이 바뀌는지(diff) 훑어보고 승인하세요. 직접 타이핑할 필요가 없어요.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">4</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>저장하고 확인</strong><br><span style="color:#64748b;font-size:.78rem;">저장(Ctrl+S) → 브라우저 새로고침(F5) → 바뀐 부분을 확인합니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">1</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>같은 Cline 대화에서 이어가기</strong><br><span style="color:#64748b;font-size:1.01rem;">새 작업(New Task)을 열지 마세요! 코드를 만들어 준 대화에 이어서 요청해야 Cline이 맥락을 기억합니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">2</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>미션 문구 붙여넣기</strong><br><span style="color:#64748b;font-size:1.01rem;">다음 슬라이드의 미션 프롬프트를 복사하거나, 원하는 변화를 말로 설명하세요. 문법·전문용어는 몰라도 됩니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">3</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>변경 내용 확인하고 승인</strong><br><span style="color:#64748b;font-size:1.01rem;">Cline이 파일을 <strong>직접 고쳐줍니다</strong>. 어떤 부분이 바뀌는지(diff) 훑어보고 승인하세요. 직접 타이핑할 필요가 없어요.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">4</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>저장하고 확인</strong><br><span style="color:#64748b;font-size:1.01rem;">저장(Ctrl+S) → 브라우저 새로고침(F5) → 바뀐 부분을 확인합니다.</span></div></div>
     </div>
     <div style="display:flex;gap:12px;margin-top:14px;">
-      <div style="flex:1;background:#eef2ff;border-radius:10px;padding:11px 16px;font-size:.78rem;color:#3730a3;line-height:1.6;">🔑 <strong>한 번에 하나씩!</strong> 여러 개를 동시에 요청하면 어디가 바뀌었는지 알기 어렵습니다.</div>
-      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:11px 16px;font-size:.78rem;color:#991b1b;line-height:1.6;">😱 <strong>망가졌다면?</strong> AI에게 "방금 수정을 취소하고 이전 코드로 되돌려줘"라고 하면 됩니다.</div>
+      <div style="flex:1;background:#eef2ff;border-radius:10px;padding:11px 16px;font-size:1.01rem;color:#3730a3;line-height:1.6;">🔑 <strong>한 번에 하나씩!</strong> 여러 개를 동시에 요청하면 어디가 바뀌었는지 알기 어렵습니다.</div>
+      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:11px 16px;font-size:1.01rem;color:#991b1b;line-height:1.6;">😱 <strong>망가졌다면?</strong> AI에게 "방금 수정을 취소하고 이전 코드로 되돌려줘"라고 하면 됩니다.</div>
     </div>
   </div>
 </div>
@@ -478,29 +519,37 @@ localStorage.<span class="at">setItem</span>(<span class="st">'memos'</span>,
       <div class="check-item"><div class="check-box">☐</div>빈 내용은 저장되지 않는다</div>
     </div>
     <div style="margin-top:18px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:13px;padding:16px 20px;border:1px solid #86efac;">
-      <p style="font-size:.86rem;font-weight:800;color:#166534;margin-bottom:6px;">💡 업무 활용 아이디어</p>
-      <p style="font-size:.8rem;color:#14532d;line-height:1.7;">할 일 목록, 아이디어 메모, 업무 일지로 바로 활용 가능합니다. <strong>"각 메모에 완료 체크박스를 추가해줘"</strong>라고 AI에게 요청해보세요!</p>
+      <p style="font-size:1.12rem;font-weight:800;color:#166534;margin-bottom:6px;">💡 업무 활용 아이디어</p>
+      <p style="font-size:1.04rem;color:#14532d;line-height:1.7;">할 일 목록, 아이디어 메모, 업무 일지로 바로 활용 가능합니다. <strong>"각 메모에 완료 체크박스를 추가해줘"</strong>라고 AI에게 요청해보세요!</p>
     </div>
   </div>
 </div>
 
 <!-- S11 마무리 -->
 <div class="slide s-end">
+  <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
+  <div class="result-link-tip">완성 예제 보기</div>
   <h2>실습 03 <span>완료!</span> 📝</h2>
   <p>localStorage로 데이터를 영구 저장하는 메모장을 만들었습니다.</p>
   <div class="next-hint"><span>▶</span> 다음 실습: <strong>실습 04 — 클릭 카운터 만들기</strong></div>
 </div>
 
 </div>
+<div class="nav-dots" id="navDots"></div>
 <div class="nav">
   <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
-  <span class="slide-counter" id="counter">1 / 15</span>
+  <span class="slide-counter" id="counter">1 / 17</span>
   <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
 </div>
 <script>
+const RESULT_HTML_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICA8dGl0bGU+64KY7J2YIOyXheustCDrqZTrqqjsnqU8L3RpdGxlPgogIDxzdHlsZT4KICAgICogeyBtYXJnaW46IDA7IHBhZGRpbmc6IDA7IGJveC1zaXppbmc6IGJvcmRlci1ib3g7IH0KCiAgICBib2R5IHsKICAgICAgZm9udC1mYW1pbHk6ICdTZWdvZSBVSScsICfrp5HsnYAg6rOg65SVJywgc2Fucy1zZXJpZjsKICAgICAgYmFja2dyb3VuZC1jb2xvcjogI2ZkZjZlMzsgICAgIC8qIO2BrOumvOyDiSDrsLDqsr0gKi8KICAgICAgbWluLWhlaWdodDogMTAwdmg7CiAgICAgIHBhZGRpbmc6IDMwcHggMTZweDsKICAgICAgY29sb3I6ICMzZDJiMWY7CiAgICB9CgogICAgLyog7JWxIOyghOyytCDsu6jthYzsnbTrhIggKi8KICAgIC5hcHAgewogICAgICBtYXgtd2lkdGg6IDYwMHB4OwogICAgICBtYXJnaW46IDAgYXV0bzsKICAgIH0KCiAgICAvKiDsoJzrqqkgKi8KICAgIC5hcHAtdGl0bGUgewogICAgICBmb250LXNpemU6IDEuOHJlbTsKICAgICAgZm9udC13ZWlnaHQ6IDgwMDsKICAgICAgY29sb3I6ICM1YzNkMWU7CiAgICAgIG1hcmdpbi1ib3R0b206IDZweDsKICAgIH0KCiAgICAuYXBwLXN1YnRpdGxlIHsKICAgICAgZm9udC1zaXplOiAwLjg4cmVtOwogICAgICBjb2xvcjogIzlhN2Q1ZTsKICAgICAgbWFyZ2luLWJvdHRvbTogMjhweDsKICAgIH0KCiAgICAvKiDsnoXroKUg7Lm065OcICovCiAgICAuaW5wdXQtY2FyZCB7CiAgICAgIGJhY2tncm91bmQ6IHdoaXRlOwogICAgICBib3JkZXItcmFkaXVzOiAxNnB4OwogICAgICBwYWRkaW5nOiAyMHB4OwogICAgICBib3gtc2hhZG93OiAwIDJweCAxMnB4IHJnYmEoOTIsIDYxLCAzMCwgMC4xKTsKICAgICAgbWFyZ2luLWJvdHRvbTogMjRweDsKICAgIH0KCiAgICAvKiDthY3siqTtirgg7J6F66Cl7LC9ICovCiAgICAjbWVtby1pbnB1dCB7CiAgICAgIHdpZHRoOiAxMDAlOwogICAgICBtaW4taGVpZ2h0OiAxMDBweDsKICAgICAgYm9yZGVyOiAycHggc29saWQgI2U4ZDljMDsKICAgICAgYm9yZGVyLXJhZGl1czogMTBweDsKICAgICAgcGFkZGluZzogMTJweCAxNHB4OwogICAgICBmb250LXNpemU6IDAuOTVyZW07CiAgICAgIGZvbnQtZmFtaWx5OiBpbmhlcml0OwogICAgICByZXNpemU6IHZlcnRpY2FsOyAgICAgICAgICAgICAgLyog7IS466Gc66Gc66eMIO2BrOq4sCDsobDsoJUg6rCA64qlICovCiAgICAgIG91dGxpbmU6IG5vbmU7CiAgICAgIGNvbG9yOiAjM2QyYjFmOwogICAgICBiYWNrZ3JvdW5kOiAjZmZmZGY3OwogICAgICB0cmFuc2l0aW9uOiBib3JkZXItY29sb3IgMC4yczsKICAgICAgbGluZS1oZWlnaHQ6IDEuNjsKICAgIH0KCiAgICAvKiDtj6zsu6TsiqQg7IucIO2FjOuRkOumrCDsg4nsg4Eg67OA6rK9ICovCiAgICAjbWVtby1pbnB1dDpmb2N1cyB7CiAgICAgIGJvcmRlci1jb2xvcjogI2MyODkzYTsKICAgIH0KCiAgICAvKiDquIDsnpDsiJgg7ZGc7IucICovCiAgICAuY2hhci1jb3VudCB7CiAgICAgIHRleHQtYWxpZ246IHJpZ2h0OwogICAgICBmb250LXNpemU6IDAuNzVyZW07CiAgICAgIGNvbG9yOiAjYjhhMDhhOwogICAgICBtYXJnaW4tdG9wOiA2cHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDEycHg7CiAgICB9CgogICAgLmNoYXItY291bnQubmVhci1saW1pdCB7IGNvbG9yOiAjZTA3YjM1OyB9CgogICAgLyog7KCA7J6lIOuyhO2KvCAqLwogICAgLmJ0bi1zYXZlIHsKICAgICAgd2lkdGg6IDEwMCU7CiAgICAgIHBhZGRpbmc6IDEzcHg7CiAgICAgIGJhY2tncm91bmQ6ICNjMjg5M2E7CiAgICAgIGNvbG9yOiB3aGl0ZTsKICAgICAgYm9yZGVyOiBub25lOwogICAgICBib3JkZXItcmFkaXVzOiAxMHB4OwogICAgICBmb250LXNpemU6IDFyZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAwLjJzLCB0cmFuc2Zvcm0gMC4xczsKICAgIH0KCiAgICAuYnRuLXNhdmU6aG92ZXIgewogICAgICBiYWNrZ3JvdW5kOiAjYTg2ZTIyOwogICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoLTFweCk7CiAgICB9CgogICAgLmJ0bi1zYXZlOmFjdGl2ZSB7CiAgICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWSgwKTsKICAgIH0KCiAgICAvKiDrqZTrqqgg66qp66GdIO2XpOuNlCAqLwogICAgLmxpc3QtaGVhZGVyIHsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuOwogICAgICBhbGlnbi1pdGVtczogY2VudGVyOwogICAgICBtYXJnaW4tYm90dG9tOiAxNHB4OwogICAgfQoKICAgIC5saXN0LXRpdGxlIHsKICAgICAgZm9udC1zaXplOiAxLjA1cmVtOwogICAgICBmb250LXdlaWdodDogNzAwOwogICAgICBjb2xvcjogIzVjM2QxZTsKICAgIH0KCiAgICAubWVtby1jb3VudCB7CiAgICAgIGZvbnQtc2l6ZTogMC44MnJlbTsKICAgICAgY29sb3I6ICM5YTdkNWU7CiAgICAgIGJhY2tncm91bmQ6ICNmMGU0Y2M7CiAgICAgIHBhZGRpbmc6IDNweCAxMHB4OwogICAgICBib3JkZXItcmFkaXVzOiAxMnB4OwogICAgfQoKICAgIC8qIOu5iCDsg4Htg5wg7ZGc7IucICovCiAgICAuZW1wdHktc3RhdGUgewogICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7CiAgICAgIHBhZGRpbmc6IDQwcHggMjBweDsKICAgICAgY29sb3I6ICNjNGE4Nzg7CiAgICAgIGZvbnQtc2l6ZTogMC45NXJlbTsKICAgIH0KCiAgICAuZW1wdHktc3RhdGUgLmVtcHR5LWljb24gewogICAgICBmb250LXNpemU6IDNyZW07CiAgICAgIG1hcmdpbi1ib3R0b206IDEwcHg7CiAgICB9CgogICAgLyog66mU66qoIOy5tOuTnCAqLwogICAgLm1lbW8tY2FyZCB7CiAgICAgIGJhY2tncm91bmQ6IHdoaXRlOwogICAgICBib3JkZXItcmFkaXVzOiAxNHB4OwogICAgICBwYWRkaW5nOiAxNnB4IDE4cHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDEycHg7CiAgICAgIGJveC1zaGFkb3c6IDAgMnB4IDhweCByZ2JhKDkyLCA2MSwgMzAsIDAuMDgpOwogICAgICBib3JkZXItbGVmdDogNHB4IHNvbGlkICNjMjg5M2E7CiAgICAgIGFuaW1hdGlvbjogc2xpZGVJbiAwLjNzIGVhc2U7ICAvKiDrk7HsnqUg7JWg64uI66mU7J207IWYICovCiAgICB9CgogICAgLyog7Lm065OcIOuTseyepSDslaDri4jrqZTsnbTshZggKi8KICAgIEBrZXlmcmFtZXMgc2xpZGVJbiB7CiAgICAgIGZyb20geyBvcGFjaXR5OiAwOyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoLThweCk7IH0KICAgICAgdG8gICB7IG9wYWNpdHk6IDE7IHRyYW5zZm9ybTogdHJhbnNsYXRlWSgwKTsgfQogICAgfQoKICAgIC8qIOuplOuqqCDsubTrk5wg7Zek642UICjsi5zqsIQgKyDsgq3soJwg67KE7Yq8KSAqLwogICAgLm1lbW8taGVhZGVyIHsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuOwogICAgICBhbGlnbi1pdGVtczogY2VudGVyOwogICAgICBtYXJnaW4tYm90dG9tOiA4cHg7CiAgICB9CgogICAgLyog7KCA7J6lIOyLnOqwhCAqLwogICAgLm1lbW8tdGltZSB7CiAgICAgIGZvbnQtc2l6ZTogMC43NXJlbTsKICAgICAgY29sb3I6ICNiOGEwOGE7CiAgICB9CgogICAgLyog7IKt7KCcIOuyhO2KvCAqLwogICAgLmJ0bi1kZWxldGUgewogICAgICBiYWNrZ3JvdW5kOiBub25lOwogICAgICBib3JkZXI6IG5vbmU7CiAgICAgIGNvbG9yOiAjYzRhODc4OwogICAgICBjdXJzb3I6IHBvaW50ZXI7CiAgICAgIGZvbnQtc2l6ZTogMXJlbTsKICAgICAgcGFkZGluZzogMnB4IDZweDsKICAgICAgYm9yZGVyLXJhZGl1czogNHB4OwogICAgICB0cmFuc2l0aW9uOiBhbGwgMC4yczsKICAgIH0KCiAgICAuYnRuLWRlbGV0ZTpob3ZlciB7CiAgICAgIGJhY2tncm91bmQ6ICNmZWUyZTI7CiAgICAgIGNvbG9yOiAjZWY0NDQ0OwogICAgfQoKICAgIC8qIOuplOuqqCDrgrTsmqkgKi8KICAgIC5tZW1vLXRleHQgewogICAgICBmb250LXNpemU6IDAuOTJyZW07CiAgICAgIGxpbmUtaGVpZ2h0OiAxLjc7CiAgICAgIGNvbG9yOiAjM2QyYjFmOwogICAgICB3aGl0ZS1zcGFjZTogcHJlLXdyYXA7ICAgICAgICAgLyog7KSE67CU6r+IIOycoOyngCAqLwogICAgICB3b3JkLWJyZWFrOiBicmVhay13b3JkOyAgICAgICAgLyog6ri0IOuLqOyWtCDsnpDrj5kg7KSE67CU6r+IICovCiAgICB9CiAgPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KCiAgPGRpdiBjbGFzcz0iYXBwIj4KCiAgICA8IS0tIOygnOuqqSAtLT4KICAgIDxoMSBjbGFzcz0iYXBwLXRpdGxlIj7wn5OdIOuCmOydmCDsl4XrrLQg66mU66qo7J6lPC9oMT4KICAgIDxwIGNsYXNzPSJhcHAtc3VidGl0bGUiPuykkeyalO2VnCDrgrTsmqnsnYQg66mU66qo7ZW065GQ7IS47JqULiDsg4jroZzqs6DsuajtlbTrj4Qg7KCA7J6l65Cp64uI64ukLjwvcD4KCiAgICA8IS0tIOyeheugpSDsubTrk5wgLS0+CiAgICA8ZGl2IGNsYXNzPSJpbnB1dC1jYXJkIj4KICAgICAgPHRleHRhcmVhCiAgICAgICAgaWQ9Im1lbW8taW5wdXQiCiAgICAgICAgcGxhY2Vob2xkZXI9IuuplOuqqO2VoCDrgrTsmqnsnYQg7J6F66Cl7ZWY7IS47JqULi4uJiMxMDso7JiIOiDsmKTtm4QgMuyLnCDtjIDsnqXri5gg67O06rOgIC0gMuu2hOq4sCDsi6TsoIEg7J6Q66OMIOqwgOyguOqwgOq4sCkiCiAgICAgICAgbWF4bGVuZ3RoPSIzMDAiCiAgICAgICAgb25pbnB1dD0idXBkYXRlQ2hhckNvdW50KCkiCiAgICAgID48L3RleHRhcmVhPgoKICAgICAgPCEtLSDquIDsnpDsiJgg7ZGc7IucIC0tPgogICAgICA8ZGl2IGNsYXNzPSJjaGFyLWNvdW50IiBpZD0iY2hhci1jb3VudCI+MCAvIDMwMDwvZGl2PgoKICAgICAgPCEtLSDsoIDsnqUg67KE7Yq8IC0tPgogICAgICA8YnV0dG9uIGNsYXNzPSJidG4tc2F2ZSIgb25jbGljaz0ic2F2ZU1lbW8oKSI+8J+SviDrqZTrqqgg7KCA7J6lPC9idXR0b24+CiAgICA8L2Rpdj4KCiAgICA8IS0tIOuplOuqqCDrqqnroZ0gLS0+CiAgICA8ZGl2IGNsYXNzPSJsaXN0LWhlYWRlciI+CiAgICAgIDxzcGFuIGNsYXNzPSJsaXN0LXRpdGxlIj7soIDsnqXrkJwg66mU66qoPC9zcGFuPgogICAgICA8c3BhbiBjbGFzcz0ibWVtby1jb3VudCIgaWQ9Im1lbW8tY291bnQiPjDqsJw8L3NwYW4+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IGlkPSJtZW1vLWxpc3QiPjwvZGl2PgoKICA8L2Rpdj4KCiAgPHNjcmlwdD4KICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDsoIDsnqXrkJwg66mU66qoIOuqqeuhnSAo67Cw7Je0KQogICAgLy8gbG9jYWxTdG9yYWdl7JeQ7IScIOu2iOufrOyYpOqxsOuCmCDruYgg67Cw7Je066GcIOyLnOyekQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGxldCBtZW1vcyA9IEpTT04ucGFyc2UobG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3dvcmtfbWVtb3MnKSB8fCAnW10nKTsKCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g6riA7J6Q7IiYIOyXheuNsOydtO2KuAogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIHVwZGF0ZUNoYXJDb3VudCgpIHsKICAgICAgY29uc3QgaW5wdXQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbWVtby1pbnB1dCcpOwogICAgICBjb25zdCBjb3VudCA9IGlucHV0LnZhbHVlLmxlbmd0aDsKICAgICAgY29uc3QgY291bnRFbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjaGFyLWNvdW50Jyk7CiAgICAgIGNvdW50RWwudGV4dENvbnRlbnQgPSBgJHtjb3VudH0gLyAzMDBgOwoKICAgICAgLy8gMjUw7J6QIOydtOyDgeydtOuptCDqsr3qs6Dsg4kKICAgICAgaWYgKGNvdW50ID49IDI1MCkgewogICAgICAgIGNvdW50RWwuY2xhc3NOYW1lID0gJ2NoYXItY291bnQgbmVhci1saW1pdCc7CiAgICAgIH0gZWxzZSB7CiAgICAgICAgY291bnRFbC5jbGFzc05hbWUgPSAnY2hhci1jb3VudCc7CiAgICAgIH0KICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g66mU66qoIOyggOyepe2VmOq4sAogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIHNhdmVNZW1vKCkgewogICAgICAvLyAxLiDsnoXroKXssL3sl5DshJwg7YWN7Iqk7Yq4IOqwgOyguOyYpOq4sAogICAgICBjb25zdCBpbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtZW1vLWlucHV0Jyk7CiAgICAgIGNvbnN0IHRleHQgPSBpbnB1dC52YWx1ZS50cmltKCk7ICAgLy8g7JWe65KkIOqzteuwsSDsoJzqsbAKCiAgICAgIC8vIDIuIOu5iCDrgrTsmqnsnbTrqbQg7KCA7J6lIOyViCDtlagKICAgICAgaWYgKCF0ZXh0KSB7CiAgICAgICAgYWxlcnQoJ+uplOuqqCDrgrTsmqnsnYQg7J6F66Cl7ZW07KO87IS47JqUIScpOwogICAgICAgIGlucHV0LmZvY3VzKCk7CiAgICAgICAgcmV0dXJuOwogICAgICB9CgogICAgICAvLyAzLiDtmITsnqwg7Iuc6rCEIOunjOuTpOq4sAogICAgICBjb25zdCBub3cgPSBuZXcgRGF0ZSgpOwogICAgICBjb25zdCB0aW1lU3RyID0gYCR7bm93LmdldEZ1bGxZZWFyKCl9LSR7U3RyaW5nKG5vdy5nZXRNb250aCgpKzEpLnBhZFN0YXJ0KDIsJzAnKX0tJHtTdHJpbmcobm93LmdldERhdGUoKSkucGFkU3RhcnQoMiwnMCcpfSAke1N0cmluZyhub3cuZ2V0SG91cnMoKSkucGFkU3RhcnQoMiwnMCcpfToke1N0cmluZyhub3cuZ2V0TWludXRlcygpKS5wYWRTdGFydCgyLCcwJyl9YDsKCiAgICAgIC8vIDQuIOuplOuqqCDqsJ3ssrQg66eM65Ok6riwCiAgICAgIGNvbnN0IG5ld01lbW8gPSB7CiAgICAgICAgaWQ6IERhdGUubm93KCksICAgIC8vIOqzoOycoCBJRCAo7ZiE7J6sIOyLnOqwhCDsiKvsnpApCiAgICAgICAgdGV4dDogdGV4dCwKICAgICAgICB0aW1lOiB0aW1lU3RyCiAgICAgIH07CgogICAgICAvLyA1LiDrsLDsl7Qg66eoIOyVnuyXkCDstpTqsIAgKOy1nOyLoCDrqZTrqqjqsIAg7JyE7JeQIOuztOydtOuPhOuhnSkKICAgICAgbWVtb3MudW5zaGlmdChuZXdNZW1vKTsKCiAgICAgIC8vIDYuIGxvY2FsU3RvcmFnZeyXkCDsoIDsnqUKICAgICAgbG9jYWxTdG9yYWdlLnNldEl0ZW0oJ3dvcmtfbWVtb3MnLCBKU09OLnN0cmluZ2lmeShtZW1vcykpOwoKICAgICAgLy8gNy4g7J6F66Cl7LC9IOu5hOyasOq4sAogICAgICBpbnB1dC52YWx1ZSA9ICcnOwogICAgICB1cGRhdGVDaGFyQ291bnQoKTsKCiAgICAgIC8vIDguIO2ZlOuptCDsg4jroZwg6re466as6riwCiAgICAgIHJlbmRlck1lbW9zKCk7CiAgICB9CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOuplOuqqCDsgq3soJztlZjquLAKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBmdW5jdGlvbiBkZWxldGVNZW1vKGlkKSB7CiAgICAgIC8vIO2VtOuLuSBJROydmCDrqZTrqqjrpbwg67Cw7Je07JeQ7IScIOygnOqxsAogICAgICBtZW1vcyA9IG1lbW9zLmZpbHRlcihtZW1vID0+IG1lbW8uaWQgIT09IGlkKTsKCiAgICAgIC8vIGxvY2FsU3RvcmFnZSDsl4XrjbDsnbTtirgKICAgICAgbG9jYWxTdG9yYWdlLnNldEl0ZW0oJ3dvcmtfbWVtb3MnLCBKU09OLnN0cmluZ2lmeShtZW1vcykpOwoKICAgICAgLy8g7ZmU66m0IOyDiOuhnCDqt7jrpqzquLAKICAgICAgcmVuZGVyTWVtb3MoKTsKICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g66mU66qoIOuqqeuhnSDtmZTrqbTsl5Ag7ZGc7Iuc7ZWY6riwCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gcmVuZGVyTWVtb3MoKSB7CiAgICAgIGNvbnN0IGxpc3RFbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtZW1vLWxpc3QnKTsKICAgICAgY29uc3QgY291bnRFbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtZW1vLWNvdW50Jyk7CgogICAgICAvLyDqsJzsiJgg7JeF642w7J207Yq4CiAgICAgIGNvdW50RWwudGV4dENvbnRlbnQgPSBgJHttZW1vcy5sZW5ndGh96rCcYDsKCiAgICAgIC8vIOuplOuqqOqwgCDsl4bsnYQg65WMCiAgICAgIGlmIChtZW1vcy5sZW5ndGggPT09IDApIHsKICAgICAgICBsaXN0RWwuaW5uZXJIVE1MID0gYAogICAgICAgICAgPGRpdiBjbGFzcz0iZW1wdHktc3RhdGUiPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJlbXB0eS1pY29uIj7wn5OtPC9kaXY+CiAgICAgICAgICAgIDxwPuyekeyEseuQnCDrqZTrqqjqsIAg7JeG7Iq164uI64ukLjxicj7snITsl5Ag64K07Jqp7J2EIOyeheugpe2VmOqzoCDsoIDsnqXtlbTrs7TshLjsmpQhPC9wPgogICAgICAgICAgPC9kaXY+CiAgICAgICAgYDsKICAgICAgICByZXR1cm47CiAgICAgIH0KCiAgICAgIC8vIOuplOuqqCDsubTrk5wgSFRNTCDsg53shLEKICAgICAgbGlzdEVsLmlubmVySFRNTCA9IG1lbW9zLm1hcChtZW1vID0+IGAKICAgICAgICA8ZGl2IGNsYXNzPSJtZW1vLWNhcmQiPgogICAgICAgICAgPGRpdiBjbGFzcz0ibWVtby1oZWFkZXIiPgogICAgICAgICAgICA8c3BhbiBjbGFzcz0ibWVtby10aW1lIj7wn5WQICR7bWVtby50aW1lfTwvc3Bhbj4KICAgICAgICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuLWRlbGV0ZSIgb25jbGljaz0iZGVsZXRlTWVtbygke21lbW8uaWR9KSIgdGl0bGU9IuyCreygnCI+4pyVPC9idXR0b24+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9Im1lbW8tdGV4dCI+JHtlc2NhcGVIdG1sKG1lbW8udGV4dCl9PC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgIGApLmpvaW4oJycpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyBIVE1MIO2KueyImOusuOyekCDsspjrpqwgKOuztOyViCkKICAgIC8vIDwsID4sICYg65Ox7J2EIOyViOyghO2VmOqyjCDtkZzsi5wKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBmdW5jdGlvbiBlc2NhcGVIdG1sKHRleHQpIHsKICAgICAgcmV0dXJuIHRleHQKICAgICAgICAucmVwbGFjZSgvJi9nLCAnJmFtcDsnKQogICAgICAgIC5yZXBsYWNlKC88L2csICcmbHQ7JykKICAgICAgICAucmVwbGFjZSgvPi9nLCAnJmd0OycpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyBFbnRlciDtgqTroZwg7KCA7J6lIChTaGlmdCtFbnRlcuuKlCDspITrsJTqv4gpCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21lbW8taW5wdXQnKS5hZGRFdmVudExpc3RlbmVyKCdrZXlkb3duJywgZnVuY3Rpb24oZSkgewogICAgICBpZiAoZS5rZXkgPT09ICdFbnRlcicgJiYgIWUuc2hpZnRLZXkpIHsKICAgICAgICBlLnByZXZlbnREZWZhdWx0KCk7CiAgICAgICAgc2F2ZU1lbW8oKTsKICAgICAgfQogICAgfSk7CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIO2OmOydtOyngCDroZzrk5wg7IucIOyggOyepeuQnCDrqZTrqqgg7ZGc7IucCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgcmVuZGVyTWVtb3MoKTsKICA8L3NjcmlwdD4KCjwvYm9keT4KPC9odG1sPgo=";
+function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
+function openResultPopup(){const w=window.open('','resultPopup',`width=${screen.availWidth},height=${screen.availHeight},left=0,top=0,resizable=yes,scrollbars=yes`);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
 const slides=Array.from(document.querySelectorAll('.slide'));
 const total=slides.length;let current=0;
-function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
+const dotsWrap=document.getElementById('navDots');
+slides.forEach((_,i)=>{const dot=document.createElement('button');dot.className='nav-dot'+(i===0?' active':'');dot.setAttribute('aria-label',`${i+1}번 슬라이드로 이동`);dot.onclick=()=>goTo(i);dotsWrap.appendChild(dot);});
+function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
 function changeSlide(dir){goTo(current+dir);}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
 goTo(0);

@@ -14,78 +14,85 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .slide.exit{opacity:0;transform:translateX(-60px);}
 .progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#4f46e5,#7c3aed);transition:width .35s ease;z-index:999;}
 .nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
-.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.1rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--indigo);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.43rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--indigo);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
 .nav-btn:hover{background:var(--indigo);color:#fff;transform:scale(1.08);}
 .nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
-.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
-.slide-label{position:fixed;top:16px;left:24px;font-size:.72rem;font-weight:700;z-index:999;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:1.04rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
+.nav-dot:hover{background:#94a3b8;}
+.nav-dot.active{width:22px;border-radius:5px;background:#6366f1;}
+.result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
+.result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
+.result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
+.slide-label{position:fixed;top:16px;left:24px;font-size:0.94rem;font-weight:700;z-index:999;}
 .s-title{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 45%,#4f46e5 100%);align-items:center;justify-content:center;text-align:center;color:#fff;}
-.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:.82rem;font-weight:700;margin-bottom:28px;display:inline-block;}
-.s-title h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:1.07rem;font-weight:700;margin-bottom:28px;display:inline-block;}
+.s-title h1{font-size:clamp(2.2rem,6.5vw,3.52rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
 .s-title h1 span{color:#c7d2fe;}
-.s-title p{font-size:1rem;opacity:.8;margin-bottom:40px;}
+.s-title p{font-size:1.3rem;opacity:.8;margin-bottom:40px;}
 .meta-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
-.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:.88rem;font-weight:600;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:1.14rem;font-weight:600;}
 .s-content{background:var(--surface);}
 .s-grad{background:linear-gradient(150deg,#eef2ff,#e0e7ff);}
 .s-dark{background:#1e1e2e;color:#cdd6f4;}
 .slide-header{padding:34px 68px 26px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:14px;}
 .s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
-.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
-.slide-header h2{font-size:1.7rem;font-weight:800;color:var(--text);}
+.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.54rem;flex-shrink:0;}
+.slide-header h2{font-size:1.87rem;font-weight:800;color:var(--text);}
 .s-dark .slide-header h2{color:#cdd6f4;}
-.slide-header p{font-size:.86rem;color:var(--sub);margin-top:2px;}
+.slide-header p{font-size:1.12rem;color:var(--sub);margin-top:2px;}
 .s-dark .slide-header p{color:#6c7086;}
 .slide-body{flex:1;padding:32px 68px;overflow-y:auto;}
-.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:.81rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
-.code-block .lang{position:absolute;top:9px;right:13px;font-size:.63rem;color:#6c7086;font-family:sans-serif;}
+.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:1.05rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
+.code-block .lang{position:absolute;top:9px;right:13px;font-size:0.82rem;color:#6c7086;font-family:sans-serif;}
 .kw{color:#cba6f7;}.tg{color:#89b4fa;}.at{color:#a6e3a1;}.st{color:#f38ba8;}.cm{color:#6c7086;font-style:italic;}.vl{color:#fab387;}
 .concept-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .concept-card{background:#fff;border-radius:13px;padding:22px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-.concept-card .cc-icon{font-size:1.8rem;margin-bottom:8px;}
-.concept-card h3{font-size:.95rem;font-weight:800;color:var(--text);margin-bottom:6px;}
-.concept-card p{font-size:.88rem;color:var(--sub);line-height:1.6;}
+.concept-card .cc-icon{font-size:1.98rem;margin-bottom:8px;}
+.concept-card h3{font-size:1.23rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.concept-card p{font-size:1.14rem;color:var(--sub);line-height:1.6;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-.quote-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border-left:4px solid var(--indigo);border-radius:0 12px 12px 0;padding:16px 20px;font-size:.86rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
+.quote-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border-left:4px solid var(--indigo);border-radius:0 12px 12px 0;padding:16px 20px;font-size:1.12rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
 .quote-box strong{color:var(--indigo);}
 .step-list{display:flex;flex-direction:column;gap:12px;}
 .step-item{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:11px;padding:16px 20px;border:1px solid #e2e8f0;}
-.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--indigo),#7c3aed);color:#fff;font-weight:900;font-size:.88rem;display:flex;align-items:center;justify-content:center;}
-.step-item h4{font-size:.94rem;font-weight:800;color:var(--text);margin-bottom:2px;}
-.step-item p{font-size:.86rem;color:var(--sub);}
-.step-item code{background:#f1f5f9;color:var(--indigo);padding:1px 6px;border-radius:4px;font-size:.76rem;}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--indigo),#7c3aed);color:#fff;font-weight:900;font-size:1.14rem;display:flex;align-items:center;justify-content:center;}
+.step-item h4{font-size:1.22rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step-item p{font-size:1.12rem;color:var(--sub);}
+.step-item code{background:#f1f5f9;color:var(--indigo);padding:1px 6px;border-radius:4px;font-size:0.99rem;}
 .mission-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
 .mission-card{border-radius:13px;padding:20px;}
 .m1{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:1px solid #c7d2fe;}
 .m2{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;}
 .m3{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid #fed7aa;}
-.mission-card .m-star{font-size:1rem;margin-bottom:6px;}
-.mission-card h3{font-size:.88rem;font-weight:800;color:var(--text);margin-bottom:8px;}
-.mission-card p{font-size:.78rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
-.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:.73rem;color:var(--text);line-height:1.6;}
+.mission-card .m-star{font-size:1.3rem;margin-bottom:6px;}
+.mission-card h3{font-size:1.14rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+.mission-card p{font-size:1.01rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
+.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:0.95rem;color:var(--text);line-height:1.6;}
 .check-list{display:flex;flex-direction:column;gap:11px;}
-.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:.86rem;font-weight:600;color:var(--text);}
-.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--indigo),#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;flex-shrink:0;}
+.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:1.12rem;font-weight:600;color:var(--text);}
+.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--indigo),#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.17rem;flex-shrink:0;}
 .prompt-box{background:#0f172a;border-radius:13px;padding:24px 28px;border-left:4px solid #4f46e5;}
-.prompt-box .prompt-label{font-size:.68rem;font-weight:800;letter-spacing:.1em;color:#818cf8;margin-bottom:12px;}
-.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:.8rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
-.prompt-tip{margin-top:12px;background:rgba(79,70,229,.1);border-radius:7px;padding:9px 14px;font-size:.76rem;color:#a5b4fc;}
+.prompt-box .prompt-label{font-size:0.88rem;font-weight:800;letter-spacing:.1em;color:#818cf8;margin-bottom:12px;}
+.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:1.04rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
+.prompt-tip{margin-top:12px;background:rgba(79,70,229,.1);border-radius:7px;padding:9px 14px;font-size:0.99rem;color:#a5b4fc;}
 .s-end{background:linear-gradient(135deg,#1e1b4b,#312e81,#4f46e5);align-items:center;justify-content:center;text-align:center;color:#fff;}
-.s-end h2{font-size:2.3rem;font-weight:900;margin-bottom:14px;}
+.s-end h2{font-size:2.53rem;font-weight:900;margin-bottom:14px;}
 .s-end h2 span{color:#c7d2fe;}
-.s-end p{font-size:.98rem;opacity:.8;margin-bottom:36px;}
-.s-end .next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:13px 30px;border-radius:13px;font-size:.88rem;display:inline-flex;align-items:center;gap:10px;}
+.s-end p{font-size:1.27rem;opacity:.8;margin-bottom:36px;}
+.s-end .next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:13px 30px;border-radius:13px;font-size:1.14rem;display:inline-flex;align-items:center;gap:10px;}
 
 /* ── s-prompt 슬라이드 ── */
 .s-prompt{background:#f0f4ff;justify-content:center;padding:48px 72px;}
 .sp-header{margin-bottom:18px;}
-.sp-badge{font-size:.66rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
-.sp-header h2{font-size:clamp(22px,2.8vw,30px);font-weight:800;color:var(--text);margin-bottom:6px;}
-.sp-header p{font-size:.83rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
-.sp-label{font-size:.66rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;}
-.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:.72rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:42vh;overflow:auto;border:1px solid #312e81;}
+.sp-badge{font-size:0.86rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.sp-header h2{font-size:clamp(24px,3.64vw,33px);font-weight:800;color:var(--text);margin-bottom:6px;}
+.sp-header p{font-size:1.08rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
+.sp-label{font-size:0.86rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;}
+.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:0.94rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:42vh;overflow:auto;border:1px solid #312e81;}
 .sp-row{display:flex;gap:12px;margin-top:14px;}
-.sp-card{flex:1;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:.71rem;color:var(--sub);line-height:1.55;}
+.sp-card{flex:1;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:0.92rem;color:var(--sub);line-height:1.55;}
 .sp-card b{color:var(--text);display:block;margin-bottom:4px;}
 </style>
 </head>
@@ -116,7 +123,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="slide-body">
     <div class="concept-cards">
       <div class="concept-card"><div class="cc-icon">🔢</div><h3>숫자 입력</h3><p>0~9 숫자 버튼<br>소수점(.) 버튼<br>화면에 입력한 숫자 표시</p></div>
-      <div class="concept-card"><div class="cc-icon">➕</div><h3>연산자 처리</h3><p>+, -, ×, ÷ 연산자 버튼<br><span style="background:#eef2ff;padding:1px 5px;border-radius:3px;font-size:.8rem;">switch</span>문으로 연산 분기<br>상태 변수로 흐름 관리</p></div>
+      <div class="concept-card"><div class="cc-icon">➕</div><h3>연산자 처리</h3><p>+, -, ×, ÷ 연산자 버튼<br><span style="background:#eef2ff;padding:1px 5px;border-radius:3px;font-size:1.04rem;">switch</span>문으로 연산 분기<br>상태 변수로 흐름 관리</p></div>
       <div class="concept-card"><div class="cc-icon">📊</div><h3>계산 결과</h3><p>= 버튼으로 결과 계산<br>결과를 다음 계산에 재사용<br>C 버튼으로 초기화</p></div>
       <div class="concept-card"><div class="cc-icon">⚠️</div><h3>예외 처리</h3><p>0으로 나누기 → 오류 표시<br>소수점 중복 입력 방지<br>연산자 연속 입력 처리</p></div>
     </div>
@@ -130,14 +137,29 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
   <div class="slide-body">
     <div style="display:flex;flex-direction:column;gap:11px;">
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">1</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:.8rem;">— 오늘의 재료: Number 변환 · switch 문 · 상태 변수 — 딱 이것만 알면 됩니다</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">2</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:.8rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">3</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:.8rem;">— Cline이 만든 index.html을 열어 Go Live로 브라우저 확인</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">4</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:.8rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;">5</div><div style="flex:1;font-size:.88rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:.8rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:.72rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: Number 변환 · switch 문 · 상태 변수 — 딱 이것만 알면 됩니다</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html을 열어 Go Live로 브라우저 확인</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
     </div>
-    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:.82rem;color:#92400e;line-height:1.6;">
+    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">
       💡 <strong>막혀도 괜찮습니다!</strong> 실행이 안 될 때 보는 <strong>"자주 막히는 문제"</strong> 슬라이드가 준비되어 있고, 오류는 AI에게 물어보면 대부분 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#e0e7ff;">🎒</div>
+    <div><h2>시작 전 준비물 체크</h2><p>4가지만 준비되면 바로 시작할 수 있습니다 (이미 되어 있다면 통과!)</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">💻</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>VS Code 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">code.visualstudio.com 에서 무료 다운로드. 코드를 작성·실행하는 우리의 작업대입니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🟢</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Live Server 확장 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">VS Code 왼쪽 확장(Extensions) 메뉴에서 "Live Server" 검색 → Install. 파일을 브라우저로 바로 열어줍니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🤖</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Cline 확장 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">VS Code 확장 메뉴에서 "Cline" 검색 → Install. 코드를 대신 써 줄 AI 파트너입니다. (API 설정은 강사 안내에 따라)</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📁</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>실습 폴더 만들기</strong><br><span style="color:#64748b;font-size:1.01rem;">바탕화면에 "바이브코딩" 폴더를 만들어두세요. 차시별 결과물을 여기 모읍니다.</span></div></div>
+    </div>
+    <div style="margin-top:14px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#92400e;line-height:1.6;">
+      ⏱️ 설치가 안 된 분은 손을 들어주세요 — 옆 사람과 함께 5분 안에 끝낼 수 있습니다.
     </div>
   </div>
 </div>
@@ -148,8 +170,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
     <div><h2>오늘 나오는 용어 미리보기</h2><p>외우지 마세요 — 눈에만 익혀두면 수업이 술술 풀립니다</p></div>
   </div>
   <div class="slide-body">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 Number()</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">"3"이라는 <strong>글자</strong>를 계산 가능한 <strong>숫자</strong> 3으로 바꾸는 변환기</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 switch</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">연산자(+−×÷)에 따라 다른 계산으로 보내는 <strong>분류함</strong></p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 상태 변수</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">계산기가 <strong>기억해야 할 것들</strong>(첫 숫자, 연산자, 입력 중인 수)</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 연산자</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">더하기·빼기 같은 <strong>계산 기호</strong>를 부르는 말</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 소수점 처리</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">0.1+0.2 같은 계산에서 생기는 미세한 <strong>오차를 다듬는</strong> 일</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:.85rem;color:#4f46e5;margin-bottom:5px;">📌 NaN</p><p style="font-size:.78rem;color:#475569;line-height:1.65;">"숫자가 아님(Not a Number)"이라는 <strong>오류 값</strong>. 0으로 나누면 만나요</p></div></div>
-    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:.8rem;color:#166534;line-height:1.6;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 Number()</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">"3"이라는 <strong>글자</strong>를 계산 가능한 <strong>숫자</strong> 3으로 바꾸는 변환기</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 switch</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">연산자(+−×÷)에 따라 다른 계산으로 보내는 <strong>분류함</strong></p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 상태 변수</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">계산기가 <strong>기억해야 할 것들</strong>(첫 숫자, 연산자, 입력 중인 수)</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 연산자</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">더하기·빼기 같은 <strong>계산 기호</strong>를 부르는 말</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 소수점 처리</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">0.1+0.2 같은 계산에서 생기는 미세한 <strong>오차를 다듬는</strong> 일</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#4f46e5;margin-bottom:5px;">📌 NaN</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">"숫자가 아님(Not a Number)"이라는 <strong>오류 값</strong>. 0으로 나누면 만나요</p></div></div>
+    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#166534;line-height:1.6;">
       🌱 낯선 단어가 나와도 괜찮습니다. 이 슬라이드로 돌아와서 다시 확인하면 됩니다. 코드는 <strong>AI가 쓰고</strong>, 우리는 <strong>읽고 요청</strong>만 하면 돼요!
     </div>
   </div>
@@ -231,15 +253,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
         </div>
       </div>
       <div>
-        <p style="font-size:.76rem;font-weight:800;color:#6c7086;margin-bottom:10px;">if/else if vs switch</p>
+        <p style="font-size:0.99rem;font-weight:800;color:#6c7086;margin-bottom:10px;">if/else if vs switch</p>
         <div style="display:flex;flex-direction:column;gap:10px;">
           <div style="background:#252535;border-radius:9px;padding:14px 16px;">
-            <p style="font-size:.76rem;font-weight:700;color:#a6e3a1;margin-bottom:6px;">✅ switch 적합</p>
-            <p style="font-size:.74rem;color:#6c7086;line-height:1.6;">같은 변수를 여러 값과 비교할 때<br>연산자(+,-,×,÷) 분기처럼 경우가 명확할 때</p>
+            <p style="font-size:0.99rem;font-weight:700;color:#a6e3a1;margin-bottom:6px;">✅ switch 적합</p>
+            <p style="font-size:0.96rem;color:#6c7086;line-height:1.6;">같은 변수를 여러 값과 비교할 때<br>연산자(+,-,×,÷) 분기처럼 경우가 명확할 때</p>
           </div>
           <div style="background:#252535;border-radius:9px;padding:14px 16px;">
-            <p style="font-size:.76rem;font-weight:700;color:#f38ba8;margin-bottom:6px;">✅ if/else 적합</p>
-            <p style="font-size:.74rem;color:#6c7086;line-height:1.6;">범위 비교(count &gt; 10)할 때<br>복잡한 조건이 섞일 때</p>
+            <p style="font-size:0.99rem;font-weight:700;color:#f38ba8;margin-bottom:6px;">✅ if/else 적합</p>
+            <p style="font-size:0.96rem;color:#6c7086;line-height:1.6;">범위 비교(count &gt; 10)할 때<br>복잡한 조건이 섞일 때</p>
           </div>
         </div>
       </div>
@@ -283,7 +305,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
         <div class="concept-card">
           <div class="cc-icon">🔄</div>
           <h3>계산기 흐름</h3>
-          <p style="line-height:2;font-size:.84rem;">
+          <p style="line-height:2;font-size:1.09rem;">
           1️⃣ 숫자 버튼 클릭 → 화면에 표시<br>
           2️⃣ 연산자 버튼 클릭 → firstNum 저장<br>
           3️⃣ 다시 숫자 버튼 클릭 → 두 번째 숫자<br>
@@ -325,7 +347,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 5. 0으로 나누기 시도 시 "오류: 0으로 나눌 수 없습니다" 표시
 
 파일은 index.html 하나로, 코드에 한국어 주석 달아줘</div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:.73rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">
     <div class="sp-card"><b>📋 계산 내역</b>계산 결과를 히스토리 목록으로 아래에 저장해서 보여주고 클릭하면 해당 값을 불러오게 해줘.</div>
     <div class="sp-card"><b>📐 단위 변환</b>계산기 아래에 길이/무게/온도 단위 변환 탭을 추가해줘.</div>
@@ -356,9 +378,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
   <div class="slide-body">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">🔍 "Go Live 버튼이 안 보여요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">VS Code 왼쪽 <strong>확장(Extensions)</strong> 메뉴에서 <strong>Live Server</strong>를 검색해 설치한 뒤, VS Code를 껐다가 다시 켜세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;"><strong>저장(Ctrl+S)</strong>이 먼저입니다! 저장하지 않으면 반영되지 않아요. 저장 후 브라우저에서 <strong>새로고침(F5)</strong> 하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:.85rem;margin-bottom:7px;">🔤 "한글이 깨져 보여요"</p><p style="font-size:.79rem;color:#475569;line-height:1.7;">AI에게 <strong>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</strong>라고 요청하세요. VS Code 오른쪽 아래 인코딩 표시가 <strong>UTF-8</strong>인지도 확인!</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔍 "Go Live 버튼이 안 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">VS Code 왼쪽 <strong>확장(Extensions)</strong> 메뉴에서 <strong>Live Server</strong>를 검색해 설치한 뒤, VS Code를 껐다가 다시 켜세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><strong>저장(Ctrl+S)</strong>이 먼저입니다! 저장하지 않으면 반영되지 않아요. 저장 후 브라우저에서 <strong>새로고침(F5)</strong> 하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔤 "한글이 깨져 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">AI에게 <strong>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</strong>라고 요청하세요. VS Code 오른쪽 아래 인코딩 표시가 <strong>UTF-8</strong>인지도 확인!</p></div>
     </div>
-    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:.82rem;color:#3730a3;line-height:1.6;">
+    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#3730a3;line-height:1.6;">
       🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.
     </div>
   </div>
@@ -368,27 +390,51 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="slide s-dark">
   <div class="slide-header">
     <div class="icon" style="background:rgba(255,255,255,.1);">🔍</div>
-    <div><h2>코드 핵심 — 숫자 입력 처리</h2><p>이전 숫자 이어서 입력 vs 새 숫자 시작</p></div>
+    <div><h2>코드 핵심 설명</h2><p style="color:#6c7086;">index.html 파일에서 찾아봐야 할 핵심 부분</p></div>
   </div>
   <div class="slide-body">
-    <div class="code-block" style="background:#11111b;font-size:.78rem;"><span class="lang">JS</span>
-<span class="kw">let</span> currentInput = <span class="st">''</span>;     <span class="cm">// 현재 입력 중인 숫자 문자열</span>
-<span class="kw">let</span> isNewNumber  = <span class="kw">true</span>;   <span class="cm">// true: 새 숫자 시작 / false: 이어서 입력</span>
-
-<span class="kw">function</span> <span class="at">inputDigit</span>(digit) {
-  <span class="kw">if</span> (isNewNumber) {
+    <div class="two-col">
+      <div>
+        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">① 숫자 버튼 입력 (inputNumber)</p>
+        <div class="code-block" style="background:#11111b;font-size:0.99rem;margin-bottom:14px;"><span class="lang">JS</span>
+<span class="kw">function</span> <span class="at">inputNumber</span>(num) {
+  <span class="kw">if</span> (shouldReset) {
     <span class="cm">// 연산자 누른 후 → 새 숫자 시작</span>
-    currentInput = String(digit);
-    isNewNumber = <span class="kw">false</span>;
+    currentValue = num;
+    shouldReset = <span class="kw">false</span>;
   } <span class="kw">else</span> {
-    <span class="cm">// 숫자를 이어서 입력</span>
-    <span class="kw">if</span> (digit === <span class="st">'.'</span> && currentInput.<span class="at">includes</span>(<span class="st">'.'</span>)) {
-      <span class="kw">return</span>; <span class="cm">// 소수점 중복 방지</span>
-    }
-    currentInput += digit;
+    <span class="kw">if</span> (currentValue === <span class="st">'0'</span>) currentValue = num;
+    <span class="kw">else</span> currentValue += num; <span class="cm">// 이어서 입력</span>
   }
-  display.textContent = currentInput; <span class="cm">// 화면에 표시</span>
+  <span class="at">updateDisplay</span>();
 }
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px 16px;font-size:1.03rem;line-height:1.8;color:#a6adc8;">
+          • <code style="color:#a6e3a1;">shouldReset</code> — <strong style="color:#a5b4fc;">상태 변수</strong>: 다음 숫자를 새로 시작할지 이어붙일지 기억<br>
+          • 문자열 <code style="color:#f9e2af;">+=</code>로 숫자를 한 자리씩 이어붙입니다<br>
+          • 버튼 <code style="color:#cba6f7;">onclick</code>이 이 함수를 호출합니다
+        </div>
+      </div>
+      <div>
+        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">② 연산자 분기 계산 (calculate)</p>
+        <div class="code-block" style="background:#11111b;font-size:0.99rem;margin-bottom:14px;"><span class="lang">JS</span>
+<span class="kw">const</span> a = <span class="at">parseFloat</span>(prevValue);
+<span class="kw">const</span> b = <span class="at">parseFloat</span>(currentValue);
+<span class="kw">let</span> result;
+
+<span class="kw">switch</span>(currentOperator) {
+  <span class="kw">case</span> <span class="st">'+'</span>: result = a + b; <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="st">'÷'</span>:
+    <span class="kw">if</span> (b === <span class="vl">0</span>) { <span class="at">showError</span>(<span class="st">'0으로 나눌 수 없어요'</span>); <span class="kw">return</span>; }
+    result = a / b; <span class="kw">break</span>;
+}
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px 16px;font-size:1.03rem;line-height:1.8;color:#a6adc8;">
+          • <code style="color:#a6e3a1;">parseFloat()</code> — 문자열로 저장된 값을 <strong style="color:#a5b4fc;">숫자</strong>로 변환<br>
+          • <code style="color:#cba6f7;">switch</code> — 연산자에 따라 계산식을 <strong style="color:#a5b4fc;">분기</strong>합니다<br>
+          • 0으로 나누기는 계산 전에 <strong style="color:#a5b4fc;">미리 검사</strong>해서 오류를 막습니다
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -400,11 +446,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
   <div class="slide-body">
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">1</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>같은 Cline 대화에서 이어가기</strong><br><span style="color:#64748b;font-size:.78rem;">새 작업(New Task)을 열지 마세요! 코드를 만들어 준 대화에 이어서 요청해야 Cline이 맥락을 기억합니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">2</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>미션 문구 붙여넣기</strong><br><span style="color:#64748b;font-size:.78rem;">다음 슬라이드의 미션 프롬프트를 복사하거나, 원하는 변화를 말로 설명하세요. 문법·전문용어는 몰라도 됩니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">3</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>변경 내용 확인하고 승인</strong><br><span style="color:#64748b;font-size:.78rem;">Cline이 파일을 <strong>직접 고쳐줍니다</strong>. 어떤 부분이 바뀌는지(diff) 훑어보고 승인하세요. 직접 타이핑할 필요가 없어요.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;">4</div><div style="font-size:.84rem;color:#1e293b;line-height:1.6;"><strong>저장하고 확인</strong><br><span style="color:#64748b;font-size:.78rem;">저장(Ctrl+S) → 브라우저 새로고침(F5) → 바뀐 부분을 확인합니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">1</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>같은 Cline 대화에서 이어가기</strong><br><span style="color:#64748b;font-size:1.01rem;">새 작업(New Task)을 열지 마세요! 코드를 만들어 준 대화에 이어서 요청해야 Cline이 맥락을 기억합니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">2</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>미션 문구 붙여넣기</strong><br><span style="color:#64748b;font-size:1.01rem;">다음 슬라이드의 미션 프롬프트를 복사하거나, 원하는 변화를 말로 설명하세요. 문법·전문용어는 몰라도 됩니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">3</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>변경 내용 확인하고 승인</strong><br><span style="color:#64748b;font-size:1.01rem;">Cline이 파일을 <strong>직접 고쳐줍니다</strong>. 어떤 부분이 바뀌는지(diff) 훑어보고 승인하세요. 직접 타이핑할 필요가 없어요.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">4</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>저장하고 확인</strong><br><span style="color:#64748b;font-size:1.01rem;">저장(Ctrl+S) → 브라우저 새로고침(F5) → 바뀐 부분을 확인합니다.</span></div></div>
     </div>
     <div style="display:flex;gap:12px;margin-top:14px;">
-      <div style="flex:1;background:#eef2ff;border-radius:10px;padding:11px 16px;font-size:.78rem;color:#3730a3;line-height:1.6;">🔑 <strong>한 번에 하나씩!</strong> 여러 개를 동시에 요청하면 어디가 바뀌었는지 알기 어렵습니다.</div>
-      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:11px 16px;font-size:.78rem;color:#991b1b;line-height:1.6;">😱 <strong>망가졌다면?</strong> AI에게 "방금 수정을 취소하고 이전 코드로 되돌려줘"라고 하면 됩니다.</div>
+      <div style="flex:1;background:#eef2ff;border-radius:10px;padding:11px 16px;font-size:1.01rem;color:#3730a3;line-height:1.6;">🔑 <strong>한 번에 하나씩!</strong> 여러 개를 동시에 요청하면 어디가 바뀌었는지 알기 어렵습니다.</div>
+      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:11px 16px;font-size:1.01rem;color:#991b1b;line-height:1.6;">😱 <strong>망가졌다면?</strong> AI에게 "방금 수정을 취소하고 이전 코드로 되돌려줘"라고 하면 됩니다.</div>
     </div>
   </div>
 </div>
@@ -458,21 +504,29 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 
 <!-- S11 마무리 -->
 <div class="slide s-end">
+  <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
+  <div class="result-link-tip">완성 예제 보기</div>
   <h2>실습 06 <span>완료!</span> 🧮</h2>
   <p>Number 변환, switch문, 상태 변수로 실제 계산기를 만들었습니다!</p>
   <div class="next-hint"><span>▶</span> 다음 실습: <strong>실습 07 — 글자 꾸미기 도구 만들기</strong></div>
 </div>
 
 </div>
+<div class="nav-dots" id="navDots"></div>
 <div class="nav">
   <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
-  <span class="slide-counter" id="counter">1 / 15</span>
+  <span class="slide-counter" id="counter">1 / 16</span>
   <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
 </div>
 <script>
+const RESULT_HTML_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICA8dGl0bGU+7IKs7LmZ7Jew7IKwIOqzhOyCsOq4sDwvdGl0bGU+CiAgPHN0eWxlPgogICAgKiB7IG1hcmdpbjogMDsgcGFkZGluZzogMDsgYm94LXNpemluZzogYm9yZGVyLWJveDsgfQoKICAgIGJvZHkgewogICAgICBmb250LWZhbWlseTogJ1NlZ29lIFVJJywgJ+unkeydgCDqs6DrlJUnLCBzYW5zLXNlcmlmOwogICAgICBiYWNrZ3JvdW5kOiAjMWMxYzI4OwogICAgICBtaW4taGVpZ2h0OiAxMDB2aDsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7CiAgICAgIHBhZGRpbmc6IDIwcHg7CiAgICAgIGdhcDogMjBweDsKICAgIH0KCiAgICBoMSB7CiAgICAgIGNvbG9yOiAjZTJlOGYwOwogICAgICBmb250LXNpemU6IDEuMnJlbTsKICAgICAgZm9udC13ZWlnaHQ6IDYwMDsKICAgIH0KCiAgICAvKiDqs4TsgrDquLAg67O47LK0ICovCiAgICAuY2FsY3VsYXRvciB7CiAgICAgIGJhY2tncm91bmQ6ICMyNTI1MzU7CiAgICAgIGJvcmRlci1yYWRpdXM6IDI0cHg7CiAgICAgIHBhZGRpbmc6IDI0cHg7CiAgICAgIHdpZHRoOiAzMjBweDsKICAgICAgYm94LXNoYWRvdzogMCAyMHB4IDYwcHggcmdiYSgwLDAsMCwwLjUpOwogICAgfQoKICAgIC8qIOuUlOyKpO2UjOugiOydtCDsmIHsl60gKi8KICAgIC5kaXNwbGF5IHsKICAgICAgYmFja2dyb3VuZDogIzFhMWEyYTsKICAgICAgYm9yZGVyLXJhZGl1czogMTZweDsKICAgICAgcGFkZGluZzogMjBweCAyMHB4IDE2cHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDIwcHg7CiAgICAgIG1pbi1oZWlnaHQ6IDExMHB4OwogICAgICBkaXNwbGF5OiBmbGV4OwogICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uOwogICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtZW5kOwogICAgICBhbGlnbi1pdGVtczogZmxleC1lbmQ7CiAgICB9CgogICAgLyog7IiY7IudIO2RnOyLnCAo7J6R7J2AIOq4gOyUqCkgKi8KICAgIC5mb3JtdWxhIHsKICAgICAgZm9udC1zaXplOiAwLjg1cmVtOwogICAgICBjb2xvcjogIzY0NzQ4YjsKICAgICAgbWluLWhlaWdodDogMjBweDsKICAgICAgd29yZC1icmVhazogYnJlYWstYWxsOwogICAgfQoKICAgIC8qIO2YhOyerCDqsJIgKO2BsCDquIDslKgpICovCiAgICAuY3VycmVudC12YWx1ZSB7CiAgICAgIGZvbnQtc2l6ZTogMi44cmVtOwogICAgICBmb250LXdlaWdodDogNzAwOwogICAgICBjb2xvcjogI2YxZjVmOTsKICAgICAgbGluZS1oZWlnaHQ6IDEuMTsKICAgICAgb3ZlcmZsb3c6IGhpZGRlbjsKICAgICAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7CiAgICAgIHdoaXRlLXNwYWNlOiBub3dyYXA7CiAgICAgIG1heC13aWR0aDogMTAwJTsKICAgICAgZm9udC12YXJpYW50LW51bWVyaWM6IHRhYnVsYXItbnVtczsKICAgIH0KCiAgICAuY3VycmVudC12YWx1ZS5lcnJvciB7IGZvbnQtc2l6ZTogMS4ycmVtOyBjb2xvcjogI2Y4NzE3MTsgfQoKICAgIC8qIOuyhO2KvCDqt7jrpqzrk5wgKi8KICAgIC5idXR0b25zIHsKICAgICAgZGlzcGxheTogZ3JpZDsKICAgICAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoNCwgMWZyKTsKICAgICAgZ2FwOiAxMHB4OwogICAgfQoKICAgIC8qIOqzte2GtSDrsoTtirwgKi8KICAgIC5idG4gewogICAgICBwYWRkaW5nOiAxOHB4IDEwcHg7CiAgICAgIGJvcmRlcjogbm9uZTsKICAgICAgYm9yZGVyLXJhZGl1czogMTRweDsKICAgICAgZm9udC1zaXplOiAxLjE1cmVtOwogICAgICBmb250LXdlaWdodDogNjAwOwogICAgICBjdXJzb3I6IHBvaW50ZXI7CiAgICAgIHRyYW5zaXRpb246IGFsbCAwLjFzOwogICAgICBmb250LWZhbWlseTogaW5oZXJpdDsKICAgIH0KCiAgICAuYnRuOmFjdGl2ZSB7IHRyYW5zZm9ybTogc2NhbGUoMC45NCk7IH0KCiAgICAvKiDsiKvsnpAg67KE7Yq8ICovCiAgICAuYnRuLW51bSB7CiAgICAgIGJhY2tncm91bmQ6ICMyZDJkNDI7CiAgICAgIGNvbG9yOiAjZTJlOGYwOwogICAgfQogICAgLmJ0bi1udW06aG92ZXIgeyBiYWNrZ3JvdW5kOiAjM2EzYTUyOyB9CgogICAgLyog7Jew7IKw7J6QIOuyhO2KvCAqLwogICAgLmJ0bi1vcCB7CiAgICAgIGJhY2tncm91bmQ6ICM3YzNhZWQ7CiAgICAgIGNvbG9yOiB3aGl0ZTsKICAgIH0KICAgIC5idG4tb3A6aG92ZXIgeyBiYWNrZ3JvdW5kOiAjNmQyOGQ5OyB9CiAgICAuYnRuLW9wLmFjdGl2ZSB7IGJhY2tncm91bmQ6ICNmNTllMGI7IGNvbG9yOiAjMWMxYzI4OyB9CgogICAgLyog7Yq57IiYIOuyhO2KvCAoQUMsIOKGkCkgKi8KICAgIC5idG4tc3BlY2lhbCB7CiAgICAgIGJhY2tncm91bmQ6ICMzNzQxNTE7CiAgICAgIGNvbG9yOiAjOTRhM2I4OwogICAgfQogICAgLmJ0bi1zcGVjaWFsOmhvdmVyIHsgYmFja2dyb3VuZDogIzRiNTU2MzsgfQoKICAgIC8qIOuTse2YuCDrsoTtirwgKi8KICAgIC5idG4tZXF1YWxzIHsKICAgICAgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KDEzNWRlZywgIzEwYjk4MSwgIzA1OTY2OSk7CiAgICAgIGNvbG9yOiB3aGl0ZTsKICAgIH0KICAgIC5idG4tZXF1YWxzOmhvdmVyIHsgb3BhY2l0eTogMC45OyB9CgogICAgLyogMCDrsoTtirw6IDLsubgg7LCo7KeAICovCiAgICAuYnRuLXplcm8geyBncmlkLWNvbHVtbjogc3BhbiAyOyB9CgogICAgLyog7Z6I7Iqk7Yag66asICovCiAgICAuaGlzdG9yeSB7CiAgICAgIGJhY2tncm91bmQ6ICMyNTI1MzU7CiAgICAgIGJvcmRlci1yYWRpdXM6IDE2cHg7CiAgICAgIHBhZGRpbmc6IDE2cHggMjBweDsKICAgICAgd2lkdGg6IDMyMHB4OwogICAgICBib3gtc2hhZG93OiAwIDRweCAyMHB4IHJnYmEoMCwwLDAsMC4zKTsKICAgIH0KCiAgICAuaGlzdG9yeSBoMyB7CiAgICAgIGZvbnQtc2l6ZTogMC44cmVtOwogICAgICBjb2xvcjogIzY0NzQ4YjsKICAgICAgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsKICAgICAgbGV0dGVyLXNwYWNpbmc6IDFweDsKICAgICAgbWFyZ2luLWJvdHRvbTogMTBweDsKICAgIH0KCiAgICAuaGlzdG9yeS1saXN0IHsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsKICAgICAgZ2FwOiA2cHg7CiAgICB9CgogICAgLmhpc3RvcnktaXRlbSB7CiAgICAgIGZvbnQtc2l6ZTogMC45cmVtOwogICAgICBjb2xvcjogIzk0YTNiODsKICAgICAgdGV4dC1hbGlnbjogcmlnaHQ7CiAgICAgIHBhZGRpbmc6IDRweCAwOwogICAgICBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzJkMmQ0MjsKICAgIH0KCiAgICAuaGlzdG9yeS1pdGVtOmxhc3QtY2hpbGQgeyBib3JkZXItYm90dG9tOiBub25lOyB9CiAgICAuaGlzdG9yeS1yZXN1bHQgeyBjb2xvcjogI2E3OGJmYTsgZm9udC13ZWlnaHQ6IDcwMDsgfQoKICAgIC5oaXN0b3J5LWVtcHR5IHsKICAgICAgZm9udC1zaXplOiAwLjg1cmVtOwogICAgICBjb2xvcjogIzQ3NTU2OTsKICAgICAgdGV4dC1hbGlnbjogY2VudGVyOwogICAgICBwYWRkaW5nOiA4cHggMDsKICAgIH0KICA8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5PgoKICA8aDE+8J+nriDsgqzsuZnsl7DsgrAg6rOE7IKw6riwPC9oMT4KCiAgPCEtLSDqs4TsgrDquLAg67O47LK0IC0tPgogIDxkaXYgY2xhc3M9ImNhbGN1bGF0b3IiPgoKICAgIDwhLS0g65SU7Iqk7ZSM66CI7J20IC0tPgogICAgPGRpdiBjbGFzcz0iZGlzcGxheSI+CiAgICAgIDxkaXYgY2xhc3M9ImZvcm11bGEiIGlkPSJmb3JtdWxhIj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iY3VycmVudC12YWx1ZSIgaWQ9ImN1cnJlbnQtdmFsdWUiPjA8L2Rpdj4KICAgIDwvZGl2PgoKICAgIDwhLS0g67KE7Yq8IO2MqOuTnCAtLT4KICAgIDxkaXYgY2xhc3M9ImJ1dHRvbnMiPgogICAgICA8IS0tIDHtlok6IEFDLCDihpAsIOu5iOy5uCwgw7cgLS0+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tc3BlY2lhbCIgb25jbGljaz0iY2xlYXJBbGwoKSI+QUM8L2J1dHRvbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1zcGVjaWFsIiBvbmNsaWNrPSJiYWNrc3BhY2UoKSI+4oaQPC9idXR0b24+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tc3BlY2lhbCIgb25jbGljaz0iaW5wdXRQZXJjZW50KCkiPiU8L2J1dHRvbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1vcCIgaWQ9Im9wLcO3IiBvbmNsaWNrPSJzZXRPcGVyYXRvcignw7cnKSI+w7c8L2J1dHRvbj4KCiAgICAgIDwhLS0gMu2WiTogNywgOCwgOSwgw5cgLS0+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tbnVtIiBvbmNsaWNrPSJpbnB1dE51bWJlcignNycpIj43PC9idXR0b24+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tbnVtIiBvbmNsaWNrPSJpbnB1dE51bWJlcignOCcpIj44PC9idXR0b24+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tbnVtIiBvbmNsaWNrPSJpbnB1dE51bWJlcignOScpIj45PC9idXR0b24+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tb3AiIGlkPSJvcC3DlyIgb25jbGljaz0ic2V0T3BlcmF0b3IoJ8OXJykiPsOXPC9idXR0b24+CgogICAgICA8IS0tIDPtlok6IDQsIDUsIDYsIC0gLS0+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tbnVtIiBvbmNsaWNrPSJpbnB1dE51bWJlcignNCcpIj40PC9idXR0b24+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tbnVtIiBvbmNsaWNrPSJpbnB1dE51bWJlcignNScpIj41PC9idXR0b24+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tbnVtIiBvbmNsaWNrPSJpbnB1dE51bWJlcignNicpIj42PC9idXR0b24+CiAgICAgIDxidXR0b24gY2xhc3M9ImJ0biBidG4tb3AiIGlkPSJvcC0tIiBvbmNsaWNrPSJzZXRPcGVyYXRvcignLScpIj7iiJI8L2J1dHRvbj4KCiAgICAgIDwhLS0gNO2WiTogMSwgMiwgMywgKyAtLT4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1udW0iIG9uY2xpY2s9ImlucHV0TnVtYmVyKCcxJykiPjE8L2J1dHRvbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1udW0iIG9uY2xpY2s9ImlucHV0TnVtYmVyKCcyJykiPjI8L2J1dHRvbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1udW0iIG9uY2xpY2s9ImlucHV0TnVtYmVyKCczJykiPjM8L2J1dHRvbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1vcCIgaWQ9Im9wLSsiIG9uY2xpY2s9InNldE9wZXJhdG9yKCcrJykiPis8L2J1dHRvbj4KCiAgICAgIDwhLS0gNe2WiTogMCgy7Lm4KSwgLiwgPSAtLT4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1udW0gYnRuLXplcm8iIG9uY2xpY2s9ImlucHV0TnVtYmVyKCcwJykiPjA8L2J1dHRvbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1udW0iIG9uY2xpY2s9ImlucHV0RG90KCkiPi48L2J1dHRvbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1lcXVhbHMiIG9uY2xpY2s9ImNhbGN1bGF0ZSgpIj49PC9idXR0b24+CiAgICA8L2Rpdj4KCiAgPC9kaXY+CgogIDwhLS0g7Z6I7Iqk7Yag66asIC0tPgogIDxkaXYgY2xhc3M9Imhpc3RvcnkiPgogICAgPGgzPvCfk4sg6rOE7IKwIO2eiOyKpO2GoOumrDwvaDM+CiAgICA8ZGl2IGNsYXNzPSJoaXN0b3J5LWxpc3QiIGlkPSJoaXN0b3J5LWxpc3QiPgogICAgICA8ZGl2IGNsYXNzPSJoaXN0b3J5LWVtcHR5Ij7qs4TsgrAg6rKw6rO86rCAIOyXrOq4sOyXkCDtkZzsi5zrkKnri4jri6Q8L2Rpdj4KICAgIDwvZGl2PgogIDwvZGl2PgoKICA8c2NyaXB0PgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOqzhOyCsOq4sCDsg4Htg5wg67OA7IiYCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgbGV0IGN1cnJlbnRWYWx1ZSA9ICcwJzsgICAgLy8g7ZiE7J6sIO2ZlOuptOyXkCDtkZzsi5zrkJjripQg6rCSCiAgICBsZXQgcHJldlZhbHVlID0gJyc7ICAgICAgICAvLyDsl7DsgrDsnpAg64iE66W06riwIOyghCDqsJIKICAgIGxldCBjdXJyZW50T3BlcmF0b3IgPSAnJzsgIC8vIO2YhOyerCDshKDtg53rkJwg7Jew7IKw7J6QCiAgICBsZXQgc2hvdWxkUmVzZXQgPSBmYWxzZTsgICAvLyDri6TsnYwg7J6F66ClIOyLnCDtmZTrqbQg7LSI6riw7ZmUIOyXrOu2gAogICAgbGV0IGhpc3RvcnlJdGVtcyA9IFtdOyAgICAgLy8g7Z6I7Iqk7Yag66asIOuwsOyXtAoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDtmZTrqbQg7JeF642w7J207Yq4CiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gdXBkYXRlRGlzcGxheSgpIHsKICAgICAgY29uc3QgZWwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VycmVudC12YWx1ZScpOwogICAgICBlbC50ZXh0Q29udGVudCA9IGN1cnJlbnRWYWx1ZTsKCiAgICAgIC8vIOuCtOyaqeydtCDquLjrqbQg6riA7JSoIO2BrOq4sCDspITsnbTquLAKICAgICAgZWwuY2xhc3NOYW1lID0gJ2N1cnJlbnQtdmFsdWUnOwogICAgICBpZiAoY3VycmVudFZhbHVlLmxlbmd0aCA+IDEwKSBlbC5zdHlsZS5mb250U2l6ZSA9ICcxLjhyZW0nOwogICAgICBlbHNlIGlmIChjdXJyZW50VmFsdWUubGVuZ3RoID4gNykgZWwuc3R5bGUuZm9udFNpemUgPSAnMi4ycmVtJzsKICAgICAgZWxzZSBlbC5zdHlsZS5mb250U2l6ZSA9ICcyLjhyZW0nOwogICAgfQoKICAgIGZ1bmN0aW9uIHVwZGF0ZUZvcm11bGEodGV4dCkgewogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZm9ybXVsYScpLnRleHRDb250ZW50ID0gdGV4dDsKICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g7Iir7J6QIOyeheugpQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIGlucHV0TnVtYmVyKG51bSkgewogICAgICBpZiAoc2hvdWxkUmVzZXQpIHsKICAgICAgICBjdXJyZW50VmFsdWUgPSBudW07CiAgICAgICAgc2hvdWxkUmVzZXQgPSBmYWxzZTsKICAgICAgfSBlbHNlIHsKICAgICAgICBpZiAoY3VycmVudFZhbHVlID09PSAnMCcpIHsKICAgICAgICAgIGN1cnJlbnRWYWx1ZSA9IG51bTsKICAgICAgICB9IGVsc2UgewogICAgICAgICAgaWYgKGN1cnJlbnRWYWx1ZS5sZW5ndGggPj0gMTIpIHJldHVybjsgLy8g7LWc64yAIDEy7J6Q66asCiAgICAgICAgICBjdXJyZW50VmFsdWUgKz0gbnVtOwogICAgICAgIH0KICAgICAgfQogICAgICB1cGRhdGVEaXNwbGF5KCk7CiAgICB9CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOyGjOyImOygkCDsnoXroKUKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBmdW5jdGlvbiBpbnB1dERvdCgpIHsKICAgICAgaWYgKHNob3VsZFJlc2V0KSB7CiAgICAgICAgY3VycmVudFZhbHVlID0gJzAuJzsKICAgICAgICBzaG91bGRSZXNldCA9IGZhbHNlOwogICAgICB9IGVsc2UgaWYgKCFjdXJyZW50VmFsdWUuaW5jbHVkZXMoJy4nKSkgewogICAgICAgIGN1cnJlbnRWYWx1ZSArPSAnLic7CiAgICAgIH0KICAgICAgdXBkYXRlRGlzcGxheSgpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDtjbzshLztirgg67OA7ZmYICjtmITsnqwg6rCSIMO3IDEwMCkKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBmdW5jdGlvbiBpbnB1dFBlcmNlbnQoKSB7CiAgICAgIGNvbnN0IHZhbCA9IHBhcnNlRmxvYXQoY3VycmVudFZhbHVlKTsKICAgICAgaWYgKCFpc05hTih2YWwpKSB7CiAgICAgICAgY3VycmVudFZhbHVlID0gU3RyaW5nKHZhbCAvIDEwMCk7CiAgICAgICAgdXBkYXRlRGlzcGxheSgpOwogICAgICB9CiAgICB9CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOyXsOyCsOyekCDshKDtg50KICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBmdW5jdGlvbiBzZXRPcGVyYXRvcihvcCkgewogICAgICAvLyDsnbTrr7gg7Jew7IKw7J6Q6rCAIOyEoO2DneuQnCDsg4Htg5zsl5DshJwg7Iir7J6Q64+EIOyeheugpeuQnCDqsr3smrAg4oaSIOykkeqwhCDqs4TsgrAKICAgICAgaWYgKGN1cnJlbnRPcGVyYXRvciAmJiAhc2hvdWxkUmVzZXQpIHsKICAgICAgICBjYWxjdWxhdGUoZmFsc2UpOwogICAgICB9CgogICAgICBwcmV2VmFsdWUgPSBjdXJyZW50VmFsdWU7CiAgICAgIGN1cnJlbnRPcGVyYXRvciA9IG9wOwogICAgICBzaG91bGRSZXNldCA9IHRydWU7CgogICAgICB1cGRhdGVGb3JtdWxhKGAke3ByZXZWYWx1ZX0gJHtvcH1gKTsKCiAgICAgIC8vIO2ZnOyEsSDsl7DsgrDsnpAg67KE7Yq8IOqwleyhsAogICAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcuYnRuLW9wJykuZm9yRWFjaChiID0+IGIuY2xhc3NMaXN0LnJlbW92ZSgnYWN0aXZlJykpOwogICAgICBjb25zdCBvcEJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBvcC0ke29wfWApOwogICAgICBpZiAob3BCdG4pIG9wQnRuLmNsYXNzTGlzdC5hZGQoJ2FjdGl2ZScpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDqs4TsgrAg7Iuk7ZaJCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gY2FsY3VsYXRlKGFkZEhpc3RvcnkgPSB0cnVlKSB7CiAgICAgIGlmICghY3VycmVudE9wZXJhdG9yIHx8ICFwcmV2VmFsdWUpIHJldHVybjsKCiAgICAgIGNvbnN0IGEgPSBwYXJzZUZsb2F0KHByZXZWYWx1ZSk7CiAgICAgIGNvbnN0IGIgPSBwYXJzZUZsb2F0KGN1cnJlbnRWYWx1ZSk7CiAgICAgIGxldCByZXN1bHQ7CgogICAgICAvLyBzd2l0Y2gg66y47Jy866GcIOyXsOyCsOyekOuzhCDqs4TsgrAKICAgICAgc3dpdGNoKGN1cnJlbnRPcGVyYXRvcikgewogICAgICAgIGNhc2UgJysnOiByZXN1bHQgPSBhICsgYjsgYnJlYWs7CiAgICAgICAgY2FzZSAnLSc6IHJlc3VsdCA9IGEgLSBiOyBicmVhazsKICAgICAgICBjYXNlICfDlyc6IHJlc3VsdCA9IGEgKiBiOyBicmVhazsKICAgICAgICBjYXNlICfDtyc6CiAgICAgICAgICBpZiAoYiA9PT0gMCkgewogICAgICAgICAgICBzaG93RXJyb3IoJzDsnLzroZwg64KY64iMIOyImCDsl4bslrTsmpQnKTsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgICAgfQogICAgICAgICAgcmVzdWx0ID0gYSAvIGI7CiAgICAgICAgICBicmVhazsKICAgICAgICBkZWZhdWx0OiByZXR1cm47CiAgICAgIH0KCiAgICAgIC8vIOyGjOyImOygkCDsspjrpqwgKOuwmOyYrOumvCkKICAgICAgcmVzdWx0ID0gTWF0aC5yb3VuZChyZXN1bHQgKiAxZTEwKSAvIDFlMTA7CgogICAgICBjb25zdCBmb3JtdWxhID0gYCR7cHJldlZhbHVlfSAke2N1cnJlbnRPcGVyYXRvcn0gJHtifWA7CgogICAgICBpZiAoYWRkSGlzdG9yeSkgewogICAgICAgIC8vIO2eiOyKpO2GoOumrCDstpTqsIAKICAgICAgICBhZGRUb0hpc3RvcnkoYCR7Zm9ybXVsYX0gPSAke3Jlc3VsdH1gKTsKICAgICAgICB1cGRhdGVGb3JtdWxhKGAke2Zvcm11bGF9ID1gKTsKICAgICAgfQoKICAgICAgY3VycmVudFZhbHVlID0gU3RyaW5nKHJlc3VsdCk7CiAgICAgIGN1cnJlbnRPcGVyYXRvciA9ICcnOwogICAgICBwcmV2VmFsdWUgPSAnJzsKICAgICAgc2hvdWxkUmVzZXQgPSB0cnVlOwoKICAgICAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLmJ0bi1vcCcpLmZvckVhY2goYiA9PiBiLmNsYXNzTGlzdC5yZW1vdmUoJ2FjdGl2ZScpKTsKICAgICAgdXBkYXRlRGlzcGxheSgpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDsmKTrpZgg7ZGc7IucCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gc2hvd0Vycm9yKG1zZykgewogICAgICBjb25zdCBlbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXJyZW50LXZhbHVlJyk7CiAgICAgIGVsLnRleHRDb250ZW50ID0gJ+KaoO+4jyAnICsgbXNnOwogICAgICBlbC5jbGFzc05hbWUgPSAnY3VycmVudC12YWx1ZSBlcnJvcic7CiAgICAgIGVsLnN0eWxlLmZvbnRTaXplID0gJzFyZW0nOwogICAgICBjdXJyZW50VmFsdWUgPSAnMCc7CiAgICAgIHByZXZWYWx1ZSA9ICcnOwogICAgICBjdXJyZW50T3BlcmF0b3IgPSAnJzsKICAgICAgc2hvdWxkUmVzZXQgPSB0cnVlOwogICAgICBzZXRUaW1lb3V0KCgpID0+IHsgdXBkYXRlRGlzcGxheSgpOyB9LCAyMDAwKTsKICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g7KCE7LK0IOy0iOq4sO2ZlCAoQUMpCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gY2xlYXJBbGwoKSB7CiAgICAgIGN1cnJlbnRWYWx1ZSA9ICcwJzsKICAgICAgcHJldlZhbHVlID0gJyc7CiAgICAgIGN1cnJlbnRPcGVyYXRvciA9ICcnOwogICAgICBzaG91bGRSZXNldCA9IGZhbHNlOwogICAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcuYnRuLW9wJykuZm9yRWFjaChiID0+IGIuY2xhc3NMaXN0LnJlbW92ZSgnYWN0aXZlJykpOwogICAgICB1cGRhdGVGb3JtdWxhKCcnKTsKICAgICAgdXBkYXRlRGlzcGxheSgpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDrp4jsp4Drp4kg7Iir7J6QIOyCreygnCAo67Cx7Iqk7Y6Y7J207IqkKQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIGJhY2tzcGFjZSgpIHsKICAgICAgaWYgKHNob3VsZFJlc2V0KSByZXR1cm47CiAgICAgIGlmIChjdXJyZW50VmFsdWUubGVuZ3RoIDw9IDEpIHsKICAgICAgICBjdXJyZW50VmFsdWUgPSAnMCc7CiAgICAgIH0gZWxzZSB7CiAgICAgICAgY3VycmVudFZhbHVlID0gY3VycmVudFZhbHVlLnNsaWNlKDAsIC0xKTsKICAgICAgfQogICAgICB1cGRhdGVEaXNwbGF5KCk7CiAgICB9CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIO2eiOyKpO2GoOumrCDstpTqsIAgKOy1nOuMgCA16rCcKQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIGFkZFRvSGlzdG9yeSh0ZXh0KSB7CiAgICAgIGhpc3RvcnlJdGVtcy51bnNoaWZ0KHRleHQpOwogICAgICBpZiAoaGlzdG9yeUl0ZW1zLmxlbmd0aCA+IDUpIGhpc3RvcnlJdGVtcy5wb3AoKTsKCiAgICAgIGNvbnN0IGxpc3RFbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdoaXN0b3J5LWxpc3QnKTsKICAgICAgbGlzdEVsLmlubmVySFRNTCA9IGhpc3RvcnlJdGVtcy5tYXAoaXRlbSA9PiB7CiAgICAgICAgY29uc3QgcGFydHMgPSBpdGVtLnNwbGl0KCcgPSAnKTsKICAgICAgICByZXR1cm4gYDxkaXYgY2xhc3M9Imhpc3RvcnktaXRlbSI+JHtwYXJ0c1swXX0gPSA8c3BhbiBjbGFzcz0iaGlzdG9yeS1yZXN1bHQiPiR7cGFydHNbMV19PC9zcGFuPjwvZGl2PmA7CiAgICAgIH0pLmpvaW4oJycpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDtgqTrs7Trk5wg7J6F66ClIOyngOybkAogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ2tleWRvd24nLCBmdW5jdGlvbihlKSB7CiAgICAgIGlmIChlLmtleSA+PSAnMCcgJiYgZS5rZXkgPD0gJzknKSBpbnB1dE51bWJlcihlLmtleSk7CiAgICAgIGVsc2UgaWYgKGUua2V5ID09PSAnLicpIGlucHV0RG90KCk7CiAgICAgIGVsc2UgaWYgKGUua2V5ID09PSAnKycpIHNldE9wZXJhdG9yKCcrJyk7CiAgICAgIGVsc2UgaWYgKGUua2V5ID09PSAnLScpIHNldE9wZXJhdG9yKCctJyk7CiAgICAgIGVsc2UgaWYgKGUua2V5ID09PSAnKicpIHNldE9wZXJhdG9yKCfDlycpOwogICAgICBlbHNlIGlmIChlLmtleSA9PT0gJy8nKSB7IGUucHJldmVudERlZmF1bHQoKTsgc2V0T3BlcmF0b3IoJ8O3Jyk7IH0KICAgICAgZWxzZSBpZiAoZS5rZXkgPT09ICdFbnRlcicgfHwgZS5rZXkgPT09ICc9JykgY2FsY3VsYXRlKCk7CiAgICAgIGVsc2UgaWYgKGUua2V5ID09PSAnRXNjYXBlJykgY2xlYXJBbGwoKTsKICAgICAgZWxzZSBpZiAoZS5rZXkgPT09ICdCYWNrc3BhY2UnKSBiYWNrc3BhY2UoKTsKICAgIH0pOwogIDwvc2NyaXB0PgoKPC9ib2R5Pgo8L2h0bWw+Cg==";
+function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
+function openResultPopup(){const w=window.open('','resultPopup',`width=${screen.availWidth},height=${screen.availHeight},left=0,top=0,resizable=yes,scrollbars=yes`);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
 const slides=Array.from(document.querySelectorAll('.slide'));
 const total=slides.length;let current=0;
-function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
+const dotsWrap=document.getElementById('navDots');
+slides.forEach((_,i)=>{const dot=document.createElement('button');dot.className='nav-dot'+(i===0?' active':'');dot.setAttribute('aria-label',`${i+1}번 슬라이드로 이동`);dot.onclick=()=>goTo(i);dotsWrap.appendChild(dot);});
+function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
 function changeSlide(dir){goTo(current+dir);}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
 goTo(0);
