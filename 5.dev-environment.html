@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바이브 코딩의 실행 환경 | 이론 강의 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ═══ RESET ═══ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --p:#4f46e5; --pl:#818cf8; --pd:#3730a3;
+  --a:#f59e0b; --ad:#d97706;
+  --g:#10b981; --gd:#059669;
+  --r:#ef4444; --rd:#dc2626;
+  --pu:#8b5cf6;
+  --sk:#0ea5e9;
+  --dk:#0f172a; --tx:#1e293b; --sb:#64748b;
+  --bd:#e2e8f0; --sf:#f8fafc;
+  --rad:16px; --rad-s:10px;
+  --sh:0 4px 20px rgba(0,0,0,.08);
+  --sh2:0 8px 32px rgba(0,0,0,.14);
+}
+html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:#fff;color:var(--tx);font-size:18px;}
+
+/* ═══ PROGRESS BAR ═══ */
+#prog{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--p),var(--pu));transition:width .4s cubic-bezier(.4,0,.2,1);z-index:1001;border-radius:0 2px 2px 0;}
+
+/* ═══ DECK & SLIDES ═══ */
+#deck{position:fixed;top:4px;bottom:60px;left:0;right:0;}
+.slide{
+  position:absolute;inset:0;
+  transform:translateX(100%);
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  background:linear-gradient(155deg,#fff 0%,#f8fafc 55%,#eef2ff 100%);
+  overflow:hidden;
+}
+.slide.active{transform:translateX(0);}
+.slide.past{transform:translateX(-100%);}
+
+/* ═══ SLIDE INNER ═══ */
+.si{
+  flex:1;display:flex;flex-direction:column;
+  padding:20px 40px 10px;gap:12px;
+  position:relative;z-index:1;overflow-y:auto;
+}
+
+/* ═══ HEADER ═══ */
+.stag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(79,70,229,.1);color:var(--pd);
+  border:1px solid rgba(79,70,229,.22);border-radius:999px;
+  padding:5px 14px;font-size:.8rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;
+}
+.stit{
+  font-size:clamp(30px,3.5vw,48px);font-weight:900;
+  color:var(--dk);line-height:1.2;letter-spacing:-.02em;
+}
+.stit .ac{color:var(--p);}
+.stit .aa{color:var(--ad);}
+.stit .ag{color:var(--gd);}
+.sbar{width:52px;height:4px;background:linear-gradient(90deg,var(--p),var(--pl));border-radius:2px;margin-top:10px;}
+
+/* ═══ BODY ═══ */
+.sb{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+
+/* ═══ GRIDS ═══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.g22{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;}
+
+/* ═══ CARDS ═══ */
+.card{
+  background:#fff;border:1px solid var(--bd);
+  border-radius:var(--rad);padding:20px 22px;
+  box-shadow:var(--sh);
+  transition:box-shadow .2s,transform .2s;
+}
+.card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.ct{font-size:clamp(18px,1.8vw,22px);font-weight:800;color:var(--dk);margin-bottom:6px;}
+.cd{font-size:clamp(16px,1.5vw,19px);color:var(--sb);line-height:1.7;}
+
+/* ═══ FEATURE CARDS ═══ */
+.fc{
+  background:#fff;border:1px solid var(--bd);
+  border-radius:var(--rad-s);padding:16px 18px;
+  display:flex;flex-direction:column;gap:9px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  transition:box-shadow .2s,transform .2s;
+}
+.fc:hover{box-shadow:var(--sh);transform:translateY(-2px);}
+.fc-h{display:flex;gap:11px;align-items:center;}
+.fc-t{font-size:clamp(17px,1.7vw,21px);font-weight:800;color:var(--dk);}
+.fc-d{font-size:clamp(15px,1.4vw,18px);color:var(--sb);line-height:1.65;}
+
+/* ═══ CALLOUTS ═══ */
+.co{border-radius:var(--rad-s);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;}
+.co-p{background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.2);}
+.co-a{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);}
+.co-g{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);}
+.co-r{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);}
+.co-pu{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);}
+.co-sk{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);}
+.co-ic{font-size:1.3rem;flex-shrink:0;margin-top:2px;}
+.co-tt{font-size:1.2rem;font-weight:700;margin-bottom:4px;}
+.co-tx{font-size:1.1rem;color:var(--sb);line-height:1.65;}
+
+/* ═══ STEP NUMBERS ═══ */
+.sn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--p);color:#fff;
+  font-size:.9rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 3px 10px rgba(79,70,229,.35);
+}
+
+/* ═══ ICON BOXES ═══ */
+.ib{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;}
+.ib-p{background:rgba(79,70,229,.12);color:var(--p);}
+.ib-a{background:rgba(245,158,11,.12);color:var(--ad);}
+.ib-g{background:rgba(16,185,129,.12);color:var(--gd);}
+.ib-r{background:rgba(239,68,68,.12);color:var(--rd);}
+.ib-pu{background:rgba(139,92,246,.12);color:var(--pu);}
+.ib-sk{background:rgba(14,165,233,.12);color:var(--sk);}
+
+/* ═══ BADGES ═══ */
+.ba{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;font-size:.78rem;font-weight:700;}
+.ba-p{background:rgba(79,70,229,.1);border:1px solid rgba(79,70,229,.3);color:#4338ca;}
+.ba-a{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#b45309;}
+.ba-g{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#047857;}
+.ba-r{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#b91c1c;}
+.ba-pu{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);color:#6d28d9;}
+
+/* ═══ BIG NUMBERS ═══ */
+.bn{font-size:clamp(44px,5vw,72px);font-weight:900;line-height:1;letter-spacing:-.03em;}
+.nl{font-size:.82rem;color:var(--sb);margin-top:5px;font-weight:500;}
+
+/* ═══ QUOTE ═══ */
+.qt{background:rgba(79,70,229,.06);border-left:4px solid var(--p);border-radius:0 14px 14px 0;padding:20px 24px;}
+.qt p{font-size:clamp(14px,1.3vw,17px);line-height:1.85;color:#312e81;font-style:italic;}
+.qt cite{display:block;margin-top:12px;font-size:.82rem;color:var(--p);font-style:normal;font-weight:700;}
+
+/* ═══ CODE ═══ */
+.code{
+  background:#1e293b;border:1px solid #334155;
+  border-radius:var(--rad-s);padding:12px 16px;
+  font-family:'JetBrains Mono',monospace;font-size:1rem;
+  color:#7dd3fc;line-height:1.7;
+}
+.code .ky{color:#c4b5fd;} .code .st{color:#6ee7b7;} .code .cm{color:#475569;}
+
+/* ═══ UTILS ═══ */
+.fw9{font-weight:900;} .fw7{font-weight:700;}
+.tp{color:var(--p);} .ta{color:var(--ad);} .tg{color:var(--gd);} .tr{color:var(--rd);} .tpu{color:var(--pu);} .tsk{color:var(--sk);} .tsb{color:var(--sb);}
+.xs{font-size:.78rem;} .sm{font-size:.88rem;} .md{font-size:.96rem;} .lg{font-size:1.08rem;}
+.lh{line-height:1.75;}
+.dv{height:1px;background:rgba(0,0,0,.08);margin:6px 0;}
+.fl{display:flex;} .fdc{flex-direction:column;} .aic{align-items:center;} .aifs{align-items:flex-start;} .jcc{justify-content:center;} .g8{gap:8px;} .g10{gap:10px;} .g12{gap:12px;} .g14{gap:14px;} .g16{gap:16px;} .g20{gap:20px;} .f1{flex:1;} .fs0{flex-shrink:0;}
+.tc{text-align:center;} .tl{text-align:left;}
+.hl{background:rgba(79,70,229,.1);color:var(--pd);padding:1px 7px;border-radius:5px;font-weight:700;}
+.hl-a{background:rgba(245,158,11,.12);color:#92400e;}
+.hl-g{background:rgba(16,185,129,.12);color:#065f46;}
+.hl-r{background:rgba(239,68,68,.1);color:#991b1b;}
+
+/* ═══════════════════════════════
+   SLIDE-SPECIFIC
+═══════════════════════════════ */
+
+/* S1 HERO */
+#s1{background:linear-gradient(135deg,#0f0c29 0%,#302b63 40%,#24243e 70%,#1a1a3e 100%) !important;}
+#s1::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 20% 50%,rgba(79,70,229,.28) 0%,transparent 65%),radial-gradient(ellipse 50% 70% at 80% 30%,rgba(139,92,246,.22) 0%,transparent 60%);}
+#s1 .si{align-items:center;justify-content:center;text-align:center;padding:50px 60px;position:relative;z-index:1;}
+.hero-t{font-size:clamp(44px,5.8vw,82px);font-weight:900;color:#fff;line-height:1.05;letter-spacing:-.04em;margin-bottom:6px;}
+.hero-t em{color:#fbbf24;font-style:normal;display:block;font-size:.72em;}
+.hero-sub{font-size:clamp(14px,1.55vw,21px);color:rgba(255,255,255,.72);margin-bottom:36px;line-height:1.75;}
+.hero-bs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px;}
+.hb{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.9);border-radius:999px;padding:9px 20px;font-size:.9rem;font-weight:700;backdrop-filter:blur(8px);}
+.hero-meta{font-size:.8rem;color:rgba(255,255,255,.38);}
+
+/* TOOL FLOW */
+.tool-card{display:flex;flex-direction:column;align-items:center;text-align:center;background:#fff;border:1px solid var(--bd);border-radius:var(--rad);padding:22px 16px;box-shadow:var(--sh);flex:1;}
+
+/* SUM BOX */
+.sum{background:#fff;border-radius:var(--rad);padding:18px 20px;box-shadow:var(--sh);}
+.sum-t{font-size:1rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sum-d{font-size:.88rem;color:var(--sb);line-height:1.8;}
+
+/* MATCH TABLE ROWS */
+.mr{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--bd);border-radius:var(--rad-s);padding:14px 20px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.mr-sit{flex:1;font-size:1rem;color:var(--tx);}
+.mr-arw{color:#94a3b8;font-size:1.2rem;flex-shrink:0;}
+.mr-ans{width:160px;flex-shrink:0;text-align:center;font-weight:800;font-size:1rem;padding:8px 0;border-radius:8px;}
+
+/* ═══════════════════════════════
+   NAV BAR
+═══════════════════════════════ */
+#nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:999;
+  height:60px;background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);border-top:1px solid var(--bd);
+  box-shadow:0 -2px 16px rgba(0,0,0,.06);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;gap:10px;
+}
+.nb{width:40px;height:40px;border-radius:12px;background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.1);color:#475569;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.nb:hover{background:rgba(79,70,229,.1);color:var(--p);border-color:#a5b4fc;}
+.nb:disabled{opacity:.25;cursor:default;}
+#dotw{display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow:hidden;max-width:56vw;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.15);cursor:pointer;transition:all .25s;flex-shrink:0;}
+.dot.active{background:var(--p);width:22px;border-radius:4px;}
+.dot:hover{background:rgba(79,70,229,.5);}
+#ncnt{font-size:.8rem;color:var(--sb);font-weight:700;min-width:52px;text-align:right;}
+#bfs{width:36px;height:36px;border-radius:10px;background:transparent;border:1px solid rgba(0,0,0,.12);color:var(--sb);font-size:.88rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-left:8px;}
+#bfs:hover{color:var(--dk);border-color:rgba(0,0,0,.3);}
+#kh{position:fixed;bottom:72px;right:20px;z-index:998;background:rgba(255,255,255,.97);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;font-size:.74rem;color:var(--sb);line-height:1.9;opacity:0;transition:opacity .3s;box-shadow:0 4px 20px rgba(0,0,0,.1);}
+#kh.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="deck">
+
+<!-- ══ S1 TITLE ══ -->
+<div class="slide active" id="s1">
+  <div class="si">
+    <div class="hero-t">바이브 코딩의<em>실행 환경</em></div>
+    <p class="hero-sub">AI가 작성한 코드를 실제로 <strong style="color:#fbbf24">움직이게 만드는 프로그램들</strong>을<br>알아보고, 내 컴퓨터에 직접 설치해봅니다</p>
+      <div class="hero-bs">
+        <span class="hb">🐍 Python</span>
+        <span class="hb" style="color:#86efac;">🟢 Node.js</span>
+        <span class="hb" style="color:#fde68a;">🔀 Git</span>
+        <span class="hb" style="color:#c4b5fd;">🌐 웹 브라우저</span>
+      </div>
+    <p class="hero-meta">이론 강의 5 · 실행 환경 · 키보드 ← → 이동 · F 전체화면</p>
+  </div>
+</div>
+
+<!-- ══ S2 왜 알아야 하나 ══ -->
+<div class="slide" id="s2">
+  <div class="si">
+    <div>
+      <div class="stag"><i class="fas fa-bullseye"></i> 들어가기 전에</div>
+      <h2 class="stit">AI가 만든 코드, <span class="ac">누가 실행</span>하나요?</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:16px;justify-content:center;">
+      <div class="fl g14">
+        <div class="card f1">
+          <div class="fc-h" style="margin-bottom:10px;"><div class="ib ib-p"><i class="fas fa-robot"></i></div><div class="fc-t">Cline (AI 에이전트)</div></div>
+          <div class="cd">"이런 앱을 만들어줘"라고 말하면 <strong style="color:var(--dk)">코드를 작성</strong>합니다. 요리에 비유하면, 레시피를 짜고 재료를 손질하는 <strong>요리사</strong>입니다.</div>
+        </div>
+        <div class="fl aic jcc" style="font-size:1.8rem;color:var(--p);flex-shrink:0;">→</div>
+        <div class="card f1" style="border-color:rgba(16,185,129,.3);">
+          <div class="fc-h" style="margin-bottom:10px;"><div class="ib ib-g"><i class="fas fa-bolt"></i></div><div class="fc-t">실행 환경 (Python·Node 등)</div></div>
+          <div class="cd">요리사가 쓴 레시피를 <strong style="color:var(--dk)">실제로 조리해서 음식으로 만들어내는</strong> 주방(가스레인지·오븐)입니다. 주방이 없으면 레시피는 종이 위의 글자일 뿐입니다.</div>
+        </div>
+      </div>
+      <div class="co co-p">
+        <span class="co-ic">💡</span>
+        <div class="co-tx lg">앞서 배운 <span class="hl">VS Code·Cline·OpenRouter·Gemini</span>가 "코드를 <strong style="color:var(--dk)">작성하는</strong> 도구"였다면, 이번 시간에 배울 <span class="hl-g">Python·Node.js·Git·브라우저</span>는 그 코드를 "<strong style="color:var(--dk)">실행하고 관리하는</strong> 도구"입니다. 둘 다 있어야 바이브 코딩이 완성됩니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S3 한눈에 보기 ══ -->
+<div class="slide" id="s3">
+  <div class="si">
+    <div>
+      <div class="stag">SECTION 5 · 개요</div>
+      <h2 class="stit">실행 환경 <span class="ac">4가지 한눈에 보기</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:18px;">
+      <div class="fl g12 aic" style="flex:1;justify-content:center;">
+        <div class="tool-card">
+          <div style="font-size:2.8rem;margin-bottom:12px;">🐍</div>
+          <div class="fw9" style="font-size:1.1rem;margin-bottom:6px;color:var(--sk);">Python</div>
+          <div class="cd" style="text-align:center;">데이터·자동화에 강한<br>쉬운 문법의 언어</div>
+          <span class="ba ba-p" style="margin-top:12px;">언어 · 런타임</span>
+        </div>
+        <div class="tool-card" style="border-color:rgba(16,185,129,.3);">
+          <div style="font-size:2.8rem;margin-bottom:12px;">🟢</div>
+          <div class="fw9" style="font-size:1.1rem;margin-bottom:6px;color:var(--gd);">Node.js</div>
+          <div class="cd" style="text-align:center;">웹앱·서버를<br>실행시키는 엔진</div>
+          <span class="ba ba-g" style="margin-top:12px;">언어 · 런타임</span>
+        </div>
+        <div class="tool-card" style="border-color:rgba(217,119,6,.3);">
+          <div style="font-size:2.8rem;margin-bottom:12px;">🔀</div>
+          <div class="fw9" style="font-size:1.1rem;margin-bottom:6px;color:var(--ad);">Git</div>
+          <div class="cd" style="text-align:center;">작업 이력을 저장하고<br>되돌리는 버전관리</div>
+          <span class="ba ba-a" style="margin-top:12px;">버전 관리</span>
+        </div>
+        <div class="tool-card" style="border-color:rgba(139,92,246,.3);">
+          <div style="font-size:2.8rem;margin-bottom:12px;">🌐</div>
+          <div class="fw9" style="font-size:1.1rem;margin-bottom:6px;color:var(--pu);">웹 브라우저</div>
+          <div class="cd" style="text-align:center;">완성된 결과물을<br>눈으로 확인하는 창</div>
+          <span class="ba ba-pu" style="margin-top:12px;">결과 확인</span>
+        </div>
+      </div>
+      <div class="co co-p">
+        <span style="font-size:1.6rem;flex-shrink:0;">📌</span>
+        <div class="co-tx lg">
+          네 가지 모두 <span class="hl">역할이 다릅니다</span>. 프로젝트 종류에 따라 필요한 프로그램이 달라지므로, "무엇을 만들 때 무엇이 필요한지"를 다음 장에서 알아봅니다.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S4 언제 무엇이 필요한가 ══ -->
+<div class="slide" id="s4">
+  <div class="si">
+    <div>
+      <div class="stag">SECTION 5 · 활용</div>
+      <h2 class="stit">언제 <span class="ac">무엇이 필요</span>할까요?</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb" style="display:flex;flex-direction:column;gap:12px;justify-content:center;">
+      <div class="mr">
+        <div class="mr-sit">📊 엑셀 데이터를 정리하거나, 반복 업무를 자동화하고 싶어요</div>
+        <div class="mr-arw">→</div>
+        <div class="mr-ans" style="background:rgba(14,165,233,.1);color:#0369a1;">🐍 Python</div>
+      </div>
+      <div class="mr">
+        <div class="mr-sit">🖥️ 여러 사람이 함께 쓰는 웹사이트·웹앱을 만들고 싶어요</div>
+        <div class="mr-arw">→</div>
+        <div class="mr-ans" style="background:rgba(16,185,129,.1);color:#047857;">🟢 Node.js</div>
+      </div>
+      <div class="mr">
+        <div class="mr-sit">💾 작업하다 실수해도 이전 버전으로 되돌리고, 동료와 코드를 공유하고 싶어요</div>
+        <div class="mr-arw">→</div>
+        <div class="mr-ans" style="background:rgba(245,158,11,.1);color:#b45309;">🔀 Git</div>
+      </div>
+      <div class="mr">
+        <div class="mr-sit">👀 Cline이 다 만든 결과물이 실제로 잘 동작하는지 확인하고 싶어요</div>
+        <div class="mr-arw">→</div>
+        <div class="mr-ans" style="background:rgba(139,92,246,.1);color:#6d28d9;">🌐 브라우저</div>
+      </div>
+      <div class="co co-g">
+        <span class="co-ic">✅</span>
+        <div class="co-tx">걱정하지 마세요! <strong style="color:#065f46">Cline에게 "이거 만들어줘"라고 말하면, Cline이 알아서 필요한 프로그램을 판단해서 사용합니다.</strong> 우리는 그 프로그램이 "내 컴퓨터에 미리 설치되어 있는지"만 확인하면 됩니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S5 파이썬 이해하기 ══ -->
+<div class="slide" id="s5">
+  <div class="si">
+    <div>
+      <div class="stag">SECTION 5 · Python</div>
+      <h2 class="stit">파이썬<span class="ac">(Python)</span> 제대로 알기</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb g2" style="align-items:stretch;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card fl g14 aic">
+          <div style="font-size:2.8rem;flex-shrink:0;">🐍</div>
+          <div>
+            <div class="fw9 lg" style="color:var(--dk);">Python이란?</div>
+            <div class="tsb sm">문법이 사람 말과 비슷해서, 처음 배우는 사람도 쉽게 읽을 수 있는 프로그래밍 언어입니다.</div>
+          </div>
+        </div>
+        <div class="co co-sk" style="flex:1;">
+          <span class="co-ic">🧰</span>
+          <div class="co-tx lg"><strong style="color:var(--dk)">비유하면:</strong> 이미 만들어진 부품(라이브러리)이 정말 많은 <strong>"만능 도구 상자"</strong>입니다. 엑셀 파일 읽기, 데이터 그래프 그리기, 인공지능 학습까지 — 필요한 부품을 꺼내 조립하듯 사용합니다.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-sk"><i class="fas fa-file-excel"></i></div><div class="fc-t">엑셀·데이터 자동화</div></div>
+          <div class="fc-d">여러 개의 엑셀 파일을 한 번에 합치거나, 반복되는 보고서 작성을 자동화할 때 가장 많이 쓰입니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-sk"><i class="fas fa-chart-line"></i></div><div class="fc-t">데이터 분석·시각화</div></div>
+          <div class="fc-d">판매 실적, 설문 결과 같은 데이터를 분석하고 그래프·차트로 보여줄 때 활용합니다.</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-sk"><i class="fas fa-robot"></i></div><div class="fc-t">AI·챗봇 개발</div></div>
+          <div class="fc-d">우리가 쓰는 Gemini 같은 AI 모델과 연결되는 프로그램 대부분이 Python으로 만들어집니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S6 파이썬 설치하기 ══ -->
+<div class="slide" id="s6">
+  <div class="si">
+    <div>
+      <div class="stag">SECTION 5 · Python 설치</div>
+      <h2 class="stit">파이썬 <span class="ac">설치하기</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb fdc g10">
+      <div class="co co-p">
+        <span class="co-ic">🤖</span>
+        <div>
+          <div class="fw7 tp" style="margin-bottom:4px;">가장 쉬운 방법: Cline에게 그냥 부탁하세요!</div>
+          <div class="co-tx lg">Cline 채팅창에 <strong style="color:var(--dk)">"파이썬 설치해줘"</strong>라고 입력하면, Cline이 터미널 명령어를 스스로 실행해서 설치부터 확인까지 끝내줍니다. 대부분은 이 방법이면 충분합니다.</div>
+        </div>
+      </div>
+      <div class="tsb sm fw7">🔧 직접 설치하고 싶다면? 두 가지 방법이 있습니다</div>
+      <div class="g2" style="align-items:stretch;">
+        <div class="card fdc g10">
+          <div class="fl g10 aic">
+            <div class="sn" style="background:var(--sk);">1</div>
+            <div class="fw9 md tsk">홈페이지에서 다운로드 설치</div>
+          </div>
+          <div class="cd sm">python.org에서 설치 파일을 받아 직접 설치합니다. 설치 화면 맨 아래 <strong style="color:var(--rd)">"Add python.exe to PATH"</strong>를 <strong>반드시 체크</strong>하세요. 놓치면 Python이 "없다"고 인식되는 가장 흔한 실수가 생깁니다.</div>
+          <div class="code" style="font-size:.8rem;">python.org/downloads 접속 → Download 클릭 → PATH 체크 → Install Now</div>
+        </div>
+        <div class="card fdc g10">
+          <div class="fl g10 aic">
+            <div class="sn" style="background:var(--pu);">2</div>
+            <div class="fw9 md tpu">터미널 명령어로 설치</div>
+          </div>
+          <div class="cd sm">Windows 11에는 <strong style="color:var(--dk)">winget</strong>이라는 설치 도구가 기본 내장되어 있어, 명령어 한 줄로 설치할 수 있습니다.</div>
+          <div class="code" style="font-size:.8rem;flex:1;"><span class="ky">winget</span> install Python.Python.3.12</div>
+        </div>
+      </div>
+      <div class="co co-g">
+        <span class="co-ic">✅</span>
+        <div>
+          <div class="fw7" style="color:#065f46;margin-bottom:5px;">설치 확인하기</div>
+          <div class="co-tx">어떤 방법으로 설치했든, VS Code 터미널(<span class="hl-g">Terminal → New Terminal</span>)에서 아래 명령어로 확인합니다.</div>
+          <div class="code" style="margin-top:8px;font-size:.9rem;"><span class="ky">python</span> --version <span class="cm">// 예: Python 3.12.4 출력되면 성공</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S7 Node.js 이해+설치 ══ -->
+<div class="slide" id="s7">
+  <div class="si">
+    <div>
+      <div class="stag">SECTION 5 · Node.js</div>
+      <h2 class="stit">노드<span class="ac">(Node.js)</span> 이해하고 설치하기</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb fdc g8">
+      <div class="fl g10">
+        <div class="card f1" style="padding:14px 16px;">
+          <div class="fc-h" style="margin-bottom:6px;"><div class="ib ib-g"><i class="fas fa-globe"></i></div><div class="fc-t">Node.js란?</div></div>
+          <div class="cd sm">원래 자바스크립트(JS)는 웹 브라우저 안에서만 동작했지만, Node.js 덕분에 <strong style="color:var(--dk)">내 컴퓨터에서도</strong> JS 코드를 실행할 수 있게 되었습니다. 실시간 채팅, 대시보드 같은 <strong>동적인 웹앱</strong>을 만들 때 필수입니다.</div>
+        </div>
+        <div class="card f1" style="border-color:rgba(16,185,129,.3);padding:14px 16px;">
+          <div class="fc-h" style="margin-bottom:6px;"><div class="ib ib-g"><i class="fas fa-box"></i></div><div class="fc-t">npm이 함께 따라와요</div></div>
+          <div class="cd sm">Node.js를 설치하면 <strong style="color:var(--gd)">npm(패키지 관리자)</strong>도 자동으로 설치됩니다. npm은 다른 사람이 만든 부품(라이브러리)을 손쉽게 내려받아 쓸 수 있게 해줍니다.</div>
+        </div>
+      </div>
+      <div class="co co-p">
+        <span class="co-ic">🤖</span>
+        <div>
+          <div class="fw7 tp" style="margin-bottom:4px;">가장 쉬운 방법: Cline에게 그냥 부탁하세요!</div>
+          <div class="co-tx">Cline 채팅창에 <strong style="color:var(--dk)">"Node.js 설치해줘"</strong>라고 입력하면, Cline이 터미널 명령어를 스스로 실행해서 설치부터 확인까지 끝내줍니다. 대부분은 이 방법이면 충분합니다.</div>
+        </div>
+      </div>
+      <div class="tsb sm fw7">🔧 직접 설치하고 싶다면? 두 가지 방법이 있습니다</div>
+      <div class="g2" style="align-items:stretch;">
+        <div class="card fdc g8" style="padding:14px 16px;">
+          <div class="fl g10 aic">
+            <div class="sn" style="background:var(--gd);">1</div>
+            <div class="fw9 md tg">홈페이지에서 다운로드 설치</div>
+          </div>
+          <div class="cd sm">숫자 옆에 <strong>LTS</strong>라고 적힌, 가장 안정적인 버전을 받습니다. 설치 화면에서는 기본값 그대로 <span class="hl-g">Next</span>만 눌러도 됩니다.</div>
+          <div class="code" style="font-size:.8rem;">nodejs.org 접속 → LTS 버전 다운로드 → 기본값으로 설치 진행</div>
+        </div>
+        <div class="card fdc g8" style="padding:14px 16px;">
+          <div class="fl g10 aic">
+            <div class="sn" style="background:var(--pu);">2</div>
+            <div class="fw9 md tpu">터미널 명령어로 설치</div>
+          </div>
+          <div class="cd sm">Windows 11에 내장된 <strong style="color:var(--dk)">winget</strong> 명령어 한 줄로도 설치할 수 있습니다.</div>
+          <div class="code" style="font-size:.8rem;flex:1;"><span class="ky">winget</span> install OpenJS.NodeJS.LTS</div>
+        </div>
+      </div>
+      <div class="co co-g">
+        <span class="co-ic">✅</span>
+        <div>
+          <div class="fw7" style="color:#065f46;margin-bottom:4px;">설치 확인하기</div>
+          <div class="co-tx">어떤 방법으로 설치했든, 터미널에서 두 명령어 모두 버전이 나오면 정상 설치된 것입니다.</div>
+          <div class="code" style="margin-top:6px;font-size:.85rem;"><span class="ky">node</span> -v <span class="cm">// Node.js 버전 확인</span><br><span class="ky">npm</span> -v <span class="cm">// npm 버전 확인</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S8 Git 이해+설치 ══ -->
+<div class="slide" id="s8">
+  <div class="si">
+    <div>
+      <div class="stag">SECTION 5 · Git</div>
+      <h2 class="stit"><span class="ac">Git</span> 이해하고 설치하기</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb fdc g8">
+      <div class="fl g10">
+        <div class="card f1" style="padding:14px 16px;">
+          <div class="fc-h" style="margin-bottom:6px;"><div class="ib ib-a"><i class="fas fa-clock-rotate-left"></i></div><div class="fc-t">Git이란?</div></div>
+          <div class="cd sm">게임에서 <strong style="color:var(--dk)">세이브 포인트</strong>를 만드는 것처럼, 코드가 바뀔 때마다 기록을 저장해두는 프로그램입니다. 문제가 생기면 이전 저장 시점으로 언제든 되돌릴 수 있습니다.</div>
+        </div>
+        <div class="card f1" style="border-color:rgba(217,119,6,.3);padding:14px 16px;">
+          <div class="fc-h" style="margin-bottom:6px;"><div class="ib ib-a"><i class="fas fa-users"></i></div><div class="fc-t">GitHub과의 관계</div></div>
+          <div class="cd sm">Git이 "저장·되돌리기 기능이 있는 프로그램"이라면, <strong style="color:var(--ad)">GitHub</strong>은 그 기록들을 인터넷에 올려 팀원과 <strong>함께 보고 공유</strong>하는 서비스입니다. Git이 설치되어 있어야 GitHub도 사용할 수 있습니다.</div>
+        </div>
+      </div>
+      <div class="co co-p">
+        <span class="co-ic">🤖</span>
+        <div>
+          <div class="fw7 tp" style="margin-bottom:4px;">가장 쉬운 방법: Cline에게 그냥 부탁하세요!</div>
+          <div class="co-tx">Cline 채팅창에 <strong style="color:var(--dk)">"Git 설치해줘"</strong>라고 입력하면, Cline이 터미널 명령어를 스스로 실행해서 설치부터 확인까지 끝내줍니다. 대부분은 이 방법이면 충분합니다.</div>
+        </div>
+      </div>
+      <div class="tsb sm fw7">🔧 직접 설치하고 싶다면? 두 가지 방법이 있습니다</div>
+      <div class="g2" style="align-items:stretch;">
+        <div class="card fdc g8" style="padding:14px 16px;">
+          <div class="fl g10 aic">
+            <div class="sn" style="background:var(--ad);">1</div>
+            <div class="fw9 md ta">홈페이지에서 다운로드 설치</div>
+          </div>
+          <div class="cd sm">아래 주소에서 다운로드한 뒤, 설치 화면에서 특별히 바꿀 것 없이 계속 <span class="hl-a">Next</span>만 눌러 기본값으로 설치합니다.</div>
+          <div class="code" style="font-size:.8rem;">git-scm.com/downloads 접속 → 운영체제에 맞는 설치 파일 다운로드 → 기본값으로 설치 진행</div>
+        </div>
+        <div class="card fdc g8" style="padding:14px 16px;">
+          <div class="fl g10 aic">
+            <div class="sn" style="background:var(--pu);">2</div>
+            <div class="fw9 md tpu">터미널 명령어로 설치</div>
+          </div>
+          <div class="cd sm">Windows 11에 내장된 <strong style="color:var(--dk)">winget</strong> 명령어 한 줄로도 설치할 수 있습니다.</div>
+          <div class="code" style="font-size:.8rem;flex:1;"><span class="ky">winget</span> install Git.Git</div>
+        </div>
+      </div>
+      <div class="co co-g">
+        <span class="co-ic">✅</span>
+        <div>
+          <div class="fw7" style="color:#065f46;margin-bottom:4px;">설치 확인하기</div>
+          <div class="co-tx">어떤 방법으로 설치했든, 터미널에 아래 명령어를 입력해 버전이 나오는지 확인합니다.</div>
+          <div class="code" style="margin-top:6px;font-size:.85rem;"><span class="ky">git</span> --version <span class="cm">// 예: git version 2.45.0 출력되면 성공</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S9 브라우저 & 설치 체크리스트 ══ -->
+<div class="slide" id="s9">
+  <div class="si">
+    <div>
+      <div class="stag">SECTION 5 · 확인</div>
+      <h2 class="stit">브라우저 확인 & <span class="ac">설치 체크리스트</span></h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb fdc g12">
+      <div class="co co-pu">
+        <span class="co-ic">🌐</span>
+        <div>
+          <div class="fw7 tpu" style="margin-bottom:4px;">웹 브라우저는 이미 준비되어 있어요</div>
+          <div class="co-tx">Chrome, Edge 같은 브라우저는 대부분 컴퓨터에 이미 설치되어 있습니다. Cline이 만든 결과물(HTML 파일)은 브라우저로 열어 확인하며, <span class="hl">F12</span> 키를 누르면 "개발자 도구"로 오류 메시지도 확인할 수 있습니다.</div>
+        </div>
+      </div>
+      <div class="card fdc g10">
+        <div class="fw9 md tp" style="margin-bottom:4px;"><i class="fas fa-terminal"></i> 한 번에 모아보는 설치 확인 명령어</div>
+        <div class="cd">VS Code에서 <span class="hl">Terminal → New Terminal</span>을 연 뒤, 아래 네 줄을 하나씩 입력해보세요. 모두 버전이 표시되면 오늘 배운 실행 환경이 전부 준비된 것입니다.</div>
+        <div class="code" style="font-size:.9rem;">
+<span class="ky">python</span> --version<br>
+<span class="ky">node</span> -v<br>
+<span class="ky">npm</span> -v<br>
+<span class="ky">git</span> --version
+        </div>
+      </div>
+      <div class="co co-a">
+        <span class="co-ic">🛠️</span>
+        <div>
+          <div class="fw7" style="color:#92400e;margin-bottom:4px;">버전이 안 뜨고 오류가 난다면?</div>
+          <div class="co-tx">대부분 <strong style="color:var(--dk)">"설치 후 VS Code를 다시 시작하지 않아서"</strong> 생기는 문제입니다. VS Code를 완전히 껐다가 다시 켜고 터미널을 새로 열어 명령어를 재입력해보세요.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S10 실습의 지평 확장 ══ -->
+<div class="slide" id="s10">
+  <div class="si">
+    <div>
+      <div class="stag">SECTION 5 · 확장</div>
+      <h2 class="stit">이제 <span class="ac">HTML을 넘어</span> 확장합니다</h2>
+      <div class="sbar"></div>
+    </div>
+    <div class="sb fdc g12">
+      <div class="co co-p">
+        <span class="co-ic">🚀</span>
+        <div class="co-tx lg">지금까지 실습은 모두 <strong style="color:var(--dk)">브라우저 하나로 열리는 HTML 파일</strong>이었습니다. 오늘 익힌 <span class="hl">Python·Node.js·Git</span> 덕분에, 이제는 훨씬 더 다양한 형태의 프로그램을 바이브 코딩으로 만들 수 있습니다.</div>
+      </div>
+      <div class="fl g14">
+        <div style="flex:1;background:rgba(100,116,139,.06);border:2px solid rgba(100,116,139,.2);border-radius:14px;padding:16px 18px;">
+          <div class="fw7 tsb" style="margin-bottom:10px;font-size:1rem;"><i class="fas fa-file-code"></i> 지금까지 · HTML 실습</div>
+          <div class="cd">더블클릭하면 <strong>브라우저 하나로 바로 열리는</strong> 정적인 결과물이었습니다.</div>
+          <div class="tsb xs" style="margin-top:8px;">예: 디지털 명함 · 계산기 · 타이머 · 메모장</div>
+        </div>
+        <div style="flex:1;background:rgba(79,70,229,.06);border:2px solid rgba(79,70,229,.22);border-radius:14px;padding:16px 18px;">
+          <div class="fw7 tp" style="margin-bottom:10px;font-size:1rem;"><i class="fas fa-rocket"></i> 이제부터 · 다양한 실행 환경</div>
+          <div class="cd">Python·Node.js·Git이 더해져, <strong style="color:var(--dk)">브라우저 밖에서 동작하는 프로그램</strong>까지 만들 수 있습니다.</div>
+          <div class="tp xs fw7" style="margin-top:8px;">예: 자동화 스크립트 · 실시간 웹서비스 · 협업 프로젝트</div>
+        </div>
+      </div>
+      <div class="g3">
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-sk"><i class="fas fa-file-excel"></i></div><div class="fc-t">Python 예시</div></div>
+          <div class="fc-d">매일 아침 여러 지점의 엑셀 실적을 자동으로 취합해 보고서를 만들어주는 프로그램</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-g"><i class="fas fa-comments"></i></div><div class="fc-t">Node.js 예시</div></div>
+          <div class="fc-d">여러 명이 동시에 접속해 실시간으로 공지를 확인하는 사내 게시판 서비스</div>
+        </div>
+        <div class="fc">
+          <div class="fc-h"><div class="ib ib-a"><i class="fas fa-code-branch"></i></div><div class="fc-t">Git 예시</div></div>
+          <div class="fc-d">여러 팀원이 함께 코드를 수정하고, 실수해도 이전 버전으로 되돌릴 수 있는 협업 프로젝트</div>
+        </div>
+      </div>
+      <div class="co co-g">
+        <span class="co-ic">💡</span>
+        <div class="co-tx">Cline에게 <strong style="color:#065f46">"~해줘"라고 말하는 방식은 똑같습니다.</strong> 달라지는 건 그 결과물이 동작하는 무대(실행 환경)뿐입니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S11 마무리 요약 ══ -->
+<div class="slide" id="s11">
+  <div class="si">
+    <div style="text-align:center;">
+      <div class="stag" style="display:inline-flex;"><i class="fas fa-graduation-cap"></i> 마무리 요약</div>
+      <h2 class="stit" style="color:#312e81;">실행 환경 <span style="color:var(--p);">한 장 정리</span></h2>
+      <div class="sbar" style="margin:10px auto;"></div>
+    </div>
+    <div class="sb fdc g12">
+      <div class="g2 g12">
+        <div class="sum" style="border-left:4px solid var(--sk);">
+          <div class="sum-t tsk">🐍 Python</div>
+          <div class="sum-d">데이터·자동화 담당<br>확인: <code class="hl">python --version</code></div>
+        </div>
+        <div class="sum" style="border-left:4px solid var(--gd);">
+          <div class="sum-t tg">🟢 Node.js</div>
+          <div class="sum-d">웹앱 실행 담당 (npm 포함)<br>확인: <code class="hl-g">node -v</code></div>
+        </div>
+        <div class="sum" style="border-left:4px solid var(--ad);">
+          <div class="sum-t ta">🔀 Git</div>
+          <div class="sum-d">버전 관리·협업 담당<br>확인: <code class="hl-a">git --version</code></div>
+        </div>
+        <div class="sum" style="border-left:4px solid var(--pu);">
+          <div class="sum-t tpu">🌐 웹 브라우저</div>
+          <div class="sum-d">결과 확인 담당<br>대부분 이미 설치되어 있음</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(79,70,229,.12),rgba(139,92,246,.1));border:1px solid rgba(79,70,229,.25);border-radius:var(--rad);padding:22px;text-align:center;">
+        <div style="font-size:1.8rem;margin-bottom:10px;">🚀</div>
+        <div class="fw9" style="font-size:1.3rem;color:#312e81;margin-bottom:8px;">Cline이 알아서 골라 씁니다</div>
+        <div class="tsb md">우리는 프로그램을 미리 설치해두기만 하면 됩니다. 실제 사용은 AI 에이전트인 Cline이 알아서 판단해서 처리합니다.</div>
+      </div>
+      <div class="xs tc" style="color:var(--dk);font-weight:700;">본 교육자료는 사전 승인 없이 외부에 유출하거나 공유할 수 없습니다. — AI정보기획팀</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ══ NAV ══ -->
+<div id="nav">
+  <button class="nb" id="bp" onclick="go(cur-1)" title="이전 (←)"><i class="fas fa-chevron-left"></i></button>
+  <div id="dotw"></div>
+  <div class="fl aic g8">
+    <span id="ncnt">1 / 11</span>
+    <button id="bfs" onclick="toggleFS()" title="전체화면 (F)"><i class="fas fa-expand"></i></button>
+  </div>
+  <button class="nb" id="bn" onclick="go(cur+1)" title="다음 (→)"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<div id="kh">
+  ← → : 슬라이드 이동<br>
+  Space / Enter : 다음<br>
+  F : 전체화면<br>
+  Home / End : 처음 / 끝<br>
+  ? : 이 도움말
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total  = slides.length;
+let cur = 0;
+
+const prog = document.getElementById('prog');
+const dotw = document.getElementById('dotw');
+const ncnt = document.getElementById('ncnt');
+const bp   = document.getElementById('bp');
+const bn   = document.getElementById('bn');
+const bfs  = document.getElementById('bfs');
+const kh   = document.getElementById('kh');
+
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.title = `슬라이드 ${i+1}`;
+  d.onclick = () => go(i);
+  dotw.appendChild(d);
+}
+
+function go(n) {
+  if (n < 0 || n >= total) return;
+  slides.forEach((s, i) => {
+    s.classList.toggle('past',   i < n);
+    s.classList.toggle('active', i === n);
+    if (i !== n) s.classList.remove('active');
+  });
+  slides[n].classList.add('active');
+  cur = n;
+  update();
+}
+
+function update() {
+  prog.style.width = ((cur + 1) / total * 100) + '%';
+  ncnt.textContent = `${cur+1} / ${total}`;
+  bp.disabled = cur === 0;
+  bn.disabled = cur === total - 1;
+  dotw.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+}
+update();
+
+document.addEventListener('keydown', e => {
+  if (['ArrowRight','ArrowDown',' ','Enter','PageDown'].includes(e.key)) { e.preventDefault(); go(cur+1); }
+  else if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); go(cur-1); }
+  else if (e.key === 'Home') go(0);
+  else if (e.key === 'End')  go(total-1);
+  else if (e.key === 'f' || e.key === 'F') toggleFS();
+  else if (e.key === '?') kh.classList.toggle('show');
+});
+
+
+function toggleFS() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+    bfs.innerHTML = '<i class="fas fa-compress"></i>';
+  } else {
+    document.exitFullscreen();
+    bfs.innerHTML = '<i class="fas fa-expand"></i>';
+  }
+}
+
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend',   e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) go(cur + (dx > 0 ? 1 : -1));
+});
+
+kh.classList.add('show');
+setTimeout(() => kh.classList.remove('show'), 3000);
+</script>
+</body>
+</html>
