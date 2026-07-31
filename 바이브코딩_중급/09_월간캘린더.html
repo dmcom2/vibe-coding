@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>중급 09 — 월간 캘린더</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--ac:#2563eb;--text:#1e293b;--sub:#64748b;--surface:#eff6ff;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Segoe UI',sans-serif;}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s,transform .4s;transform:translateX(60px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit{opacity:0;transform:translateX(-60px);}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#2563eb,#60a5fa);transition:width .35s;z-index:999;}
+.nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.43rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--ac);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:var(--ac);color:#fff;transform:scale(1.08);}
+.nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:1.04rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.slide-label{position:fixed;top:16px;left:24px;font-size:0.94rem;font-weight:700;z-index:999;}
+.s-title{background:linear-gradient(135deg,#1e3a8a,#1d4ed8,#2563eb);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:1.07rem;font-weight:700;margin-bottom:24px;display:inline-block;}
+.s-title h1{font-size:clamp(2.2rem,6.5vw,3.3rem);font-weight:900;line-height:1.2;margin-bottom:16px;}
+.s-title h1 span{color:#bfdbfe;}
+.s-title p{font-size:1.3rem;opacity:.8;margin-bottom:36px;}
+.meta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 20px;border-radius:12px;font-size:1.12rem;font-weight:600;}
+.s-content{background:var(--surface);}
+.s-grad{background:linear-gradient(150deg,#eff6ff,#dbeafe);}
+.s-dark{background:#0a1628;color:#dbeafe;}
+.slide-header{padding:30px 64px 22px;border-bottom:1px solid #bfdbfe;display:flex;align-items:center;gap:14px;}
+.s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
+.slide-header .icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.54rem;flex-shrink:0;}
+.slide-header h2{font-size:1.82rem;font-weight:800;color:var(--text);}
+.s-dark .slide-header h2{color:#bfdbfe;}
+.slide-header p{font-size:1.17rem;color:var(--sub);margin-top:2px;}
+.s-dark .slide-header p{color:#1d4ed8;opacity:.9;}
+.slide-body{flex:1;padding:28px 64px;overflow-y:auto;}
+.cb{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:18px 22px;font-family:'Cascadia Code','Consolas',monospace;font-size:1.04rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:12px;}
+.cb .lang{position:absolute;top:8px;right:12px;font-size:0.81rem;color:#6c7086;font-family:sans-serif;}
+.kw{color:#cba6f7;}.tg{color:#89b4fa;}.at{color:#a6e3a1;}.st{color:#f38ba8;}.cm{color:#6c7086;font-style:italic;}.vl{color:#fab387;}.py{color:#f9e2af;}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.card{background:#fff;border-radius:12px;padding:20px;border:1px solid #bfdbfe;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+.card .ci{font-size:1.87rem;margin-bottom:8px;}
+.card h3{font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.card p{font-size:1.12rem;color:var(--sub);line-height:1.6;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;}
+.qb{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid var(--ac);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1.09rem;color:var(--text);line-height:1.7;margin-bottom:16px;}
+.qb strong{color:var(--ac);}
+.steps{display:flex;flex-direction:column;gap:10px;}
+.step{display:flex;gap:13px;background:#fff;border-radius:10px;padding:14px 18px;border:1px solid #bfdbfe;}
+.snum{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--ac),#1d4ed8);color:#fff;font-weight:900;font-size:1.12rem;display:flex;align-items:center;justify-content:center;}
+.step h4{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step p{font-size:1.09rem;color:var(--sub);}
+.step code{background:#eff6ff;color:var(--ac);padding:1px 5px;border-radius:4px;font-size:0.96rem;}
+.mgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.mc{border-radius:12px;padding:18px;}
+.m1{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #93c5fd;}
+.m2{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;}
+.m3{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid #fed7aa;}
+.mc .ms{font-size:1.23rem;margin-bottom:5px;}
+.mc h3{font-size:1.12rem;font-weight:800;color:var(--text);margin-bottom:7px;}
+.mc p{font-size:0.99rem;color:var(--sub);line-height:1.5;margin-bottom:8px;}
+.mc .mcode{background:rgba(0,0,0,.06);border-radius:6px;padding:8px 10px;font-family:monospace;font-size:0.92rem;color:var(--text);line-height:1.6;}
+.clist{display:flex;flex-direction:column;gap:10px;}
+.ci2{display:flex;align-items:center;gap:11px;background:#fff;border-radius:9px;padding:12px 16px;border:1px solid #bfdbfe;font-size:1.09rem;font-weight:600;color:var(--text);}
+.cbox{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--ac),#1d4ed8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.11rem;flex-shrink:0;}
+.pb{background:#0f172a;border-radius:12px;padding:22px 26px;border-left:4px solid var(--ac);}
+.pb .pl{font-size:0.86rem;font-weight:800;letter-spacing:.1em;color:#60a5fa;margin-bottom:10px;}
+.pb pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:1.07rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
+.pt{margin-top:10px;background:rgba(37,99,235,.1);border-radius:6px;padding:8px 12px;font-size:0.96rem;color:#93c5fd;}
+.s-end{background:linear-gradient(135deg,#1e3a8a,#1d4ed8,#2563eb);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-end h2{font-size:2.42rem;font-weight:900;margin-bottom:12px;}
+.s-end h2 span{color:#bfdbfe;}
+.s-end p{font-size:1.23rem;opacity:.8;margin-bottom:32px;}
+.s-end .nh{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:12px 28px;border-radius:12px;font-size:1.12rem;display:inline-flex;align-items:center;gap:9px;}
+.cal-preview{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;background:#1d4ed8;border-radius:10px;overflow:hidden;padding:2px;}
+.cal-cell{background:#fff;text-align:center;padding:8px 4px;font-size:0.94rem;font-weight:600;color:var(--text);}
+.cal-head{background:#1e3a8a;color:#93c5fd;font-size:0.88rem;font-weight:800;}
+.cal-empty{background:#f8faff;color:#c7d2e8;}
+.cal-today{background:#dbeafe;color:#1d4ed8;font-weight:900;}
+.cal-event{background:#bfdbfe;color:#1e3a8a;}
+.s-prompt{background:#f0f4ff;justify-content:center;padding:48px 64px;}
+.sp-header{margin-bottom:18px;}
+.sp-badge{font-size:0.86rem;font-weight:700;color:var(--ac);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.sp-header h2{font-size:clamp(24px,3.64vw,33px);font-weight:800;color:#1e293b;margin-bottom:6px;}
+.sp-header p{font-size:1.07rem;color:#64748b;padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
+.sp-label{font-size:0.86rem;font-weight:700;color:var(--ac);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:0.94rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:44vh;overflow:auto;border:1px solid #312e81;}
+.sp-row{display:flex;gap:12px;margin-top:14px;}
+.sp-card{flex:1;background:#fff;border-radius:10px;padding:13px 15px;border-left:3px solid var(--ac);font-size:0.92rem;color:#475569;line-height:1.55;}
+.sp-card b{color:#1e293b;display:block;margin-bottom:4px;}
+.nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
+.nav-dot:hover{background:#94a3b8;}
+.nav-dot.active{width:22px;border-radius:5px;background:#2563eb;}
+.result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
+.result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
+.result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-label" id="slideLabel"></div>
+<div class="deck">
+
+<div class="slide s-title active">
+  <div class="badge">바이브코딩 중급 과정</div>
+  <h1>월간 <span>캘린더</span></h1>
+  <p>중급 09 — Date 객체 계산, 그리드 동적 생성, 일정 모달로 캘린더 완성</p>
+  <div class="meta-row">
+    <div class="meta-chip">📅 Date 객체</div>
+    <div class="meta-chip">⏱ 30분</div>
+    <div class="meta-chip">🗓️ 중급 난이도</div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header"><div class="icon" style="background:#dbeafe;">📅</div><div><h2>오늘 만드는 것</h2><p>일정을 추가하고 월별로 탐색할 수 있는 캘린더 앱</p></div></div>
+  <div class="slide-body">
+    <div class="cards">
+      <div class="card"><div class="ci">🗓️</div><h3>캘린더 그리드</h3><p>7×6 격자 레이아웃<br>앞달/다음달 날짜 표시<br>오늘 날짜 하이라이트</p></div>
+      <div class="card"><div class="ci">📆</div><h3>월 이동</h3><p>◀ ▶ 버튼으로 월 이동<br>월 오버플로우 자동 처리<br>년/월 헤더 표시</p></div>
+      <div class="card"><div class="ci">📝</div><h3>일정 추가</h3><p>날짜 클릭 → 모달 열기<br>일정 제목, 색상, 메모<br>하루에 여러 일정 가능</p></div>
+      <div class="card"><div class="ci">💾</div><h3>localStorage 저장</h3><p>날짜 키(YYYY-MM-DD)로 저장<br>새로고침 후에도 유지<br>일정 삭제 기능</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dcfce7;">🗺️</div>
+    <div><h2>오늘 수업 진행 순서</h2><p>개념은 가볍게, 손은 바쁘게 — 5단계 약 60분</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: Date 객체 · buildCalendar</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+    </div>
+    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">💡 <strong>막혀도 괜찮습니다!</strong> 실행이 안 될 때 보는 <strong>"자주 막히는 문제"</strong> 슬라이드가 준비되어 있고, 오류는 AI에게 물어보면 대부분 해결됩니다.</div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">🎒</div>
+    <div><h2>시작 전 준비물 체크</h2><p>초급 과정과 동일 + 인터넷 연결 하나만 더 확인하면 됩니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">💻</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>VS Code + Live Server</strong><br><span style="color:#64748b;font-size:1.01rem;">초급 과정에서 설치한 그대로 사용합니다. Live Server가 켜져 있어야 저장 기능이 정상 동작합니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🤖</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Cline 확장</strong><br><span style="color:#64748b;font-size:1.01rem;">오늘은 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve) 버튼을 빠짐없이 눌러주세요.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🌐</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>인터넷 연결</strong><br><span style="color:#64748b;font-size:1.01rem;">오늘 실습은 CDN을 쓰지 않지만, Live Server와 Cline이 원활히 동작하려면 인터넷 연결을 켜두는 것이 좋습니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📁</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>실습 폴더</strong><br><span style="color:#64748b;font-size:1.01rem;">초급과 같은 "바이브코딩" 폴더 안에 중급 결과물도 함께 모아두면 나중에 찾기 쉽습니다.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#e0e7ff;">📖</div>
+    <div><h2>오늘 나오는 용어 미리보기</h2><p>외우지 마세요 — 눈에만 익혀두면 수업이 술술 풀립니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#2563eb;margin-bottom:5px;">📌 Date 객체</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">자바스크립트에서 <strong>날짜와 시간</strong>을 다루는 내장 객체. <code>new Date()</code>로 현재 시각을 생성</p></div>
+      <div style="background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#2563eb;margin-bottom:5px;">📌 getDay / getMonth</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">Date 객체에서 <strong>요일(0~6)</strong>과 <strong>월(0~11, 0부터 시작!)</strong>을 꺼내는 메서드</p></div>
+      <div style="background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#2563eb;margin-bottom:5px;">📌 날짜 키(dateKey)</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;"><strong>'2025-06-07'</strong> 형식의 문자열. 일정을 날짜별로 저장/조회할 때 객체의 key로 사용</p></div>
+      <div style="background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#2563eb;margin-bottom:5px;">📌 달력 그리드 계산</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">첫날 요일만큼 <strong>빈 칸</strong>을 채우고 마지막 날짜까지 채워 7×6(42칸) 격자를 완성하는 계산</p></div>
+      <div style="background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#2563eb;margin-bottom:5px;">📌 이벤트 CRUD</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">일정을 <strong>추가(Create)·조회(Read)·수정(Update)·삭제(Delete)</strong>하는 기본 데이터 처리 패턴</p></div>
+      <div style="background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#2563eb;margin-bottom:5px;">📌 월 오버플로우</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">12월 다음달은 <strong>내년 1월</strong>, 1월 이전달은 <strong>작년 12월</strong>로 자동 넘어가도록 처리하는 로직</p></div>
+    </div>
+    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#166534;line-height:1.6;">🌱 낯선 단어가 나와도 괜찮습니다. 코드는 <strong>AI가 쓰고</strong>, 우리는 <strong>읽고 요청</strong>만 하면 돼요!</div>
+  </div>
+</div>
+
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">📐</div><div><h2>Date 객체 — 캘린더 계산</h2><p>첫날 요일과 마지막 날짜를 구하는 2가지 공식</p></div></div>
+  <div class="slide-body">
+    <div class="two">
+      <div>
+        <div class="cb">
+<span class="kw">let</span> curYear  = <span class="kw">new</span> <span class="tg">Date</span>().<span class="at">getFullYear</span>();  <span class="cm">// 2025</span>
+<span class="kw">let</span> curMonth = <span class="kw">new</span> <span class="tg">Date</span>().<span class="at">getMonth</span>();     <span class="cm">// 5 (6월, 0-indexed)</span>
+
+<span class="cm">// ① 첫날의 요일 (0=일, 1=월, ..., 6=토)</span>
+<span class="kw">const</span> firstDay = <span class="kw">new</span> <span class="tg">Date</span>(curYear, curMonth, <span class="vl">1</span>)
+  .<span class="at">getDay</span>();
+<span class="cm">// 2025년 6월 1일 = 일요일 → 0</span>
+
+<span class="cm">// ② 마지막 날짜 (다음달 0번째 날 = 이번달 마지막날)</span>
+<span class="kw">const</span> lastDate = <span class="kw">new</span> <span class="tg">Date</span>(curYear, curMonth + <span class="vl">1</span>, <span class="vl">0</span>)
+  .<span class="at">getDate</span>();
+<span class="cm">// 2025년 6월 → 30</span>
+
+<span class="cm">// ③ 날짜 키 생성 (일정 저장용)</span>
+<span class="kw">function</span> <span class="at">dateKey</span>(year, month, day) {
+  <span class="kw">return</span> <span class="st">`${year}-${
+    String(month + 1).<span class="at">padStart</span>(2, '0')
+  }-${
+    String(day).<span class="at">padStart</span>(2, '0')
+  }`</span>;
+}
+<span class="cm">// dateKey(2025, 5, 7) → '2025-06-07'</span>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.96rem;font-weight:800;color:var(--sub);margin-bottom:8px;">2025년 6월 캘린더 구조</p>
+        <div class="cal-preview">
+          <div class="cal-cell cal-head">일</div><div class="cal-cell cal-head">월</div><div class="cal-cell cal-head">화</div><div class="cal-cell cal-head">수</div><div class="cal-cell cal-head">목</div><div class="cal-cell cal-head">금</div><div class="cal-cell cal-head">토</div>
+          <div class="cal-cell">1</div><div class="cal-cell">2</div><div class="cal-cell">3</div><div class="cal-cell">4</div><div class="cal-cell">5</div><div class="cal-cell">6</div><div class="cal-cell">7</div>
+          <div class="cal-cell">8</div><div class="cal-cell">9</div><div class="cal-cell">10</div><div class="cal-cell">11</div><div class="cal-cell">12</div><div class="cal-cell">13</div><div class="cal-cell">14</div>
+          <div class="cal-cell">15</div><div class="cal-cell">16</div><div class="cal-cell">17</div><div class="cal-cell">18</div><div class="cal-cell">19</div><div class="cal-cell">20</div><div class="cal-cell">21</div>
+          <div class="cal-cell">22</div><div class="cal-cell">23</div><div class="cal-cell">24</div><div class="cal-cell">25</div><div class="cal-cell">26</div><div class="cal-cell">27</div><div class="cal-cell">28</div>
+          <div class="cal-cell">29</div><div class="cal-cell cal-today">30</div><div class="cal-cell cal-empty">1</div><div class="cal-cell cal-empty">2</div><div class="cal-cell cal-empty">3</div><div class="cal-cell cal-empty">4</div><div class="cal-cell cal-empty">5</div>
+        </div>
+        <p style="font-size:0.91rem;color:var(--sub);margin-top:6px;">6월 1일 = 일요일(0) → 앞빈칸 0개<br>6월 30일 = 일요일 → 7월 날짜가 이어짐</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-dark">
+  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">⚙️</div><div><h2>buildCalendar — 그리드 생성 알고리즘</h2><p>앞 빈칸 → 날짜 → 뒷 빈칸 순으로 셀을 채워 42개 그리드 완성</p></div></div>
+  <div class="slide-body">
+    <div class="cb" style="background:#060e1c;">
+<span class="kw">function</span> <span class="at">buildCalendar</span>() {
+  <span class="kw">const</span> firstDay = <span class="kw">new</span> <span class="tg">Date</span>(curYear, curMonth, <span class="vl">1</span>).<span class="at">getDay</span>();
+  <span class="kw">const</span> lastDate = <span class="kw">new</span> <span class="tg">Date</span>(curYear, curMonth + <span class="vl">1</span>, <span class="vl">0</span>).<span class="at">getDate</span>();
+  <span class="kw">const</span> cells    = [];
+
+  <span class="cm">// ① 첫날 전 빈 셀 채우기</span>
+  <span class="kw">for</span> (<span class="kw">let</span> i = <span class="vl">0</span>; i &lt; firstDay; i++) {
+    cells.<span class="at">push</span>(<span class="st">`&lt;div class="cell empty"&gt;&lt;/div&gt;`</span>);
+  }
+
+  <span class="cm">// ② 실제 날짜 셀</span>
+  <span class="kw">const</span> today = <span class="kw">new</span> <span class="tg">Date</span>();
+  <span class="kw">for</span> (<span class="kw">let</span> d = <span class="vl">1</span>; d &lt;= lastDate; d++) {
+    <span class="kw">const</span> key    = <span class="at">dateKey</span>(curYear, curMonth, d);
+    <span class="kw">const</span> events = schedule[key] || [];
+
+    <span class="cm">// 오늘인지 확인</span>
+    <span class="kw">const</span> isToday =
+      today.getDate()     === d &&
+      today.getMonth()    === curMonth &&
+      today.getFullYear() === curYear;
+
+    cells.<span class="at">push</span>(<span class="st">`&lt;div class="cell ${isToday ? 'today' : ''}"
+         onclick="openModal('${key}')"&gt;
+       &lt;span class="day"&gt;${d}&lt;/span&gt;
+       ${events.<span class="at">map</span>(e =>
+         `&lt;div class="event" style="background:${e.color}"&gt;
+           ${e.title}
+          &lt;/div&gt;`
+       ).<span class="at">join</span>('')}
+     &lt;/div&gt;`</span>);
+  }
+
+  grid.innerHTML = cells.<span class="at">join</span>(<span class="st">''</span>);
+}
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">💬</div>
+    <div><h2>AI에게 말 거는 법 — 프롬프트 3단 구조</h2><p>중급도 원리는 같습니다. 다만 "파일을 나눠달라"는 조건이 하나 추가됩니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#2563eb;flex-shrink:0;">①</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">무엇을</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"월간 캘린더를 만들어줘"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">만들 것을 <strong>한 문장</strong>으로. 첫 줄이 가장 중요합니다</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#2563eb;flex-shrink:0;">②</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">기능/라이브러리</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"월 이동 버튼, 오늘 강조, 일정 추가 모달, localStorage 저장"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">필요한 <strong>기능</strong>을 목록으로 나열합니다</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#2563eb;flex-shrink:0;">③</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">조건/파일 구조</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"index.html, style.css, script.js 3개로 나눠줘"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">중급부터는 <strong>파일을 나눠달라는 조건</strong>을 꼭 넣어야 관리가 편합니다</span></div></div>
+    </div>
+    <div style="margin-top:12px;background:#eff6ff;border-left:4px solid #2563eb;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#1e3a8a;line-height:1.6;">💡 날짜 계산 로직을 몰라도 괜찮습니다. "이번 달 1일이 무슨 요일인지 자동으로 계산해줘"처럼 <strong>결과만 말해도</strong> AI가 Date 객체 코드를 작성해줍니다.</div>
+  </div>
+</div>
+
+<div class="slide s-prompt">
+  <div class="sp-header">
+    <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
+    <h2>실제 사용한 AI 생성 프롬프트</h2>
+    <p>아래 프롬프트를 VS Code의 Cline에 붙여넣으면 월간 캘린더가 완성됩니다</p>
+  </div>
+  <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
+  <div class="sp-box">HTML, CSS, JavaScript로 월간 캘린더를 만들어줘.
+
+기능:
+- 상단: ← [2025년 6월] → 월 이동 버튼
+- 요일 헤더 (일~토, 일요일=빨강, 토요일=파랑)
+- 날짜 셀:
+  - 오늘 날짜 강조 (동그라미 또는 배경색)
+  - 일정이 있으면 작은 점이나 태그 표시 (최대 3개, 더 있으면 "+N")
+  - 클릭하면 일정 추가 모달 열기
+- 일정 추가 모달:
+  - 날짜 표시
+  - 일정명 입력 (input text)
+  - 색상 선택 (업무=파랑, 개인=초록, 회의=주황, 휴가=보라)
+  - 저장 / 취소 버튼
+  - 해당 날짜 일정 목록 + 각 항목 삭제 버튼
+- 오른쪽 사이드바(or 하단): 이번 달 전체 일정 목록
+
+localStorage로 일정 저장 (날짜를 키로 사용)
+오늘 날짜 포함한 현재 월 기본 표시
+
+디자인: 깔끔한 화이트 + 포인트 컬러
+파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div class="sp-row">
+    <div class="sp-card"><b>🔁 반복 일정</b>일정 추가 시 '매주 반복' '매월 반복' 옵션을 설정하면 자동으로 반복 일정이 생성되게 해줘.</div>
+    <div class="sp-card"><b>🏷️ 색상 태그</b>일정에 색상 태그(업무/개인/중요 등)를 설정하면 캘린더에 색상 구분으로 표시되게 해줘.</div>
+    <div class="sp-card"><b>📋 일정 내보내기</b>현재 월의 일정을 텍스트 또는 CSV 형태로 내보내는 버튼을 추가해줘.</div>
+  </div>
+</div>
+
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
+  <div class="slide-body">
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div><h4>폴더 열기</h4><p>VS Code에서 <code>09_월간캘린더</code> 폴더를 엽니다</p></div></div>
+      <div class="step"><div class="snum">2</div><div><h4>Go Live 실행</h4><p>우측 하단 <code>Go Live</code> 클릭</p></div></div>
+      <div class="step"><div class="snum">3</div><div><h4>오늘 날짜 확인</h4><p>오늘 날짜가 하이라이트되는지, ◀ ▶로 월 이동이 되는지 확인</p></div></div>
+      <div class="step"><div class="snum">4</div><div><h4>일정 추가 테스트</h4><p>날짜 클릭 → 모달에서 일정 입력 → 캘린더에 표시되는지, 새로고침 후 유지되는지 확인!</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fee2e2;">🆘</div>
+    <div><h2>자주 막히는 문제 &amp; 해결법</h2><p>여기서 멈추는 게 정상입니다 — 옆 사람도 같은 곳에서 막혀 있어요</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🗂️ "화면이 하얗거나 스타일이 안 먹어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><strong>index.html · style.css · script.js</strong> 3개 파일이 <strong>같은 폴더</strong>에 있는지, 파일명이 정확한지 확인하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">수정한 <strong>모든 파일을 저장(Ctrl+S)</strong>하세요. 탭 이름 옆 ● 표시는 저장 안 됨 표시! 저장 후 브라우저 <strong>새로고침(F5)</strong>.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">📡 "차트·변환 등 기능이 안 나와요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">CDN 라이브러리는 <strong>인터넷 연결</strong>이 필요합니다. <strong>F12 → Console</strong>의 빨간 오류를 복사해 AI에게 붙여넣으세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">✂️ "파일이 3개로 나뉘지 않고 하나로 나왔어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">AI에게 <strong>"index.html, style.css, script.js 3개 파일로 나눠서 각각 코드블록으로 보여줘"</strong>라고 요청하세요.</p></div></div>
+    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#3730a3;line-height:1.6;">🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.</div>
+  </div>
+</div>
+
+<div class="slide s-dark">
+  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">🔄</div><div><h2>월 이동 — 오버플로우 처리</h2><p>12월 다음달 → 1월, 1월 이전달 → 12월 자동 처리</p></div></div>
+  <div class="slide-body">
+    <div class="cb" style="background:#060e1c;">
+<span class="kw">function</span> <span class="at">changeMonth</span>(delta) {
+  curMonth += delta;  <span class="cm">// +1 또는 -1</span>
+
+  <span class="cm">// Month 오버플로우 처리</span>
+  <span class="kw">if</span> (curMonth > <span class="vl">11</span>) {
+    curMonth = <span class="vl">0</span>;   <span class="cm">// 12월 → 1월</span>
+    curYear++;
+  } <span class="kw">else if</span> (curMonth &lt; <span class="vl">0</span>) {
+    curMonth = <span class="vl">11</span>;  <span class="cm">// 1월 → 12월</span>
+    curYear--;
+  }
+
+  <span class="at">buildCalendar</span>();
+  <span class="at">updateHeader</span>();
+}
+
+<span class="cm">// 월 헤더 업데이트</span>
+<span class="kw">function</span> <span class="at">updateHeader</span>() {
+  <span class="kw">const</span> months = [
+    <span class="st">'1월'</span>,<span class="st">'2월'</span>,<span class="st">'3월'</span>,<span class="st">'4월'</span>,
+    <span class="st">'5월'</span>,<span class="st">'6월'</span>,<span class="st">'7월'</span>,<span class="st">'8월'</span>,
+    <span class="st">'9월'</span>,<span class="st">'10월'</span>,<span class="st">'11월'</span>,<span class="st">'12월'</span>
+  ];
+  document.<span class="at">getElementById</span>(<span class="st">'header'</span>).textContent =
+    <span class="st">`${curYear}년 ${months[curMonth]}`</span>;
+}
+
+<span class="cm">// 팁: new Date(year, month, day)에서</span>
+<span class="cm">// month가 범위를 벗어나도 자동 보정됨!</span>
+<span class="cm">// new Date(2025, 12, 1) → 2026년 1월 1일</span>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header"><div class="icon" style="background:#dbeafe;">✏️</div><div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div></div>
+  <div class="slide-body">
+    <div class="mgrid">
+      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>공휴일 표시</h3><p>한국 공휴일을 하드코딩해서 빨간색으로 표시합니다.</p><div class="mcode">const HOLIDAYS 객체.<br>날짜 키로 공휴일명 조회.<br>빨간 텍스트로 표시.</div></div>
+      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>주간 뷰</h3><p>월간/주간 뷰를 탭으로 전환합니다.</p><div class="mcode">주 계산: 7일씩 슬라이스.<br>현재 주 하이라이트.<br>이전주/다음주 이동.</div></div>
+      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>반복 일정</h3><p>매주/매달 반복되는 일정을 등록합니다.</p><div class="mcode">일정에 repeat 속성 추가.<br>'weekly' / 'monthly' 선택.<br>캘린더 빌드 시 자동 삽입.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header"><div class="icon" style="background:#dbeafe;">✅</div><div><h2>실습 완료 체크리스트</h2><p>아래 항목을 모두 완료하면 중급 09 마스터!</p></div></div>
+  <div class="slide-body">
+    <div class="clist">
+      <div class="ci2"><div class="cbox">☐</div>오늘 날짜가 하이라이트되어 표시된다</div>
+      <div class="ci2"><div class="cbox">☐</div>◀ ▶ 버튼으로 월을 이동할 수 있다</div>
+      <div class="ci2"><div class="cbox">☐</div>날짜 클릭 시 일정 추가 모달이 열린다</div>
+      <div class="ci2"><div class="cbox">☐</div>추가한 일정이 새로고침 후에도 유지된다</div>
+      <div class="ci2"><div class="cbox">☐</div>미션 하나 이상 도전했다</div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-end">
+  <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
+  <div class="result-link-tip">완성 예제 보기</div>
+  <h2>중급 09 <span>완료!</span> 📅</h2>
+  <p>Date 객체와 그리드 알고리즘으로 기능적인 캘린더 앱을 완성했습니다.</p>
+  <div class="nh"><span>▶</span> 다음 실습: <strong>중급 10 — 업무일지</strong></div>
+</div>
+
+</div>
+<div class="nav-dots" id="navDots"></div>
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
+  <span class="slide-counter" id="counter">1 / 15</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+</div>
+<script>
+const RESULT_HTML_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICA8dGl0bGU+7JuU6rCEIOy6mOumsOuNlDwvdGl0bGU+CiAgPHN0eWxlPgogICAgKiB7IG1hcmdpbjogMDsgcGFkZGluZzogMDsgYm94LXNpemluZzogYm9yZGVyLWJveDsgfQogICAgYm9keSB7CiAgICAgIGZvbnQtZmFtaWx5OiAnU2Vnb2UgVUknLCAn66eR7J2AIOqzoOuUlScsIHNhbnMtc2VyaWY7CiAgICAgIGJhY2tncm91bmQ6ICNmMWY1Zjk7CiAgICAgIG1pbi1oZWlnaHQ6IDEwMHZoOwogICAgICBwYWRkaW5nOiAyMHB4IDE0cHg7CiAgICAgIGNvbG9yOiAjMWUyOTNiOwogICAgfQogICAgLmFwcCB7IG1heC13aWR0aDogOTYwcHg7IG1hcmdpbjogMCBhdXRvOyB9CgogICAgLyog4pSA4pSAIO2XpOuNlCDilIDilIAgKi8KICAgIC5jYWwtaGVhZGVyIHsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7CiAgICAgIGdhcDogMThweDsKICAgICAgbWFyZ2luLWJvdHRvbTogMThweDsKICAgIH0KICAgIC5tb250aC10aXRsZSB7IGZvbnQtc2l6ZTogMS40cmVtOyBmb250LXdlaWdodDogODAwOyB3aWR0aDogMjAwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsgfQogICAgLm5hdi1idG4gewogICAgICB3aWR0aDogMzZweDsgaGVpZ2h0OiAzNnB4OwogICAgICBib3JkZXI6IDJweCBzb2xpZCAjZTJlOGYwOwogICAgICBib3JkZXItcmFkaXVzOiAxMHB4OwogICAgICBiYWNrZ3JvdW5kOiB3aGl0ZTsKICAgICAgZm9udC1zaXplOiAxcmVtOwogICAgICBjdXJzb3I6IHBvaW50ZXI7CiAgICAgIHRyYW5zaXRpb246IGFsbCAwLjJzOwogICAgfQogICAgLm5hdi1idG46aG92ZXIgeyBib3JkZXItY29sb3I6ICM2MzY2ZjE7IGNvbG9yOiAjNjM2NmYxOyB9CiAgICAudG9kYXktYnRuIHsKICAgICAgcGFkZGluZzogN3B4IDE2cHg7CiAgICAgIGJvcmRlcjogMnB4IHNvbGlkICM2MzY2ZjE7CiAgICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7CiAgICAgIGJhY2tncm91bmQ6IHdoaXRlOwogICAgICBjb2xvcjogIzYzNjZmMTsKICAgICAgZm9udC1zaXplOiAwLjgycmVtOwogICAgICBmb250LXdlaWdodDogNzAwOwogICAgICBjdXJzb3I6IHBvaW50ZXI7CiAgICAgIHRyYW5zaXRpb246IGFsbCAwLjJzOwogICAgfQogICAgLnRvZGF5LWJ0bjpob3ZlciB7IGJhY2tncm91bmQ6ICM2MzY2ZjE7IGNvbG9yOiB3aGl0ZTsgfQoKICAgIC8qIOKUgOKUgCDqt7jrpqzrk5wg4pSA4pSAICovCiAgICAuY2FsLWdyaWQgewogICAgICBiYWNrZ3JvdW5kOiB3aGl0ZTsKICAgICAgYm9yZGVyLXJhZGl1czogMThweDsKICAgICAgb3ZlcmZsb3c6IGhpZGRlbjsKICAgICAgYm94LXNoYWRvdzogMCA0cHggMjBweCByZ2JhKDAsMCwwLDAuMDgpOwogICAgfQogICAgLmRheS1oZWFkZXJzIHsKICAgICAgZGlzcGxheTogZ3JpZDsKICAgICAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoNywgMWZyKTsKICAgICAgYmFja2dyb3VuZDogI2Y4ZmFmYzsKICAgICAgYm9yZGVyLWJvdHRvbTogMnB4IHNvbGlkICNmMWY1Zjk7CiAgICB9CiAgICAuZGF5LWhlYWRlciB7CiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgICAgcGFkZGluZzogMTBweDsKICAgICAgZm9udC1zaXplOiAwLjc4cmVtOwogICAgICBmb250LXdlaWdodDogNzAwOwogICAgICBjb2xvcjogIzk0YTNiODsKICAgIH0KICAgIC5kYXktaGVhZGVyLnN1biB7IGNvbG9yOiAjZWY0NDQ0OyB9CiAgICAuZGF5LWhlYWRlci5zYXQgeyBjb2xvcjogIzYzNjZmMTsgfQoKICAgIC5jZWxscyB7CiAgICAgIGRpc3BsYXk6IGdyaWQ7CiAgICAgIGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KDcsIDFmcik7CiAgICB9CiAgICAuY2VsbCB7CiAgICAgIG1pbi1oZWlnaHQ6IDkwcHg7CiAgICAgIGJvcmRlci1yaWdodDogMXB4IHNvbGlkICNmMWY1Zjk7CiAgICAgIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjZjFmNWY5OwogICAgICBwYWRkaW5nOiA2cHg7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAwLjE1czsKICAgICAgcG9zaXRpb246IHJlbGF0aXZlOwogICAgfQogICAgLmNlbGw6aG92ZXIgeyBiYWNrZ3JvdW5kOiAjZjhmYWZjOyB9CiAgICAuY2VsbC5lbXB0eSB7IGN1cnNvcjogZGVmYXVsdDsgYmFja2dyb3VuZDogI2ZhZmJmYzsgfQogICAgLmNlbGwudG9kYXkgLmRhdGUtbnVtIHsKICAgICAgYmFja2dyb3VuZDogIzYzNjZmMTsKICAgICAgY29sb3I6IHdoaXRlOwogICAgICBib3JkZXItcmFkaXVzOiA1MCU7CiAgICAgIHdpZHRoOiAyNnB4OwogICAgICBoZWlnaHQ6IDI2cHg7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyOwogICAgfQogICAgLmNlbGwuc3VuIC5kYXRlLW51bSB7IGNvbG9yOiAjZWY0NDQ0OyB9CiAgICAuY2VsbC5zYXQgLmRhdGUtbnVtIHsgY29sb3I6ICM2MzY2ZjE7IH0KICAgIC5jZWxsLnRvZGF5LnN1biAuZGF0ZS1udW0sCiAgICAuY2VsbC50b2RheS5zYXQgLmRhdGUtbnVtIHsgY29sb3I6IHdoaXRlOyB9CgogICAgLmRhdGUtbnVtIHsKICAgICAgZm9udC1zaXplOiAwLjg1cmVtOwogICAgICBmb250LXdlaWdodDogNzAwOwogICAgICBtYXJnaW4tYm90dG9tOiA0cHg7CiAgICAgIHdpZHRoOiAyNnB4OwogICAgICBoZWlnaHQ6IDI2cHg7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyOwogICAgfQoKICAgIC5ldmVudC1jaGlwIHsKICAgICAgZm9udC1zaXplOiAwLjY4cmVtOwogICAgICBwYWRkaW5nOiAycHggNnB4OwogICAgICBib3JkZXItcmFkaXVzOiA2cHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDJweDsKICAgICAgd2hpdGUtc3BhY2U6IG5vd3JhcDsKICAgICAgb3ZlcmZsb3c6IGhpZGRlbjsKICAgICAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7CiAgICAgIGZvbnQtd2VpZ2h0OiA2MDA7CiAgICB9CiAgICAubW9yZS1jaGlwIHsKICAgICAgZm9udC1zaXplOiAwLjY1cmVtOwogICAgICBjb2xvcjogIzk0YTNiODsKICAgICAgcGFkZGluZzogMXB4IDRweDsKICAgIH0KCiAgICAvKiDsnbTrsqTtirgg7IOJ7IOBICovCiAgICAuYy13b3JrICAgeyBiYWNrZ3JvdW5kOiAjZGJlYWZlOyBjb2xvcjogIzFkNGVkODsgfQogICAgLmMtcGVyc29uYWwgeyBiYWNrZ3JvdW5kOiAjZGNmY2U3OyBjb2xvcjogIzE1ODAzZDsgfQogICAgLmMtbWVldGluZyAgeyBiYWNrZ3JvdW5kOiAjZmVkN2FhOyBjb2xvcjogI2MyNDEwYzsgfQogICAgLmMtdmFjYXRpb24geyBiYWNrZ3JvdW5kOiAjZWRlOWZlOyBjb2xvcjogIzdjM2FlZDsgfQogICAgLmMtZXRjICAgICAgeyBiYWNrZ3JvdW5kOiAjZTJlOGYwOyBjb2xvcjogIzQ3NTU2OTsgfQoKICAgIC8qIOKUgOKUgCDsnbTri6wg7J287KCVIOuqqeuhnSDilIDilIAgKi8KICAgIC5zaWRlLXNlY3Rpb24gewogICAgICBtYXJnaW4tdG9wOiAxNnB4OwogICAgICBiYWNrZ3JvdW5kOiB3aGl0ZTsKICAgICAgYm9yZGVyLXJhZGl1czogMThweDsKICAgICAgcGFkZGluZzogMThweCAyMHB4OwogICAgICBib3gtc2hhZG93OiAwIDRweCAyMHB4IHJnYmEoMCwwLDAsMC4wOCk7CiAgICB9CiAgICAuc2lkZS1zZWN0aW9uIGgyIHsgZm9udC1zaXplOiAxcmVtOyBmb250LXdlaWdodDogODAwOyBtYXJnaW4tYm90dG9tOiAxMnB4OyB9CiAgICAuYWdlbmRhLWxpc3QgeyBkaXNwbGF5OiBmbGV4OyBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyBnYXA6IDZweDsgfQogICAgLmFnZW5kYS1pdGVtIHsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAgZ2FwOiAxMHB4OwogICAgICBwYWRkaW5nOiA4cHggMTJweDsKICAgICAgYm9yZGVyLXJhZGl1czogMTBweDsKICAgICAgYmFja2dyb3VuZDogI2Y4ZmFmYzsKICAgICAgZm9udC1zaXplOiAwLjg0cmVtOwogICAgfQogICAgLmFnZW5kYS1kYXRlIHsgY29sb3I6ICM5NGEzYjg7IGZvbnQtc2l6ZTogMC43OHJlbTsgd2lkdGg6IDYwcHg7IGZsZXgtc2hyaW5rOiAwOyB9CiAgICAuYWdlbmRhLWRvdCB7CiAgICAgIHdpZHRoOiA4cHg7IGhlaWdodDogOHB4OwogICAgICBib3JkZXItcmFkaXVzOiA1MCU7CiAgICAgIGZsZXgtc2hyaW5rOiAwOwogICAgfQogICAgLmVtcHR5LWFnZW5kYSB7IGNvbG9yOiAjOTRhM2I4OyBmb250LXNpemU6IDAuODVyZW07IHRleHQtYWxpZ246IGNlbnRlcjsgcGFkZGluZzogMTZweDsgfQoKICAgIC8qIOKUgOKUgCDrqqjri6wg4pSA4pSAICovCiAgICAubW9kYWwtYmFja2Ryb3AgewogICAgICBkaXNwbGF5OiBub25lOwogICAgICBwb3NpdGlvbjogZml4ZWQ7CiAgICAgIGluc2V0OiAwOwogICAgICBiYWNrZ3JvdW5kOiByZ2JhKDAsMCwwLDAuNCk7CiAgICAgIHotaW5kZXg6IDIwMDsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7CiAgICB9CiAgICAubW9kYWwtYmFja2Ryb3Aub3BlbiB7IGRpc3BsYXk6IGZsZXg7IH0KICAgIC5tb2RhbCB7CiAgICAgIGJhY2tncm91bmQ6IHdoaXRlOwogICAgICBib3JkZXItcmFkaXVzOiAyMHB4OwogICAgICBwYWRkaW5nOiAyNHB4OwogICAgICB3aWR0aDogOTAlOwogICAgICBtYXgtd2lkdGg6IDQyMHB4OwogICAgICBib3gtc2hhZG93OiAwIDIwcHggNjBweCByZ2JhKDAsMCwwLDAuMik7CiAgICAgIGFuaW1hdGlvbjogcG9wIDAuMnMgZWFzZTsKICAgIH0KICAgIEBrZXlmcmFtZXMgcG9wIHsgZnJvbSB7IHRyYW5zZm9ybTogc2NhbGUoMC45Mik7IG9wYWNpdHk6IDA7IH0gdG8geyB0cmFuc2Zvcm06IHNjYWxlKDEpOyBvcGFjaXR5OiAxOyB9IH0KCiAgICAubW9kYWwtZGF0ZS10aXRsZSB7IGZvbnQtc2l6ZTogMS4xcmVtOyBmb250LXdlaWdodDogODAwOyBtYXJnaW4tYm90dG9tOiAxNnB4OyBjb2xvcjogIzYzNjZmMTsgfQoKICAgIC8qIOq4sOyhtCDsnbzsoJUg66qp66GdICovCiAgICAubW9kYWwtZXZlbnRzIHsgZGlzcGxheTogZmxleDsgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsgZ2FwOiA2cHg7IG1hcmdpbi1ib3R0b206IDE2cHg7IH0KICAgIC5tb2RhbC1ldi1yb3cgewogICAgICBkaXNwbGF5OiBmbGV4OwogICAgICBhbGlnbi1pdGVtczogY2VudGVyOwogICAgICBnYXA6IDhweDsKICAgICAgcGFkZGluZzogOHB4IDEwcHg7CiAgICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7CiAgICAgIGJhY2tncm91bmQ6ICNmOGZhZmM7CiAgICB9CiAgICAubW9kYWwtZXYtdGV4dCB7IGZsZXg6IDE7IGZvbnQtc2l6ZTogMC44NXJlbTsgZm9udC13ZWlnaHQ6IDYwMDsgfQogICAgLm1vZGFsLWV2LWRlbCB7CiAgICAgIGJhY2tncm91bmQ6IG5vbmU7CiAgICAgIGJvcmRlcjogbm9uZTsKICAgICAgY29sb3I6ICNjYmQ1ZTE7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgZm9udC1zaXplOiAxcmVtOwogICAgICB0cmFuc2l0aW9uOiBjb2xvciAwLjE1czsKICAgIH0KICAgIC5tb2RhbC1ldi1kZWw6aG92ZXIgeyBjb2xvcjogI2VmNDQ0NDsgfQogICAgLm5vLWV2ZW50cy1tc2cgeyBmb250LXNpemU6IDAuODJyZW07IGNvbG9yOiAjOTRhM2I4OyB0ZXh0LWFsaWduOiBjZW50ZXI7IHBhZGRpbmc6IDhweDsgfQoKICAgIC8qIOy2lOqwgCDtj7wgKi8KICAgIC5hZGQtZXZlbnQtZm9ybSB7IGJvcmRlci10b3A6IDFweCBzb2xpZCAjZjFmNWY5OyBwYWRkaW5nLXRvcDogMTRweDsgfQogICAgLmFkZC1ldmVudC1mb3JtIGlucHV0IHsKICAgICAgd2lkdGg6IDEwMCU7CiAgICAgIHBhZGRpbmc6IDEwcHggMTJweDsKICAgICAgYm9yZGVyOiAycHggc29saWQgI2UyZThmMDsKICAgICAgYm9yZGVyLXJhZGl1czogMTBweDsKICAgICAgZm9udC1zaXplOiAwLjlyZW07CiAgICAgIG91dGxpbmU6IG5vbmU7CiAgICAgIG1hcmdpbi1ib3R0b206IDEwcHg7CiAgICB9CiAgICAuYWRkLWV2ZW50LWZvcm0gaW5wdXQ6Zm9jdXMgeyBib3JkZXItY29sb3I6ICM2MzY2ZjE7IH0KCiAgICAuY29sb3ItYnRucyB7IGRpc3BsYXk6IGZsZXg7IGdhcDogNnB4OyBtYXJnaW4tYm90dG9tOiAxMnB4OyB9CiAgICAuY29sb3ItY2hpcCB7CiAgICAgIHBhZGRpbmc6IDVweCAxMHB4OwogICAgICBib3JkZXItcmFkaXVzOiA4cHg7CiAgICAgIGZvbnQtc2l6ZTogMC43NXJlbTsKICAgICAgZm9udC13ZWlnaHQ6IDcwMDsKICAgICAgYm9yZGVyOiAycHggc29saWQgdHJhbnNwYXJlbnQ7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgdHJhbnNpdGlvbjogYWxsIDAuMTVzOwogICAgfQogICAgLmNvbG9yLWNoaXAuc2VsZWN0ZWQgeyBib3JkZXItY29sb3I6ICMxZTI5M2I7IH0KCiAgICAubW9kYWwtYnRucyB7IGRpc3BsYXk6IGZsZXg7IGdhcDogOHB4OyB9CiAgICAuYnRuLXNhdmUgewogICAgICBmbGV4OiAxOwogICAgICBwYWRkaW5nOiAxMXB4OwogICAgICBiYWNrZ3JvdW5kOiAjNjM2NmYxOwogICAgICBjb2xvcjogd2hpdGU7CiAgICAgIGJvcmRlcjogbm9uZTsKICAgICAgYm9yZGVyLXJhZGl1czogMTBweDsKICAgICAgZm9udC1zaXplOiAwLjlyZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgIH0KICAgIC5idG4tY2FuY2VsIHsKICAgICAgcGFkZGluZzogMTFweCAxOHB4OwogICAgICBib3JkZXI6IDJweCBzb2xpZCAjZTJlOGYwOwogICAgICBib3JkZXItcmFkaXVzOiAxMHB4OwogICAgICBiYWNrZ3JvdW5kOiB3aGl0ZTsKICAgICAgY29sb3I6ICM2NDc0OGI7CiAgICAgIGZvbnQtc2l6ZTogMC45cmVtOwogICAgICBmb250LXdlaWdodDogNzAwOwogICAgICBjdXJzb3I6IHBvaW50ZXI7CiAgICB9CiAgCjwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CjxkaXYgY2xhc3M9ImFwcCI+CgogIDwhLS0g7Zek642UIC0tPgogIDxkaXYgY2xhc3M9ImNhbC1oZWFkZXIiPgogICAgPGJ1dHRvbiBjbGFzcz0ibmF2LWJ0biIgb25jbGljaz0iY2hhbmdlTW9udGgoLTEpIj7il4A8L2J1dHRvbj4KICAgIDxzcGFuIGNsYXNzPSJtb250aC10aXRsZSIgaWQ9Im1vbnRoLXRpdGxlIj48L3NwYW4+CiAgICA8YnV0dG9uIGNsYXNzPSJuYXYtYnRuIiBvbmNsaWNrPSJjaGFuZ2VNb250aCgxKSI+4pa2PC9idXR0b24+CiAgICA8YnV0dG9uIGNsYXNzPSJ0b2RheS1idG4iIG9uY2xpY2s9ImdvVG9kYXkoKSI+7Jik64qYPC9idXR0b24+CiAgPC9kaXY+CgogIDwhLS0g7LqY66aw642UIOq3uOumrOuTnCAtLT4KICA8ZGl2IGNsYXNzPSJjYWwtZ3JpZCI+CiAgICA8ZGl2IGNsYXNzPSJkYXktaGVhZGVycyI+CiAgICAgIDxkaXYgY2xhc3M9ImRheS1oZWFkZXIgc3VuIj7snbw8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iZGF5LWhlYWRlciI+7JuUPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImRheS1oZWFkZXIiPu2ZlDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJkYXktaGVhZGVyIj7siJg8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iZGF5LWhlYWRlciI+66qpPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImRheS1oZWFkZXIiPuq4iDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJkYXktaGVhZGVyIHNhdCI+7YagPC9kaXY+CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImNlbGxzIiBpZD0iY2FsLWNlbGxzIj48L2Rpdj4KICA8L2Rpdj4KCiAgPCEtLSDsnbTri6wg7KCE7LK0IOydvOyglSAtLT4KICA8ZGl2IGNsYXNzPSJzaWRlLXNlY3Rpb24iPgogICAgPGgyPvCfk4wg7J2064usIOydvOyglTwvaDI+CiAgICA8ZGl2IGNsYXNzPSJhZ2VuZGEtbGlzdCIgaWQ9ImFnZW5kYS1saXN0Ij48L2Rpdj4KICA8L2Rpdj4KCjwvZGl2PgoKPCEtLSDrqqjri6wgLS0+CjxkaXYgY2xhc3M9Im1vZGFsLWJhY2tkcm9wIiBpZD0ibW9kYWwtYmFja2Ryb3AiIG9uY2xpY2s9ImhhbmRsZUJhY2tkcm9wQ2xpY2soZXZlbnQpIj4KICA8ZGl2IGNsYXNzPSJtb2RhbCI+CiAgICA8ZGl2IGNsYXNzPSJtb2RhbC1kYXRlLXRpdGxlIiBpZD0ibW9kYWwtZGF0ZS10aXRsZSI+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJtb2RhbC1ldmVudHMiIGlkPSJtb2RhbC1ldmVudHMiPjwvZGl2PgogICAgPGRpdiBjbGFzcz0iYWRkLWV2ZW50LWZvcm0iPgogICAgICA8aW5wdXQgaWQ9ImV2ZW50LWlucHV0IiB0eXBlPSJ0ZXh0IiBwbGFjZWhvbGRlcj0i7IOIIOydvOyglSDsnoXroKUuLi4iIG1heGxlbmd0aD0iNTAiPgogICAgICA8ZGl2IGNsYXNzPSJjb2xvci1idG5zIiBpZD0iY29sb3ItYnRucyI+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9Im1vZGFsLWJ0bnMiPgogICAgICAgIDxidXR0b24gY2xhc3M9ImJ0bi1zYXZlIiBvbmNsaWNrPSJzYXZlRXZlbnQoKSI+KyDstpTqsIA8L2J1dHRvbj4KICAgICAgICA8YnV0dG9uIGNsYXNzPSJidG4tY2FuY2VsIiBvbmNsaWNrPSJjbG9zZU1vZGFsKCkiPuuLq+q4sDwvYnV0dG9uPgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogIDwvZGl2Pgo8L2Rpdj4KCjxzY3JpcHQ+CiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAvLyDsg4HsiJgKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIGNvbnN0IENPTE9SX0xJU1QgPSBbCiAgICB7IGtleTogJ3dvcmsnLCAgICAgbGFiZWw6ICfsl4XrrLQnLCAgY2xzOiAnYy13b3JrJyB9LAogICAgeyBrZXk6ICdwZXJzb25hbCcsIGxhYmVsOiAn6rCc7J24JywgIGNsczogJ2MtcGVyc29uYWwnIH0sCiAgICB7IGtleTogJ21lZXRpbmcnLCAgbGFiZWw6ICftmozsnZgnLCAgY2xzOiAnYy1tZWV0aW5nJyB9LAogICAgeyBrZXk6ICd2YWNhdGlvbicsIGxhYmVsOiAn7Zy06rCAJywgIGNsczogJ2MtdmFjYXRpb24nIH0sCiAgICB7IGtleTogJ2V0YycsICAgICAgbGFiZWw6ICfquLDtg4AnLCAgY2xzOiAnYy1ldGMnIH0sCiAgXTsKCiAgY29uc3QgRE9UX0NPTE9SUyA9IHsKICAgIHdvcms6ICAgICAnIzNiODJmNicsCiAgICBwZXJzb25hbDogJyMyMmM1NWUnLAogICAgbWVldGluZzogICcjZjk3MzE2JywKICAgIHZhY2F0aW9uOiAnIzhiNWNmNicsCiAgICBldGM6ICAgICAgJyM5NGEzYjgnLAogIH07CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgLy8g7IOB7YOcCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICBjb25zdCB0b2RheSAgICA9IG5ldyBEYXRlKCk7CiAgbGV0IGN1clllYXIgICAgPSB0b2RheS5nZXRGdWxsWWVhcigpOwogIGxldCBjdXJNb250aCAgID0gdG9kYXkuZ2V0TW9udGgoKTsgICAvLyAwfjExCiAgbGV0IHNlbERheSAgICAgPSBudWxsOwogIGxldCBzZWxDb2xvciAgID0gJ3dvcmsnOwoKICAvLyDsnbTrsqTtirgg642w7J207YSwOiB7ICIyMDI1LTA2LTE1IjogW3tpZCwgdGV4dCwgY29sb3J9LCAuLi5dIH0KICBsZXQgZXZlbnRzID0gSlNPTi5wYXJzZShsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnY2FsX2V2ZW50cycpIHx8ICd7fScpOwoKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIC8vIOuCoOynnCDtgqQg7IOd7ISxCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICBmdW5jdGlvbiBkYXRlS2V5KHksIG0sIGQpIHsKICAgIHJldHVybiBgJHt5fS0ke1N0cmluZyhtICsgMSkucGFkU3RhcnQoMiwnMCcpfS0ke1N0cmluZyhkKS5wYWRTdGFydCgyLCcwJyl9YDsKICB9CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgLy8g7JuUIOydtOuPmQogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgZnVuY3Rpb24gY2hhbmdlTW9udGgoZGVsdGEpIHsKICAgIGN1ck1vbnRoICs9IGRlbHRhOwogICAgaWYgKGN1ck1vbnRoID4gMTEpIHsgY3VyTW9udGggPSAwOyAgY3VyWWVhcisrOyB9CiAgICBpZiAoY3VyTW9udGggPCAwKSAgeyBjdXJNb250aCA9IDExOyBjdXJZZWFyLS07IH0KICAgIHJlbmRlcigpOwogIH0KCiAgZnVuY3Rpb24gZ29Ub2RheSgpIHsKICAgIGN1clllYXIgID0gdG9kYXkuZ2V0RnVsbFllYXIoKTsKICAgIGN1ck1vbnRoID0gdG9kYXkuZ2V0TW9udGgoKTsKICAgIHJlbmRlcigpOwogIH0KCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAvLyDsupjrprDrjZQg66CM642U66eBCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICBmdW5jdGlvbiByZW5kZXIoKSB7CiAgICAvLyDsoJzrqqkKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtb250aC10aXRsZScpLnRleHRDb250ZW50ID0KICAgICAgYCR7Y3VyWWVhcn3rhYQgJHtjdXJNb250aCArIDF97JuUYDsKCiAgICBjb25zdCBmaXJzdERheSA9IG5ldyBEYXRlKGN1clllYXIsIGN1ck1vbnRoLCAxKS5nZXREYXkoKTsgICAvLyDssqsg64KgIOyalOydvAogICAgY29uc3QgbGFzdERhdGUgPSBuZXcgRGF0ZShjdXJZZWFyLCBjdXJNb250aCArIDEsIDApLmdldERhdGUoKTsgLy8g66eI7KeA66eJIOuCoAoKICAgIGNvbnN0IHRvZGF5S2V5ID0gZGF0ZUtleSh0b2RheS5nZXRGdWxsWWVhcigpLCB0b2RheS5nZXRNb250aCgpLCB0b2RheS5nZXREYXRlKCkpOwoKICAgIGxldCBodG1sID0gJyc7CgogICAgLy8g7JWeIOu5iOy5uAogICAgZm9yIChsZXQgaSA9IDA7IGkgPCBmaXJzdERheTsgaSsrKSB7CiAgICAgIGh0bWwgKz0gJzxkaXYgY2xhc3M9ImNlbGwgZW1wdHkiPjwvZGl2Pic7CiAgICB9CgogICAgLy8g64Kg7KecIOyFgAogICAgZm9yIChsZXQgZCA9IDE7IGQgPD0gbGFzdERhdGU7IGQrKykgewogICAgICBjb25zdCBrZXkgID0gZGF0ZUtleShjdXJZZWFyLCBjdXJNb250aCwgZCk7CiAgICAgIGNvbnN0IGRvdyAgPSAoZmlyc3REYXkgKyBkIC0gMSkgJSA3OyAgLy8g7JqU7J28ICgwPeydvCkKICAgICAgY29uc3QgaXNUb2RheSA9IGtleSA9PT0gdG9kYXlLZXk7CiAgICAgIGNvbnN0IGRheUV2ZW50cyA9IGV2ZW50c1trZXldIHx8IFtdOwoKICAgICAgbGV0IGNscyA9ICdjZWxsJzsKICAgICAgaWYgKGRvdyA9PT0gMCkgY2xzICs9ICcgc3VuJzsKICAgICAgaWYgKGRvdyA9PT0gNikgY2xzICs9ICcgc2F0JzsKICAgICAgaWYgKGlzVG9kYXkpICAgY2xzICs9ICcgdG9kYXknOwoKICAgICAgLy8g7J287KCVIOy5qSAo7LWc64yAIDLqsJwg7ZGc7IucICsg642U67O06riwKQogICAgICBsZXQgY2hpcHNIdG1sID0gJyc7CiAgICAgIGRheUV2ZW50cy5zbGljZSgwLCAyKS5mb3JFYWNoKGV2ID0+IHsKICAgICAgICBjb25zdCBjYyA9IENPTE9SX0xJU1QuZmluZChjPT5jLmtleT09PWV2LmNvbG9yKT8uY2xzIHx8ICdjLWV0Yyc7CiAgICAgICAgY2hpcHNIdG1sICs9IGA8ZGl2IGNsYXNzPSJldmVudC1jaGlwICR7Y2N9Ij4ke2V2LnRleHR9PC9kaXY+YDsKICAgICAgfSk7CiAgICAgIGlmIChkYXlFdmVudHMubGVuZ3RoID4gMikgewogICAgICAgIGNoaXBzSHRtbCArPSBgPGRpdiBjbGFzcz0ibW9yZS1jaGlwIj4rJHtkYXlFdmVudHMubGVuZ3RoIC0gMn3qsJw8L2Rpdj5gOwogICAgICB9CgogICAgICBodG1sICs9IGAKICAgICAgICA8ZGl2IGNsYXNzPSIke2Nsc30iIG9uY2xpY2s9Im9wZW5Nb2RhbCgke2R9KSI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJkYXRlLW51bSI+JHtkfTwvZGl2PgogICAgICAgICAgJHtjaGlwc0h0bWx9CiAgICAgICAgPC9kaXY+YDsKICAgIH0KCiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY2FsLWNlbGxzJykuaW5uZXJIVE1MID0gaHRtbDsKICAgIHJlbmRlckFnZW5kYSgpOwogIH0KCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAvLyDsnbTri6wg7KCE7LK0IOydvOyglSDrqqnroZ0KICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIGZ1bmN0aW9uIHJlbmRlckFnZW5kYSgpIHsKICAgIGNvbnN0IGxhc3REYXRlID0gbmV3IERhdGUoY3VyWWVhciwgY3VyTW9udGggKyAxLCAwKS5nZXREYXRlKCk7CiAgICBsZXQgaXRlbXMgPSBbXTsKICAgIGZvciAobGV0IGQgPSAxOyBkIDw9IGxhc3REYXRlOyBkKyspIHsKICAgICAgY29uc3Qga2V5ID0gZGF0ZUtleShjdXJZZWFyLCBjdXJNb250aCwgZCk7CiAgICAgIChldmVudHNba2V5XSB8fCBbXSkuZm9yRWFjaChldiA9PiBpdGVtcy5wdXNoKHsgZCwga2V5LCBldiB9KSk7CiAgICB9CgogICAgaWYgKCFpdGVtcy5sZW5ndGgpIHsKICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2FnZW5kYS1saXN0JykuaW5uZXJIVE1MID0gJzxkaXYgY2xhc3M9ImVtcHR5LWFnZW5kYSI+7J2064usIOydvOygleydtCDsl4bsirXri4jri6QuPC9kaXY+JzsKICAgICAgcmV0dXJuOwogICAgfQoKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdhZ2VuZGEtbGlzdCcpLmlubmVySFRNTCA9IGl0ZW1zLm1hcCgoeyBkLCBldiB9KSA9PiBgCiAgICAgIDxkaXYgY2xhc3M9ImFnZW5kYS1pdGVtIj4KICAgICAgICA8c3BhbiBjbGFzcz0iYWdlbmRhLWRhdGUiPiR7Y3VyTW9udGgrMX3sm5QgJHtkfeydvDwvc3Bhbj4KICAgICAgICA8ZGl2IGNsYXNzPSJhZ2VuZGEtZG90IiBzdHlsZT0iYmFja2dyb3VuZDoke0RPVF9DT0xPUlNbZXYuY29sb3JdfHwnIzk0YTNiOCd9Ij48L2Rpdj4KICAgICAgICA8c3Bhbj4ke2V2LnRleHR9PC9zcGFuPgogICAgICA8L2Rpdj4KICAgIGApLmpvaW4oJycpOwogIH0KCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAvLyDrqqjri6wg7Je06riwIC8g64ur6riwCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICBmdW5jdGlvbiBvcGVuTW9kYWwoZGF5KSB7CiAgICBzZWxEYXkgPSBkYXk7CiAgICBjb25zdCBrZXkgPSBkYXRlS2V5KGN1clllYXIsIGN1ck1vbnRoLCBkYXkpOwoKICAgIC8vIOuCoOynnCDtg4DsnbTti4AKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtb2RhbC1kYXRlLXRpdGxlJykudGV4dENvbnRlbnQgPQogICAgICBg8J+ThSAke2N1clllYXJ964WEICR7Y3VyTW9udGgrMX3sm5QgJHtkYXl97J28YDsKCiAgICAvLyDquLDsobQg7J287KCVIOuqqeuhnQogICAgcmVuZGVyTW9kYWxFdmVudHMoa2V5KTsKCiAgICAvLyDsg4nsg4Eg67KE7Yq8CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29sb3ItYnRucycpLmlubmVySFRNTCA9IENPTE9SX0xJU1QubWFwKGMgPT4gYAogICAgICA8YnV0dG9uIGNsYXNzPSJjb2xvci1jaGlwICR7Yy5jbHN9JHtjLmtleT09PXNlbENvbG9yID8gJyBzZWxlY3RlZCcgOiAnJ30iCiAgICAgICAgb25jbGljaz0ic2VsZWN0Q29sb3IoJyR7Yy5rZXl9JykiPiR7Yy5sYWJlbH08L2J1dHRvbj4KICAgIGApLmpvaW4oJycpOwoKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdldmVudC1pbnB1dCcpLnZhbHVlID0gJyc7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbW9kYWwtYmFja2Ryb3AnKS5jbGFzc0xpc3QuYWRkKCdvcGVuJyk7CiAgICBkb2N1bWVudC5ib2R5LnN0eWxlLm92ZXJmbG93ID0gJ2hpZGRlbic7CiAgICBzZXRUaW1lb3V0KCgpID0+IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdldmVudC1pbnB1dCcpLmZvY3VzKCksIDEwMCk7CiAgfQoKICBmdW5jdGlvbiByZW5kZXJNb2RhbEV2ZW50cyhrZXkpIHsKICAgIGNvbnN0IGV2cyA9IGV2ZW50c1trZXldIHx8IFtdOwogICAgaWYgKCFldnMubGVuZ3RoKSB7CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtb2RhbC1ldmVudHMnKS5pbm5lckhUTUwgPSAnPGRpdiBjbGFzcz0ibm8tZXZlbnRzLW1zZyI+65Ox66Gd65CcIOydvOygleydtCDsl4bsirXri4jri6QuPC9kaXY+JzsKICAgICAgcmV0dXJuOwogICAgfQogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21vZGFsLWV2ZW50cycpLmlubmVySFRNTCA9IGV2cy5tYXAoZXYgPT4gewogICAgICBjb25zdCBjYyA9IENPTE9SX0xJU1QuZmluZChjPT5jLmtleT09PWV2LmNvbG9yKT8uY2xzIHx8ICdjLWV0Yyc7CiAgICAgIHJldHVybiBgCiAgICAgICAgPGRpdiBjbGFzcz0ibW9kYWwtZXYtcm93Ij4KICAgICAgICAgIDxzcGFuIGNsYXNzPSJldmVudC1jaGlwICR7Y2N9Ij4ke2V2LmNvbG9yID09PSAnd29yaycgPyAn7JeF66y0JyA6IGV2LmNvbG9yID09PSAncGVyc29uYWwnID8gJ+qwnOyduCcgOiBldi5jb2xvciA9PT0gJ21lZXRpbmcnID8gJ+2ajOydmCcgOiBldi5jb2xvciA9PT0gJ3ZhY2F0aW9uJyA/ICftnLTqsIAnIDogJ+q4sO2DgCd9PC9zcGFuPgogICAgICAgICAgPHNwYW4gY2xhc3M9Im1vZGFsLWV2LXRleHQiPiR7ZXYudGV4dH08L3NwYW4+CiAgICAgICAgICA8YnV0dG9uIGNsYXNzPSJtb2RhbC1ldi1kZWwiIG9uY2xpY2s9ImRlbGV0ZUV2ZW50KCcke2tleX0nLCAke2V2LmlkfSkiPsOXPC9idXR0b24+CiAgICAgICAgPC9kaXY+YDsKICAgIH0pLmpvaW4oJycpOwogIH0KCiAgZnVuY3Rpb24gY2xvc2VNb2RhbCgpIHsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtb2RhbC1iYWNrZHJvcCcpLmNsYXNzTGlzdC5yZW1vdmUoJ29wZW4nKTsKICAgIGRvY3VtZW50LmJvZHkuc3R5bGUub3ZlcmZsb3cgPSAnJzsKICB9CgogIGZ1bmN0aW9uIGhhbmRsZUJhY2tkcm9wQ2xpY2soZSkgewogICAgaWYgKGUudGFyZ2V0ID09PSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbW9kYWwtYmFja2Ryb3AnKSkgY2xvc2VNb2RhbCgpOwogIH0KCiAgZnVuY3Rpb24gc2VsZWN0Q29sb3Ioa2V5KSB7CiAgICBzZWxDb2xvciA9IGtleTsKICAgIGNvbnN0IGtleTIgPSBkYXRlS2V5KGN1clllYXIsIGN1ck1vbnRoLCBzZWxEYXkpOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NvbG9yLWJ0bnMnKS5pbm5lckhUTUwgPSBDT0xPUl9MSVNULm1hcChjID0+IGAKICAgICAgPGJ1dHRvbiBjbGFzcz0iY29sb3ItY2hpcCAke2MuY2xzfSR7Yy5rZXk9PT1zZWxDb2xvciA/ICcgc2VsZWN0ZWQnIDogJyd9IgogICAgICAgIG9uY2xpY2s9InNlbGVjdENvbG9yKCcke2Mua2V5fScpIj4ke2MubGFiZWx9PC9idXR0b24+CiAgICBgKS5qb2luKCcnKTsKICB9CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgLy8g7J287KCVIOy2lOqwgAogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgZnVuY3Rpb24gc2F2ZUV2ZW50KCkgewogICAgY29uc3QgdGV4dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdldmVudC1pbnB1dCcpLnZhbHVlLnRyaW0oKTsKICAgIGlmICghdGV4dCkgeyBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZXZlbnQtaW5wdXQnKS5mb2N1cygpOyByZXR1cm47IH0KCiAgICBjb25zdCBrZXkgPSBkYXRlS2V5KGN1clllYXIsIGN1ck1vbnRoLCBzZWxEYXkpOwogICAgaWYgKCFldmVudHNba2V5XSkgZXZlbnRzW2tleV0gPSBbXTsKCiAgICBldmVudHNba2V5XS5wdXNoKHsgaWQ6IERhdGUubm93KCksIHRleHQsIGNvbG9yOiBzZWxDb2xvciB9KTsKICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdjYWxfZXZlbnRzJywgSlNPTi5zdHJpbmdpZnkoZXZlbnRzKSk7CgogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2V2ZW50LWlucHV0JykudmFsdWUgPSAnJzsKICAgIHJlbmRlck1vZGFsRXZlbnRzKGtleSk7CiAgICByZW5kZXIoKTsKICB9CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgLy8g7J287KCVIOyCreygnAogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgZnVuY3Rpb24gZGVsZXRlRXZlbnQoa2V5LCBpZCkgewogICAgZXZlbnRzW2tleV0gPSAoZXZlbnRzW2tleV0gfHwgW10pLmZpbHRlcihldiA9PiBldi5pZCAhPT0gaWQpOwogICAgaWYgKCFldmVudHNba2V5XS5sZW5ndGgpIGRlbGV0ZSBldmVudHNba2V5XTsKICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdjYWxfZXZlbnRzJywgSlNPTi5zdHJpbmdpZnkoZXZlbnRzKSk7CiAgICByZW5kZXJNb2RhbEV2ZW50cyhrZXkpOwogICAgcmVuZGVyKCk7CiAgfQoKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIC8vIEVudGVyIO2CpOuhnCDstpTqsIAKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdldmVudC1pbnB1dCcpLmFkZEV2ZW50TGlzdGVuZXIoJ2tleWRvd24nLCBlID0+IHsKICAgIGlmIChlLmtleSA9PT0gJ0VudGVyJykgc2F2ZUV2ZW50KCk7CiAgICBpZiAoZS5rZXkgPT09ICdFc2NhcGUnKSBjbG9zZU1vZGFsKCk7CiAgfSk7CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgLy8g7LSI6riwIOugjOuNlOungQogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgcmVuZGVyKCk7Cgo8L3NjcmlwdD4KPC9ib2R5Pgo8L2h0bWw+Cg==";
+function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
+function openResultPopup(){const w=window.open('','resultPopup','left=0,top=0,resizable=yes,scrollbars=yes');w.moveTo(0,0);w.resizeTo(screen.availWidth,screen.availHeight);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
+const slides=Array.from(document.querySelectorAll('.slide'));
+const total=slides.length;let current=0;
+const dotsWrap=document.getElementById('navDots');
+slides.forEach((_,i)=>{const dot=document.createElement('button');dot.className='nav-dot'+(i===0?' active':'');dot.setAttribute('aria-label',`${i+1}번 슬라이드로 이동`);dot.onclick=()=>goTo(i);dotsWrap.appendChild(dot);});
+function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
+function changeSlide(dir){goTo(current+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
+goTo(0);
+</script>
+</body>
+</html>

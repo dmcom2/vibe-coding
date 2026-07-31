@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>중급 04 — CSV 데이터 분석기</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--ac:#7c3aed;--text:#1e293b;--sub:#64748b;--surface:#faf5ff;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Segoe UI',sans-serif;}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s,transform .4s;transform:translateX(60px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit{opacity:0;transform:translateX(-60px);}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#7c3aed,#a78bfa);transition:width .35s;z-index:999;}
+.nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.43rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--ac);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:var(--ac);color:#fff;transform:scale(1.08);}
+.nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:1.04rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.slide-label{position:fixed;top:16px;left:24px;font-size:0.94rem;font-weight:700;z-index:999;}
+.s-title{background:linear-gradient(135deg,#2e1065,#4c1d95,#7c3aed);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:1.07rem;font-weight:700;margin-bottom:24px;display:inline-block;}
+.s-title h1{font-size:clamp(2.2rem,6.5vw,3.3rem);font-weight:900;line-height:1.2;margin-bottom:16px;}
+.s-title h1 span{color:#ddd6fe;}
+.s-title p{font-size:1.3rem;opacity:.8;margin-bottom:36px;}
+.meta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 20px;border-radius:12px;font-size:1.12rem;font-weight:600;}
+.s-content{background:var(--surface);}
+.s-grad{background:linear-gradient(150deg,#f5f3ff,#ede9fe);}
+.s-dark{background:#1a1225;color:#e9d5ff;}
+.slide-header{padding:30px 64px 22px;border-bottom:1px solid #ddd6fe;display:flex;align-items:center;gap:14px;}
+.s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
+.slide-header .icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.54rem;flex-shrink:0;}
+.slide-header h2{font-size:1.82rem;font-weight:800;color:var(--text);}
+.s-dark .slide-header h2{color:#ddd6fe;}
+.slide-header p{font-size:1.17rem;color:var(--sub);margin-top:2px;}
+.s-dark .slide-header p{color:#7c5cae;}
+.slide-body{flex:1;padding:28px 64px;overflow-y:auto;}
+.cb{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:18px 22px;font-family:'Cascadia Code','Consolas',monospace;font-size:1.04rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:12px;}
+.cb .lang{position:absolute;top:8px;right:12px;font-size:0.81rem;color:#6c7086;font-family:sans-serif;}
+.kw{color:#cba6f7;}.tg{color:#89b4fa;}.at{color:#a6e3a1;}.st{color:#f38ba8;}.cm{color:#6c7086;font-style:italic;}.vl{color:#fab387;}.py{color:#f9e2af;}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.card{background:#fff;border-radius:12px;padding:20px;border:1px solid #ddd6fe;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+.card .ci{font-size:1.87rem;margin-bottom:8px;}
+.card h3{font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.card p{font-size:1.12rem;color:var(--sub);line-height:1.6;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;}
+.qb{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-left:4px solid var(--ac);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1.09rem;color:var(--text);line-height:1.7;margin-bottom:16px;}
+.qb strong{color:var(--ac);}
+.steps{display:flex;flex-direction:column;gap:10px;}
+.step{display:flex;gap:13px;background:#fff;border-radius:10px;padding:14px 18px;border:1px solid #ddd6fe;}
+.snum{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--ac),#a855f7);color:#fff;font-weight:900;font-size:1.12rem;display:flex;align-items:center;justify-content:center;}
+.step h4{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step p{font-size:1.09rem;color:var(--sub);}
+.step code{background:#f5f3ff;color:var(--ac);padding:1px 5px;border-radius:4px;font-size:0.96rem;}
+.mgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.mc{border-radius:12px;padding:18px;}
+.m1{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1px solid #c4b5fd;}
+.m2{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #a7f3d0;}
+.m3{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid #fed7aa;}
+.mc .ms{font-size:1.23rem;margin-bottom:5px;}
+.mc h3{font-size:1.12rem;font-weight:800;color:var(--text);margin-bottom:7px;}
+.mc p{font-size:0.99rem;color:var(--sub);line-height:1.5;margin-bottom:8px;}
+.mc .mcode{background:rgba(0,0,0,.06);border-radius:6px;padding:8px 10px;font-family:monospace;font-size:0.92rem;color:var(--text);line-height:1.6;}
+.clist{display:flex;flex-direction:column;gap:10px;}
+.ci2{display:flex;align-items:center;gap:11px;background:#fff;border-radius:9px;padding:12px 16px;border:1px solid #ddd6fe;font-size:1.09rem;font-weight:600;color:var(--text);}
+.cbox{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--ac),#a855f7);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.11rem;flex-shrink:0;}
+.pb{background:#0f172a;border-radius:12px;padding:22px 26px;border-left:4px solid var(--ac);}
+.pb .pl{font-size:0.86rem;font-weight:800;letter-spacing:.1em;color:#a78bfa;margin-bottom:10px;}
+.pb pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:1.07rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
+.pt{margin-top:10px;background:rgba(124,58,237,.1);border-radius:6px;padding:8px 12px;font-size:0.96rem;color:#c4b5fd;}
+.s-end{background:linear-gradient(135deg,#2e1065,#4c1d95,#7c3aed);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-end h2{font-size:2.42rem;font-weight:900;margin-bottom:12px;}
+.s-end h2 span{color:#ddd6fe;}
+.s-end p{font-size:1.23rem;opacity:.8;margin-bottom:32px;}
+.s-end .nh{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:12px 28px;border-radius:12px;font-size:1.12rem;display:inline-flex;align-items:center;gap:9px;}
+.csv-example{background:#111;border-radius:8px;padding:14px 16px;font-family:monospace;font-size:1.04rem;color:#a6e3a1;line-height:1.8;margin-bottom:12px;}
+.csv-parsed{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;border-radius:8px;overflow:hidden;margin-bottom:12px;}
+.cp-cell{padding:8px 12px;font-size:0.99rem;border:1px solid #e2e8f0;}
+.cp-head{background:#f5f3ff;color:var(--ac);font-weight:800;}
+.cp-data{background:#fff;color:var(--text);}
+.s-prompt{background:#f0f4ff;justify-content:center;padding:48px 64px;}
+.sp-header{margin-bottom:18px;}
+.sp-badge{font-size:0.86rem;font-weight:700;color:var(--ac);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.sp-header h2{font-size:clamp(24px,3.64vw,33px);font-weight:800;color:#1e293b;margin-bottom:6px;}
+.sp-header p{font-size:1.07rem;color:#64748b;padding-bottom:12px;border-bottom:2px solid #c7d2fe;}
+.sp-label{font-size:0.86rem;font-weight:700;color:var(--ac);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.sp-box{background:#1e1b4b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:0.94rem;line-height:1.8;color:#c7d2fe;white-space:pre-line;max-height:44vh;overflow:auto;border:1px solid #312e81;}
+.sp-row{display:flex;gap:12px;margin-top:14px;}
+.sp-card{flex:1;background:#fff;border-radius:10px;padding:13px 15px;border-left:3px solid var(--ac);font-size:0.92rem;color:#475569;line-height:1.55;}
+.sp-card b{color:#1e293b;display:block;margin-bottom:4px;}
+.nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
+.nav-dot:hover{background:#94a3b8;}
+.nav-dot.active{width:22px;border-radius:5px;background:#6366f1;}
+.result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
+.result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
+.result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-label" id="slideLabel"></div>
+<div class="deck">
+
+<div class="slide s-title active">
+  <div class="badge">바이브코딩 중급 과정</div>
+  <h1>CSV <span>데이터 분석기</span></h1>
+  <p>중급 04 — FileReader, CSV 파싱, 드래그&드롭으로 데이터 분석 도구 완성</p>
+  <div class="meta-row">
+    <div class="meta-chip">📂 FileReader API</div>
+    <div class="meta-chip">⏱ 30분</div>
+    <div class="meta-chip">📊 중급 난이도</div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header"><div class="icon" style="background:#ede9fe;">📊</div><div><h2>오늘 만드는 것</h2><p>CSV 파일을 드래그&드롭으로 열어 분석하는 데이터 도구</p></div></div>
+  <div class="slide-body">
+    <div class="cards">
+      <div class="card"><div class="ci">📂</div><h3>파일 업로드</h3><p>드래그&드롭 또는 클릭으로<br>CSV 파일 열기<br>텍스트 파일 읽기 (readAsText)</p></div>
+      <div class="card"><div class="ci">🔢</div><h3>자동 통계 계산</h3><p>열 선택 시 숫자 컬럼 자동 인식<br>개수, 합계, 평균, 최소, 최대<br>결측값 개수</p></div>
+      <div class="card"><div class="ci">📋</div><h3>데이터 테이블</h3><p>헤더 + 데이터 행 표시<br>페이지네이션 (50행씩)<br>컬럼 정렬 기능</p></div>
+      <div class="card"><div class="ci">📊</div><h3>Chart.js 시각화</h3><p>선택 컬럼 히스토그램<br>카테고리 컬럼 파이 차트<br>차트 타입 전환</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dcfce7;">🗺️</div>
+    <div><h2>오늘 수업 진행 순서</h2><p>개념은 가볍게, 손은 바쁘게 — 5단계 약 60분</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: FileReader API · CSV 파싱 & 드래그&드롭</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+    </div>
+    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">💡 <strong>막혀도 괜찮습니다!</strong> 실행이 안 될 때 보는 <strong>"자주 막히는 문제"</strong> 슬라이드가 준비되어 있고, 오류는 AI에게 물어보면 대부분 해결됩니다.</div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">🎒</div>
+    <div><h2>시작 전 준비물 체크</h2><p>초급 과정과 동일 + 테스트용 CSV 파일 하나만 더 준비하면 됩니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">💻</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>VS Code + Live Server</strong><br><span style="color:#64748b;font-size:1.01rem;">초급 과정에서 설치한 그대로 사용합니다. Live Server가 켜져 있어야 Chart.js CDN과 파일 읽기가 정상 동작합니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🤖</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Cline 확장</strong><br><span style="color:#64748b;font-size:1.01rem;">오늘은 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve) 버튼을 빠짐없이 눌러주세요.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📄</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>테스트용 CSV 파일</strong><br><span style="color:#64748b;font-size:1.01rem;">메모장으로 간단한 CSV를 미리 만들어두면 좋습니다. 완성 후에는 앱 안의 "샘플 CSV 생성" 버튼도 사용할 수 있어요.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📁</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>실습 폴더</strong><br><span style="color:#64748b;font-size:1.01rem;">초급과 같은 "바이브코딩" 폴더 안에 중급 결과물도 함께 모아두면 나중에 찾기 쉽습니다.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#e0e7ff;">📖</div>
+    <div><h2>오늘 나오는 용어 미리보기</h2><p>외우지 마세요 — 눈에만 익혀두면 수업이 술술 풀립니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#7c3aed;margin-bottom:5px;">📌 FileReader</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">사용자 컴퓨터의 파일을 <strong>브라우저에서 직접 읽는</strong> 내장 객체. 서버 업로드 없이 동작</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#7c3aed;margin-bottom:5px;">📌 CSV</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">쉼표(,)로 값을 구분한 <strong>표 형식 텍스트 파일</strong>. 엑셀에서 흔히 내보내는 형식</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#7c3aed;margin-bottom:5px;">📌 split / 파싱</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">긴 텍스트를 <strong>구분자 기준으로 잘라</strong> 원하는 데이터 구조로 바꾸는 작업</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#7c3aed;margin-bottom:5px;">📌 배열의 배열</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">행과 열이 있는 표 데이터를 표현하는 <strong>2차원 배열</strong>. <code>rows[행][열]</code>로 접근</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#7c3aed;margin-bottom:5px;">📌 통계(합계/평균)</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">숫자 컬럼의 <strong>합계·평균·최소·최대</strong> 등을 reduce로 한 번에 계산</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#7c3aed;margin-bottom:5px;">📌 드래그&amp;드롭</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">파일을 <strong>끌어다 놓는 것만으로</strong> 업로드하는 UI 패턴. dragover/drop 이벤트로 구현</p></div>
+    </div>
+    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#166534;line-height:1.6;">🌱 낯선 단어가 나와도 괜찮습니다. 코드는 <strong>AI가 쓰고</strong>, 우리는 <strong>읽고 요청</strong>만 하면 돼요!</div>
+  </div>
+</div>
+
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">📂</div><div><h2>FileReader API — 텍스트 파일 읽기</h2><p>사용자 컴퓨터의 파일을 서버 없이 브라우저에서 직접 읽기</p></div></div>
+  <div class="slide-body">
+    <div class="two">
+      <div>
+        <div class="cb">
+<span class="cm">// 파일 input 또는 드롭으로 File 객체 획득</span>
+<span class="kw">function</span> <span class="at">readFile</span>(file) {
+  <span class="kw">const</span> reader = <span class="kw">new</span> <span class="tg">FileReader</span>();
+
+  <span class="cm">// 읽기 완료 이벤트 (비동기)</span>
+  reader.<span class="at">addEventListener</span>(<span class="st">'load'</span>, (e) => {
+    <span class="kw">const</span> text = e.target.result;  <span class="cm">// 파일 내용 (문자열)</span>
+    <span class="at">parseCSV</span>(text);
+  });
+
+  <span class="cm">// 텍스트 파일로 읽기 시작</span>
+  reader.<span class="at">readAsText</span>(file, <span class="st">'UTF-8'</span>);
+}
+
+<span class="cm">// 파일 input change 이벤트</span>
+document.<span class="at">getElementById</span>(<span class="st">'fileInput'</span>)
+  .<span class="at">addEventListener</span>(<span class="st">'change'</span>, (e) => {
+    <span class="kw">const</span> file = e.target.files[<span class="vl">0</span>];
+    <span class="kw">if</span> (file) <span class="at">readFile</span>(file);
+  });
+        </div>
+      </div>
+      <div>
+        <div class="qb"><strong>FileReader 주요 메서드</strong><br><br>• <code>readAsText(file)</code> — 텍스트로 읽기 (CSV, TXT)<br>• <code>readAsDataURL(file)</code> — Base64로 읽기 (이미지)<br>• <code>readAsArrayBuffer(file)</code> — 바이너리 (엑셀 등)</div>
+        <div class="card"><div class="ci">⚠️</div><h3>UTF-8 vs EUC-KR</h3><p>한글 CSV가 깨지면 인코딩 문제입니다.<br><code>readAsText(file, 'EUC-KR')</code>로 변경하거나 사용자에게 인코딩 선택을 제공하세요.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-dark">
+  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">🔀</div><div><h2>CSV 파싱 & 드래그&드롭</h2><p>텍스트를 2차원 배열로 변환하고 드롭 영역 구현</p></div></div>
+  <div class="slide-body">
+    <div class="two">
+      <div>
+        <p style="font-size:0.94rem;color:#7c5cae;font-weight:700;margin-bottom:6px;">CSV 파싱</p>
+        <div class="csv-example">이름,나이,점수
+홍길동,25,88
+김철수,30,92</div>
+        <div class="cb" style="background:#120a1e;font-size:0.99rem;">
+<span class="kw">function</span> <span class="at">parseCSV</span>(text) {
+  <span class="kw">const</span> lines = text.<span class="at">split</span>(<span class="st">'\n'</span>)
+    .<span class="at">filter</span>(l => l.<span class="at">trim</span>()); <span class="cm">// 빈 줄 제거</span>
+
+  <span class="kw">const</span> headers = lines[<span class="vl">0</span>]
+    .<span class="at">split</span>(<span class="st">','</span>)
+    .<span class="at">map</span>(h => h.<span class="at">trim</span>());   <span class="cm">// 첫 줄 = 헤더</span>
+
+  <span class="kw">const</span> rows = lines.<span class="at">slice</span>(<span class="vl">1</span>)
+    .<span class="at">map</span>(l => l.<span class="at">split</span>(<span class="st">','</span>)
+    .<span class="at">map</span>(v => v.<span class="at">trim</span>()));  <span class="cm">// 나머지 = 데이터</span>
+
+  <span class="cm">// → headers: ['이름','나이','점수']</span>
+  <span class="cm">// → rows: [['홍길동','25','88'], ...]</span>
+  <span class="kw">return</span> { headers, rows };
+}
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.94rem;color:#7c5cae;font-weight:700;margin-bottom:6px;">드래그&드롭</p>
+        <div class="cb" style="background:#120a1e;font-size:0.99rem;">
+<span class="kw">const</span> dropZone =
+  document.<span class="at">getElementById</span>(<span class="st">'dropZone'</span>);
+
+<span class="cm">// 드래그 진입 — 기본 동작 차단</span>
+dropZone.<span class="at">addEventListener</span>(<span class="st">'dragover'</span>, e => {
+  e.<span class="at">preventDefault</span>();  <span class="cm">// 필수!</span>
+  e.dataTransfer.dropEffect = <span class="st">'copy'</span>;
+  dropZone.classList.<span class="at">add</span>(<span class="st">'drag-over'</span>);
+});
+
+dropZone.<span class="at">addEventListener</span>(<span class="st">'dragleave'</span>, () => {
+  dropZone.classList.<span class="at">remove</span>(<span class="st">'drag-over'</span>);
+});
+
+<span class="cm">// 드롭 — 파일 획득</span>
+dropZone.<span class="at">addEventListener</span>(<span class="st">'drop'</span>, e => {
+  e.<span class="at">preventDefault</span>();
+  <span class="kw">const</span> file =
+    e.dataTransfer.files[<span class="vl">0</span>]; <span class="cm">// File 객체</span>
+  <span class="at">readFile</span>(file);
+});
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ede9fe;">💬</div>
+    <div><h2>AI에게 말 거는 법 — 프롬프트 3단 구조</h2><p>중급도 원리는 같습니다. 다만 "파일을 나눠달라"는 조건이 하나 추가됩니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#7c3aed;flex-shrink:0;">①</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">무엇을</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"CSV 데이터 분석기를 만들어줘"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">만들 것을 <strong>한 문장</strong>으로. 첫 줄이 가장 중요합니다</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#7c3aed;flex-shrink:0;">②</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">기능/라이브러리</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"FileReader로 CSV 읽기, Chart.js CDN, 드래그&amp;드롭"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">필요한 <strong>기능과 외부 라이브러리</strong>를 목록으로 나열합니다</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#7c3aed;flex-shrink:0;">③</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">조건/파일 구조</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"index.html, style.css, script.js 3개로 나눠줘"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">중급부터는 <strong>파일을 나눠달라는 조건</strong>을 꼭 넣어야 관리가 편합니다</span></div></div>
+    </div>
+    <div style="margin-top:12px;background:#f5f3ff;border-left:4px solid #7c3aed;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#4c1d95;line-height:1.6;">💡 라이브러리 이름이 기억 안 나도 괜찮습니다. "파일을 끌어다 놓으면 읽어주는 기능 만들어줘"처럼 <strong>말로 설명해도</strong> AI가 적절한 방법을 선택해줍니다.</div>
+  </div>
+</div>
+
+<div class="slide s-prompt">
+  <div class="sp-header">
+    <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
+    <h2>실제 사용한 AI 생성 프롬프트</h2>
+    <p>아래 프롬프트를 VS Code의 Cline에 붙여넣으면 CSV 분석기가 완성됩니다</p>
+  </div>
+  <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
+  <div class="sp-box">HTML, CSS, JavaScript로 CSV 데이터 분석기를 만들어줘.
+
+라이브러리: Chart.js CDN
+
+업로드 영역:
+- 드래그&amp;드롭 영역 (파일 드롭 또는 클릭으로 선택)
+- 지원 형식: .csv, .txt (콤마 구분)
+- 업로드 후 파일명과 행 수 표시
+
+분석 기능:
+1. 데이터 테이블 미리보기 (상위 10행)
+2. 열(Column) 선택 드롭다운
+3. 선택된 숫자 열의 통계 카드: 합계, 평균, 최대, 최소, 개수
+4. 가로 막대 차트: 상위 15개 행 데이터 시각화
+5. 분포 히스토그램 (옵션)
+
+추가 기능:
+- 샘플 CSV 생성 버튼 (부서별 판매 데이터)
+- 결과 PNG로 저장 버튼
+
+디자인: 보라색 계열, 깔끔한 데이터 대시보드 스타일
+파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div class="sp-row">
+    <div class="sp-card"><b>🔍 컬럼 필터링</b>각 컬럼에 검색창을 추가해서 입력값이 포함된 행만 필터링해서 표시해줘.</div>
+    <div class="sp-card"><b>📊 차트 타입 선택</b>막대/선/파이 차트를 드롭다운으로 선택할 수 있게 하고 선택 즉시 차트가 변경되게 해줘.</div>
+    <div class="sp-card"><b>💾 결과 내보내기</b>필터링/정렬된 현재 데이터를 새 CSV로 다운로드하는 버튼을 추가해줘.</div>
+  </div>
+</div>
+
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
+  <div class="slide-body">
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div><h4>폴더 열기</h4><p>VS Code에서 <code>04_CSV데이터분석기</code> 폴더를 엽니다</p></div></div>
+      <div class="step"><div class="snum">2</div><div><h4>Go Live 실행</h4><p>우측 하단 <code>Go Live</code> 클릭</p></div></div>
+      <div class="step"><div class="snum">3</div><div><h4>샘플 CSV 준비</h4><p>메모장에서 "이름,나이,점수\n홍길동,25,88" 입력 후 <code>.csv</code>로 저장</p></div></div>
+      <div class="step"><div class="snum">4</div><div><h4>드래그&드롭 테스트</h4><p>CSV 파일을 드롭 영역에 끌어다 놓고 테이블과 차트가 나타나는지 확인!</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fee2e2;">🆘</div>
+    <div><h2>자주 막히는 문제 &amp; 해결법</h2><p>여기서 멈추는 게 정상입니다 — 옆 사람도 같은 곳에서 막혀 있어요</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🗂️ "화면이 하얗거나 스타일이 안 먹어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><strong>index.html · style.css · script.js</strong> 3개 파일이 <strong>같은 폴더</strong>에 있는지, 파일명이 정확한지 확인하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">수정한 <strong>모든 파일을 저장(Ctrl+S)</strong>하세요. 탭 이름 옆 ● 표시는 저장 안 됨 표시! 저장 후 브라우저 <strong>새로고침(F5)</strong>.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">📡 "차트·변환 등 기능이 안 나와요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">CDN 라이브러리는 <strong>인터넷 연결</strong>이 필요합니다. <strong>F12 → Console</strong>의 빨간 오류를 복사해 AI에게 붙여넣으세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">✂️ "파일이 3개로 나뉘지 않고 하나로 나왔어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">AI에게 <strong>"index.html, style.css, script.js 3개 파일로 나눠서 각각 코드블록으로 보여줘"</strong>라고 요청하세요.</p></div></div>
+    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#3730a3;line-height:1.6;">🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.</div>
+  </div>
+</div>
+
+<div class="slide s-dark">
+  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">📈</div><div><h2>통계 계산 — reduce 활용</h2><p>배열 메서드로 숫자 컬럼의 통계값을 한 번에 계산</p></div></div>
+  <div class="slide-body">
+    <div class="cb" style="background:#120a1e;">
+<span class="kw">function</span> <span class="at">calcStats</span>(values) {
+  <span class="cm">// 숫자로 변환 가능한 값만 필터</span>
+  <span class="kw">const</span> nums = values
+    .<span class="at">map</span>(v => <span class="at">parseFloat</span>(v))
+    .<span class="at">filter</span>(n => !<span class="at">isNaN</span>(n));
+
+  <span class="kw">if</span> (nums.length === <span class="vl">0</span>)
+    <span class="kw">return</span> <span class="kw">null</span>; <span class="cm">// 숫자 컬럼 아님</span>
+
+  <span class="kw">const</span> sum = nums.<span class="at">reduce</span>((a, b) => a + b, <span class="vl">0</span>);
+  <span class="kw">const</span> avg = sum / nums.length;
+  <span class="kw">const</span> min = Math.<span class="at">min</span>(...nums);
+  <span class="kw">const</span> max = Math.<span class="at">max</span>(...nums);
+
+  <span class="kw">return</span> {
+    count: nums.length,
+    missing: values.length - nums.length,
+    sum, avg, min, max
+  };
+}
+
+<span class="cm">// 컬럼 인덱스 i의 모든 값 추출</span>
+<span class="kw">const</span> colValues = rows.<span class="at">map</span>(row => row[i]);
+<span class="kw">const</span> stats = <span class="at">calcStats</span>(colValues);
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header"><div class="icon" style="background:#ede9fe;">✏️</div><div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div></div>
+  <div class="slide-body">
+    <div class="mgrid">
+      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>컬럼 정렬</h3><p>헤더 클릭 시 오름차순/내림차순으로 행을 정렬합니다.</p><div class="mcode">헤더 클릭 → 정렬.<br>▲ 오름차순 / ▼ 내림차순.<br>숫자/문자열 자동 감지.</div></div>
+      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>검색 필터</h3><p>특정 컬럼에서 검색어를 포함하는 행만 표시합니다.</p><div class="mcode">검색 입력창 추가.<br>입력 즉시 테이블 필터링.<br>일치 텍스트 하이라이트.</div></div>
+      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>CSV 내보내기</h3><p>현재 필터/정렬된 데이터를 새 CSV 파일로 다운로드합니다.</p><div class="mcode">Blob으로 CSV 재생성.<br>헤더+데이터 합치기.<br>파일명에 날짜 포함.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-content">
+  <div class="slide-header"><div class="icon" style="background:#ede9fe;">✅</div><div><h2>실습 완료 체크리스트</h2><p>아래 항목을 모두 완료하면 중급 04 마스터!</p></div></div>
+  <div class="slide-body">
+    <div class="clist">
+      <div class="ci2"><div class="cbox">☐</div>CSV 파일을 드래그&드롭으로 불러올 수 있다</div>
+      <div class="ci2"><div class="cbox">☐</div>헤더와 데이터 행이 테이블로 표시된다</div>
+      <div class="ci2"><div class="cbox">☐</div>숫자 컬럼의 통계(평균, 최소, 최대 등)가 계산된다</div>
+      <div class="ci2"><div class="cbox">☐</div>Chart.js 차트로 데이터가 시각화된다</div>
+      <div class="ci2"><div class="cbox">☐</div>미션 하나 이상 도전했다</div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s-end">
+  <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
+  <div class="result-link-tip">완성 예제 보기</div>
+  <h2>중급 04 <span>완료!</span> 📊</h2>
+  <p>FileReader와 CSV 파싱으로 로컬 파일을 분석하는 도구를 만들었습니다.</p>
+  <div class="nh"><span>▶</span> 다음 실습: <strong>중급 05 — 이미지 갤러리</strong></div>
+</div>
+
+</div>
+<div class="nav-dots" id="navDots"></div>
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
+  <span class="slide-counter" id="counter">1 / 15</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+</div>
+<script>
+const RESULT_HTML_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICA8dGl0bGU+Q1NWIOuNsOydtO2EsCDrtoTshJ3quLA8L3RpdGxlPgogIDxzY3JpcHQgc3JjPSJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvbnBtL2NoYXJ0LmpzIj48L3NjcmlwdD4KICA8c3R5bGU+CiAgICAqIHsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwOyBib3gtc2l6aW5nOiBib3JkZXItYm94OyB9CiAgICBib2R5IHsKICAgICAgZm9udC1mYW1pbHk6ICdTZWdvZSBVSScsICfrp5HsnYAg6rOg65SVJywgc2Fucy1zZXJpZjsKICAgICAgYmFja2dyb3VuZDogI2ZhZjVmZjsKICAgICAgbWluLWhlaWdodDogMTAwdmg7CiAgICAgIHBhZGRpbmc6IDI0cHggMTZweDsKICAgICAgY29sb3I6ICMxZTI5M2I7CiAgICB9CiAgICAuYXBwIHsgbWF4LXdpZHRoOiA5NjBweDsgbWFyZ2luOiAwIGF1dG87IH0KCiAgICBoMSB7IGZvbnQtc2l6ZTogMS41cmVtOyBmb250LXdlaWdodDogODAwOyBtYXJnaW4tYm90dG9tOiA2cHg7IH0KICAgIC5zdWJ0aXRsZSB7IGZvbnQtc2l6ZTogMC44OHJlbTsgY29sb3I6ICM2NDc0OGI7IG1hcmdpbi1ib3R0b206IDIycHg7IH0KCiAgICAvKiDsl4XroZzrk5wg7JiB7JetICovCiAgICAuZHJvcC16b25lIHsKICAgICAgYm9yZGVyOiAzcHggZGFzaGVkICNjNGI1ZmQ7CiAgICAgIGJvcmRlci1yYWRpdXM6IDIwcHg7CiAgICAgIHBhZGRpbmc6IDQwcHg7CiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgICAgY3Vyc29yOiBwb2ludGVyOwogICAgICB0cmFuc2l0aW9uOiBhbGwgMC4yczsKICAgICAgYmFja2dyb3VuZDogd2hpdGU7CiAgICAgIG1hcmdpbi1ib3R0b206IDIwcHg7CiAgICB9CiAgICAuZHJvcC16b25lOmhvdmVyLCAuZHJvcC16b25lLmRyYWctb3ZlciB7CiAgICAgIGJvcmRlci1jb2xvcjogIzdjM2FlZDsKICAgICAgYmFja2dyb3VuZDogI2VkZTlmZTsKICAgIH0KICAgIC5kcm9wLXpvbmUgLmljb24geyBmb250LXNpemU6IDNyZW07IG1hcmdpbi1ib3R0b206IDEycHg7IH0KICAgIC5kcm9wLXpvbmUgaDMgeyBmb250LXNpemU6IDFyZW07IGNvbG9yOiAjN2MzYWVkOyBtYXJnaW4tYm90dG9tOiA2cHg7IH0KICAgIC5kcm9wLXpvbmUgcCB7IGZvbnQtc2l6ZTogMC44NXJlbTsgY29sb3I6ICM5NGEzYjg7IH0KICAgICNmaWxlLWlucHV0IHsgZGlzcGxheTogbm9uZTsgfQoKICAgIC5hY3Rpb24tcm93IHsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgZ2FwOiAxMHB4OwogICAgICBtYXJnaW4tYm90dG9tOiAyMHB4OwogICAgICBmbGV4LXdyYXA6IHdyYXA7CiAgICB9CgogICAgLmJ0biB7CiAgICAgIHBhZGRpbmc6IDlweCAxOHB4OwogICAgICBib3JkZXItcmFkaXVzOiAxMHB4OwogICAgICBib3JkZXI6IG5vbmU7CiAgICAgIGZvbnQtc2l6ZTogMC44OHJlbTsKICAgICAgZm9udC13ZWlnaHQ6IDcwMDsKICAgICAgY3Vyc29yOiBwb2ludGVyOwogICAgICB0cmFuc2l0aW9uOiBhbGwgMC4yczsKICAgICAgZm9udC1mYW1pbHk6IGluaGVyaXQ7CiAgICB9CiAgICAuYnRuLXByaW1hcnkgeyBiYWNrZ3JvdW5kOiAjN2MzYWVkOyBjb2xvcjogd2hpdGU7IH0KICAgIC5idG4tcHJpbWFyeTpob3ZlciB7IGJhY2tncm91bmQ6ICM2ZDI4ZDk7IH0KICAgIC5idG4tb3V0bGluZSB7IGJhY2tncm91bmQ6IHdoaXRlOyBib3JkZXI6IDJweCBzb2xpZCAjZTJlOGYwOyBjb2xvcjogIzY0NzQ4YjsgfQogICAgLmJ0bi1vdXRsaW5lOmhvdmVyIHsgYm9yZGVyLWNvbG9yOiAjN2MzYWVkOyBjb2xvcjogIzdjM2FlZDsgfQoKICAgIC8qIO2MjOydvCDsoJXrs7QgKi8KICAgIC5maWxlLWluZm8gewogICAgICBiYWNrZ3JvdW5kOiAjZWRlOWZlOwogICAgICBib3JkZXItcmFkaXVzOiAxMnB4OwogICAgICBwYWRkaW5nOiAxMHB4IDE2cHg7CiAgICAgIGZvbnQtc2l6ZTogMC44NXJlbTsKICAgICAgY29sb3I6ICM1YjIxYjY7CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGRpc3BsYXk6IG5vbmU7CiAgICB9CgogICAgLyog7Ya16rOEIOy5tOuTnCAqLwogICAgLnN0YXRzLWdyaWQgewogICAgICBkaXNwbGF5OiBncmlkOwogICAgICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg1LCAxZnIpOwogICAgICBnYXA6IDEwcHg7CiAgICAgIG1hcmdpbi1ib3R0b206IDE4cHg7CiAgICB9CgogICAgLnN0YXQtY2FyZCB7CiAgICAgIGJhY2tncm91bmQ6IHdoaXRlOwogICAgICBib3JkZXItcmFkaXVzOiAxNHB4OwogICAgICBwYWRkaW5nOiAxNHB4IDEycHg7CiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgICAgYm94LXNoYWRvdzogMCAycHggMTBweCByZ2JhKDAsMCwwLDAuMDYpOwogICAgICBib3JkZXItdG9wOiAzcHggc29saWQgIzdjM2FlZDsKICAgIH0KICAgIC5zdGF0LWxhYmVsIHsgZm9udC1zaXplOiAwLjcycmVtOyBjb2xvcjogIzk0YTNiODsgZm9udC13ZWlnaHQ6IDcwMDsgbWFyZ2luLWJvdHRvbTogNnB4OyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyB9CiAgICAuc3RhdC12YWx1ZSB7IGZvbnQtc2l6ZTogMS4ycmVtOyBmb250LXdlaWdodDogOTAwOyBjb2xvcjogIzdjM2FlZDsgfQoKICAgIC8qIOyXtCDshKDtg50gKi8KICAgIC5jb2wtc2VsZWN0LXJvdyB7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGdhcDogMTBweDsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAgbWFyZ2luLWJvdHRvbTogMTZweDsKICAgICAgYmFja2dyb3VuZDogd2hpdGU7CiAgICAgIHBhZGRpbmc6IDE0cHggMThweDsKICAgICAgYm9yZGVyLXJhZGl1czogMTRweDsKICAgICAgYm94LXNoYWRvdzogMCAycHggMTBweCByZ2JhKDAsMCwwLDAuMDYpOwogICAgICBmbGV4LXdyYXA6IHdyYXA7CiAgICB9CiAgICAuY29sLXNlbGVjdC1yb3cgbGFiZWwgeyBmb250LXNpemU6IDAuODVyZW07IGNvbG9yOiAjNjQ3NDhiOyBmb250LXdlaWdodDogNzAwOyB9CiAgICAuY29sLXNlbGVjdC1yb3cgc2VsZWN0IHsKICAgICAgcGFkZGluZzogOHB4IDEycHg7CiAgICAgIGJvcmRlcjogMnB4IHNvbGlkICNlMmU4ZjA7CiAgICAgIGJvcmRlci1yYWRpdXM6IDhweDsKICAgICAgZm9udC1zaXplOiAwLjg4cmVtOwogICAgICBvdXRsaW5lOiBub25lOwogICAgICBjdXJzb3I6IHBvaW50ZXI7CiAgICB9CgogICAgLyogMuyXtCDroIjsnbTslYTsm4MgKi8KICAgIC5tYWluLWdyaWQgewogICAgICBkaXNwbGF5OiBncmlkOwogICAgICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IDFmciAxZnI7CiAgICAgIGdhcDogMTZweDsKICAgICAgbWFyZ2luLWJvdHRvbTogMTZweDsKICAgIH0KCiAgICAuY2FyZCB7CiAgICAgIGJhY2tncm91bmQ6IHdoaXRlOwogICAgICBib3JkZXItcmFkaXVzOiAxOHB4OwogICAgICBwYWRkaW5nOiAxOHB4OwogICAgICBib3gtc2hhZG93OiAwIDRweCAxNnB4IHJnYmEoMCwwLDAsMC4wNyk7CiAgICB9CgogICAgLmNhcmQtdGl0bGUgewogICAgICBmb250LXNpemU6IDAuODJyZW07CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIGNvbG9yOiAjOTRhM2I4OwogICAgICB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOwogICAgICBsZXR0ZXItc3BhY2luZzogMXB4OwogICAgICBtYXJnaW4tYm90dG9tOiAxNHB4OwogICAgfQoKICAgIC5jaGFydC13cmFwIHsgaGVpZ2h0OiAyODBweDsgfQoKICAgIC8qIOuNsOydtO2EsCDthYzsnbTruJQgKi8KICAgIC50YWJsZS13cmFwIHsgb3ZlcmZsb3cteDogYXV0bzsgbWF4LWhlaWdodDogMzIwcHg7IG92ZXJmbG93LXk6IGF1dG87IH0KCiAgICB0YWJsZSB7CiAgICAgIHdpZHRoOiAxMDAlOwogICAgICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwogICAgICBmb250LXNpemU6IDAuODJyZW07CiAgICB9CgogICAgdGhlYWQgdGggewogICAgICBwb3NpdGlvbjogc3RpY2t5OwogICAgICB0b3A6IDA7CiAgICAgIGJhY2tncm91bmQ6ICM3YzNhZWQ7CiAgICAgIGNvbG9yOiB3aGl0ZTsKICAgICAgcGFkZGluZzogOHB4IDEycHg7CiAgICAgIHRleHQtYWxpZ246IGxlZnQ7CiAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICAgIHdoaXRlLXNwYWNlOiBub3dyYXA7CiAgICB9CgogICAgdGJvZHkgdGQgewogICAgICBwYWRkaW5nOiA3cHggMTJweDsKICAgICAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNmMWY1Zjk7CiAgICAgIGNvbG9yOiAjMzM0MTU1OwogICAgICB3aGl0ZS1zcGFjZTogbm93cmFwOwogICAgfQoKICAgIHRib2R5IHRyOmhvdmVyIHRkIHsgYmFja2dyb3VuZDogI2ZhZjVmZjsgfQoKICAgIC5lbXB0eS1zdGF0ZSB7CiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgICAgcGFkZGluZzogNDBweDsKICAgICAgY29sb3I6ICM5NGEzYjg7CiAgICB9CgogICAgQG1lZGlhIChtYXgtd2lkdGg6IDYwMHB4KSB7CiAgICAgIC5zdGF0cy1ncmlkIHsgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoMywgMWZyKTsgfQogICAgICAubWFpbi1ncmlkIHsgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiAxZnI7IH0KICAgIH0KICAKPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KPGRpdiBjbGFzcz0iYXBwIj4KCiAgPGgxPvCfk4ogQ1NWIOuNsOydtO2EsCDrtoTshJ3quLA8L2gxPgogIDxwIGNsYXNzPSJzdWJ0aXRsZSI+Q1NWIO2MjOydvOydhCDsmKzrpqzrqbQg7J6Q64+Z7Jy866GcIOu2hOyEne2VmOqzoCDsi5zqsIHtmZTtlbTrk5zrpr3ri4jri6QuPC9wPgoKICA8IS0tIOyXheuhnOuTnCDsmIHsl60gLS0+CiAgPGRpdiBjbGFzcz0iZHJvcC16b25lIiBpZD0iZHJvcC16b25lIiBvbmNsaWNrPSJkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmlsZS1pbnB1dCcpLmNsaWNrKCkiPgogICAgPGRpdiBjbGFzcz0iaWNvbiI+8J+TgjwvZGl2PgogICAgPGgzPu2MjOydvOydhCDsl6zquLDsl5Ag65Oc656Y6re47ZWY6rGw64KYIO2BtOumre2VmOyEuOyalDwvaDM+CiAgICA8cD5DU1Yg7YyM7J28ICguY3N2KSDsp4Dsm5AgwrcgVVRGLTgg7J247L2U65SpIOq2jOyepTwvcD4KICA8L2Rpdj4KICA8aW5wdXQgdHlwZT0iZmlsZSIgaWQ9ImZpbGUtaW5wdXQiIGFjY2VwdD0iLmNzdiwudHh0Ij4KCiAgPCEtLSDslaHshZgg67KE7Yq8IC0tPgogIDxkaXYgY2xhc3M9ImFjdGlvbi1yb3ciPgogICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1vdXRsaW5lIiBvbmNsaWNrPSJsb2FkU2FtcGxlKCkiPvCfk4sg7IOY7ZSMIOuNsOydtO2EsCDrtojrn6zsmKTquLA8L2J1dHRvbj4KICAgIDxkaXYgY2xhc3M9ImZpbGUtaW5mbyIgaWQ9ImZpbGUtaW5mbyI+8J+ThCA8c3BhbiBpZD0iZmlsZS1uYW1lIj48L3NwYW4+IMK3IDxzcGFuIGlkPSJyb3ctY291bnQiPjwvc3Bhbj7tlokg66Gc65Oc65CoPC9kaXY+CiAgPC9kaXY+CgogIDwhLS0g7Je0IOyEoO2DnSAtLT4KICA8ZGl2IGNsYXNzPSJjb2wtc2VsZWN0LXJvdyIgaWQ9ImNvbC1zZWxlY3Qtcm93IiBzdHlsZT0iZGlzcGxheTpub25lIj4KICAgIDxsYWJlbD7roIjsnbTruJQg7Je0OjwvbGFiZWw+CiAgICA8c2VsZWN0IGlkPSJsYWJlbC1jb2wiIG9uY2hhbmdlPSJhbmFseXplKCkiPjwvc2VsZWN0PgogICAgPGxhYmVsPuu2hOyEne2VoCDsiKvsnpAg7Je0OjwvbGFiZWw+CiAgICA8c2VsZWN0IGlkPSJ2YWx1ZS1jb2wiIG9uY2hhbmdlPSJhbmFseXplKCkiPjwvc2VsZWN0PgogICAgPGJ1dHRvbiBjbGFzcz0iYnRuIGJ0bi1wcmltYXJ5IiBvbmNsaWNrPSJhbmFseXplKCkiPvCfk4gg67aE7ISdPC9idXR0b24+CiAgPC9kaXY+CgogIDwhLS0g7Ya16rOEIOy5tOuTnCAtLT4KICA8ZGl2IGNsYXNzPSJzdGF0cy1ncmlkIiBpZD0ic3RhdHMtZ3JpZCIgc3R5bGU9ImRpc3BsYXk6bm9uZSI+CiAgICA8ZGl2IGNsYXNzPSJzdGF0LWNhcmQiPjxkaXYgY2xhc3M9InN0YXQtbGFiZWwiPuuNsOydtO2EsCDsiJg8L2Rpdj48ZGl2IGNsYXNzPSJzdGF0LXZhbHVlIiBpZD0icy1jb3VudCI+LTwvZGl2PjwvZGl2PgogICAgPGRpdiBjbGFzcz0ic3RhdC1jYXJkIj48ZGl2IGNsYXNzPSJzdGF0LWxhYmVsIj7tlanqs4Q8L2Rpdj48ZGl2IGNsYXNzPSJzdGF0LXZhbHVlIiBpZD0icy1zdW0iPi08L2Rpdj48L2Rpdj4KICAgIDxkaXYgY2xhc3M9InN0YXQtY2FyZCI+PGRpdiBjbGFzcz0ic3RhdC1sYWJlbCI+7Y+J6regPC9kaXY+PGRpdiBjbGFzcz0ic3RhdC12YWx1ZSIgaWQ9InMtYXZnIj4tPC9kaXY+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJzdGF0LWNhcmQiPjxkaXYgY2xhc3M9InN0YXQtbGFiZWwiPuy1nOuMk+qwkjwvZGl2PjxkaXYgY2xhc3M9InN0YXQtdmFsdWUiIGlkPSJzLW1heCI+LTwvZGl2PjwvZGl2PgogICAgPGRpdiBjbGFzcz0ic3RhdC1jYXJkIj48ZGl2IGNsYXNzPSJzdGF0LWxhYmVsIj7stZzshp/qsJI8L2Rpdj48ZGl2IGNsYXNzPSJzdGF0LXZhbHVlIiBpZD0icy1taW4iPi08L2Rpdj48L2Rpdj4KICA8L2Rpdj4KCiAgPCEtLSDssKjtirggKyDthYzsnbTruJQgLS0+CiAgPGRpdiBjbGFzcz0ibWFpbi1ncmlkIiBpZD0ibWFpbi1ncmlkIiBzdHlsZT0iZGlzcGxheTpub25lIj4KICAgIDxkaXYgY2xhc3M9ImNhcmQiPgogICAgICA8ZGl2IGNsYXNzPSJjYXJkLXRpdGxlIj7wn5OKIOuNsOydtO2EsCDssKjtirggKOyDgeychCAxNeqwnCk8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iY2hhcnQtd3JhcCI+PGNhbnZhcyBpZD0ibWFpbi1jaGFydCI+PC9jYW52YXM+PC9kaXY+CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImNhcmQiPgogICAgICA8ZGl2IGNsYXNzPSJjYXJkLXRpdGxlIj7wn5SNIOuNsOydtO2EsCDrr7jrpqzrs7TquLA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0idGFibGUtd3JhcCIgaWQ9InRhYmxlLXdyYXAiPgogICAgICAgIDxkaXYgY2xhc3M9ImVtcHR5LXN0YXRlIj7rjbDsnbTthLDrpbwg67aI65+s7Jik7IS47JqUPC9kaXY+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgPC9kaXY+Cgo8L2Rpdj4KCjxzY3JpcHQ+CiAgbGV0IGNzdkRhdGEgPSB7IGhlYWRlcnM6IFtdLCByb3dzOiBbXSB9OwogIGxldCBjaGFydEluc3RhbmNlID0gbnVsbDsKCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAvLyDrk5zrnpjqt7gm65Oc66GtCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICBjb25zdCBkeiA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdkcm9wLXpvbmUnKTsKCiAgZHouYWRkRXZlbnRMaXN0ZW5lcignZHJhZ292ZXInLCBlID0+IHsKICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgIGR6LmNsYXNzTGlzdC5hZGQoJ2RyYWctb3ZlcicpOwogIH0pOwoKICBkei5hZGRFdmVudExpc3RlbmVyKCdkcmFnbGVhdmUnLCAoKSA9PiBkei5jbGFzc0xpc3QucmVtb3ZlKCdkcmFnLW92ZXInKSk7CgogIGR6LmFkZEV2ZW50TGlzdGVuZXIoJ2Ryb3AnLCBlID0+IHsKICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgIGR6LmNsYXNzTGlzdC5yZW1vdmUoJ2RyYWctb3ZlcicpOwogICAgY29uc3QgZmlsZSA9IGUuZGF0YVRyYW5zZmVyLmZpbGVzWzBdOwogICAgaWYgKGZpbGUpIHJlYWRGaWxlKGZpbGUpOwogIH0pOwoKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmlsZS1pbnB1dCcpLmFkZEV2ZW50TGlzdGVuZXIoJ2NoYW5nZScsIGZ1bmN0aW9uKCkgewogICAgaWYgKHRoaXMuZmlsZXNbMF0pIHJlYWRGaWxlKHRoaXMuZmlsZXNbMF0pOwogIH0pOwoKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIC8vIO2MjOydvCDsnb3quLAKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIGZ1bmN0aW9uIHJlYWRGaWxlKGZpbGUpIHsKICAgIGNvbnN0IHJlYWRlciA9IG5ldyBGaWxlUmVhZGVyKCk7CiAgICByZWFkZXIucmVhZEFzVGV4dChmaWxlLCAnVVRGLTgnKTsKICAgIHJlYWRlci5vbmxvYWQgPSBlID0+IHsKICAgICAgcHJvY2Vzc0NTVihlLnRhcmdldC5yZXN1bHQsIGZpbGUubmFtZSk7CiAgICB9OwogIH0KCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAvLyBDU1Yg7YyM7IuxCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICBmdW5jdGlvbiBwcm9jZXNzQ1NWKHRleHQsIGZpbGVOYW1lKSB7CiAgICBjb25zdCBsaW5lcyA9IHRleHQudHJpbSgpLnNwbGl0KC9ccj9cbi8pOwogICAgaWYgKGxpbmVzLmxlbmd0aCA8IDIpIHsgYWxlcnQoJ+uNsOydtO2EsOqwgCDrtoDsobHtlanri4jri6QuJyk7IHJldHVybjsgfQoKICAgIGNvbnN0IGhlYWRlcnMgPSBsaW5lc1swXS5zcGxpdCgnLCcpLm1hcChoID0+IGgudHJpbSgpLnJlcGxhY2UoLyIvZywnJykpOwogICAgY29uc3Qgcm93cyA9IGxpbmVzLnNsaWNlKDEpCiAgICAgIC5maWx0ZXIobCA9PiBsLnRyaW0oKSkKICAgICAgLm1hcChsaW5lID0+IHsKICAgICAgICBjb25zdCBjZWxscyA9IGxpbmUuc3BsaXQoJywnKS5tYXAoYyA9PiBjLnRyaW0oKS5yZXBsYWNlKC8iL2csJycpKTsKICAgICAgICBjb25zdCBvYmogPSB7fTsKICAgICAgICBoZWFkZXJzLmZvckVhY2goKGgsIGkpID0+IG9ialtoXSA9IGNlbGxzW2ldIHx8ICcnKTsKICAgICAgICByZXR1cm4gb2JqOwogICAgICB9KTsKCiAgICBjc3ZEYXRhID0geyBoZWFkZXJzLCByb3dzIH07CgogICAgLy8g7YyM7J28IOygleuztCDtkZzsi5wKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdmaWxlLW5hbWUnKS50ZXh0Q29udGVudCA9IGZpbGVOYW1lIHx8ICfrjbDsnbTthLAnOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Jvdy1jb3VudCcpLnRleHRDb250ZW50ID0gcm93cy5sZW5ndGg7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmlsZS1pbmZvJykuc3R5bGUuZGlzcGxheSA9ICdmbGV4JzsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdmaWxlLWluZm8nKS5zdHlsZS5hbGlnbkl0ZW1zID0gJ2NlbnRlcic7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmlsZS1pbmZvJykuc3R5bGUuZ2FwID0gJzZweCc7CgogICAgLy8g7Je0IOyEoO2DnSDrk5zroa3ri6TsmrQg7LGE7Jqw6riwCiAgICBjb25zdCBsYWJlbFNlbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsYWJlbC1jb2wnKTsKICAgIGNvbnN0IHZhbHVlU2VsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3ZhbHVlLWNvbCcpOwogICAgW2xhYmVsU2VsLCB2YWx1ZVNlbF0uZm9yRWFjaChzZWwgPT4gewogICAgICBzZWwuaW5uZXJIVE1MID0gaGVhZGVycy5tYXAoaCA9PiBgPG9wdGlvbiB2YWx1ZT0iJHtofSI+JHtofTwvb3B0aW9uPmApLmpvaW4oJycpOwogICAgfSk7CgogICAgLy8g6riw67O4OiDssqsg7Je0ID0g66CI7J2067iULCDsiKvsnpAg7Je0ID0g65GQIOuyiOynuCDsl7QKICAgIGNvbnN0IG51bUNvbCA9IGhlYWRlcnMuZmluZChoID0+IHJvd3Muc29tZShyID0+ICFpc05hTihwYXJzZUZsb2F0KHJbaF0pKSkpOwogICAgaWYgKG51bUNvbCkgdmFsdWVTZWwudmFsdWUgPSBudW1Db2w7CgogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NvbC1zZWxlY3Qtcm93Jykuc3R5bGUuZGlzcGxheSA9ICdmbGV4JzsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzdGF0cy1ncmlkJykuc3R5bGUuZGlzcGxheSAgICA9ICdncmlkJzsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtYWluLWdyaWQnKS5zdHlsZS5kaXNwbGF5ICAgICA9ICdncmlkJzsKCiAgICByZW5kZXJUYWJsZSgpOwogICAgYW5hbHl6ZSgpOwogIH0KCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAvLyDrtoTshJ0gJiDssKjtirgKICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogIGZ1bmN0aW9uIGFuYWx5emUoKSB7CiAgICBjb25zdCBsYWJlbENvbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsYWJlbC1jb2wnKS52YWx1ZTsKICAgIGNvbnN0IHZhbHVlQ29sID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3ZhbHVlLWNvbCcpLnZhbHVlOwogICAgY29uc3QgeyByb3dzIH0gPSBjc3ZEYXRhOwoKICAgIGNvbnN0IHZhbHVlcyA9IHJvd3MubWFwKHIgPT4gcGFyc2VGbG9hdChyW3ZhbHVlQ29sXSkpLmZpbHRlcihuID0+ICFpc05hTihuKSk7CiAgICBpZiAoIXZhbHVlcy5sZW5ndGgpIHJldHVybjsKCiAgICBjb25zdCBzdW0gPSB2YWx1ZXMucmVkdWNlKChhLCBiKSA9PiBhICsgYiwgMCk7CiAgICBjb25zdCBhdmcgPSBzdW0gLyB2YWx1ZXMubGVuZ3RoOwoKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzLWNvdW50JykudGV4dENvbnRlbnQgPSB2YWx1ZXMubGVuZ3RoLnRvTG9jYWxlU3RyaW5nKCk7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncy1zdW0nKS50ZXh0Q29udGVudCAgID0gc3VtLnRvTG9jYWxlU3RyaW5nKCdrbycsIHttYXhpbXVtRnJhY3Rpb25EaWdpdHM6MX0pOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3MtYXZnJykudGV4dENvbnRlbnQgICA9IGF2Zy50b0xvY2FsZVN0cmluZygna28nLCB7bWF4aW11bUZyYWN0aW9uRGlnaXRzOjF9KTsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzLW1heCcpLnRleHRDb250ZW50ICAgPSBNYXRoLm1heCguLi52YWx1ZXMpLnRvTG9jYWxlU3RyaW5nKCdrbycpOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3MtbWluJykudGV4dENvbnRlbnQgICA9IE1hdGgubWluKC4uLnZhbHVlcykudG9Mb2NhbGVTdHJpbmcoJ2tvJyk7CgogICAgLy8g7LCo7Yq4CiAgICBjb25zdCB0b3AxNSA9IHJvd3Muc2xpY2UoMCwgMTUpOwogICAgY29uc3QgbGFiZWxzID0gdG9wMTUubWFwKHIgPT4gcltsYWJlbENvbF0pOwogICAgY29uc3QgZGF0YSAgID0gdG9wMTUubWFwKHIgPT4gcGFyc2VGbG9hdChyW3ZhbHVlQ29sXSkgfHwgMCk7CgogICAgY29uc3QgY29sb3JzID0gZGF0YS5tYXAoKF8sIGkpID0+IGBoc2woJHsyNjAgKyBpICogMTJ9LCA3MCUsICR7NTUgKyAoaSUzKSo1fSUpYCk7CgogICAgY29uc3QgY3R4ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21haW4tY2hhcnQnKS5nZXRDb250ZXh0KCcyZCcpOwogICAgaWYgKGNoYXJ0SW5zdGFuY2UpIGNoYXJ0SW5zdGFuY2UuZGVzdHJveSgpOwogICAgY2hhcnRJbnN0YW5jZSA9IG5ldyBDaGFydChjdHgsIHsKICAgICAgdHlwZTogJ2JhcicsCiAgICAgIGRhdGE6IHsKICAgICAgICBsYWJlbHMsCiAgICAgICAgZGF0YXNldHM6IFt7CiAgICAgICAgICBsYWJlbDogdmFsdWVDb2wsCiAgICAgICAgICBkYXRhLAogICAgICAgICAgYmFja2dyb3VuZENvbG9yOiBjb2xvcnMsCiAgICAgICAgICBib3JkZXJSYWRpdXM6IDYsCiAgICAgICAgfV0KICAgICAgfSwKICAgICAgb3B0aW9uczogewogICAgICAgIHJlc3BvbnNpdmU6IHRydWUsCiAgICAgICAgbWFpbnRhaW5Bc3BlY3RSYXRpbzogZmFsc2UsCiAgICAgICAgaW5kZXhBeGlzOiAneScsCiAgICAgICAgcGx1Z2luczogeyBsZWdlbmQ6IHsgZGlzcGxheTogZmFsc2UgfSB9LAogICAgICAgIHNjYWxlczogeyB4OiB7IGJlZ2luQXRaZXJvOiB0cnVlIH0gfQogICAgICB9CiAgICB9KTsKICB9CgogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgLy8g7YWM7J2067iUIOugjOuNlOungSAo7IOB7JyEIDIw7ZaJKQogIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgZnVuY3Rpb24gcmVuZGVyVGFibGUoKSB7CiAgICBjb25zdCB7IGhlYWRlcnMsIHJvd3MgfSA9IGNzdkRhdGE7CiAgICBjb25zdCBwcmV2aWV3ID0gcm93cy5zbGljZSgwLCAyMCk7CgogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3RhYmxlLXdyYXAnKS5pbm5lckhUTUwgPSBgCiAgICAgIDx0YWJsZT4KICAgICAgICA8dGhlYWQ+PHRyPiR7aGVhZGVycy5tYXAoaCA9PiBgPHRoPiR7aH08L3RoPmApLmpvaW4oJycpfTwvdHI+PC90aGVhZD4KICAgICAgICA8dGJvZHk+CiAgICAgICAgICAke3ByZXZpZXcubWFwKHJvdyA9PgogICAgICAgICAgICBgPHRyPiR7aGVhZGVycy5tYXAoaCA9PiBgPHRkPiR7cm93W2hdIHx8ICcnfTwvdGQ+YCkuam9pbignJyl9PC90cj5gCiAgICAgICAgICApLmpvaW4oJycpfQogICAgICAgIDwvdGJvZHk+CiAgICAgIDwvdGFibGU+CiAgICAgICR7cm93cy5sZW5ndGggPiAyMCA/IGA8cCBzdHlsZT0iZm9udC1zaXplOjAuNzhyZW07Y29sb3I6Izk0YTNiODt0ZXh0LWFsaWduOmNlbnRlcjtwYWRkaW5nOjhweCI+4oCmIOy0nSAke3Jvd3MubGVuZ3Rofe2WiSDspJEg7IOB7JyEIDIw7ZaJIO2RnOyLnDwvcD5gIDogJyd9CiAgICBgOwogIH0KCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAvLyDsg5jtlIwg642w7J207YSwCiAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICBmdW5jdGlvbiBsb2FkU2FtcGxlKCkgewogICAgY29uc3Qgc2FtcGxlID0gYOu2gOyEnCzri7Tri7nsnpAsMeu2hOq4sCwy67aE6riwLDPrtoTquLAsNOu2hOq4sCztlanqs4QK7JiB7JeFMe2MgCzquYDssqDsiJgsMTIwMCwxMzUwLDk4MCwxNTYwLDUwOTAK7JiB7JeFMu2MgCzsnbTsmIHtnawsODkwLDExMDAsMTI0MCwxMDgwLDQzMTAK66eI7LyA7YyFLOuwleuvvOykgCw2NzAsODIwLDk1MCwxMTIwLDM1NjAK6riw7ZqNLOy1nOyEnOyXsCw0NTAsNTIwLDYxMCw1ODAsMjE2MArqsJzrsJws7KCV64+E7ZiELDM0MCw0MTAsMzgwLDQ2MCwxNTkwCkhSLO2Zjeq4uOuPmSwyODAsMzEwLDI5MCwzMzAsMTIxMArsnqzrrLQs6rmA66+4656YLDUyMCw0OTAsNjEwLDcwMCwyMzIwCuyatOyYgSzsnbTspIDtmLgsMzgwLDQyMCw0NjAsNTEwLDE3NzBgOwoKICAgIHByb2Nlc3NDU1Yoc2FtcGxlLCAn7IOY7ZSMX+2MkOunpOuNsOydtO2EsC5jc3YnKTsKICB9Cgo8L3NjcmlwdD4KPC9ib2R5Pgo8L2h0bWw+Cg==";
+function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
+function openResultPopup(){const w=window.open('','resultPopup','left=0,top=0,resizable=yes,scrollbars=yes');w.moveTo(0,0);w.resizeTo(screen.availWidth,screen.availHeight);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
+const slides=Array.from(document.querySelectorAll('.slide'));
+const total=slides.length;let current=0;
+const dotsWrap=document.getElementById('navDots');
+slides.forEach((_,i)=>{const dot=document.createElement('button');dot.className='nav-dot'+(i===0?' active':'');dot.setAttribute('aria-label',`${i+1}번 슬라이드로 이동`);dot.onclick=()=>goTo(i);dotsWrap.appendChild(dot);});
+function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
+function changeSlide(dir){goTo(current+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
+goTo(0);
+</script>
+</body>
+</html>
