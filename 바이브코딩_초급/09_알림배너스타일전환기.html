@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>실습 09 — 알림 배너 스타일 전환기</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--violet:#d97706;--purple:#ea580c;--indigo:#d97706;--white:#fff;--text:#1e293b;--sub:#64748b;--surface:#f8fafc;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Segoe UI',sans-serif;}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease;transform:translateX(60px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit{opacity:0;transform:translateX(-60px);}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#d97706,#ea580c);transition:width .35s ease;z-index:999;}
+.nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.43rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--violet);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:var(--violet);color:#fff;transform:scale(1.08);}
+.nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:1.04rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.slide-label{position:fixed;top:16px;left:24px;font-size:0.94rem;font-weight:700;z-index:999;}
+.nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
+.nav-dot:hover{background:#94a3b8;}
+.nav-dot.active{width:22px;border-radius:5px;background:#6366f1;}
+.result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
+.result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
+.result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
+.s-title{background:linear-gradient(135deg,#7c2d12 0%,#9a3412 45%,#d97706 100%);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:1.07rem;font-weight:700;margin-bottom:28px;display:inline-block;}
+.s-title h1{font-size:clamp(2.2rem,6.5vw,3.52rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
+.s-title h1 span{color:#fed7aa;}
+.s-title p{font-size:1.3rem;opacity:.8;margin-bottom:40px;}
+.meta-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:1.14rem;font-weight:600;}
+.s-content{background:var(--surface);}
+.s-grad{background:linear-gradient(150deg,#fffbeb,#ffedd5);}
+.s-dark{background:#1e1e2e;color:#cdd6f4;}
+.slide-header{padding:34px 68px 26px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:14px;}
+.s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
+.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.54rem;flex-shrink:0;}
+.slide-header h2{font-size:1.87rem;font-weight:800;color:var(--text);}
+.s-dark .slide-header h2{color:#cdd6f4;}
+.slide-header p{font-size:1.12rem;color:var(--sub);margin-top:2px;}
+.s-dark .slide-header p{color:#6c7086;}
+.slide-body{flex:1;padding:32px 68px;overflow-y:auto;}
+.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:1.05rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
+.code-block .lang{position:absolute;top:9px;right:13px;font-size:0.82rem;color:#6c7086;font-family:sans-serif;}
+.kw{color:#cba6f7;}.tg{color:#89b4fa;}.at{color:#a6e3a1;}.st{color:#f38ba8;}.cm{color:#6c7086;font-style:italic;}.vl{color:#fab387;}.py{color:#f9e2af;}
+.concept-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.concept-card{background:#fff;border-radius:13px;padding:22px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.concept-card .cc-icon{font-size:1.98rem;margin-bottom:8px;}
+.concept-card h3{font-size:1.23rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.concept-card p{font-size:1.14rem;color:var(--sub);line-height:1.6;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+.quote-box{background:linear-gradient(135deg,#fffbeb,#ffedd5);border-left:4px solid var(--violet);border-radius:0 12px 12px 0;padding:16px 20px;font-size:1.12rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
+.quote-box strong{color:var(--violet);}
+.step-list{display:flex;flex-direction:column;gap:12px;}
+.step-item{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:11px;padding:16px 20px;border:1px solid #e2e8f0;}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--violet),var(--purple));color:#fff;font-weight:900;font-size:1.14rem;display:flex;align-items:center;justify-content:center;}
+.step-item h4{font-size:1.22rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step-item p{font-size:1.12rem;color:var(--sub);}
+.step-item code{background:#f1f5f9;color:var(--violet);padding:1px 6px;border-radius:4px;font-size:0.99rem;}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.mission-card{border-radius:13px;padding:20px;}
+.m1{background:linear-gradient(135deg,#fffbeb,#ffedd5);border:1px solid #fed7aa;}
+.m2{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;}
+.m3{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;}
+.mission-card .m-star{font-size:1.3rem;margin-bottom:6px;}
+.mission-card h3{font-size:1.14rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+.mission-card p{font-size:1.01rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
+.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:0.95rem;color:var(--text);line-height:1.6;}
+.check-list{display:flex;flex-direction:column;gap:11px;}
+.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:1.12rem;font-weight:600;color:var(--text);}
+.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--violet),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.17rem;flex-shrink:0;}
+.prompt-box{background:#0f172a;border-radius:13px;padding:24px 28px;border-left:4px solid #d97706;}
+.prompt-box .prompt-label{font-size:0.88rem;font-weight:800;letter-spacing:.1em;color:#fbbf24;margin-bottom:12px;}
+.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:1.04rem;color:#e2e8f0;line-height:1.9;white-space:pre-wrap;}
+.prompt-tip{margin-top:12px;background:rgba(217,119,6,.1);border-radius:7px;padding:9px 14px;font-size:0.99rem;color:#fbbf24;}
+.s-end{background:linear-gradient(135deg,#7c2d12,#9a3412,#d97706);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-end h2{font-size:2.53rem;font-weight:900;margin-bottom:14px;}
+.s-end h2 span{color:#fed7aa;}
+.s-end p{font-size:1.27rem;opacity:.8;margin-bottom:36px;}
+.s-end .next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:13px 30px;border-radius:13px;font-size:1.14rem;display:inline-flex;align-items:center;gap:10px;}
+.s-prompt{background:#fffbeb;justify-content:center;padding:48px 72px;}
+.sp-header{margin-bottom:18px;}
+.sp-badge{font-size:0.86rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.sp-header h2{font-size:clamp(24px,3.64vw,33px);font-weight:800;color:var(--text);margin-bottom:6px;}
+.sp-header p{font-size:1.08rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #fed7aa;}
+.sp-label{font-size:0.86rem;font-weight:700;color:var(--indigo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;}
+.sp-box{background:#451a03;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:0.9rem;line-height:1.75;color:#fed7aa;white-space:pre-line;max-height:42vh;overflow:auto;border:1px solid #7c2d12;}
+.sp-row{display:flex;gap:12px;margin-top:14px;}
+.sp-card{flex:1;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:0.92rem;color:var(--sub);line-height:1.55;}
+.sp-card b{color:var(--text);display:block;margin-bottom:4px;}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-label" id="slideLabel"></div>
+<div class="deck">
+
+<!-- S1 -->
+<div class="slide s-title active">
+  <div class="badge">바이브코딩 초급 과정</div>
+  <h1>알림 배너 <span>스타일 전환기</span></h1>
+  <p>실습 09 — CSS 변수와 setProperty로 알림 센터를 만들고 직접 꾸미는 도구 만들기</p>
+  <div class="meta-row">
+    <div class="meta-chip">🔔 알림 센터 위젯</div>
+    <div class="meta-chip">⏱ 소요 시간: 20분</div>
+    <div class="meta-chip">📄 파일 1개 (HTML)</div>
+  </div>
+</div>
+
+<!-- S2 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ffedd5;">🎨</div>
+    <div><h2>오늘 만드는 것</h2><p>알림을 직접 추가하고, 스타일·글자까지 마음대로 꾸미는 알림 센터</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="concept-cards">
+      <div class="concept-card"><div class="cc-icon">➕</div><h3>알림 추가/삭제</h3><p>종류·제목·내용을 입력해 새 알림 등록<br>닫기(✕) 버튼으로 완전히 삭제</p></div>
+      <div class="concept-card"><div class="cc-icon">🌗</div><h3>3가지 스타일</h3><p>라이트 · 다크 · 강조형<br>테두리 두께도 함께 조절</p></div>
+      <div class="concept-card"><div class="cc-icon">🔤</div><h3>글자 크기 · 글꼴</h3><p>가-/가+ 로 크기 조절<br>기본체·명조체·고정폭 중 선택</p></div>
+      <div class="concept-card"><div class="cc-icon">💾</div><h3>설정 저장</h3><p>스타일·글자 설정·알림 목록까지<br>전부 localStorage에 저장, 새로고침해도 유지</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- S3 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dcfce7;">🗺️</div>
+    <div><h2>오늘 수업 진행 순서</h2><p>개념은 가볍게, 손은 바쁘게 — 5단계 약 50분</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#d97706,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: CSS 변수 (Custom Properties) · setProperty · 배열로 목록 관리 · 시스템 다크모드 자동 감지</span></div><div style="font-size:0.94rem;font-weight:700;color:#d97706;background:#fffbeb;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#d97706,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청</span></div><div style="font-size:0.94rem;font-weight:700;color:#d97706;background:#fffbeb;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#d97706,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html을 열어 Go Live로 브라우저 확인</span></div><div style="font-size:0.94rem;font-weight:700;color:#d97706;background:#fffbeb;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#d97706,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#d97706;background:#fffbeb;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#d97706,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#d97706;background:#fffbeb;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+    </div>
+    <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">
+      💡 <strong>막혀도 괜찮습니다!</strong> 실행이 안 될 때 보는 <strong>"자주 막히는 문제"</strong> 슬라이드가 준비되어 있고, 오류는 AI에게 물어보면 대부분 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<!-- S4 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">🎒</div>
+    <div><h2>시작 전 준비물 체크</h2><p>4가지만 준비되면 바로 시작할 수 있습니다 (이미 되어 있다면 통과!)</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">💻</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>VS Code 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">code.visualstudio.com 에서 무료 다운로드. 코드를 작성·실행하는 우리의 작업대입니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🟢</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Live Server 확장 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">VS Code 왼쪽 확장(Extensions) 메뉴에서 "Live Server" 검색 → Install. 파일을 브라우저로 바로 열어줍니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🤖</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Cline 확장 설치</strong><br><span style="color:#64748b;font-size:1.01rem;">VS Code 확장 메뉴에서 "Cline" 검색 → Install. 코드를 대신 써 줄 AI 파트너입니다. (API 설정은 강사 안내에 따라)</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📁</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>실습 폴더 만들기</strong><br><span style="color:#64748b;font-size:1.01rem;">바탕화면에 "바이브코딩" 폴더를 만들어두세요. 차시별 결과물을 여기 모읍니다.</span></div></div>
+    </div>
+    <div style="margin-top:14px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#92400e;line-height:1.6;">
+      ⏱️ 설치가 안 된 분은 손을 들어주세요 — 옆 사람과 함께 5분 안에 끝낼 수 있습니다.
+    </div>
+  </div>
+</div>
+
+<!-- S5 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ffedd5;">📖</div>
+    <div><h2>오늘 나오는 용어 미리보기</h2><p>외우지 마세요 — 눈에만 익혀두면 수업이 술술 풀립니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#d97706;margin-bottom:5px;">📌 CSS 변수</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">색상·모양 값에 <code>--panel-bg</code>처럼 <strong>이름표</strong>를 붙여두는 것. 한 곳만 바꾸면 전체 적용!</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#d97706;margin-bottom:5px;">📌 setProperty</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">JS에서 CSS 변수 값을 바꾸는 명령. <strong>스타일 전환의 핵심</strong></p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#d97706;margin-bottom:5px;">📌 배열 (Array)</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">알림 여러 개를 <strong>순서 있는 목록</strong>으로 담아두는 자료구조. <code>[]</code>로 표현</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#d97706;margin-bottom:5px;">📌 unshift / filter</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">배열 <strong>맨 앞에 추가(unshift)</strong>하거나 <strong>조건에 맞는 것만 남기는(filter)</strong> 명령</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#d97706;margin-bottom:5px;">📌 prefers-color-scheme</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">사용자 컴퓨터의 <strong>다크모드 설정을 읽어오는</strong> 방법</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#d97706;margin-bottom:5px;">📌 localStorage</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">선택한 스타일과 알림 목록을 <strong>기억해두는</strong> 브라우저 저장소</p></div></div>
+    <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#166534;line-height:1.6;">
+      🌱 낯선 단어가 나와도 괜찮습니다. 이 슬라이드로 돌아와서 다시 확인하면 됩니다. 코드는 <strong>AI가 쓰고</strong>, 우리는 <strong>읽고 요청</strong>만 하면 돼요!
+    </div>
+  </div>
+</div>
+
+<!-- S6 CSS 변수 -->
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;">
+    <div class="icon" style="background:#fff;">🎨</div>
+    <div><h2>CSS 변수 (Custom Properties)</h2><p>모양과 색을 변수로 정의해서 한 번에 바꾸는 방법</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="quote-box"><strong>CSS 변수</strong>는 <code>--변수명</code>으로 정의하고 <code>var(--변수명)</code>으로 사용합니다.<br>JS로 변수 하나를 바꾸면 그 변수를 쓰는 <strong>모든 곳이 동시에 바뀝니다</strong>.</div>
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+<span class="cm">/* CSS - :root에 변수 선언 */</span>
+<span class="tg">:root</span> {
+  <span class="py">--page-bg</span>: #f1f5f9;
+  <span class="py">--panel-bg</span>: #ffffff;
+  <span class="py">--radius</span>: 12px;
+  <span class="py">--font-size</span>: 16px;
+}
+
+<span class="cm">/* 변수 사용 */</span>
+<span class="tg">body</span> {
+  background: <span class="at">var</span>(<span class="py">--page-bg</span>);
+}
+<span class="tg">.b-title</span> {
+  font-size: <span class="at">var</span>(<span class="py">--font-size</span>);
+}
+        </div>
+      </div>
+      <div>
+        <div class="concept-card">
+          <div class="cc-icon">💡</div>
+          <h3>CSS 변수의 장점</h3>
+          <p style="line-height:1.8;">배너가 4개든 40개든, 변수 하나만 바꾸면 끝!<br><br>
+          기존 방식: 배너마다 style.fontSize... 일일이 바꿔야<br><br>
+          변수 방식: <code style="background:#fffbeb;padding:1px 5px;border-radius:3px;">setProperty</code> 한 번으로 모두 변경</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 setProperty -->
+<div class="slide s-dark">
+  <div class="slide-header">
+    <div class="icon" style="background:rgba(255,255,255,.1);">⚙️</div>
+    <div><h2>setProperty — JS로 CSS 변수 변경</h2><p>document.documentElement로 :root 변수에 접근</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="code-block" style="background:#11111b;"><span class="lang">JS</span>
+<span class="cm">// :root = document.documentElement</span>
+<span class="kw">const</span> root = document.documentElement;
+
+<span class="cm">// CSS 변수 값 변경</span>
+root.style.<span class="at">setProperty</span>(<span class="st">'--page-bg'</span>, <span class="st">'#0f172a'</span>);
+root.style.<span class="at">setProperty</span>(<span class="st">'--font-size'</span>, <span class="st">'20px'</span>);
+root.style.<span class="at">setProperty</span>(<span class="st">'--font-family'</span>, <span class="st">"'Batang',serif"</span>);
+
+<span class="cm">// 현재 변수 값 읽기</span>
+<span class="kw">const</span> current = <span class="at">getComputedStyle</span>(root)
+  .<span class="at">getPropertyValue</span>(<span class="st">'--page-bg'</span>);
+
+<span class="cm">// localStorage에 스타일 저장</span>
+localStorage.<span class="at">setItem</span>(<span class="st">'banner-style'</span>, <span class="st">'dark'</span>);
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.99rem;font-weight:800;color:#6c7086;margin-bottom:10px;">스타일 객체 패턴</p>
+        <div class="code-block" style="background:#11111b;font-size:0.98rem;"><span class="lang">JS</span>
+<span class="kw">const</span> BANNER_STYLES = {
+  light: {
+    <span class="st">'--page-bg'</span>: <span class="st">'#f1f5f9'</span>,
+    <span class="st">'--panel-bg'</span>: <span class="st">'#ffffff'</span>,
+    <span class="st">'--radius'</span>: <span class="st">'12px'</span>
+  },
+  dark: {
+    <span class="st">'--page-bg'</span>: <span class="st">'#0f172a'</span>,
+    <span class="st">'--panel-bg'</span>: <span class="st">'#1e293b'</span>,
+    <span class="st">'--radius'</span>: <span class="st">'12px'</span>
+  }
+};
+
+<span class="kw">function</span> <span class="at">applyStyle</span>(name) {
+  <span class="kw">const</span> s = BANNER_STYLES[name];
+  <span class="tg">Object</span>.<span class="at">entries</span>(s).<span class="at">forEach</span>(([k,v]) =>
+    root.style.<span class="at">setProperty</span>(k, v)
+  );
+}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S8 배열로 목록 관리 (신규) -->
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;">
+    <div class="icon" style="background:#fff;">➕</div>
+    <div><h2>배열로 알림 추가·삭제하기</h2><p>알림 여러 개를 배열 하나로 관리하면 추가/삭제가 간단해집니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+<span class="cm">// 알림 목록 = 배열</span>
+<span class="kw">let</span> banners = [
+  { id: 1, type: <span class="st">'info'</span>, title: <span class="st">'정보'</span>, message: <span class="st">'...'</span> }
+];
+
+<span class="cm">// 추가: 맨 앞에 새 항목 삽입</span>
+<span class="kw">function</span> <span class="at">addBanner</span>() {
+  banners.<span class="at">unshift</span>({
+    id: <span class="tg">Date</span>.<span class="at">now</span>(),
+    type, title, message
+  });
+  <span class="at">saveBanners</span>();
+  <span class="at">renderBanners</span>();
+}
+
+<span class="cm">// 삭제: 해당 id만 빼고 새 배열 생성</span>
+<span class="kw">function</span> <span class="at">deleteBanner</span>(id) {
+  banners = banners.<span class="at">filter</span>(b => b.id !== id);
+  <span class="at">saveBanners</span>();
+  <span class="at">renderBanners</span>();
+}
+        </div>
+      </div>
+      <div>
+        <div class="quote-box"><strong>왜 배열인가요?</strong><br><br>알림 4개를 각각 변수로 만들면 관리가 어렵지만, <strong>배열 하나</strong>로 묶으면 몇 개가 되든 <code>.map()</code> 한 줄로 화면에 그릴 수 있습니다.</div>
+        <div class="concept-card">
+          <div class="cc-icon">🔁</div>
+          <h3>추가/삭제 → 다시 그리기</h3>
+          <p style="line-height:1.8;">배열이 바뀔 때마다 <code>renderBanners()</code>가 <strong>목록 전체를 새로 그려서</strong> 화면과 데이터를 항상 일치시킵니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S9 다크모드 선호 감지 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ffedd5;">🌙</div>
+    <div><h2>시스템 다크모드 자동 감지</h2><p>사용자 OS 설정에 따라 첫 방문 시 자동으로 스타일 적용</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+<span class="cm">// 시스템 다크모드 여부 확인</span>
+<span class="kw">const</span> prefersDark = window
+  .<span class="at">matchMedia</span>(<span class="st">'(prefers-color-scheme: dark)'</span>)
+  .matches;
+
+<span class="cm">// 저장된 스타일이 없으면 시스템 설정을 따름</span>
+<span class="kw">const</span> saved = localStorage.<span class="at">getItem</span>(<span class="st">'banner-style'</span>)
+  || (prefersDark ? <span class="st">'dark'</span> : <span class="st">'light'</span>);
+<span class="at">applyStyle</span>(saved);
+
+<span class="cm">// 시스템 테마 변경 감지 (실시간)</span>
+window.<span class="at">matchMedia</span>(<span class="st">'(prefers-color-scheme: dark)'</span>)
+  .<span class="at">addEventListener</span>(<span class="st">'change'</span>, e => {
+    <span class="at">applyStyle</span>(e.matches ? <span class="st">'dark'</span> : <span class="st">'light'</span>);
+  });
+        </div>
+      </div>
+      <div>
+        <div class="concept-card">
+          <div class="cc-icon">📱</div>
+          <h3>우선순위 처리</h3>
+          <p style="line-height:1.8;">
+          1️⃣ <strong>localStorage</strong>에 저장된 스타일이 있으면 그것 사용<br>
+          2️⃣ 없으면 <strong>시스템 설정</strong> 따름<br>
+          3️⃣ 시스템도 모르면 <strong>라이트 스타일</strong> 기본값
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S10 AI 프롬프트 -->
+<div class="slide s-prompt">
+  <div class="sp-header">
+    <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
+    <h2>실제 사용한 AI 생성 프롬프트</h2>
+    <p>아래 프롬프트를 VS Code의 Cline에 붙여넣으면 알림 배너 스타일 전환기가 완성됩니다</p>
+  </div>
+  <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
+  <div class="sp-box">HTML 파일 하나로 알림 배너 스타일 전환기를 만들어줘.
+
+CSS 변수(--page-bg, --panel-bg, --text, --radius, --shadow, --font-size, --font-family 등)를
+사용해서 설정 전환 시 변수만 바꾸면 전체가 변하도록 구현.
+
+배너 스타일 (3가지): 라이트 / 다크 / 강조형(인디고 톤, 각진 모서리)
+
+페이지 구성:
+- 상단: 제목 + 현재 스타일 이름 표시
+- 툴바 1: 스타일 선택 버튼(큰 컬러 원형 버튼) + 테두리 두께 조절(▬-/▬+)
+- 툴바 2: 글자 크기 조절(가-/가+) + 글꼴 선택 드롭다운(기본체/명조체/고정폭)
+- 알림 추가 폼: 종류 선택(정보/성공/경고/오류) + 제목 입력 + 내용 입력 + 추가 버튼
+- 하단: "알림 센터" 미리보기 (추가한 알림이 목록 맨 위에, 각 알림에 닫기(✕) 버튼)
+
+기능:
+- 알림 추가 시 목록 맨 위에 표시, 닫기 버튼으로 완전히 삭제
+- 테두리 두께 2px~8px, 글자 크기 14px~22px, 2px 단위 조절
+- 저장된 스타일이 없으면 시스템 다크모드 설정을 따라 자동 선택
+- localStorage에 스타일·두께·글자 크기·글꼴·알림 목록을 모두 기억 (새로고침해도 유지)
+- 스타일 전환 시 부드러운 transition 효과
+
+파일은 index.html 하나로, 코드에 한국어 주석 달아줘</div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div class="sp-row">
+    <div class="sp-card"><b>⏱️ 자동 닫힘 타이머</b>"성공" 알림은 5초 후 자동으로 서서히 사라지게 해줘.</div>
+    <div class="sp-card"><b>🔍 종류별 필터</b>전체/정보/성공/경고/오류 탭을 추가해서 선택한 종류만 보이게 해줘.</div>
+    <div class="sp-card"><b>💾 스타일 즐겨찾기</b>자주 쓰는 스타일·글자 설정 조합을 이름 붙여 저장하고 불러올 수 있게 해줘.</div>
+  </div>
+</div>
+
+<!-- S11 실행 방법 -->
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;">
+    <div class="icon" style="background:#fff;">🚀</div>
+    <div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 VS Code에서 실행하는 4단계</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="step-list">
+      <div class="step-item"><div class="step-num">1</div><div><h4>폴더 열기</h4><p>VS Code에서 <code>09_알림배너스타일전환기</code> 폴더를 엽니다</p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div><h4>index.html 열기</h4><p>왼쪽 탐색기에서 <code>index.html</code> 파일 클릭</p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div><h4>Go Live 클릭</h4><p>VS Code 우측 하단 <code>Go Live</code> 버튼 클릭</p></div></div>
+      <div class="step-item"><div class="step-num">4</div><div><h4>알림 추가 후 새로고침</h4><p>새 알림을 등록하고 F5(새로고침) 후에도 목록과 스타일이 유지되는지 확인!</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S12 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fee2e2;">🆘</div>
+    <div><h2>자주 막히는 문제 &amp; 해결법</h2><p>여기서 멈추는 게 정상입니다 — 옆 사람도 같은 곳에서 막혀 있어요</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔍 "Go Live 버튼이 안 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">VS Code 왼쪽 <strong>확장(Extensions)</strong> 메뉴에서 <strong>Live Server</strong>를 검색해 설치한 뒤, VS Code를 껐다가 다시 켜세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">➕ "추가 버튼을 눌러도 반응이 없어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><strong>내용 입력창이 비어있으면</strong> 추가되지 않도록 만들어져 있습니다. 알림 내용을 먼저 입력했는지 확인하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔤 "한글이 깨져 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">AI에게 <strong>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</strong>라고 요청하세요. VS Code 오른쪽 아래 인코딩 표시가 <strong>UTF-8</strong>인지도 확인!</p></div>
+    </div>
+    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#3730a3;line-height:1.6;">
+      🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<!-- S13 코드 핵심 -->
+<div class="slide s-dark">
+  <div class="slide-header">
+    <div class="icon" style="background:rgba(255,255,255,.1);">🔍</div>
+    <div><h2>코드 핵심 설명</h2><p style="color:#6c7086;">index.html 파일에서 찾아봐야 할 핵심 부분</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">① 알림 추가 (addBanner)</p>
+        <div class="code-block" style="background:#11111b;font-size:0.94rem;margin-bottom:14px;">
+<span class="kw">function</span> <span class="at">addBanner</span>() {
+  <span class="kw">const</span> message = messageInput.value.trim();
+  <span class="kw">if</span> (!message) <span class="kw">return</span>; <span class="cm">// 내용 없으면 무시</span>
+
+  banners.<span class="at">unshift</span>({
+    id: <span class="tg">Date</span>.<span class="at">now</span>(),
+    type, title, message
+  });
+
+  <span class="at">saveBanners</span>();
+  <span class="at">renderBanners</span>();
+}
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px 16px;font-size:1.02rem;line-height:1.8;color:#a6adc8;">
+          • <code style="color:#a6e3a1;">Date.now()</code> — 겹치지 않는 <strong>고유 id</strong>로 사용<br>
+          • <code style="color:#cba6f7;">unshift</code> — 배열 <strong>맨 앞</strong>에 추가해 최신순 정렬
+        </div>
+      </div>
+      <div>
+        <p style="font-size:1.01rem;font-weight:800;color:#6c7086;margin-bottom:10px;letter-spacing:.05em;">② 글자 크기 조절 (changeFontSize)</p>
+        <div class="code-block" style="background:#11111b;font-size:0.94rem;margin-bottom:14px;">
+<span class="kw">function</span> <span class="at">changeFontSize</span>(delta) {
+  <span class="kw">const</span> root = document.documentElement;
+  <span class="kw">const</span> current = <span class="at">parseInt</span>(
+    <span class="at">getComputedStyle</span>(root)
+      .<span class="at">getPropertyValue</span>(<span class="st">'--font-size'</span>)
+  );
+
+  <span class="cm">// 14px ~ 22px 범위로 제한</span>
+  <span class="kw">const</span> next = <span class="tg">Math</span>.<span class="at">min</span>(22,
+    <span class="tg">Math</span>.<span class="at">max</span>(14, current + delta));
+
+  root.style.<span class="at">setProperty</span>(<span class="st">'--font-size'</span>, next + <span class="st">'px'</span>);
+  localStorage.<span class="at">setItem</span>(<span class="st">'banner-font-size'</span>, next);
+}
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px 16px;font-size:1.02rem;line-height:1.8;color:#a6adc8;">
+          • <code style="color:#89b4fa;">Math.min / Math.max</code> — 값이 범위를 벗어나지 않게 <strong>고정</strong><br>
+          • <strong>glyph 크기 하나</strong>만 바꾸면 모든 알림 제목·내용이 동시에 커짐
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S14 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fef3c7;">🔁</div>
+    <div><h2>수정 미션, 이렇게 진행하세요</h2><p>바이브 코딩의 진짜 실력은 "고쳐달라고 잘 말하기"에서 나옵니다</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">1</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>같은 Cline 대화에서 이어가기</strong><br><span style="color:#64748b;font-size:1.01rem;">새 작업(New Task)을 열지 마세요! 코드를 만들어 준 대화에 이어서 요청해야 Cline이 맥락을 기억합니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">2</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>미션 문구 붙여넣기</strong><br><span style="color:#64748b;font-size:1.01rem;">다음 슬라이드의 미션 프롬프트를 복사하거나, 원하는 변화를 말로 설명하세요. 문법·전문용어는 몰라도 됩니다.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">3</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>변경 내용 확인하고 승인</strong><br><span style="color:#64748b;font-size:1.01rem;">Cline이 파일을 <strong>직접 고쳐줍니다</strong>. 어떤 부분이 바뀌는지(diff) 훑어보고 승인하세요. 직접 타이핑할 필요가 없어요.</span></div></div><div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.11rem;flex-shrink:0;">4</div><div style="font-size:1.09rem;color:#1e293b;line-height:1.6;"><strong>저장하고 확인</strong><br><span style="color:#64748b;font-size:1.01rem;">저장(Ctrl+S) → 브라우저 새로고침(F5) → 바뀐 부분을 확인합니다.</span></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:14px;">
+      <div style="flex:1;background:#eef2ff;border-radius:10px;padding:11px 16px;font-size:1.01rem;color:#3730a3;line-height:1.6;">🔑 <strong>한 번에 하나씩!</strong> 여러 개를 동시에 요청하면 어디가 바뀌었는지 알기 어렵습니다.</div>
+      <div style="flex:1;background:#fef2f2;border-radius:10px;padding:11px 16px;font-size:1.01rem;color:#991b1b;line-height:1.6;">😱 <strong>망가졌다면?</strong> AI에게 "방금 수정을 취소하고 이전 코드로 되돌려줘"라고 하면 됩니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S15 미션 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fef3c7;">✏️</div>
+    <div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="mission-grid">
+      <div class="mission-card m1">
+        <div class="m-star">⭐</div>
+        <h3>미션 1<br>스타일 커스터마이징</h3>
+        <p>기존 스타일 이름을 회사/팀 스타일로 바꾸고 색상을 커스텀합니다.</p>
+        <div class="mission-code">스타일 이름을 "집중모드",<br>"야간근무모드"로<br>바꾸고 색상 수정.</div>
+      </div>
+      <div class="mission-card m2">
+        <div class="m-star">⭐⭐</div>
+        <h3>미션 2<br>자동 닫힘 타이머</h3>
+        <p>"성공" 알림이 등록 5초 후 서서히 사라지게 만듭니다.</p>
+        <div class="mission-code">setTimeout으로 5초 후<br>opacity를 0으로.<br>이후 배열에서도 제거.</div>
+      </div>
+      <div class="mission-card m3">
+        <div class="m-star">⭐⭐⭐</div>
+        <h3>미션 3<br>종류별 필터 탭</h3>
+        <p>전체/정보/성공/경고/오류 탭으로 원하는 종류만 볼 수 있게 합니다.</p>
+        <div class="mission-code">현재 필터 상태 저장.<br>filter()로 목록 걸러내기.<br>탭 클릭 시 다시 렌더링.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S16 체크리스트 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ffedd5;">✅</div>
+    <div><h2>실습 완료 체크리스트</h2><p>아래 항목을 모두 완료하면 실습 09 마스터!</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="check-list">
+      <div class="check-item"><div class="check-box">☐</div>새 알림을 작성해서 추가하면 목록 맨 위에 나타난다</div>
+      <div class="check-item"><div class="check-box">☐</div>닫기(✕) 버튼을 누르면 알림이 목록에서 사라진다</div>
+      <div class="check-item"><div class="check-box">☐</div>스타일 버튼 클릭 시 배너 색상과 모양이 바뀐다</div>
+      <div class="check-item"><div class="check-box">☐</div>테두리 두께와 글자 크기를 버튼으로 조절할 수 있다</div>
+      <div class="check-item"><div class="check-box">☐</div>글꼴을 기본체/명조체/고정폭 중에서 선택할 수 있다</div>
+      <div class="check-item"><div class="check-box">☐</div>새로고침 후에도 스타일·글자 설정·알림 목록이 모두 유지된다</div>
+      <div class="check-item"><div class="check-box">☐</div>미션 하나 이상 도전했다</div>
+    </div>
+    <div style="margin-top:24px;background:linear-gradient(135deg,#fffbeb,#ffedd5);border-radius:14px;padding:20px 24px;border:1px solid #fed7aa;">
+      <p style="font-size:1.14rem;font-weight:800;color:var(--violet);margin-bottom:8px;">🎉 모든 미션 완료 후 도전해볼 것</p>
+      <p style="font-size:1.08rem;color:var(--sub);line-height:1.8;">
+        AI에게 <strong>"스타일 전환 버튼에 키보드 단축키를 추가해줘"</strong> 또는<br>
+        <strong>"고대비 모드도 추가해줘"</strong> 같은 심화 요청을 해보세요!
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- S17 마무리 -->
+<div class="slide s-end">
+  <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
+  <div class="result-link-tip">완성 예제 보기</div>
+  <h2>실습 09 <span>완료!</span> 🔔</h2>
+  <p>CSS 변수·setProperty·배열 관리로 직접 알림을 추가할 수 있는 알림 센터를 만들었습니다.</p>
+  <div class="next-hint"><span>▶</span> 다음 실습: <strong>실습 10 — OX 퀴즈 게임 만들기</strong></div>
+</div>
+
+</div>
+<div class="nav-dots" id="navDots"></div>
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
+  <span class="slide-counter" id="counter">1 / 17</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+</div>
+<script>
+const RESULT_HTML_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICA8dGl0bGU+7JWM66a8IOuwsOuEiCDsiqTtg4Dsnbwg7KCE7ZmY6riwPC90aXRsZT4KICA8c3R5bGU+CiAgICAvKiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgICAgQ1NTIOuzgOyImCDquLDrs7jqsJIgKOudvOydtO2KuCDsiqTtg4DsnbwpCiAgICAgICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PSAqLwogICAgOnJvb3QgewogICAgICAtLXBhZ2UtYmc6ICNmMWY1Zjk7CiAgICAgIC0tcGFuZWwtYmc6ICNmZmZmZmY7CiAgICAgIC0tdGV4dDogICAgIzFlMjkzYjsKICAgICAgLS1zdWI6ICAgICAjNjQ3NDhiOwogICAgICAtLWJvcmRlcjogICNlMmU4ZjA7CiAgICAgIC0tcmFkaXVzOiAgMTJweDsKICAgICAgLS1zaGFkb3c6ICAwIDJweCAxMHB4IHJnYmEoMCwwLDAsMC4wNik7CiAgICAgIC0tYm9yZGVyLXc6IDRweDsKICAgICAgLS1mb250LXNpemU6IDE2cHg7CiAgICAgIC0tZm9udC1mYW1pbHk6ICdTZWdvZSBVSScsICfrp5HsnYAg6rOg65SVJywgc2Fucy1zZXJpZjsKICAgIH0KCiAgICAqLCAqOjpiZWZvcmUsICo6OmFmdGVyIHsKICAgICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZC1jb2xvciAwLjM1cyBlYXNlLCBjb2xvciAwLjM1cyBlYXNlLCBib3JkZXItY29sb3IgMC4zNXMgZWFzZTsKICAgICAgYm94LXNpemluZzogYm9yZGVyLWJveDsKICAgICAgbWFyZ2luOiAwOyBwYWRkaW5nOiAwOwogICAgfQoKICAgIGJvZHkgewogICAgICBmb250LWZhbWlseTogJ1NlZ29lIFVJJywgJ+unkeydgCDqs6DrlJUnLCBzYW5zLXNlcmlmOwogICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1wYWdlLWJnKTsKICAgICAgY29sb3I6IHZhcigtLXRleHQpOwogICAgICBtaW4taGVpZ2h0OiAxMDB2aDsKICAgICAgcGFkZGluZzogMzZweCAxNnB4OwogICAgfQoKICAgIC8qIOygnOuqqSDsmIHsl60gKi8KICAgIC5oZWFkZXIgeyB0ZXh0LWFsaWduOiBjZW50ZXI7IG1hcmdpbi1ib3R0b206IDI4cHg7IH0KICAgIC5oZWFkZXIgaDEgeyBmb250LXNpemU6IDEuN3JlbTsgZm9udC13ZWlnaHQ6IDgwMDsgbWFyZ2luLWJvdHRvbTogNnB4OyB9CiAgICAuY3VycmVudC1zdHlsZS1sYWJlbCB7IGZvbnQtc2l6ZTogMC45cmVtOyBjb2xvcjogdmFyKC0tc3ViKTsgfQogICAgLmN1cnJlbnQtc3R5bGUtbmFtZSB7IGZvbnQtd2VpZ2h0OiA3MDA7IGNvbG9yOiAjNGY0NmU1OyB9CgogICAgLyog7Yi067CUIOqzte2GtSAqLwogICAgLnRvb2xiYXIgewogICAgICBkaXNwbGF5OiBmbGV4OwogICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsKICAgICAgYWxpZ24taXRlbXM6IGZsZXgtc3RhcnQ7CiAgICAgIGZsZXgtd3JhcDogd3JhcDsKICAgICAgZ2FwOiAyMHB4OwogICAgICBtYXJnaW4tYm90dG9tOiAxNnB4OwogICAgfQogICAgLnRvb2xiYXIgKyAudG9vbGJhciB7IG1hcmdpbi1ib3R0b206IDMycHg7IH0KCiAgICAvKiDsiqTtg4Dsnbwg7ISg7YOdIOuyhO2KvCAo7IOJ7IOBIOybkCkgKi8KICAgIC5zdHlsZS1waWNrZXIgeyBkaXNwbGF5OiBmbGV4OyBnYXA6IDE4cHg7IH0KICAgIC5zdHlsZS1idG4gewogICAgICB3aWR0aDogNTZweDsgaGVpZ2h0OiA1NnB4OyBib3JkZXItcmFkaXVzOiA1MCU7CiAgICAgIGJvcmRlcjogNHB4IHNvbGlkIHRyYW5zcGFyZW50OyBjdXJzb3I6IHBvaW50ZXI7CiAgICAgIGRpc3BsYXk6IGZsZXg7IGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGdhcDogNnB4OwogICAgICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgICAgIHRyYW5zaXRpb246IHRyYW5zZm9ybSAwLjJzLCBib3JkZXItY29sb3IgMC4ycyAhaW1wb3J0YW50OwogICAgfQogICAgLnN0eWxlLWJ0bjpob3ZlciB7IHRyYW5zZm9ybTogc2NhbGUoMS4xKTsgfQogICAgLnN0eWxlLWJ0bi5hY3RpdmUgeyBib3JkZXItY29sb3I6IHZhcigtLXRleHQpOyB0cmFuc2Zvcm06IHNjYWxlKDEuMTUpOyB9CiAgICAuc3R5bGUtYnRuIC5jaGVjayB7CiAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTsgdG9wOiAtNHB4OyByaWdodDogLTRweDsKICAgICAgd2lkdGg6IDE4cHg7IGhlaWdodDogMThweDsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tdGV4dCk7IGNvbG9yOiB2YXIoLS1wYWdlLWJnKTsKICAgICAgYm9yZGVyLXJhZGl1czogNTAlOyBmb250LXNpemU6IDAuNjVyZW07CiAgICAgIGRpc3BsYXk6IG5vbmU7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGp1c3RpZnktY29udGVudDogY2VudGVyOyBmb250LXdlaWdodDogOTAwOwogICAgfQogICAgLnN0eWxlLWJ0bi5hY3RpdmUgLmNoZWNrIHsgZGlzcGxheTogZmxleDsgfQogICAgLnN0eWxlLWxhYmVsIHsgbWFyZ2luLXRvcDogNjRweDsgZm9udC1zaXplOiAwLjc1cmVtOyBjb2xvcjogdmFyKC0tc3ViKTsgd2hpdGUtc3BhY2U6IG5vd3JhcDsgfQoKICAgIC8qIOqzteyaqSDsu6jtirjroaQg67CV7IqkICjrkZDqu5gv6riA7J6Q7YGs6riwL+q4gOq8tCkgKi8KICAgIC5jdHJsLWJveCB7CiAgICAgIGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGdhcDogMTBweDsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tcGFuZWwtYmcpOyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1ib3JkZXIpOwogICAgICBib3JkZXItcmFkaXVzOiAxNHB4OyBwYWRkaW5nOiAxMHB4IDE2cHg7CiAgICB9CiAgICAuY3RybC1sYWJlbCB7IGZvbnQtc2l6ZTogMC43OHJlbTsgY29sb3I6IHZhcigtLXN1Yik7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIC5jdHJsLWJ0biB7CiAgICAgIHdpZHRoOiAzNHB4OyBoZWlnaHQ6IDM0cHg7IGJvcmRlci1yYWRpdXM6IDhweDsKICAgICAgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tYm9yZGVyKTsgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7IGNvbG9yOiB2YXIoLS10ZXh0KTsKICAgICAgZm9udC13ZWlnaHQ6IDcwMDsgY3Vyc29yOiBwb2ludGVyOyB0cmFuc2l0aW9uOiBiYWNrZ3JvdW5kIDAuMnMgIWltcG9ydGFudDsKICAgIH0KICAgIC5jdHJsLWJ0bjpob3ZlciB7IGJhY2tncm91bmQ6IHZhcigtLXBhZ2UtYmcpOyB9CiAgICAuY3RybC12YWx1ZSB7IGZvbnQtc2l6ZTogMC45cmVtOyBjb2xvcjogdmFyKC0tc3ViKTsgbWluLXdpZHRoOiA0MnB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7IH0KICAgIC5mb250LXNlbGVjdCB7CiAgICAgIHBhZGRpbmc6IDdweCAxMHB4OyBib3JkZXItcmFkaXVzOiA4cHg7IGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWJvcmRlcik7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLXBhZ2UtYmcpOyBjb2xvcjogdmFyKC0tdGV4dCk7IGZvbnQtc2l6ZTogMC44NXJlbTsgY3Vyc29yOiBwb2ludGVyOwogICAgfQoKICAgIC8qIOyVjOumvCDstpTqsIAg7Yyo64SQICovCiAgICAuYWRkLXBhbmVsIHsKICAgICAgbWF4LXdpZHRoOiA2ODBweDsgbWFyZ2luOiAwIGF1dG8gMjRweDsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tcGFuZWwtYmcpOyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1ib3JkZXIpOwogICAgICBib3JkZXItcmFkaXVzOiB2YXIoLS1yYWRpdXMpOyBwYWRkaW5nOiAxOHB4IDIycHg7CiAgICAgIGJveC1zaGFkb3c6IHZhcigtLXNoYWRvdyk7CiAgICB9CiAgICAuYWRkLXBhbmVsIGgzIHsgZm9udC1zaXplOiAxcmVtOyBmb250LXdlaWdodDogODAwOyBtYXJnaW4tYm90dG9tOiAxMnB4OyBjb2xvcjogdmFyKC0tdGV4dCk7IH0KICAgIC5hZGQtcm93IHsgZGlzcGxheTogZmxleDsgZ2FwOiA4cHg7IGZsZXgtd3JhcDogd3JhcDsgfQogICAgLmFkZC1yb3cgc2VsZWN0LCAuYWRkLXJvdyBpbnB1dCB7CiAgICAgIHBhZGRpbmc6IDlweCAxMnB4OyBib3JkZXItcmFkaXVzOiA5cHg7IGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWJvcmRlcik7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLXBhZ2UtYmcpOyBjb2xvcjogdmFyKC0tdGV4dCk7IGZvbnQtc2l6ZTogMC44OHJlbTsgZm9udC1mYW1pbHk6IGluaGVyaXQ7CiAgICB9CiAgICAuYWRkLXJvdyAuYWRkLXR5cGUgeyBmbGV4OiAwIDAgMTAwcHg7IH0KICAgIC5hZGQtcm93IC5hZGQtdGl0bGUgeyBmbGV4OiAwIDAgMTMwcHg7IH0KICAgIC5hZGQtcm93IC5hZGQtbWVzc2FnZSB7IGZsZXg6IDE7IG1pbi13aWR0aDogMTYwcHg7IH0KICAgIC5hZGQtYnRuIHsKICAgICAgcGFkZGluZzogOXB4IDE4cHg7IGJvcmRlci1yYWRpdXM6IDlweDsgYm9yZGVyOiBub25lOwogICAgICBiYWNrZ3JvdW5kOiAjNGY0NmU1OyBjb2xvcjogI2ZmZjsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAwLjg4cmVtOyBjdXJzb3I6IHBvaW50ZXI7CiAgICAgIGZsZXgtc2hyaW5rOiAwOwogICAgfQogICAgLmFkZC1idG46aG92ZXIgeyBiYWNrZ3JvdW5kOiAjNDMzOGNhOyB9CgogICAgLyog7JWM66a8IOyEvO2EsCDtjKjrhJAgKi8KICAgIC5wYW5lbCB7CiAgICAgIG1heC13aWR0aDogNjgwcHg7IG1hcmdpbjogMCBhdXRvIDI0cHg7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLXBhbmVsLWJnKTsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tYm9yZGVyKTsKICAgICAgYm9yZGVyLXJhZGl1czogdmFyKC0tcmFkaXVzKTsgcGFkZGluZzogMzJweCAzNnB4OwogICAgICBib3gtc2hhZG93OiB2YXIoLS1zaGFkb3cpOwogICAgICBmb250LWZhbWlseTogdmFyKC0tZm9udC1mYW1pbHkpOwogICAgfQogICAgLnBhbmVsLWhlYWRlciB7IGJvcmRlci1ib3R0b206IDJweCBzb2xpZCB2YXIoLS1ib3JkZXIpOyBwYWRkaW5nLWJvdHRvbTogMTZweDsgbWFyZ2luLWJvdHRvbTogMjBweDsgfQogICAgLnBhbmVsLWhlYWRlciBoMiB7IGZvbnQtc2l6ZTogMS4zcmVtOyBmb250LXdlaWdodDogODAwOyBjb2xvcjogdmFyKC0tdGV4dCk7IG1hcmdpbi1ib3R0b206IDRweDsgfQogICAgLnBhbmVsLW1ldGEgeyBmb250LXNpemU6IDAuODVyZW07IGNvbG9yOiB2YXIoLS1zdWIpOyB9CgogICAgLmJhbm5lci1saXN0IHsgZGlzcGxheTogZmxleDsgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsgZ2FwOiAxMnB4OyB9CiAgICAubm8tYmFubmVyIHsgdGV4dC1hbGlnbjogY2VudGVyOyBjb2xvcjogdmFyKC0tc3ViKTsgZm9udC1zaXplOiAwLjlyZW07IHBhZGRpbmc6IDIwcHggMDsgfQogICAgLmJhbm5lciB7CiAgICAgIGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBmbGV4LXN0YXJ0OyBnYXA6IDEycHg7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLXBhZ2UtYmcpOwogICAgICBib3JkZXItcmFkaXVzOiB2YXIoLS1yYWRpdXMpOwogICAgICBib3JkZXItbGVmdDogdmFyKC0tYm9yZGVyLXcpIHNvbGlkIHZhcigtLXR5cGUtY29sb3IpOwogICAgICBwYWRkaW5nOiAxNHB4IDE2cHg7CiAgICB9CiAgICAuYmFubmVyIC5iLWljb24geyBmb250LXNpemU6IDEuM3JlbTsgZmxleC1zaHJpbms6IDA7IH0KICAgIC5iYW5uZXIgLmItdGl0bGUgeyBmb250LXdlaWdodDogODAwOyBjb2xvcjogdmFyKC0tdGV4dCk7IGZvbnQtc2l6ZTogdmFyKC0tZm9udC1zaXplKTsgbWFyZ2luLWJvdHRvbTogMnB4OyB9CiAgICAuYmFubmVyIC5iLW1zZyB7IGZvbnQtc2l6ZTogY2FsYyh2YXIoLS1mb250LXNpemUpIC0gM3B4KTsgY29sb3I6IHZhcigtLXN1Yik7IGxpbmUtaGVpZ2h0OiAxLjY7IH0KICAgIC5iYW5uZXIgLmItY2xvc2UgewogICAgICBtYXJnaW4tbGVmdDogYXV0bzsgYmFja2dyb3VuZDogbm9uZTsgYm9yZGVyOiBub25lOyBjb2xvcjogdmFyKC0tc3ViKTsKICAgICAgZm9udC1zaXplOiAxcmVtOyBjdXJzb3I6IHBvaW50ZXI7IGZsZXgtc2hyaW5rOiAwOwogICAgfQogICAgLmJhbm5lciAuYi1jbG9zZTpob3ZlciB7IGNvbG9yOiB2YXIoLS10ZXh0KTsgfQogICAgLmJhbm5lci5iLWluZm8gICAgeyAtLXR5cGUtY29sb3I6ICMyNTYzZWI7IH0KICAgIC5iYW5uZXIuYi1zdWNjZXNzIHsgLS10eXBlLWNvbG9yOiAjMTZhMzRhOyB9CiAgICAuYmFubmVyLmItd2FybmluZyB7IC0tdHlwZS1jb2xvcjogI2Q5NzcwNjsgfQogICAgLmJhbm5lci5iLWVycm9yICAgeyAtLXR5cGUtY29sb3I6ICNkYzI2MjY7IH0KCiAgICAvKiDshKTrqoUg7YWN7Iqk7Yq4ICovCiAgICAuaW5mbyB7IHRleHQtYWxpZ246IGNlbnRlcjsgZm9udC1zaXplOiAwLjgycmVtOyBjb2xvcjogdmFyKC0tc3ViKTsgfQoKICAgIEBtZWRpYSAobWF4LXdpZHRoOiA2MDBweCkgewogICAgICAucGFuZWwgeyBwYWRkaW5nOiAyNHB4IDIwcHg7IH0KICAgIH0KICA8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5PgoKICA8IS0tIOygnOuqqSAtLT4KICA8ZGl2IGNsYXNzPSJoZWFkZXIiPgogICAgPGgxPvCflJQg7JWM66a8IOuwsOuEiCDsiqTtg4Dsnbwg7KCE7ZmY6riwPC9oMT4KICAgIDxwIGNsYXNzPSJjdXJyZW50LXN0eWxlLWxhYmVsIj4KICAgICAg7ZiE7J6sIOyKpO2DgOydvDogPHNwYW4gY2xhc3M9ImN1cnJlbnQtc3R5bGUtbmFtZSIgaWQ9ImN1cnJlbnQtbmFtZSI+65287J207Yq4PC9zcGFuPgogICAgPC9wPgogIDwvZGl2PgoKICA8IS0tIO2ItOuwlCAxOiDsiqTtg4Dsnbwg7ISg7YOdICsg7YWM65GQ66asIOuRkOq7mCAtLT4KICA8ZGl2IGNsYXNzPSJ0b29sYmFyIj4KICAgIDxkaXYgY2xhc3M9InN0eWxlLXBpY2tlciIgaWQ9InN0eWxlLXBpY2tlciI+CiAgICAgIDwhLS0gSmF2YVNjcmlwdOuhnCDsg53shLEgLS0+CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImN0cmwtYm94Ij4KICAgICAgPHNwYW4gY2xhc3M9ImN0cmwtbGFiZWwiPu2FjOuRkOumrDwvc3Bhbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iY3RybC1idG4iIG9uY2xpY2s9ImNoYW5nZUJvcmRlcldpZHRoKC0yKSIgdGl0bGU9Iu2FjOuRkOumrCDslofqsowiPuKWrC08L2J1dHRvbj4KICAgICAgPHNwYW4gY2xhc3M9ImN0cmwtdmFsdWUiIGlkPSJ3aWR0aC12YWx1ZS1sYWJlbCI+NHB4PC9zcGFuPgogICAgICA8YnV0dG9uIGNsYXNzPSJjdHJsLWJ0biIgb25jbGljaz0iY2hhbmdlQm9yZGVyV2lkdGgoMikiIHRpdGxlPSLthYzrkZDrpqwg6rW16rKMIj7ilqwrPC9idXR0b24+CiAgICA8L2Rpdj4KICA8L2Rpdj4KCiAgPCEtLSDtiLTrsJQgMjog6riA7J6QIO2BrOq4sCArIOq4gOq8tCAtLT4KICA8ZGl2IGNsYXNzPSJ0b29sYmFyIj4KICAgIDxkaXYgY2xhc3M9ImN0cmwtYm94Ij4KICAgICAgPHNwYW4gY2xhc3M9ImN0cmwtbGFiZWwiPuq4gOyekCDtgazquLA8L3NwYW4+CiAgICAgIDxidXR0b24gY2xhc3M9ImN0cmwtYnRuIiBvbmNsaWNrPSJjaGFuZ2VGb250U2l6ZSgtMikiIHRpdGxlPSLquIDsnpAg7J6R6rKMIj7qsIAtPC9idXR0b24+CiAgICAgIDxzcGFuIGNsYXNzPSJjdHJsLXZhbHVlIiBpZD0iZm9udC1zaXplLWxhYmVsIj4xNnB4PC9zcGFuPgogICAgICA8YnV0dG9uIGNsYXNzPSJjdHJsLWJ0biIgb25jbGljaz0iY2hhbmdlRm9udFNpemUoMikiIHRpdGxlPSLquIDsnpAg7YGs6rKMIj7qsIArPC9idXR0b24+CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImN0cmwtYm94Ij4KICAgICAgPHNwYW4gY2xhc3M9ImN0cmwtbGFiZWwiPuq4gOq8tDwvc3Bhbj4KICAgICAgPHNlbGVjdCBjbGFzcz0iZm9udC1zZWxlY3QiIGlkPSJmb250LXNlbGVjdCIgb25jaGFuZ2U9ImNoYW5nZUZvbnRGYW1pbHkodGhpcy52YWx1ZSkiPgogICAgICAgIDxvcHRpb24gdmFsdWU9ImRlZmF1bHQiPuq4sOuzuOyytDwvb3B0aW9uPgogICAgICAgIDxvcHRpb24gdmFsdWU9InNlcmlmIj7rqoXsobDssrQ8L29wdGlvbj4KICAgICAgICA8b3B0aW9uIHZhbHVlPSJtb25vIj7qs6DsoJXtj608L29wdGlvbj4KICAgICAgPC9zZWxlY3Q+CiAgICA8L2Rpdj4KICA8L2Rpdj4KCiAgPCEtLSDslYzrprwg7LaU6rCAIO2MqOuEkCAtLT4KICA8ZGl2IGNsYXNzPSJhZGQtcGFuZWwiPgogICAgPGgzPuKelSDsg4gg7JWM66a8IOy2lOqwgDwvaDM+CiAgICA8ZGl2IGNsYXNzPSJhZGQtcm93Ij4KICAgICAgPHNlbGVjdCBjbGFzcz0iYWRkLXR5cGUiIGlkPSJuZXctdHlwZSI+CiAgICAgICAgPG9wdGlvbiB2YWx1ZT0iaW5mbyI+4oS577iPIOygleuztDwvb3B0aW9uPgogICAgICAgIDxvcHRpb24gdmFsdWU9InN1Y2Nlc3MiPuKchSDshLHqs7U8L29wdGlvbj4KICAgICAgICA8b3B0aW9uIHZhbHVlPSJ3YXJuaW5nIj7imqDvuI8g6rK96rOgPC9vcHRpb24+CiAgICAgICAgPG9wdGlvbiB2YWx1ZT0iZXJyb3IiPuKdjCDsmKTrpZg8L29wdGlvbj4KICAgICAgPC9zZWxlY3Q+CiAgICAgIDxpbnB1dCBjbGFzcz0iYWRkLXRpdGxlIiBpZD0ibmV3LXRpdGxlIiB0eXBlPSJ0ZXh0IiBwbGFjZWhvbGRlcj0i7KCc66qpICjsg53rnrUg6rCA64qlKSIgbWF4bGVuZ3RoPSIyMCI+CiAgICAgIDxpbnB1dCBjbGFzcz0iYWRkLW1lc3NhZ2UiIGlkPSJuZXctbWVzc2FnZSIgdHlwZT0idGV4dCIgcGxhY2Vob2xkZXI9IuyVjOumvCDrgrTsmqnsnYQg7J6F66Cl7ZWY7IS47JqUIiBtYXhsZW5ndGg9IjgwIgogICAgICAgIG9ua2V5ZG93bj0iaWYoZXZlbnQua2V5PT09J0VudGVyJykgYWRkQmFubmVyKCkiPgogICAgICA8YnV0dG9uIGNsYXNzPSJhZGQtYnRuIiBvbmNsaWNrPSJhZGRCYW5uZXIoKSI+7LaU6rCAPC9idXR0b24+CiAgICA8L2Rpdj4KICA8L2Rpdj4KCiAgPCEtLSDsi6TsoJwg7JWM66a8IOyEvO2EsCDrr7jrpqzrs7TquLAgLS0+CiAgPGRpdiBjbGFzcz0icGFuZWwiPgogICAgPGRpdiBjbGFzcz0icGFuZWwtaGVhZGVyIj4KICAgICAgPGgyPvCfk6Ug7JWM66a8IOyEvO2EsDwvaDI+CiAgICAgIDxwIGNsYXNzPSJwYW5lbC1tZXRhIiBpZD0icGFuZWwtbWV0YSI+7Jik64qYIDTqsbTsnZgg7IOIIOyVjOumvOydtCDsnojsirXri4jri6Q8L3A+CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImJhbm5lci1saXN0IiBpZD0iYmFubmVyLWxpc3QiPgogICAgICA8IS0tIEphdmFTY3JpcHTroZwg7IOd7ISxIC0tPgogICAgPC9kaXY+CiAgPC9kaXY+CgogIDxwIGNsYXNzPSJpbmZvIj7wn5K+IOyEoO2Dne2VnCDsiqTtg4DsnbzCt+q4gOyekCDshKTsoJXCt+yVjOumvCDrqqnroZ3snYAg7IOI66Gc6rOg7LmoIO2bhOyXkOuPhCDsnKDsp4DrkKnri4jri6QuPC9wPgoKICA8c2NyaXB0PgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOuwsOuEiCDsiqTtg4Dsnbwg642w7J207YSwIOygleydmAogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGNvbnN0IEJBTk5FUl9TVFlMRVMgPSB7CiAgICAgIGxpZ2h0OiB7CiAgICAgICAgbmFtZTogJ+udvOydtO2KuCcsCiAgICAgICAgY2lyY2xlOiAnbGluZWFyLWdyYWRpZW50KDEzNWRlZywjZjhmYWZjLCNlMmU4ZjApJywKICAgICAgICB2YXJzOiB7CiAgICAgICAgICAnLS1wYWdlLWJnJzogICcjZjFmNWY5JywKICAgICAgICAgICctLXBhbmVsLWJnJzogJyNmZmZmZmYnLAogICAgICAgICAgJy0tdGV4dCc6ICAgICAnIzFlMjkzYicsCiAgICAgICAgICAnLS1zdWInOiAgICAgICcjNjQ3NDhiJywKICAgICAgICAgICctLWJvcmRlcic6ICAgJyNlMmU4ZjAnLAogICAgICAgICAgJy0tcmFkaXVzJzogICAnMTJweCcsCiAgICAgICAgICAnLS1zaGFkb3cnOiAgICcwIDJweCAxMHB4IHJnYmEoMCwwLDAsMC4wNiknLAogICAgICAgIH0KICAgICAgfSwKICAgICAgZGFyazogewogICAgICAgIG5hbWU6ICfri6TtgawnLAogICAgICAgIGNpcmNsZTogJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsIzFlMjkzYiwjMGYxNzJhKScsCiAgICAgICAgdmFyczogewogICAgICAgICAgJy0tcGFnZS1iZyc6ICAnIzBmMTcyYScsCiAgICAgICAgICAnLS1wYW5lbC1iZyc6ICcjMWUyOTNiJywKICAgICAgICAgICctLXRleHQnOiAgICAgJyNmMWY1ZjknLAogICAgICAgICAgJy0tc3ViJzogICAgICAnIzk0YTNiOCcsCiAgICAgICAgICAnLS1ib3JkZXInOiAgICcjMzM0MTU1JywKICAgICAgICAgICctLXJhZGl1cyc6ICAgJzEycHgnLAogICAgICAgICAgJy0tc2hhZG93JzogICAnMCAycHggMTRweCByZ2JhKDAsMCwwLDAuNCknLAogICAgICAgIH0KICAgICAgfSwKICAgICAgYm9sZDogewogICAgICAgIG5hbWU6ICfqsJXsobDtmJUnLAogICAgICAgIGNpcmNsZTogJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsI2M3ZDJmZSwjODE4Y2Y4KScsCiAgICAgICAgdmFyczogewogICAgICAgICAgJy0tcGFnZS1iZyc6ICAnI2VlZjJmZicsCiAgICAgICAgICAnLS1wYW5lbC1iZyc6ICcjZmZmZmZmJywKICAgICAgICAgICctLXRleHQnOiAgICAgJyMxZTI5M2InLAogICAgICAgICAgJy0tc3ViJzogICAgICAnIzQzMzhjYScsCiAgICAgICAgICAnLS1ib3JkZXInOiAgICcjYzdkMmZlJywKICAgICAgICAgICctLXJhZGl1cyc6ICAgJzRweCcsCiAgICAgICAgICAnLS1zaGFkb3cnOiAgICdub25lJywKICAgICAgICB9CiAgICAgIH0KICAgIH07CgogICAgLy8g6riA6ry0IOuNsOydtO2EsCDsoJXsnZgKICAgIGNvbnN0IEZPTlRfRkFNSUxJRVMgPSB7CiAgICAgIGRlZmF1bHQ6ICInU2Vnb2UgVUknLCAn66eR7J2AIOqzoOuUlScsIHNhbnMtc2VyaWYiLAogICAgICBzZXJpZjogICAiJ05hbnVtIE15ZW9uZ2pvJywgJ0JhdGFuZycsIHNlcmlmIiwKICAgICAgbW9ubzogICAgIidDb25zb2xhcycsICdEMkNvZGluZycsIG1vbm9zcGFjZSIsCiAgICB9OwoKICAgIC8vIOyVjOumvCDsooXrpZjrs4Qg7JWE7J207L2YL+q4sOuzuCDsoJzrqqkKICAgIGNvbnN0IFRZUEVfTUVUQSA9IHsKICAgICAgaW5mbzogICAgeyBpY29uOiAn4oS577iPJywgbGFiZWw6ICfsoJXrs7QnIH0sCiAgICAgIHN1Y2Nlc3M6IHsgaWNvbjogJ+KchScsIGxhYmVsOiAn7ISx6rO1JyB9LAogICAgICB3YXJuaW5nOiB7IGljb246ICfimqDvuI8nLCBsYWJlbDogJ+qyveqzoCcgfSwKICAgICAgZXJyb3I6ICAgeyBpY29uOiAn4p2MJywgbGFiZWw6ICfsmKTrpZgnIH0sCiAgICB9OwoKICAgIC8vIO2FjOuRkOumrCDrkZDqu5ggLyDquIDsnpAg7YGs6riwIOuylOychAogICAgY29uc3QgV0lEVEhfTUlOID0gMjsKICAgIGNvbnN0IFdJRFRIX01BWCA9IDg7CiAgICBjb25zdCBGT05UX01JTiA9IDE0OwogICAgY29uc3QgRk9OVF9NQVggPSAyMjsKCiAgICAvLyDquLDrs7gg7JWM66a8IOuqqeuhnSAo7LKY7J2MIOuwqeusuCDsi5wpCiAgICBjb25zdCBERUZBVUxUX0JBTk5FUlMgPSBbCiAgICAgIHsgaWQ6IDEsIHR5cGU6ICdpbmZvJywgICAgdGl0bGU6ICfsoJXrs7QnLCBtZXNzYWdlOiAn7IOI66Gc7Jq0IOqzteyngOyCrO2VreydtCDrk7HroZ3rkJjsl4jsirXri4jri6QuIOqyjOyLnO2MkOydhCDtmZXsnbjtlbTso7zshLjsmpQuJyB9LAogICAgICB7IGlkOiAyLCB0eXBlOiAnc3VjY2VzcycsIHRpdGxlOiAn7ISx6rO1JywgbWVzc2FnZTogJ+yjvOqwhCDrs7Tqs6DshJzqsIAg7KCV7IOB7KCB7Jy866GcIOyggOyepeuQmOyXiOyKteuLiOuLpC4nIH0sCiAgICAgIHsgaWQ6IDMsIHR5cGU6ICd3YXJuaW5nJywgdGl0bGU6ICfqsr3qs6AnLCBtZXNzYWdlOiAn66y47IScIOyKueyduCDquLDtlZzsnbQgM+ydvCDrgqjslZjsirXri4jri6QuIOyEnOuRmOufrOyjvOyEuOyalC4nIH0sCiAgICAgIHsgaWQ6IDQsIHR5cGU6ICdlcnJvcicsICAgdGl0bGU6ICfsmKTrpZgnLCBtZXNzYWdlOiAn7YyM7J28IOyXheuhnOuTnOyXkCDsi6TtjKjtlojsirXri4jri6QuIOuLpOyLnCDsi5zrj4TtlbTso7zshLjsmpQuJyB9LAogICAgXTsKCiAgICBsZXQgYmFubmVycyA9IEpTT04ucGFyc2UobG9jYWxTdG9yYWdlLmdldEl0ZW0oJ2Jhbm5lci1saXN0JykgfHwgJ251bGwnKSB8fCBERUZBVUxUX0JBTk5FUlM7CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOyVjOumvCDrqqnroZ0g66CM642U66eBCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gcmVuZGVyQmFubmVycygpIHsKICAgICAgY29uc3QgbGlzdCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdiYW5uZXItbGlzdCcpOwogICAgICBjb25zdCBtZXRhID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3BhbmVsLW1ldGEnKTsKCiAgICAgIG1ldGEudGV4dENvbnRlbnQgPSBiYW5uZXJzLmxlbmd0aCA/IGDsmKTripggJHtiYW5uZXJzLmxlbmd0aH3qsbTsnZgg7IOIIOyVjOumvOydtCDsnojsirXri4jri6RgIDogJ+2RnOyLnO2VoCDslYzrprzsnbQg7JeG7Iq164uI64ukJzsKCiAgICAgIGlmICghYmFubmVycy5sZW5ndGgpIHsKICAgICAgICBsaXN0LmlubmVySFRNTCA9ICc8ZGl2IGNsYXNzPSJuby1iYW5uZXIiPuyVjOumvOydhCDstpTqsIDtlbTrs7TshLjsmpQg8J+RhjwvZGl2Pic7CiAgICAgICAgcmV0dXJuOwogICAgICB9CgogICAgICBsaXN0LmlubmVySFRNTCA9IGJhbm5lcnMubWFwKGIgPT4gYAogICAgICAgIDxkaXYgY2xhc3M9ImJhbm5lciBiLSR7Yi50eXBlfSI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0iYi1pY29uIj4ke1RZUEVfTUVUQVtiLnR5cGVdLmljb259PC9zcGFuPgogICAgICAgICAgPGRpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iYi10aXRsZSI+JHtiLnRpdGxlfTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJiLW1zZyI+JHtiLm1lc3NhZ2V9PC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxidXR0b24gY2xhc3M9ImItY2xvc2UiIG9uY2xpY2s9ImRlbGV0ZUJhbm5lcigke2IuaWR9KSIgdGl0bGU9IuuLq+q4sCI+4pyVPC9idXR0b24+CiAgICAgICAgPC9kaXY+CiAgICAgIGApLmpvaW4oJycpOwogICAgfQoKICAgIGZ1bmN0aW9uIHNhdmVCYW5uZXJzKCkgewogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgnYmFubmVyLWxpc3QnLCBKU09OLnN0cmluZ2lmeShiYW5uZXJzKSk7CiAgICB9CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOyVjOumvCDstpTqsIAgLyDsgq3soJwKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBmdW5jdGlvbiBhZGRCYW5uZXIoKSB7CiAgICAgIGNvbnN0IHR5cGUgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbmV3LXR5cGUnKS52YWx1ZTsKICAgICAgY29uc3QgdGl0bGVJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCduZXctdGl0bGUnKTsKICAgICAgY29uc3QgbWVzc2FnZUlucHV0ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ25ldy1tZXNzYWdlJyk7CiAgICAgIGNvbnN0IG1lc3NhZ2UgPSBtZXNzYWdlSW5wdXQudmFsdWUudHJpbSgpOwogICAgICBpZiAoIW1lc3NhZ2UpIHsgbWVzc2FnZUlucHV0LmZvY3VzKCk7IHJldHVybjsgfQoKICAgICAgYmFubmVycy51bnNoaWZ0KHsKICAgICAgICBpZDogRGF0ZS5ub3coKSwKICAgICAgICB0eXBlLAogICAgICAgIHRpdGxlOiB0aXRsZUlucHV0LnZhbHVlLnRyaW0oKSB8fCBUWVBFX01FVEFbdHlwZV0ubGFiZWwsCiAgICAgICAgbWVzc2FnZSwKICAgICAgfSk7CgogICAgICB0aXRsZUlucHV0LnZhbHVlID0gJyc7CiAgICAgIG1lc3NhZ2VJbnB1dC52YWx1ZSA9ICcnOwogICAgICBzYXZlQmFubmVycygpOwogICAgICByZW5kZXJCYW5uZXJzKCk7CiAgICB9CgogICAgZnVuY3Rpb24gZGVsZXRlQmFubmVyKGlkKSB7CiAgICAgIGJhbm5lcnMgPSBiYW5uZXJzLmZpbHRlcihiID0+IGIuaWQgIT09IGlkKTsKICAgICAgc2F2ZUJhbm5lcnMoKTsKICAgICAgcmVuZGVyQmFubmVycygpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDsiqTtg4Dsnbwg67KE7Yq8IOugjOuNlOungQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIHJlbmRlclN0eWxlQnV0dG9ucygpIHsKICAgICAgY29uc3QgcGlja2VyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3N0eWxlLXBpY2tlcicpOwogICAgICBwaWNrZXIuaW5uZXJIVE1MID0gT2JqZWN0LmVudHJpZXMoQkFOTkVSX1NUWUxFUykubWFwKChba2V5LCBzdHlsZV0pID0+IGAKICAgICAgICA8ZGl2IHN0eWxlPSJkaXNwbGF5OmZsZXg7ZmxleC1kaXJlY3Rpb246Y29sdW1uO2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6OHB4Ij4KICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgY2xhc3M9InN0eWxlLWJ0biIgaWQ9ImJ0bi0ke2tleX0iCiAgICAgICAgICAgIG9uY2xpY2s9ImFwcGx5U3R5bGUoJyR7a2V5fScpIgogICAgICAgICAgICB0aXRsZT0iJHtzdHlsZS5uYW1lfSIKICAgICAgICAgICAgc3R5bGU9ImJhY2tncm91bmQ6JHtzdHlsZS5jaXJjbGV9IgogICAgICAgICAgPgogICAgICAgICAgICA8c3BhbiBjbGFzcz0iY2hlY2siPuKckzwvc3Bhbj4KICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICAgPHNwYW4gY2xhc3M9InN0eWxlLWxhYmVsIj4ke3N0eWxlLm5hbWV9PC9zcGFuPgogICAgICAgIDwvZGl2PgogICAgICBgKS5qb2luKCcnKTsKICAgIH0KCiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgLy8g7Iqk7YOA7J28IOyggeyaqQogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGZ1bmN0aW9uIGFwcGx5U3R5bGUoa2V5KSB7CiAgICAgIGNvbnN0IHN0eWxlID0gQkFOTkVSX1NUWUxFU1trZXldOwogICAgICBpZiAoIXN0eWxlKSByZXR1cm47CgogICAgICBjb25zdCByb290ID0gZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50OwoKICAgICAgLy8gQ1NTIOuzgOyImCDsnbzqtIQg67OA6rK9CiAgICAgIE9iamVjdC5lbnRyaWVzKHN0eWxlLnZhcnMpLmZvckVhY2goKFtwcm9wLCB2YWxdKSA9PiB7CiAgICAgICAgcm9vdC5zdHlsZS5zZXRQcm9wZXJ0eShwcm9wLCB2YWwpOwogICAgICB9KTsKCiAgICAgIC8vIO2YhOyerCDsiqTtg4Dsnbwg7J2066aEIOyXheuNsOydtO2KuAogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VycmVudC1uYW1lJykudGV4dENvbnRlbnQgPSBzdHlsZS5uYW1lOwoKICAgICAgLy8g67KE7Yq8IO2ZnOyEse2ZlCDtkZzsi5wKICAgICAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLnN0eWxlLWJ0bicpLmZvckVhY2goYnRuID0+IGJ0bi5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKSk7CiAgICAgIGNvbnN0IGFjdGl2ZUJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdidG4tJyArIGtleSk7CiAgICAgIGlmIChhY3RpdmVCdG4pIGFjdGl2ZUJ0bi5jbGFzc0xpc3QuYWRkKCdhY3RpdmUnKTsKCiAgICAgIC8vIGxvY2FsU3RvcmFnZeyXkCDsoIDsnqUKICAgICAgbG9jYWxTdG9yYWdlLnNldEl0ZW0oJ2Jhbm5lci1zdHlsZScsIGtleSk7CiAgICB9CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIO2FjOuRkOumrCDrkZDqu5gg7KGw7KCICiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gY2hhbmdlQm9yZGVyV2lkdGgoZGVsdGEpIHsKICAgICAgY29uc3Qgcm9vdCA9IGRvY3VtZW50LmRvY3VtZW50RWxlbWVudDsKICAgICAgY29uc3QgY3VycmVudCA9IHBhcnNlSW50KGdldENvbXB1dGVkU3R5bGUocm9vdCkuZ2V0UHJvcGVydHlWYWx1ZSgnLS1ib3JkZXItdycpKTsKICAgICAgY29uc3QgbmV4dCA9IE1hdGgubWluKFdJRFRIX01BWCwgTWF0aC5tYXgoV0lEVEhfTUlOLCBjdXJyZW50ICsgZGVsdGEpKTsKCiAgICAgIHJvb3Quc3R5bGUuc2V0UHJvcGVydHkoJy0tYm9yZGVyLXcnLCBuZXh0ICsgJ3B4Jyk7CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd3aWR0aC12YWx1ZS1sYWJlbCcpLnRleHRDb250ZW50ID0gbmV4dCArICdweCc7CiAgICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdiYW5uZXItYm9yZGVyLXdpZHRoJywgbmV4dCk7CiAgICB9CgogICAgLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIC8vIOq4gOyekCDtgazquLAg7KGw7KCICiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gY2hhbmdlRm9udFNpemUoZGVsdGEpIHsKICAgICAgY29uc3Qgcm9vdCA9IGRvY3VtZW50LmRvY3VtZW50RWxlbWVudDsKICAgICAgY29uc3QgY3VycmVudCA9IHBhcnNlSW50KGdldENvbXB1dGVkU3R5bGUocm9vdCkuZ2V0UHJvcGVydHlWYWx1ZSgnLS1mb250LXNpemUnKSk7CiAgICAgIGNvbnN0IG5leHQgPSBNYXRoLm1pbihGT05UX01BWCwgTWF0aC5tYXgoRk9OVF9NSU4sIGN1cnJlbnQgKyBkZWx0YSkpOwoKICAgICAgcm9vdC5zdHlsZS5zZXRQcm9wZXJ0eSgnLS1mb250LXNpemUnLCBuZXh0ICsgJ3B4Jyk7CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdmb250LXNpemUtbGFiZWwnKS50ZXh0Q29udGVudCA9IG5leHQgKyAncHgnOwogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgnYmFubmVyLWZvbnQtc2l6ZScsIG5leHQpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDquIDqvLQg67OA6rK9CiAgICAvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogICAgZnVuY3Rpb24gY2hhbmdlRm9udEZhbWlseShrZXkpIHsKICAgICAgZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCctLWZvbnQtZmFtaWx5JywgRk9OVF9GQU1JTElFU1trZXldIHx8IEZPTlRfRkFNSUxJRVMuZGVmYXVsdCk7CiAgICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdiYW5uZXItZm9udC1mYW1pbHknLCBrZXkpOwogICAgfQoKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAvLyDstIjquLDtmZQ6IOyggOyepeuQnCDsiqTtg4DsnbwgLyDrkZDqu5ggLyDquIDsnpAg7ISk7KCVIC8g7JWM66a8IOuqqeuhnSDrtojrn6zsmKTquLAKICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICByZW5kZXJTdHlsZUJ1dHRvbnMoKTsKICAgIHJlbmRlckJhbm5lcnMoKTsKCiAgICAvLyDsoIDsnqXrkJwg7Iqk7YOA7J287J20IOyeiOycvOuptCDsgqzsmqksIOyXhuycvOuptCDsi5zsiqTthZwg64uk7YGs66qo65OcIOyEpOygleydhCDrlLDrpoQKICAgIGNvbnN0IHByZWZlcnNEYXJrID0gd2luZG93Lm1hdGNoTWVkaWEoJyhwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyayknKS5tYXRjaGVzOwogICAgY29uc3Qgc2F2ZWRTdHlsZSA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdiYW5uZXItc3R5bGUnKSB8fCAocHJlZmVyc0RhcmsgPyAnZGFyaycgOiAnbGlnaHQnKTsKICAgIGFwcGx5U3R5bGUoc2F2ZWRTdHlsZSk7CgogICAgLy8g7Iuc7Iqk7YWcIOuLpO2BrOuqqOuTnCDshKTsoJXsnbQg7Iuk7Iuc6rCE7Jy866GcIOuwlOuAjOuptCDtlajqu5gg67CY7JiBCiAgICB3aW5kb3cubWF0Y2hNZWRpYSgnKHByZWZlcnMtY29sb3Itc2NoZW1lOiBkYXJrKScpLmFkZEV2ZW50TGlzdGVuZXIoJ2NoYW5nZScsIGUgPT4gewogICAgICBhcHBseVN0eWxlKGUubWF0Y2hlcyA/ICdkYXJrJyA6ICdsaWdodCcpOwogICAgfSk7CgogICAgY29uc3Qgc2F2ZWRXaWR0aCA9IHBhcnNlSW50KGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdiYW5uZXItYm9yZGVyLXdpZHRoJykpIHx8IDQ7CiAgICBkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQuc3R5bGUuc2V0UHJvcGVydHkoJy0tYm9yZGVyLXcnLCBzYXZlZFdpZHRoICsgJ3B4Jyk7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnd2lkdGgtdmFsdWUtbGFiZWwnKS50ZXh0Q29udGVudCA9IHNhdmVkV2lkdGggKyAncHgnOwoKICAgIGNvbnN0IHNhdmVkRm9udFNpemUgPSBwYXJzZUludChsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnYmFubmVyLWZvbnQtc2l6ZScpKSB8fCAxNjsKICAgIGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5zdHlsZS5zZXRQcm9wZXJ0eSgnLS1mb250LXNpemUnLCBzYXZlZEZvbnRTaXplICsgJ3B4Jyk7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZm9udC1zaXplLWxhYmVsJykudGV4dENvbnRlbnQgPSBzYXZlZEZvbnRTaXplICsgJ3B4JzsKCiAgICBjb25zdCBzYXZlZEZvbnRGYW1pbHkgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnYmFubmVyLWZvbnQtZmFtaWx5JykgfHwgJ2RlZmF1bHQnOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2ZvbnQtc2VsZWN0JykudmFsdWUgPSBzYXZlZEZvbnRGYW1pbHk7CiAgICBjaGFuZ2VGb250RmFtaWx5KHNhdmVkRm9udEZhbWlseSk7CiAgPC9zY3JpcHQ+Cgo8L2JvZHk+CjwvaHRtbD4K";
+function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
+function openResultPopup(){const w=window.open('','resultPopup','left=0,top=0,resizable=yes,scrollbars=yes');w.moveTo(0,0);w.resizeTo(screen.availWidth,screen.availHeight);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
+const slides=Array.from(document.querySelectorAll('.slide'));
+const total=slides.length;let current=0;
+const dotsWrap=document.getElementById('navDots');
+slides.forEach((_,i)=>{const dot=document.createElement('button');dot.className='nav-dot'+(i===0?' active':'');dot.setAttribute('aria-label',`${i+1}번 슬라이드로 이동`);dot.onclick=()=>goTo(i);dotsWrap.appendChild(dot);});
+function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
+function changeSlide(dir){goTo(current+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
+goTo(0);
+</script>
+</body>
+</html>
