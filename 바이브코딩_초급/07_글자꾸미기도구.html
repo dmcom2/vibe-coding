@@ -319,29 +319,38 @@ preview.<span class="at">textContent</span> = <span class="tg">document</span>.<
   <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="sp-box">HTML 파일 하나로 글자 꾸미기 도구를 만들어줘.
 
-왼쪽에 옵션, 오른쪽에 실시간 미리보기 구성.
+레이아웃: 3열 구성 (왼쪽 패널 · 가운데 패널 · 오른쪽 미리보기)
 
-조절 가능한 항목:
-1. 텍스트 입력창 (여러 줄)
-2. 글자 크기 슬라이더 (12px ~ 72px)
-3. 글자 색상 선택 (color picker)
-4. 배경색 선택 (color picker, 형광펜 효과)
-5. 굵게(Bold) 토글 버튼
-6. 기울임(Italic) 토글 버튼
-7. 밑줄(Underline) 토글 버튼
-8. 정렬: 왼쪽/가운데/오른쪽 버튼
-9. 폰트 선택: 기본/고딕/명조/필기체 (system font)
+왼쪽 패널 — 텍스트 입력 & 크기·간격
+  • 여러 줄 textarea (oninput으로 실시간 연동)
+  • 글자 크기 슬라이더 10px~72px
+  • 줄 간격 슬라이더 1.0~3.0
+  • 글자 간격 슬라이더 -2px~10px
+  • 글자 색상 color picker
+  • 배경색 color picker (형광펜 효과) + "지우기" 버튼
 
-버튼:
-- "복사하기": 현재 텍스트를 클립보드에 복사
-- "초기화": 모든 설정 기본값으로
+가운데 패널 — 스타일 · 효과 · 정렬 · 폰트 · 버튼
+  • 스타일 토글: 굵게(B) / 기울임(I) / 밑줄(U) / 취소선(S)
+  • 꾸미기 효과
+    - 그라데이션: 버튼을 누르면 끝 색상 picker 추가 표시
+    - 외곽선: 버튼을 누르면 색상 picker 추가 표시
+    - 그림자: 체크박스로 켜고 끄기 + 색상 picker
+  • 텍스트 정렬: 왼쪽 / 가운데 / 오른쪽 / 양쪽
+  • 폰트 선택 드롭다운
+    - 한글 5종: 맑은 고딕, 돋움, 굴림, 바탕, 궁서
+    - 영문 7종: Arial, Georgia, Verdana, Times New Roman, Impact, Comic Sans, Courier New
+  • 버튼: "텍스트 복사" / "CSS 코드 복사" / "전체 초기화"
 
-미리보기 영역은 흰색 종이 느낌으로 패딩/그림자 주기
+오른쪽 패널 — 실시간 미리보기 (sticky)
+  • 배경 선택 버튼: 흰 배경 / 줄 노트 / 어두운 배경 (3가지 이상)
+  • 패딩과 그림자로 종이 느낌
+
+우측 상단에 도움말(?) 버튼 → 클릭하면 팝업으로 기능 목록 안내
 
 파일은 index.html 하나로, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">
-    <div class="sp-card"><b>🌈 그라데이션 글자</b>텍스트 색상을 단색 대신 두 색상을 선택해서 그라데이션으로 적용할 수 있게 해줘.</div>
+    <div class="sp-card"><b>💧 불투명도 슬라이더</b>글자 전체의 투명도를 0%~100% 범위의 슬라이더로 조절할 수 있게 해줘.</div>
     <div class="sp-card"><b>💾 PNG 저장</b>'이미지로 저장' 버튼을 추가해서 꾸민 텍스트를 PNG 파일로 다운로드할 수 있게 해줘.</div>
     <div class="sp-card"><b>🔠 Google Fonts</b>Google Fonts API로 한국어 폰트 5가지를 드롭다운에 추가해서 선택할 수 있게 해줘.</div>
   </div>

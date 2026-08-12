@@ -388,7 +388,7 @@ input.<span class="at">addEventListener</span>(<span class="st">'change'</span>,
   <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="sp-box">HTML 파일 하나로 디지털 명함 생성기를 만들어줘.
 
-왼쪽에 입력 폼, 오른쪽에 실시간 명함 미리보기 (2열 레이아웃)
+레이아웃: 왼쪽 입력 패널 + 오른쪽 실시간 명함 미리보기 (2열)
 
 입력 항목:
 1. 이름
@@ -398,34 +398,40 @@ input.<span class="at">addEventListener</span>(<span class="st">'change'</span>,
 5. 이메일
 6. 전화번호
 7. 회사 주소
-8. 개인 소개 (1-2줄)
-9. 프로필 사진 업로드 (파일 선택)
+8. 개인 소개 (1-2줄, 명함 뒷면에 표시)
+9. 프로필 사진 업로드 (파일 선택 · 지우기 버튼)
+10. 회사 로고 업로드 (파일 선택 · 명함 우측 상단에 표시)
+11. SNS 링크 (아코디언 섹션: 링크드인·깃허브·인스타·페이스북·홈페이지 등)
 
-명함 디자인 테마 선택 (5가지):
-- 클래식 (흰 배경, 남색 텍스트)
-- 다크 (검정 배경, 금색 포인트)
-- 블루 (파란 그라데이션)
-- 그린 (초록 계열)
-- 엘레강트 (베이지 + 갈색)
+명함 디자인 테마 (9가지):
+클래식(흰배경 남색) · 다크(검정 금색) · 블루 · 그린 · 엘레강트(베이지)
+로즈 · 바이올렛 · 오션 · 미드나이트
 
-명함에 표시될 요소:
-- 프로필 사진 (원형, 없으면 이니셜)
-- 이름 (크게)
-- 직책 + 회사명
-- 연락처 아이콘과 함께 표시 (📧 📞 📍)
-- 간단한 소개문
+명함 레이아웃 (3가지):
+가로형(사진+정보 나란히) · 세로형(사진 위, 정보 아래 중앙 정렬) · 미니멀(사진 없음)
+
+명함 미리보기:
+- 앞면: 사진·이름·직책·회사·연락처·SNS 아이콘
+- 뒷면(클릭 또는 버튼으로 3D 뒤집기): SNS 링크 + 개인 소개
+- 미리보기 패널은 sticky (스크롤해도 고정)
 
 버튼:
-- "명함 다운로드" (html2canvas로 PNG 저장)
+- "PNG 저장" (html2canvas로 이미지 저장)
+- "이미지 복사" (클립보드에 이미지 복사)
+- "공유" (명함 내용 텍스트 공유 모달)
+- "vCard 저장" (.vcf 파일 다운로드)
+- "인쇄" (window.print())
 
 localStorage로 마지막 입력값 자동 저장/복원
+다크 모드 지원 (시스템 설정 반영, 수동 토글 버튼)
+도움말(?) 버튼 → 팝업으로 기능 안내
 
 파일은 index.html 하나로, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">
     <div class="sp-card"><b>📱 QR코드 생성</b>qrcode.js 라이브러리로 내 이메일/홈페이지 URL이 담긴 QR코드를 명함 뒷면에 생성해줘.</div>
-    <div class="sp-card"><b>💾 PNG 저장</b>'명함 저장' 버튼 클릭 시 html2canvas로 명함을 PNG 이미지로 다운로드할 수 있게 해줘.</div>
-    <div class="sp-card"><b>🎨 명함 템플릿</b>기본/모던/클래식/컬러풀 4가지 명함 레이아웃 템플릿을 선택할 수 있게 해줘.</div>
+    <div class="sp-card"><b>✉️ 이메일 공유</b>명함 정보를 정리해서 mailto: 링크로 기본 이메일 앱을 열고 내용이 본문에 자동 채워지게 해줘.</div>
+    <div class="sp-card"><b>🖨️ A4 명함 시트</b>A4 한 장에 명함 8장을 격자로 배치해서 한 번에 출력할 수 있는 인쇄 레이아웃을 추가해줘.</div>
   </div>
 </div>
 
