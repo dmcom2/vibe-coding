@@ -275,16 +275,26 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="slide-header">ACTUAL AI GENERATION PROMPT</div>
   <h2>실제 사용한 AI 생성 프롬프트</h2>
   <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 360도 성과평가 시스템이 완성됩니다</div>
+  <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px 16px;">
+    <span style="font-size:13px;font-weight:700;color:#4f46e5;">📂 샘플 데이터 — 먼저 다운로드 후 작업 폴더에 저장하세요</span>
+    <a href="https://dmcom2.github.io/vibe-coding/data/샘플데이터_평가응답.csv" download style="display:inline-flex;align-items:center;gap:5px;background:#6366f1;color:#fff;border-radius:8px;padding:5px 14px;font-size:13px;font-weight:600;text-decoration:none;">📥 샘플데이터_평가응답.csv</a>
+  </div>
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="prompt-box">HTML, CSS, JavaScript로 360도 성과평가 시스템을 만들어줘.
-라이브러리: Chart.js 4.4.0.
+라이브러리: Chart.js 4.4.0 (CDN).
+샘플 데이터: fetch()로 아래 CSV를 로드해줘 (localStorage가 비었을 때 초기 평가 데이터로 사용).
+ - 평가 응답: https://dmcom2.github.io/vibe-coding/data/샘플데이터_평가응답.csv (컬럼: 직원명, 부서, 직급, 평가주기, 평가유형, 리더십, 커뮤니케이션, 직무 전문성, 협업·팀워크, 혁신·창의성, 성과 달성)
 역량 6개: 리더십/커뮤니케이션/직무전문성/협업·팀워크/혁신·창의성/성과달성.
-평가자 유형 4개(가중치): 자기평가(15%)/상사평가(40%)/동료평가(30%)/부하평가(15%).
-데이터 구조: evals[empId][type][compId]=1~5.
-레이아웃: 헤더+좌측250px(대상자 목록)+우측 메인(탭 4개: 평가입력/결과분석/코멘트/최종보고서).
-별★ 5개 클릭.
-인쇄 기능.
-localStorage.
+평가자 가중치: EV_WEIGHT = {self:0.15, boss:0.40, peer:0.30, report:0.15}.
+등급 기준: GRADE_MAP = [{min:4.5,grade:'S'},{min:4.0,grade:'A'},{min:3.0,grade:'B'},{min:0,grade:'C'}].
+헤더: 다크/라이트 테마 토글, 보고서 출력 버튼, 평가 대상 추가 버튼.
+레이아웃: 좌측 250px 대상자 목록 (이름·부서 검색), 우측 메인 탭 4개.
+ - 평가입력: 자기/상사/동료/부하 4개 유형별 역량 별★ 5개 클릭 입력.
+ - 결과분석: 가중 평균 자동 계산, GRADE_MAP 등급 배지, 역량별 레이더 차트, 강점·개선영역 자동 추출.
+ - 코멘트: 평가자 유형별 코멘트 텍스트 입력.
+ - 최종보고서: 인쇄 CSS 포함 전체 요약.
+평가 대상자 추가 모달: 이름·직급·부서(개발팀/마케팅팀/영업팀/인사팀/기획팀)·평가주기.
+localStorage 저장.
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">

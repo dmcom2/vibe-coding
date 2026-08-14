@@ -371,10 +371,16 @@ board.<span class="fn">addEventListener</span>(<span class="str">'mouseup'</span
   <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 디지털 화이트보드가 완성됩니다</div>
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="prompt-box">HTML, CSS, JavaScript로 Canvas 기반 디지털 화이트보드를 만들어줘.
-캔버스: 메인+오버레이 2개.
-도구: 펜/지우개/직선/사각형/원/화살표/텍스트.
-옵션: 색상 8가지+커스텀, 선 굵기, 채우기 토글.
-기능: Undo/Redo(toDataURL 히스토리), 스티키 노트, 전체 초기화, PNG 내보내기, 줌 인/아웃.
+외부 라이브러리 없이 순수 Canvas API만 사용.
+캔버스: 메인 + 오버레이 2개 레이어 (풀스크린).
+도구 9개 (단축키 병기): 펜(P)·형광펜(H)·지우개(E)·직선(L)·사각형(R)·원(C)·화살표(A)·텍스트(T)·스티키노트(N).
+옵션: 채우기 토글 버튼, 색상 팔레트 (기본 컬러 세트 + 사용자 정의 color picker), 선 굵기 슬라이더.
+배경 선택 드롭다운 (다크/화이트/노란지/연초록/블랙).
+확대/축소: −/＋/원본 크기 버튼, 현재 줌 레벨 표시.
+실행 취소 Undo (Ctrl+Z), PNG 이미지 저장 (Ctrl+S), 초기화 버튼.
+하단 상태바: 현재 도구·마우스 좌표·실행취소 횟수 표시, 전체 단축키 안내.
+캔버스 비어 있을 때 안내 텍스트 오버레이.
+토스트 알림.
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">

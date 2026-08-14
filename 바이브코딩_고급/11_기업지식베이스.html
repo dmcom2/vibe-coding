@@ -266,15 +266,14 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="prompt-box">HTML, CSS, JavaScript로 기업 지식베이스(Wiki)를 만들어줘.
 데이터 구조: {id, title, cat, tags[], body(마크다운), author, date, views, likes}.
-카테고리 7개.
-레이아웃: 헤더+좌측 사이드바(카테고리+태그 클라우드)+우측 메인.
-검색: 제목/본문/태그 동시 검색.
-정렬: 최신/조회/좋아요.
-뷰 전환: 카드/리스트.
-아티클 뷰: 마크다운 렌더링.
-에디터 모달.
-기본 문서 8개.
-localStorage.
+카테고리 7개: 업무 프로세스/기술 문서/인사·정책/마케팅·영업/교육 자료/회의록/기타.
+헤더: 통합 검색 입력 (제목/내용/태그 동시), 다크/라이트 테마 토글, 내보내기 버튼, 새 문서 버튼.
+사이드바: 카테고리 네비게이션 (건수 배지), 태그 클라우드 (AND 필터 — every 조건).
+메인: 뷰 전환 (카드/리스트), 정렬 버튼 (최신순/조회순/좋아요순), 결과 건수 표시.
+아티클 뷰: markdownToHtml() 함수로 렌더링 (##→h2, **→strong, `→code), 조회수 자동 증가, 좋아요 토글, 수정·삭제 버튼.
+에디터 모달: 제목·카테고리·태그(쉼표 구분)·본문(마크다운) 입력, 삭제 버튼.
+기본 내장 문서 8개.
+localStorage 저장.
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">

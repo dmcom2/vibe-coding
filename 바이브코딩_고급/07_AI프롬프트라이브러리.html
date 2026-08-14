@@ -300,13 +300,14 @@ tagInput.<span class="fn">addEventListener</span>(<span class="str">'keydown'</s
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="prompt-box">HTML, CSS, JavaScript로 AI 프롬프트 라이브러리 앱을 만들어줘.
 데이터 구조: {id, title, category, tags[], content, uses, favorite}.
-카테고리: 업무자동화/문서작성/데이터분석/코드생성/마케팅/HR교육/전략기획/고객응대.
-레이아웃: 상단 검색+정렬 버튼, 좌측 카테고리 필터 사이드바, 중앙 프롬프트 카드 그리드.
-프롬프트 카드: 제목/배지/태그, 복사 버튼(clipboard.writeText()+사용횟수+1), 즐겨찾기 토글.
-복사 시 Toast 2초.
-태그: Enter로 추가, × 삭제.
-localStorage.
-기본 내장 12개.
+카테고리: 업무자동화/문서작성/데이터분석/코드생성/마케팅/HR교육/전략기획/고객응대/기타.
+헤더: 통합 검색 입력 (단축키 Ctrl+K), 프롬프트 추가 버튼.
+사이드바: 카테고리 네비게이션, 인기 태그 클라우드, 통계 (전체 프롬프트·즐겨찾기·내가 추가·총 사용 횟수).
+메인: 정렬 버튼 (최신순/인기순/⭐즐겨찾기), 결과 수 표시, 활성 태그 배지+해제 버튼, 카드 그리드.
+프롬프트 카드: 이모지 아이콘·카테고리 배지·제목·설명·태그, 복사 버튼 (clipboard.writeText()+사용횟수+1+Toast 2초), 즐겨찾기 토글.
+추가/수정 모달: 제목·카테고리·설명·프롬프트 내용·태그(Enter로 추가, ×삭제)·아이콘이모지 입력, 삭제 버튼.
+기본 내장 프롬프트 12개.
+localStorage 저장.
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">

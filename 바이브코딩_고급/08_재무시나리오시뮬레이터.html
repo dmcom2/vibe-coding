@@ -299,10 +299,19 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 재무 시뮬레이터가 완성됩니다</div>
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="prompt-box">HTML, CSS, JavaScript로 재무 시나리오 시뮬레이터를 만들어줘.
-라이브러리: Chart.js 4.4.0.
-레이아웃: 좌측(320px) 슬라이더 10개, 우측 결과(KPI 4개+차트 2개+손익계산서+감도분석).
-시나리오 프리셋 탭: 기본/낙관/비관.
-슬라이더 값 변경시 oninput=calc() 즉시 재계산.
+라이브러리: Chart.js 4.4.0 (CDN).
+헤더: 기본/낙관/비관 시나리오 프리셋 탭, 출력 버튼.
+레이아웃: 좌측(320px) 슬라이더 패널, 우측 결과 패널.
+슬라이더 10개 (변경 시 즉시 calc() 재계산).
+ - 매출 가정: 기준 월 매출(억원), 전년 대비 매출 성장률(%), 계절 변동성(%)
+ - 비용 가정: 매출원가율(COGS%), 인건비(월,억원), 마케팅비(매출 대비%), R&amp;D 투자(월,억원), 고정비 기타(월,억원)
+ - 세금&amp;기간: 법인세율(%), 분석 기간(개월)
+계절 변동: SEASONS 배열로 월별 배수 적용해 현실적인 매출 추정.
+금액 포매터: fmtB() 함수로 조/억/만 단위 표시.
+KPI 카드 4개: 연간 예상 매출·영업이익(EBIT)·순이익(세후)·월 손익분기점.
+차트 2개: ① 월별 매출&amp;이익 추이 라인차트 ② 비용 구조 파이차트.
+예상 손익계산서(연간) 테이블.
+감도 분석: 이익에 가장 큰 영향을 주는 요소 순위 표시.
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">
