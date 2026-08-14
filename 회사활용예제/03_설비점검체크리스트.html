@@ -323,25 +323,36 @@ cycles.<span class="fn">forEach</span>(cycle => {
   <div class="slide-header">ACTUAL AI GENERATION PROMPT</div>
   <h2>실제 사용한 AI 생성 프롬프트</h2>
   <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 설비 점검 체크리스트가 완성됩니다</div>
+  <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px 16px;">
+    <span style="font-size:13px;font-weight:700;color:#4f46e5;">📂 샘플 데이터 — 먼저 다운로드 후 작업 폴더에 저장하세요</span>
+    <a href="https://dmcom2.github.io/vibe-coding/data/샘플데이터_설비목록.csv" download style="display:inline-flex;align-items:center;gap:5px;background:#6366f1;color:#fff;border-radius:8px;padding:5px 14px;font-size:13px;font-weight:600;text-decoration:none;">📥 샘플데이터_설비목록.csv</a>
+  </div>
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="prompt-box">PCB 제조업체 설비 점검 체크리스트 웹앱을 만들어줘.
+샘플 데이터: fetch()로 아래 CSV를 로드해줘 (앱 초기 설비 목록으로 사용).
+ - 설비목록: https://dmcom2.github.io/vibe-coding/data/샘플데이터_설비목록.csv (컬럼: 설비코드, 설비명, 설비유형, 설치위치, 담당자, 도입년도)
 
-설비 종류: 드릴링머신 / 에칭라인 / 도금라인 / 솔더마스크 / AOI검사기
+설비 유형: 드릴링머신 / 에칭라인 / 도금라인 / 노광기 / 전기검사기 / 외형가공기
+각 설비 유형별 점검 항목 3~5개씩 정의 (일일/주간/월간 주기).
+예: 드릴링머신 — 주축오일잔량, RPM이상유무, 드릴교환주기
 
-각 설비별 점검 항목 3~5개씩 정의 (일일/주간/월간 주기)
-예: 드릴링머신 - 주축오일잔량, RPM이상유무, 드릴교환주기
+헤더: 보고서 출력, 결과 저장(CSV), 인쇄 버튼. 청록(teal) 계열 헤더.
+레이아웃: 좌측 설비 목록 사이드바, 우측 점검 체크리스트 메인.
+좌측 사이드바: 날짜 picker, 설비별 완료율 배지가 있는 설비 목록.
+우측 메인: 선택 설비의 점검 항목 카드.
 
 핵심 기능:
-1. 날짜별 설비별 OK/NG/미점검 기록
+1. 날짜별·설비별 OK/NG/미점검 기록
    - 데이터 구조: results[날짜][설비ID][항목ID] = {result, note}
-   - optional chaining으로 안전하게 접근 (results?.[날짜]?.[설비ID])
+   - optional chaining으로 안전 접근 (results?.[날짜]?.[설비ID])
 2. 완료율 표시 (OK+NG 입력 수 / 전체 항목 수 × 100)
-3. NG 발생 시 특이사항 텍스트 입력 필드 표시
-4. "전체 양호" 버튼 (NG 항목 제외하고 일괄 OK)
-5. 점검 이력 조회 (날짜별)
-6. localStorage 저장
+3. NG 발생 시 특이사항 텍스트 입력 필드 자동 표시
+4. "전체 양호" 버튼 (NG 항목 제외 일괄 OK)
+5. 날짜별 점검 이력 조회
+6. 보고서 출력 오버레이 (인쇄/PDF 저장)
+7. localStorage 저장
 
-디자인: 좌측 설비 목록, 우측 체크리스트, OK=초록, NG=빨강, 미점검=회색
+디자인: OK=초록, NG=빨강, 미점검=회색
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">

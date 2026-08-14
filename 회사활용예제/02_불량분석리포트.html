@@ -333,24 +333,31 @@ sorted.<span class="fn">map</span>(([type, cnt]) => {
 <div class="slide s-prompt">
   <h2>실제 사용한 AI 생성 프롬프트</h2>
   <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 불량 분석 리포트가 완성됩니다</div>
+  <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px 16px;">
+    <span style="font-size:13px;font-weight:700;color:#4f46e5;">📂 샘플 데이터 — 먼저 다운로드 후 작업 폴더에 저장하세요</span>
+    <a href="https://dmcom2.github.io/vibe-coding/data/샘플데이터_불량기록.csv" download style="display:inline-flex;align-items:center;gap:5px;background:#6366f1;color:#fff;border-radius:8px;padding:5px 14px;font-size:13px;font-weight:600;text-decoration:none;">📥 샘플데이터_불량기록.csv</a>
+  </div>
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
-  <div class="prompt-box">PCB 제조 불량 분석 리포트 웹앱을 HTML/CSS/JS로 만들어줘.
+  <div class="prompt-box">PCB 제조 불량 분석 리포트 웹앱을 HTML/CSS/JS 3개 파일로 만들어줘.
+라이브러리: Chart.js 4.4.0 (CDN).
+샘플 데이터: fetch()로 아래 CSV를 로드해줘 (localStorage가 비었을 때 초기 데이터로 사용).
+ - 불량기록: https://dmcom2.github.io/vibe-coding/data/샘플데이터_불량기록.csv (컬럼: 일자, 라인, 제품코드, 공정, 불량유형, 수량, 심각도, 원인)
 
 불량 유형: 단락(Short) / 개방(Open) / 기공(Void) / 이물(Foreign Material) / 치수불량 / 박리(Peeling) / 도금불량 / 변색 / 기타
 
-핵심 기능:
-1. 불량 등록 (날짜, 라인, 제품명, 불량유형, 수량, 심각도, 발견공정, 원인, 조치내용, 담당자)
-2. 파레토 차트 (Chart.js 혼합):
-   - 막대: 유형별 건수 (내림차순)
-   - 꺾은선: 누적 비율(%) - 오른쪽 Y축
-3. 라인별 도넛 차트, 일별 불량 추이 꺾은선 차트
-4. 기간/라인/불량유형 필터
-5. KPI 카드 (총 불량건수, 심각/주의 건수, 불량유형 수)
-6. 목록 검색(제품·유형·조치내용) 및 localStorage 저장, CSV 내보내기(BOM 포함)
-
-누적% 계산: 내림차순 정렬 후 cumSum += 각 건수, cumPct = cumSum / total × 100
-
-HTML, CSS, JavaScript 3개 파일로 나눠서 만들고, 빨간 계열 헤더, 코드에 한국어 주석 달아줘</div>
+헤더: 보고서 출력, CSV 저장, 인쇄, 불량 등록 버튼. 빨간 계열 헤더.
+필터 바: 기간(시작~종료 날짜), 전체 라인 select, 전체 불량유형 select, 조회 버튼.
+KPI 카드: 총 불량건수·심각/주의 건수·불량유형 수.
+차트 및 분석:
+ ① 불량 유형 파레토 차트 (Chart.js 혼합: 막대=유형별 건수 내림차순, 꺾은선=누적률% 오른쪽 Y축)
+ ② 라인별 불량 발생 현황 차트
+ ③ 불량 유형별 파레토 분석 테이블 (누적% 계산: cumSum/total×100)
+ ④ 일별 불량 발생 추이 꺾은선 차트
+불량 발생 목록 테이블: 제품·불량유형·원인·담당자 검색, 행 클릭 편집·삭제.
+불량 등록/수정 모달: 날짜·라인·제품명·불량유형·수량·심각도(심각/주의/경미)·발견공정(재단/천공/에칭/도금/표면처리/외관검사/전기검사/출하검사)·담당자·발생원인·조치내용, 삭제 버튼.
+보고서 출력 오버레이 (인쇄/PDF 저장).
+localStorage 저장, CSV 내보내기 (BOM 포함).
+코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">
     <div class="extend-tip"><b>📉 80% 기준선 추가</b>"파레토 차트에 80% 기준 점선을 추가하고, 누적률이 80%를 넘지 않는 막대는 진한 빨강, 넘는 막대는 회색으로 칠해줘"</div>

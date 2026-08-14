@@ -349,25 +349,31 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="slide-header">ACTUAL AI GENERATION PROMPT</div>
   <h2>실제 사용한 AI 생성 프롬프트</h2>
   <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 원가 계산기가 완성됩니다</div>
+  <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px 16px;">
+    <span style="font-size:13px;font-weight:700;color:#4f46e5;">📂 샘플 데이터 — 먼저 다운로드 후 작업 폴더에 저장하세요</span>
+    <a href="https://dmcom2.github.io/vibe-coding/data/샘플데이터_자재단가표.csv" download style="display:inline-flex;align-items:center;gap:5px;background:#6366f1;color:#fff;border-radius:8px;padding:5px 14px;font-size:13px;font-weight:600;text-decoration:none;">📥 샘플데이터_자재단가표.csv</a>
+  </div>
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
-  <div class="prompt-box">PCB 제조 제품 원가 계산기 웹앱을 만들어줘.
+  <div class="prompt-box">PCB 제조 제품 원가 계산기 웹앱을 HTML/CSS/JS 3개 파일로 만들어줘.
+샘플 데이터: fetch()로 아래 CSV를 로드해줘 (앱 초기 로드 시 재료비 기본값으로 사용).
+ - 자재단가표: https://dmcom2.github.io/vibe-coding/data/샘플데이터_자재단가표.csv (컬럼: 자재명, 소요량, 단위, 단가(원), 비고)
 
-원가 구조:
-1. 재료비: 동적 행 추가/삭제 (자재명, 소모량, 단가 입력)
-2. 공정비: 공정별 단가 입력 (층수 선택시 자동 조정)
-3. 제조간접비율: % 입력 → (재료비+공정비) × 비율 자동 계산
-4. 판관비율: % 입력 → 제조원가 × 비율 자동 계산
+원가 계산 공식:
+재료비 = Σ(소모량 × 단가)
+공정비 = 공정별 단가 합계 (층수별 자동 조정)
+제조간접비 = (재료비 + 공정비) × 제조간접비율(%)
+판관비 = 제조원가 × 판관비율(%)
+총 단가(매당) = 재료비 + 공정비 + 제조간접비 + 판관비
 
-결과 화면:
-- 총 단가(매당), 배치 합계 금액
-- 원가 구성비 도넛 차트 (재료/공정/간접/판관)
-- 항목별 내역 테이블 (단가, 비율%)
-- 목표 마진율 입력 → 제안 판매단가 역산
-
-층수 선택: 단면/양면/4층/6층/8층 → 공정비 자동 변경
-비교 저장 기능 (여러 케이스 저장 후 비교)
-
-핫핑크 헤더, HTML 단일 파일. index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
+헤더: 핫핑크 계열 헤더.
+재료비 섹션: 동적 행 추가/삭제 (자재명·소모량·단위·단가 입력, 소계 자동 계산).
+공정비 섹션: 층수 선택(단면/양면/4층/6층/8층) → 공정별 단가 자동 조정. 공정별 직접 입력 가능.
+비율 입력: 제조간접비율(%)·판관비율(%) 슬라이더/입력 → 즉시 재계산.
+결과 패널: 총 단가(매당)·배치 수량×합계 금액·항목별 내역 테이블(단가, 구성비%).
+원가 구성비 도넛 차트 (재료/공정/간접/판관 비율).
+마진율 역산: 목표 마진율(%) 입력 → 제안 판매단가 자동 계산 (판매가 = 원가 ÷ (1 - 마진율)).
+localStorage 저장.
+코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">
     <div class="extend-tip"><b>📊 층수별 원가 비교표</b>"단면/양면/4층/6층/8층 원가를 한 번에 계산해서 비교 테이블로 보여줘"</div>
