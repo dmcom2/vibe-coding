@@ -308,28 +308,33 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="sp-box">HTML, CSS, JavaScript로 업무일지 작성기를 만들어줘.
 
 화면 구성 (2컬럼 레이아웃):
-[왼쪽 - 날짜 목록]
-- "오늘 일지 쓰기" 버튼 (상단)
-- 날짜별 일지 목록 (최신순)
-- 각 항목에 날짜 + 태그 표시
-- 검색창 (키워드 필터링)
+[왼쪽 사이드바]
+- "+ 오늘 일지 쓰기" 버튼 + 도움말 버튼
+- 검색창: 키워드로 일지 필터링, 검색 결과 수 표시
+- 날짜별 일지 목록 (최신순, 기분 이모지 + 태그 표시)
+- 사이드바 하단: 자주 쓴 태그 Top 5 막대 그래프
 
-[오른쪽 - 일지 작성 영역]
-- 날짜 표시 (오늘 날짜 기본)
+[오른쪽 메인 영역]
+- 날짜 표시 + ◀ ▶ 날짜 이동 버튼 + 📄 템플릿 선택 버튼
+- 템플릿 모달: 일일 업무 보고·회의록·프로젝트 보고·주간 계획 4종
 - 섹션 3개 (각각 textarea):
   ✅ 오늘 한 일
   📋 내일 할 일
   📝 특이사항 / 메모
 - 태그 입력 (쉼표로 구분)
-- 기분 선택 (😊 좋음 / 😐 보통 / 😔 힘듦)
-- "저장" 버튼 + 자동 저장 (입력 후 1초)
-- "삭제" 버튼
+- 기분 선택: 😊 좋음 / 😐 보통 / 😔 힘듦
+- 자동 저장 (입력 후 1초) + 💾 저장 버튼 (Ctrl+S)
+- 삭제 버튼
 
-하단: 이번 주 통계 (기록한 날 수, 태그 워드클라우드 대신 태그 목록)
+내보내기:
+- 📊 주간 요약 내보내기 (이번 주 일지 → 텍스트 파일)
+- 📥 전체 내보내기 (모든 일지 → 텍스트 파일)
 
-내보내기 기능: 선택 기간의 일지를 텍스트 파일로 다운로드
+기타:
+- 커스텀 다이얼로그 (alert/confirm 대신)
+- 도움말 팝업: 사용법·기능 안내·단축키 &amp; FAQ 3개 탭
+- localStorage로 모든 일지 저장
 
-localStorage로 모든 일지 저장
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">

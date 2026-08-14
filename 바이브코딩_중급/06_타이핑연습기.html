@@ -310,16 +310,20 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   - 틀림: 빨간색 배경
   - 미입력: 회색
   - 현재 커서 위치: 파란 언더라인
-- 하단: 투명한 입력창 (포커스 유지)
-- 완료 화면: WPM, 정확도, 걸린 시간 + 최고기록 비교
+- 투명한 입력창 (포커스 유지)
+- 진행 바: 입력 글자 수/전체 글자 수 표시
 
 기능:
-- 시작: 첫 글자 입력 시 자동으로 타이머 시작
-- 완료: 목표 텍스트 끝까지 입력 시 자동 완료
-- 텍스트 선택 드롭다운
-- 다시 시작 버튼
+- 시작: 첫 글자 입력 시 타이머 자동 시작
+- 완료: 목표 텍스트 끝까지 입력 시 결과 화면 표시 (WPM·정확도·걸린 시간·오타 수)
+- 일시정지: 타이핑 영역 밖 클릭 시 타이머 정지, 다시 클릭하면 재개
+- 틀린 글자 입력 시 화면 흔들림 효과
+- 텍스트 선택 드롭다운, 다시 시작 버튼
+- 단축키: Ctrl+Enter 다시 시작
+- 커스텀 다이얼로그 (window.alert/confirm 대신)
+- 도움말 팝업: 사용법·점수 이해·단축키 &amp; FAQ 3개 탭
 
-디자인: 다크 계열 (코드에디터 느낌)
+디자인: 다크 계열 (코드 에디터 느낌)
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">

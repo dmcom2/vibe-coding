@@ -294,35 +294,38 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 
 라이브러리: Chart.js CDN
 
-3가지 탭:
-1. [생성] 탭: 설문지 만들기
-2. [응답] 탭: 설문지에 응답하기
-3. [결과] 탭: 응답 통계 보기
+3가지 탭: ✏️ 생성 / 📝 응답 / 📊 결과
 
 [생성 탭]
+- 빠른 시작 템플릿 3종: 만족도 조사·회의 평가·온보딩 피드백 (클릭 시 기본 질문 자동 채움)
 - 설문 제목 입력
-- 질문 추가 버튼들: 단답형 / 객관식 / 체크박스 / 별점(1-5) / 슬라이더(0-100)
+- 질문 추가 버튼: 단답형 / 객관식 / 체크박스 / 별점(1~5) / 슬라이더(0~10)
 - 각 질문 카드:
-  - 질문 텍스트 편집 (contenteditable or input)
-  - 객관식/체크박스: 선택지 추가/삭제 버튼
-  - 위로/아래로 이동 버튼
-  - 삭제 버튼
-- 설문 미리보기 버튼
+  - 질문 텍스트 편집
+  - 필수 답변 체크박스
+  - 객관식/체크박스: 선택지 추가/삭제
+  - ↑↓ 순서 이동, 삭제 버튼
 
 [응답 탭]
 - 설문 제목 표시
+- 진행률 바 (n/n 답변 완료)
 - 각 질문에 맞는 입력 UI
 - 제출 버튼 → 응답 저장 + 완료 메시지
 
 [결과 탭]
 - 총 응답 수
-- 각 질문별:
-  - 객관식: 도넛 차트 + 응답 수 테이블
-  - 별점: 평균 + 별점 분포 막대 차트
+- 각 질문별 시각화:
+  - 객관식: 도넛 차트
+  - 체크박스: 가로 막대 차트
+  - 별점/슬라이더: 막대 차트 + 평균 점수
   - 단답형: 응답 목록
+- CSV 내보내기 버튼 (UTF-8 BOM)
 - 응답 초기화 버튼
 
-localStorage로 설문 구조 + 응답 저장
+기타:
+- localStorage로 설문 구조 + 응답 저장
+- 토스트 알림, 커스텀 다이얼로그 (alert/confirm 대신)
+- 도움말 팝업: 사용법·질문 유형·FAQ 3개 탭
 
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>

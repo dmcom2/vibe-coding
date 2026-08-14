@@ -342,35 +342,42 @@ grid.<span class="at">addEventListener</span>(<span class="st">'drop'</span>, e 
   <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="sp-box">HTML, CSS, JavaScript로 팀 업무 실적 대시보드를 만들어줘.
 
+라이브러리: Chart.js CDN
+
 위젯 6개를 그리드로 배치:
 
-① 실적 요약 위젯
-- 이번 달 목표/실적 숫자 입력, 달성률(%) 계산, 진행 바 표시
+① 이번 달 실적 위젯
+- 목표/실적 숫자 입력, 달성률(%) 계산, 진행 바 표시, 저장 버튼
 
 ② 마감 임박 할 일 위젯
-- 할 일 + 마감일 입력, 추가/체크/삭제
-- 마감일까지 남은 일수를 D-day로 표시 (지나면 D+n 빨간색)
-- 완료 개수 진행 바
+- 할 일 + 마감일 입력 (Enter 키로 추가)
+- D-day 카운트다운 표시 (지나면 빨간색)
+- 완료 체크/삭제, "모두 완료" 버튼
+- 완료 개수 진행 바, 미완료 배지 수 표시
 
 ③ 공지사항 위젯
-- 공지 제목 등록, 최신순 목록, 삭제
+- 공지 제목 입력 (Enter 키로 추가), 최신순 목록, 삭제
+- 공지 수 배지 표시
 
 ④ 환율 위젯
-- https://api.exchangerate-api.com/v4/latest/KRW 로 USD, JPY, EUR, CNY 환율
-- 새로고침 버튼, 실패 시 캐시 데이터 사용
+- exchangerate-api.com으로 USD·JPY·EUR·CNY 환율 표시
+- 새로고침 버튼, 오프라인 시 캐시 데이터 사용, 업데이트 시각 표시
 
 ⑤ 담당자별 실적 순위 위젯
-- 담당자 이름 + 실적 금액 추가, 금액 내림차순 정렬
-- 상위 3명은 메달 아이콘(🥇🥈🥉) 표시
+- 담당자 이름 + 실적 금액 입력, 금액 내림차순 정렬
+- 상위 3명 메달 아이콘(🥇🥈🥉) 표시, 삭제 버튼
 
 ⑥ 월별 매출 추이 차트 위젯
-- Chart.js 막대 차트로 최근 6개월 매출 표시
-- 실적 요약 위젯의 "이번 달 실적" 값과 연동해서 마지막 막대 갱신
+- Chart.js 막대 차트, 최근 6개월 매출 표시
+- 이번 달 실적 위젯과 연동, 이번 달 막대 색상 강조
 
-드래그 앤 드롭으로 위젯 순서 변경 가능
-다크 테마 / 라이트 테마 전환 버튼
+기타:
+- 드래그 앤 드롭으로 위젯 순서 변경
+- 다크/라이트 테마 전환 버튼
+- 토스트 알림
+- 도움말 팝업: 사용법·위젯 안내·FAQ 3개 탭
+- localStorage로 모든 데이터 저장
 
-localStorage로 모든 데이터 저장
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
   <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="sp-row">
