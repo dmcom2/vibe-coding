@@ -416,6 +416,51 @@ text.<span class="at">match</span>(<span class="vl">/[.!?]+/g</span>)?.length ||
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">첫 줄에 결과물을 명시한다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"HTML 파일 하나로 텍스트 분석 도구를 만들어줘"처럼 첫 줄에서 무엇을 만드는지 딱 잘라 밝혔습니다. AI가 방향을 잡지 못하고 엉뚱한 것을 만드는 일이 없어집니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기능을 번호 목록으로 열거한다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">통계 카드 8가지를 1~8번으로 나열했습니다. 목록 형식은 AI가 빠뜨리는 항목을 최소화하고, 구현 순서를 예측 가능하게 만들어 줍니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">동작 조건을 구체적으로 적는다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"입력할 때마다 실시간 업데이트", "초과 시 색상 표시"처럼 언제·어떻게 동작해야 하는지를 명시했습니다. 조건이 없으면 AI가 편의대로 구현합니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">파일 구조와 코드 스타일을 못 박는다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"index.html 하나로", "한국어 주석 달아줘"처럼 파일 수와 주석 언어를 지정했습니다. AI의 선택지를 줄이면 수정 횟수가 줄어듭니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"텍스트 분석 앱 만들어줘"<br>→ AI마다 다른 결과
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"전체 글자 수·단어 수 등 8가지 통계를 실시간으로 표시하고, SNS 제한 초과 시 빨간색 경고를 보여줘, index.html 한 파일로"<br>→ 한 번에 원하는 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- S7 실행 방법 -->
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;">
@@ -514,15 +559,15 @@ textarea.<span class="at">addEventListener</span>(<span class="st">'input'</span
     <div class="mission-grid">
       <div class="mission-card m1">
         <div class="m-star">⭐</div>
-        <h3>미션 1<br>읽는 시간 추가</h3>
-        <p>글자 수를 기준으로 예상 읽는 시간을 계산합니다 (분당 300자).</p>
-        <div class="mission-code">글자 수 / 300으로<br>예상 읽기 시간 표시.<br>(예: 약 2분 30초)</div>
+        <h3>미션 1<br>영어·숫자 글자 수 추가</h3>
+        <p>통계 카드에 영어 알파벳 수와 숫자 수를 각각 세는 카드를 새로 추가합니다.</p>
+        <div class="mission-code">영어 알파벳 수와 숫자 수를<br>각각 세는 통계 카드를<br>추가해줘.</div>
       </div>
       <div class="mission-card m2">
         <div class="m-star">⭐⭐</div>
-        <h3>미션 2<br>특정 단어 카운트</h3>
-        <p>찾고 싶은 단어를 입력하면 전체 텍스트에서 몇 번 나왔는지 표시합니다.</p>
-        <div class="mission-code">단어 검색창 추가.<br>입력한 단어가 텍스트에<br>몇 번 나왔는지 표시.</div>
+        <h3>미션 2<br>타이핑 타이머</h3>
+        <p>텍스트를 처음 입력하기 시작하면 타이머가 자동으로 작동해 글쓰기 경과 시간을 실시간으로 표시합니다.</p>
+        <div class="mission-code">텍스트 입력 시 타이머 시작,<br>경과 시간(분:초)을<br>실시간으로 표시해줘.</div>
       </div>
       <div class="mission-card m3">
         <div class="m-star">⭐⭐⭐</div>

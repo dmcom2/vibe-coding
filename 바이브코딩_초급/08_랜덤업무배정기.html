@@ -380,6 +380,52 @@ members.<span class="at">includes</span>(<span class="st">'홍길동'</span>); <
   </div>
 </div>
 
+<!-- 프롬프트 해설 슬라이드 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">화면 레이아웃을 직접 설계했다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"입력 영역 2열", "결과 영역 탭 2개"처럼 배치 구조를 명시했습니다. AI가 임의로 레이아웃을 정하지 않고 원하는 모습 그대로 만들어 줍니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">예외 상황을 미리 정해줬다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">팀원 수 &gt; 업무 수면 "대기", 업무 수 &gt; 팀원 수면 "2개 이상 담당" 등 경우의 수를 직접 써줬습니다. 이 덕분에 AI가 스스로 판단할 빈틈이 없어집니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">버튼 동작 방식을 세부까지 설명했다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"🔒 잠금 = 현재 업무 고정", "부재 = 배정 대상 제외·취소선·흐림 처리"처럼 각 버튼이 어떻게 작동해야 하는지 구체적으로 명시했습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">출력 형식과 기술 요건을 명시했다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"파일은 index.html 하나로", "코드에 한국어 주석"처럼 결과물의 형식까지 지정했습니다. 코드 품질과 유지보수성이 처음부터 확보됩니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"팀원한테 업무 랜덤으로 배정해줘"<br>→ 어떤 UI로 나올지, 예외는 어떻게 처리할지 AI가 마음대로 결정
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"팀원 수 &gt; 업무 수면 대기 처리, 잠금 버튼으로 배정 고정, 이력은 localStorage에 날짜와 함께 저장"<br>→ 한 번에 원하는 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- S7 실행 방법 -->
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;">
@@ -501,9 +547,9 @@ members.<span class="at">includes</span>(<span class="st">'홍길동'</span>); <
     <div class="mission-grid">
       <div class="mission-card m1">
         <div class="m-star">⭐</div>
-        <h3>미션 1<br>이전 배정 제외</h3>
-        <p>지난번 배정 결과를 기억해서 같은 업무를 연속으로 받지 않게 합니다.</p>
-        <div class="mission-code">마지막 배정 결과를<br>localStorage에 저장.<br>같은 업무 연속 방지.</div>
+        <h3>미션 1<br>다크 모드 토글</h3>
+        <p>상단에 🌙/☀️ 버튼을 추가해 클릭할 때마다 밝은 테마와 어두운 테마가 전환됩니다.</p>
+        <div class="mission-code">상단에 다크/라이트 모드<br>전환 버튼을 추가해줘.<br>선택 상태는 저장해줘.</div>
       </div>
       <div class="mission-card m2">
         <div class="m-star">⭐⭐</div>

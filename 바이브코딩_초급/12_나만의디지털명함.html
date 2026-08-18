@@ -435,6 +435,51 @@ localStorage로 마지막 입력값 자동 저장/복원
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">결과물을 하나로 제한</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"HTML 파일 하나로"라고 명시해 AI가 여러 파일로 분리하지 않도록 제약을 걸었습니다. 파일 수를 정해주면 결과가 예측 가능해집니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">UI 구조를 말로 그려줬다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"왼쪽 입력 패널 + 오른쪽 실시간 미리보기"처럼 화면 배치를 직접 설명하면 AI가 디자인을 알아서 해석하지 않고 의도한 구조를 그대로 만듭니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기능을 번호·수치로 열거</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">입력 항목 11개, 테마 9가지, 레이아웃 3가지처럼 숫자를 붙여 나열하면 AI가 빠뜨리지 않고 모두 구현합니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기술 스택을 직접 지정</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">html2canvas, localStorage, vCard(.vcf) 등 사용할 라이브러리와 API를 명시하면 AI가 다른 방법을 선택하지 않고 정확한 기술로 구현합니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"디지털 명함 앱 만들어줘"<br>→ 결과가 제각각
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"HTML 파일 하나, 왼쪽 입력+오른쪽 미리보기, 9가지 테마, PNG 저장, localStorage 포함"<br>→ 한 번에 원하는 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- S7 실행 방법 -->
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;">
@@ -527,21 +572,21 @@ FIELDS.<span class="at">forEach</span>(f => document.<span class="at">getElement
     <div class="mission-grid">
       <div class="mission-card m1">
         <div class="m-star">⭐</div>
-        <h3>미션 1<br>SNS 링크 추가</h3>
-        <p>LinkedIn, GitHub 등 SNS 주소를 명함에 추가합니다.</p>
-        <div class="mission-code">LinkedIn URL,<br>GitHub URL 필드 추가.<br>명함에 아이콘과 함께.</div>
+        <h3>미션 1<br>취미·관심사 태그</h3>
+        <p>명함 뒷면에 나를 표현하는 해시태그를 최대 5개 입력하고 알약 모양으로 표시합니다.</p>
+        <div class="mission-code">명함 뒷면 하단에 #독서 #커피 #여행<br>형식으로 태그 입력란을 추가해줘.<br>태그는 pill 스타일 배지로 표시.</div>
       </div>
       <div class="mission-card m2">
         <div class="m-star">⭐⭐</div>
-        <h3>미션 2<br>QR코드 생성</h3>
-        <p>명함 뒷면에 이메일/연락처 QR코드를 자동 생성합니다.</p>
-        <div class="mission-code">QR코드 라이브러리 추가.<br>이메일 주소를 QR코드로.<br>명함 우측 하단에 표시.</div>
+        <h3>미션 2<br>배경 이미지 업로드</h3>
+        <p>명함 배경에 나만의 이미지를 넣고 투명도 슬라이더로 조절합니다.</p>
+        <div class="mission-code">명함 배경 이미지 파일 업로드 추가.<br>투명도(opacity) 슬라이더(0~100%) 추가.<br>이미지 없으면 기존 테마 색상 유지.</div>
       </div>
       <div class="mission-card m3">
         <div class="m-star">⭐⭐⭐</div>
-        <h3>미션 3<br>앞뒤 명함</h3>
-        <p>명함 앞면(기본 정보)과 뒷면(약력/QR)을 각각 저장할 수 있게 만듭니다.</p>
-        <div class="mission-code">앞면/뒷면 탭 구분.<br>각각 PNG 저장 가능.<br>flip 애니메이션 추가.</div>
+        <h3>미션 3<br>URL 공유 링크</h3>
+        <p>명함 정보를 URL에 인코딩해 공유 링크를 만들고, 링크를 열면 명함이 자동으로 채워지게 합니다.</p>
+        <div class="mission-code">명함 정보를 Base64로 인코딩해<br>URL에 담는 "링크 생성" 버튼 추가.<br>링크를 열면 입력값 자동 복원.</div>
       </div>
     </div>
   </div>
