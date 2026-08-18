@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -77,6 +77,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
 .result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
 .result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
+.slide-header{display:flex;align-items:center;gap:18px;margin-bottom:20px;}
+.slide-header .icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.slide-header h2{font-size:1.9rem;font-weight:800;color:#0c1445;margin-bottom:0;}
+.slide-header p{font-size:1.05rem;color:#64748b;margin-top:3px;}
+.slide-body{flex:1;overflow-y:auto;}
+.mission-card{width:auto;min-width:180px;flex:1;}
+.mission-card .m-desc{font-size:13px;color:rgba(255,255,255,.6);margin:8px 0 10px;line-height:1.5;}
+.mission-card .m-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px;}
+.mission-card .m-list li{font-size:12px;color:rgba(255,255,255,.5);line-height:1.4;}
+.mission-card .m-list li::before{content:"✓ ";color:#93c5fd;}
 </style>
 </head>
 <body>
@@ -117,8 +127,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="sub">개념은 가볍게, 손은 바쁘게 — 5단계 약 60분</div>
   <div style="display:flex;flex-direction:column;gap:12px;">
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>핵심 기술 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: 전문 검색 & 결합 필터 · markdownToHtml() · 문서 목록 & 상세 뷰 등</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 zoo code에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— zoo code이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 패턴 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실습 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 실무에 맞게 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">20분</div></div>
   </div>
@@ -130,7 +140,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="sub">초·중급 과정과 동일 — 오늘은 외부 CDN 없이 인터넷 연결 없이도 진행할 수 있어요</div>
   <div class="card-row">
     <div class="card"><h3>💻 VS Code + Live Server</h3><p>중급 과정에서 설치한 그대로 사용합니다. 파일을 저장(Ctrl+S)한 뒤 Live Server가 자동으로 새로고침해줍니다.</p></div>
-    <div class="card teal"><h3>🤖 Cline 확장</h3><p>오늘도 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve)을 빠짐없이 눌러주세요.</p></div>
+    <div class="card teal"><h3>🤖 zoo code 확장</h3><p>오늘도 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve)을 빠짐없이 눌러주세요.</p></div>
     <div class="card purple"><h3>📴 오프라인에서도 OK</h3><p>전문 검색·마크다운 렌더링·태그 필터는 모두 순수 JavaScript로 동작합니다. 외부 CDN 라이브러리가 없어 한번 로드되면 인터넷 없이도 계속 실습 가능합니다.</p></div>
   </div>
   <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">💡 고급 과정부터는 <strong>실무 데이터 구조</strong>를 다룹니다 — 완벽히 이해하지 못해도 괜찮습니다. 코드는 AI가 쓰고, 우리는 패턴을 읽고 요청하는 법을 배웁니다.</div>
@@ -262,7 +272,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="slide s-prompt">
   <div class="slide-header">ACTUAL AI GENERATION PROMPT</div>
   <h2>실제 사용한 AI 생성 프롬프트</h2>
-  <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 기업 지식베이스가 완성됩니다</div>
+  <div class="sub">아래 프롬프트를 VS Code의 zoo code에 그대로 붙여넣으면 기업 지식베이스가 완성됩니다</div>
   <div class="prompt-copy-label">▼ COPY &amp; PASTE THIS PROMPT</div>
   <div class="prompt-box">HTML, CSS, JavaScript로 기업 지식베이스(Wiki)를 만들어줘.
 데이터 구조: {id, title, cat, tags[], body(마크다운), author, date, views, likes}.
@@ -275,7 +285,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 기본 내장 문서 8개.
 localStorage 저장.
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 zoo code 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ zoo code이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">
     <div class="extend-tip"><b>🔐 권한 관리</b>"사용자 역할(관리자/편집자/뷰어)을 추가하고, 뷰어는 읽기만, 편집자는 수정 가능, 관리자는 전체 권한으로 구분해줘"</div>
     <div class="extend-tip"><b>📜 버전 이력</b>"아티클 저장 시 이전 버전을 히스토리로 보관하고, '버전 이력 보기'에서 이전 내용과 현재 내용을 비교할 수 있게 해줘"</div>
@@ -283,11 +293,54 @@ localStorage 저장.
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#f5f3ff;border-left:4px solid #6366f1;padding:14px;border-radius:8px;">
+        <strong style="color:#6366f1;">POINT 1 — 함수 이름과 변환 규칙 명시</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;"><code>markdownToHtml()</code>이라는 함수 이름과 "##→h2, **→strong, `→code" 규칙을 직접 지정. 이름과 규칙을 주면 AI가 그 함수를 코드 전체에서 일관되게 호출. 추상적 요청은 구현이 제각각이 됨.</p>
+      </div>
+      <div style="background:#ecfdf5;border-left:4px solid #059669;padding:14px;border-radius:8px;">
+        <strong style="color:#059669;">POINT 2 — 필터 논리 연산자 명시</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">"AND 필터 — every 조건"처럼 Boolean 연산자까지 지정. "태그 필터 추가해줘"만 말하면 OR 필터로 구현될 가능성이 높음. 필터 조건은 반드시 AND/OR/NOT을 명확히 써야 함.</p>
+      </div>
+      <div style="background:#fffbeb;border-left:4px solid #d97706;padding:14px;border-radius:8px;">
+        <strong style="color:#d97706;">POINT 3 — 필드 타입까지 포함한 데이터 구조</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;"><code>tags[]</code>(배열), <code>body(마크다운)</code>(타입 힌트), <code>views</code>(카운터)처럼 필드 옆에 타입을 병기. AI가 tags를 문자열로 처리하거나 views를 문자열로 저장하는 실수를 방지.</p>
+      </div>
+      <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:14px;border-radius:8px;">
+        <strong style="color:#dc2626;">POINT 4 — 기본 데이터 수량 지정</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">"기본 내장 문서 8개"처럼 시드 데이터 수량을 명시. 지정하지 않으면 2~3개만 넣거나 아예 빈 상태로 만듦. 교육 시연·데모에는 충분한 샘플 데이터가 필수.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);padding:16px;border-radius:10px;">
+      <strong>✏️ 비교해 보기</strong>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+        <div style="background:rgba(255,255,255,0.7);padding:10px;border-radius:6px;">
+          <strong>❌ 막연한 요청</strong>
+          <p style="font-size:0.85em;margin:4px 0 0;">"태그로 필터링되는 지식베이스 만들어줘. 마크다운도 보이면 좋겠어."</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.9);padding:10px;border-radius:6px;">
+          <strong>✅ 구체적인 요청</strong>
+          <p style="font-size:0.85em;margin:4px 0 0;">"태그는 Set으로 관리, every()로 AND 조건. markdownToHtml() 함수로 ##→h2, **→strong 변환. 기본 내장 문서 8개 포함."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <h2>파일 실행 방법</h2>
   <div class="sub">AI가 만든 코드를 VS Code에서 실행하는 4단계</div>
   <div style="display:flex;flex-direction:column;gap:14px;">
-    <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">1</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">폴더 열기</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code에서 실습 폴더를 엽니다 (메뉴 → 파일 → 폴더 열기)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">2</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">파일 3개 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">Cline이 만든 <strong>index.html · style.css · script.js</strong> 3개 파일이 폴더에 있는지 확인 (없으면 Cline의 승인 대기 확인)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">3</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">Go Live 클릭</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code 우측 하단 <strong>Go Live</strong> 버튼 클릭 (Live Server 확장 필요)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">4</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">기능 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">화면이 뜨면 버튼·차트·입력 등 주요 기능을 직접 눌러보며 확인</p></div></div>
+    <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">1</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">폴더 열기</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code에서 실습 폴더를 엽니다 (메뉴 → 파일 → 폴더 열기)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">2</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">파일 3개 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">zoo code이 만든 <strong>index.html · style.css · script.js</strong> 3개 파일이 폴더에 있는지 확인 (없으면 zoo code의 승인 대기 확인)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">3</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">Go Live 클릭</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code 우측 하단 <strong>Go Live</strong> 버튼 클릭 (Live Server 확장 필요)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">4</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">기능 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">화면이 뜨면 버튼·차트·입력 등 주요 기능을 직접 눌러보며 확인</p></div></div>
   </div>
 </div>
 
@@ -325,9 +378,36 @@ localStorage 저장.
   <h2>고급 실습 11 <span>완료</span></h2>
   <p>전문 검색 · markdownToHtml() · Set AND 태그 필터 · 조회수 추적</p>
   <div class="mission-grid">
-    <div class="mission-card"><div class="m-num">핵심 패턴 1</div><div class="m-title">title+body+tags 통합 검색</div></div>
-    <div class="mission-card"><div class="m-num">핵심 패턴 2</div><div class="m-title">정규식 체인 markdownToHtml</div></div>
-    <div class="mission-card"><div class="m-num">핵심 패턴 3</div><div class="m-title">new Set() + every() AND 필터</div></div>
+    <div class="mission-card m1">
+      <div class="m-num">🤖 미션 1</div>
+      <div class="m-title">AI 태그 자동 추천</div>
+      <p class="m-desc">본문 텍스트를 분석해 관련 태그를 자동으로 제안</p>
+      <ul class="m-list">
+        <li>에디터 모달에 "AI 태그 제안" 버튼 추가</li>
+        <li>단어 빈도(TF) 기반 키워드 추출 및 추천</li>
+        <li>기존 태그와 중복 제거 후 신규 태그만 표시</li>
+      </ul>
+    </div>
+    <div class="mission-card m2">
+      <div class="m-num">🕸️ 미션 2</div>
+      <div class="m-title">문서 연관 네트워크 그래프</div>
+      <p class="m-desc">공유 태그를 가중치로 문서 간 연결 관계를 시각화</p>
+      <ul class="m-list">
+        <li>Canvas API로 포스-레이아웃 네트워크 렌더링</li>
+        <li>공유 태그 수를 엣지 두께(가중치)로 표현</li>
+        <li>노드 클릭 시 해당 문서 상세 뷰로 이동</li>
+      </ul>
+    </div>
+    <div class="mission-card m3">
+      <div class="m-num">📄 미션 3</div>
+      <div class="m-title">선택 문서 PDF 일괄 내보내기</div>
+      <p class="m-desc">체크박스로 선택한 문서를 하나의 PDF로 병합 출력</p>
+      <ul class="m-list">
+        <li>목록에 다중 선택 체크박스 추가</li>
+        <li>@media print CSS로 목차·페이지 구분 처리</li>
+        <li>window.print() 연결로 브라우저 PDF 저장</li>
+      </ul>
+    </div>
   </div>
 </div>
 

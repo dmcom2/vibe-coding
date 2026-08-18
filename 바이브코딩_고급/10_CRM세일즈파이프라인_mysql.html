@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -77,6 +77,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
 .result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
 .result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
+.slide-header{display:flex;align-items:center;gap:18px;margin-bottom:20px;}
+.slide-header .icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.slide-header h2{font-size:1.9rem;font-weight:800;color:#1c0a00;margin-bottom:0;}
+.slide-header p{font-size:1.05rem;color:#64748b;margin-top:3px;}
+.slide-body{flex:1;overflow-y:auto;}
+.mission-card{width:auto;min-width:180px;flex:1;}
+.mission-card .m-desc{font-size:13px;color:rgba(255,255,255,.6);margin:8px 0 10px;line-height:1.5;}
+.mission-card .m-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px;}
+.mission-card .m-list li{font-size:12px;color:rgba(255,255,255,.5);line-height:1.4;}
+.mission-card .m-list li::before{content:"✓ ";color:#fcd34d;}
 </style>
 </head>
 <body>
@@ -117,8 +127,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="sub">개념은 가볍게, 손은 바쁘게 — 5단계 약 60분</div>
   <div style="display:flex;flex-direction:column;gap:12px;">
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>핵심 기술 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: 가중 매출 & KPI · 3-뷰 & charts{} 관리 · 칸반 보드 렌더링 등</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 zoo code에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— zoo code이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 패턴 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실습 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 실무에 맞게 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">20분</div></div>
   </div>
@@ -130,7 +140,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="sub">초·중급 과정과 동일 + 이번엔 CDN 라이브러리 연결도 확인하세요</div>
   <div class="card-row">
     <div class="card"><h3>💻 VS Code + Live Server</h3><p>중급 과정에서 설치한 그대로 사용합니다. Chart.js CDN이 정상 로드되려면 Live Server가 켜져 있어야 합니다.</p></div>
-    <div class="card blue"><h3>🤖 Cline 확장</h3><p>오늘도 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve)을 빠짐없이 눌러주세요.</p></div>
+    <div class="card blue"><h3>🤖 zoo code 확장</h3><p>오늘도 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve)을 빠짐없이 눌러주세요.</p></div>
     <div class="card teal"><h3>🌐 인터넷 연결</h3><p>분석 뷰의 차트를 Chart.js CDN(외부 서버)에서 불러오므로 인터넷이 필요합니다. 사내망이 CDN을 막는 경우 강사에게 문의하세요.</p></div>
   </div>
   <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">💡 고급 과정부터는 <strong>실무 데이터 구조</strong>를 다룹니다 — 완벽히 이해하지 못해도 괜찮습니다. 코드는 AI가 쓰고, 우리는 패턴을 읽고 요청하는 법을 배웁니다.</div>
@@ -271,7 +281,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="slide s-prompt">
   <div class="slide-header">ACTUAL AI GENERATION PROMPT</div>
   <h2>실제 사용한 AI 생성 프롬프트</h2>
-  <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 CRM 파이프라인이 완성됩니다</div>
+  <div class="sub">아래 프롬프트를 VS Code의 zoo code에 그대로 붙여넣으면 CRM 파이프라인이 완성됩니다</div>
   <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px 16px;">
     <span style="font-size:13px;font-weight:700;color:#4f46e5;">📂 샘플 데이터 — 먼저 다운로드 후 작업 폴더에 저장하세요</span>
     <a href="https://dmcom2.github.io/vibe-coding/data/샘플데이터_거래목록.csv" download style="display:inline-flex;align-items:center;gap:5px;background:#6366f1;color:#fff;border-radius:8px;padding:5px 14px;font-size:13px;font-weight:600;text-decoration:none;">📥 샘플데이터_거래목록.csv</a>
@@ -292,7 +302,7 @@ KPI 바: 전체 딜 수·총 예상 금액·가중 매출 (amount×prob/100)·Wi
 차트 관리: charts{} 객체, renderCharts() 호출 시 기존 차트 destroy 후 재생성.
 localStorage 저장.
 파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 zoo code 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ zoo code이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">
     <div class="extend-tip"><b>📧 이메일 통합</b>"딜 카드에 '이메일 발송' 버튼을 추가하고, 담당자 이메일로 미팅 요청 템플릿을 mailto: 링크로 열어줘"</div>
     <div class="extend-tip"><b>🤖 확률 예측</b>"딜의 금액, 단계, 경과일을 기반으로 계약 성사 확률을 간단한 점수 공식으로 자동 계산해줘"</div>
@@ -300,11 +310,54 @@ localStorage 저장.
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#f5f3ff;border-left:4px solid #6366f1;padding:14px;border-radius:8px;">
+        <strong style="color:#6366f1;">POINT 1 — 데이터 스키마 명시</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">딜 데이터 구조 <code>{id, company, amount, prob, stage, owner ...}</code>를 직접 나열해 AI가 필드명과 타입을 추측하지 않도록 고정. 잘못된 변수명으로 생기는 버그를 원천 차단.</p>
+      </div>
+      <div style="background:#ecfdf5;border-left:4px solid #059669;padding:14px;border-radius:8px;">
+        <strong style="color:#059669;">POINT 2 — 비즈니스 공식 직접 제시</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">"가중 매출 = amount × prob/100"을 수식으로 명시. "가중 매출을 계산해줘"처럼 추상적으로 말하면 AI마다 공식이 달라짐. 핵심 로직은 반드시 공식으로 써줄 것.</p>
+      </div>
+      <div style="background:#fffbeb;border-left:4px solid #d97706;padding:14px;border-radius:8px;">
+        <strong style="color:#d97706;">POINT 3 — 차트 메모리 관리 패턴 지정</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">"charts{} 객체로 관리, destroy() 후 재생성"이라고 구현 패턴까지 요청. 이 패턴 없이 차트를 재렌더링하면 메모리 누수가 발생. AI에게 패턴 이름을 알려주면 정확히 적용.</p>
+      </div>
+      <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:14px;border-radius:8px;">
+        <strong style="color:#dc2626;">POINT 4 — 파일 분리와 출력 형식 명시</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">"index.html · style.css · script.js 3개로 나눠서"라고 출력 파일 구조를 지시. 명시하지 않으면 AI는 모든 코드를 한 파일에 담음. 원하는 파일 구조는 항상 명시.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);padding:16px;border-radius:10px;">
+      <strong>✏️ 비교해 보기</strong>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+        <div style="background:rgba(255,255,255,0.7);padding:10px;border-radius:6px;">
+          <strong>❌ 막연한 요청</strong>
+          <p style="font-size:0.85em;margin:4px 0 0;">"CRM 영업 관리 앱 만들어줘. 딜 단계 이동되고 차트도 있으면 좋겠어."</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.9);padding:10px;border-radius:6px;">
+          <strong>✅ 구체적인 요청</strong>
+          <p style="font-size:0.85em;margin:4px 0 0;">"딜 구조 {id, company, amount, prob, stage(0~4)} 로 관리. 가중 매출 = amount × prob/100. charts{} 객체로 차트 관리, destroy 후 재생성. 파일 3개 분리."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <h2>파일 실행 방법</h2>
   <div class="sub">AI가 만든 코드를 VS Code에서 실행하는 4단계</div>
   <div style="display:flex;flex-direction:column;gap:14px;">
-    <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">1</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">폴더 열기</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code에서 실습 폴더를 엽니다 (메뉴 → 파일 → 폴더 열기)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">2</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">파일 3개 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">Cline이 만든 <strong>index.html · style.css · script.js</strong> 3개 파일이 폴더에 있는지 확인 (없으면 Cline의 승인 대기 확인)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">3</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">Go Live 클릭</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code 우측 하단 <strong>Go Live</strong> 버튼 클릭 (Live Server 확장 필요)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">4</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">기능 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">화면이 뜨면 버튼·차트·입력 등 주요 기능을 직접 눌러보며 확인</p></div></div>
+    <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">1</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">폴더 열기</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code에서 실습 폴더를 엽니다 (메뉴 → 파일 → 폴더 열기)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">2</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">파일 3개 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">zoo code이 만든 <strong>index.html · style.css · script.js</strong> 3개 파일이 폴더에 있는지 확인 (없으면 zoo code의 승인 대기 확인)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">3</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">Go Live 클릭</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code 우측 하단 <strong>Go Live</strong> 버튼 클릭 (Live Server 확장 필요)</p></div></div><div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(99,102,241,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">4</div><div><h4 style="font-size:21px;font-weight:600;color:#1e1e3a;margin-bottom:4px;">기능 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">화면이 뜨면 버튼·차트·입력 등 주요 기능을 직접 눌러보며 확인</p></div></div>
   </div>
 </div>
 
@@ -342,9 +395,36 @@ localStorage 저장.
   <h2>고급 실습 10 <span>완료</span></h2>
   <p>칸반 구조 · 가중 매출 · 3-뷰 전환 · charts{} 다중 차트 관리</p>
   <div class="mission-grid">
-    <div class="mission-card"><div class="m-num">핵심 패턴 1</div><div class="m-title">amount × prob/100 가중 매출</div></div>
-    <div class="mission-card"><div class="m-num">핵심 패턴 2</div><div class="m-title">forEach hide → switchView</div></div>
-    <div class="mission-card"><div class="m-num">핵심 패턴 3</div><div class="m-title">charts{} + destroy() 재생성</div></div>
+    <div class="mission-card m1">
+      <div class="m-num">🔔 미션 1</div>
+      <div class="m-title">Webhook 실시간 알림</div>
+      <p class="m-desc">딜 단계 완료 시 Slack/Teams Webhook으로 JSON 자동 전송</p>
+      <ul class="m-list">
+        <li>계약완료 진입 시 fetch POST 알림 구현</li>
+        <li>설정 모달에 Webhook URL 입력란 추가</li>
+        <li>전송 성공/실패를 토스트 메시지로 표시</li>
+      </ul>
+    </div>
+    <div class="mission-card m2">
+      <div class="m-num">🥊 미션 2</div>
+      <div class="m-title">경쟁사 Win/Loss 분석</div>
+      <p class="m-desc">딜별 경쟁사 정보를 기록하고 승패 현황을 차트로 시각화</p>
+      <ul class="m-list">
+        <li>딜 모달에 경쟁사 필드·Win/Loss 라디오 추가</li>
+        <li>경쟁사별 Win Rate 횡형 Bar 차트 표시</li>
+        <li>취약 단계·경쟁사 교차 분석 테이블 구현</li>
+      </ul>
+    </div>
+    <div class="mission-card m3">
+      <div class="m-num">📅 미션 3</div>
+      <div class="m-title">마감 리스크 캘린더</div>
+      <p class="m-desc">예상 마감일을 달력에 표시하고 임박 딜을 자동 경보</p>
+      <ul class="m-list">
+        <li>월별 캘린더 뷰 탭 추가</li>
+        <li>마감 7일 이내 딜 빨간 배지 하이라이팅</li>
+        <li>마감 분포 히트맵으로 파이프라인 집중도 표시</li>
+      </ul>
+    </div>
   </div>
 </div>
 
