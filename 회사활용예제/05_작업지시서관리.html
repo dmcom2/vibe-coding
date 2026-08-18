@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -30,7 +30,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .s-title .meta .lbl{font-size:16px;color:rgba(255,255,255,.4);margin-top:4px;}
 
 /* 콘텐츠 슬라이드 */
-.s-content{background:#f8fafc;padding:56px 72px;}
+.s-content{background:#f8fafc;padding:56px 72px 140px;}
 .s-content h2{font-size:37px;font-weight:700;color:#0c2d48;margin-bottom:8px;}
 .s-content .sub{font-size:21px;color:#64748b;margin-bottom:36px;padding-bottom:20px;border-bottom:2px solid #e2e8f0;}
 .card-row{display:flex;gap:20px;margin-bottom:24px;}
@@ -42,7 +42,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .card p{font-size:18px;color:#334155;line-height:1.7;}
 
 /* 코드 슬라이드 */
-.s-dark{background:#0a1420;padding:56px 72px;}
+.s-dark{background:#0a1420;padding:56px 72px 140px;}
 .s-dark h2{font-size:35px;font-weight:700;color:#bae6fd;margin-bottom:8px;}
 .s-dark .sub{font-size:20px;color:#64748b;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #16293b;}
 .code-block{background:#060d16;border-radius:12px;padding:24px 28px;font-family:'Consolas','D2Coding',monospace;font-size:18px;line-height:1.8;color:#cdd6f4;border:1px solid #16293b;margin-bottom:20px;overflow:auto;}
@@ -50,7 +50,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .tip-box{background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.3);border-radius:10px;padding:16px 20px;color:#7dd3fc;font-size:18px;line-height:1.6;}
 
 /* 그라데이션 슬라이드 */
-.s-grad{background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);padding:56px 72px;}
+.s-grad{background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);padding:56px 72px 140px;}
 .s-grad h2{font-size:37px;font-weight:700;color:#0c2d48;margin-bottom:8px;}
 .s-grad .sub{font-size:21px;color:#64748b;margin-bottom:36px;padding-bottom:20px;border-bottom:2px solid #bae6fd;}
 .step-list{display:flex;flex-direction:column;gap:16px;}
@@ -80,13 +80,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .highlight{color:#0ea5e9;font-weight:700;}
 
 /* 프롬프트 슬라이드 */
-.s-prompt{background:#f0f9ff;padding:56px 72px;}
+.s-prompt{background:#f0f9ff;padding:clamp(20px,3vh,56px) 72px 140px;overflow-y:auto;}
 .s-prompt h2{font-size:33px;font-weight:700;color:#0c2d48;margin-bottom:8px;}
 .s-prompt .sub{font-size:18px;color:#64748b;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #bae6fd;}
 .prompt-copy-label{font-size:14px;font-weight:700;color:#0ea5e9;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
-.prompt-box{background:#0a1420;border-radius:12px;padding:22px 26px;font-family:'Consolas','D2Coding',monospace;font-size:16px;line-height:1.8;color:#a6e3a1;white-space:pre-line;max-height:52vh;overflow:auto;border:1px solid #16293b;}
-.extend-tips{display:flex;gap:12px;margin-top:16px;}
-.extend-tip{flex:1;background:#fff;border-radius:10px;padding:14px 16px;border-left:3px solid #0ea5e9;font-size:16px;color:#475569;line-height:1.55;}
+.prompt-box{background:#0a1420;border-radius:12px;padding:22px 26px;font-family:'Consolas','D2Coding',monospace;font-size:16px;line-height:1.8;color:#a6e3a1;white-space:pre-line;min-height:180px;max-height:clamp(180px,45vh,480px);overflow:auto;border:1px solid #16293b;}
+.extend-tips{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;}
+.extend-tip{flex:1;min-width:180px;background:#fff;border-radius:10px;padding:14px 16px;border-left:3px solid #0ea5e9;font-size:16px;color:#475569;line-height:1.55;}
 .extend-tip b{color:#0c2d48;display:block;margin-bottom:4px;}
 .nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
 .nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
@@ -147,8 +147,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="sub">개념은 가볍게, 손은 바쁘게 — 5단계 약 60분</div>
   <div style="display:flex;flex-direction:column;gap:12px;">
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>핵심 기술 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: WO 데이터 구조 · 채번 · 진행률 · D-Day 계산 등</span></div><div style="font-size:0.94rem;font-weight:700;color:#0284c7;background:#e0f2fe;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 Cline에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#0284c7;background:#e0f2fe;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— Cline이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#0284c7;background:#e0f2fe;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 zoo code에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#0284c7;background:#e0f2fe;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— zoo code이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#0284c7;background:#e0f2fe;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 패턴 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#0284c7;background:#e0f2fe;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실습 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 실무에 맞게 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#0284c7;background:#e0f2fe;padding:4px 10px;border-radius:12px;flex-shrink:0;">20분</div></div>
   </div>
@@ -161,7 +161,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="sub">인터넷 CDN 없이도 동작하는 앱 — 로컬 환경만 준비하면 됩니다</div>
   <div class="card-row">
     <div class="card"><h3>💻 VS Code + Live Server</h3><p>중급 과정에서 설치한 그대로 사용합니다. index.html을 열고 Go Live로 실행합니다.</p></div>
-    <div class="card cyan"><h3>🤖 Cline 확장</h3><p>오늘도 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve)을 빠짐없이 눌러주세요.</p></div>
+    <div class="card cyan"><h3>🤖 zoo code 확장</h3><p>오늘도 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve)을 빠짐없이 눌러주세요.</p></div>
     <div class="card violet"><h3>📂 샘플데이터_작업지시.csv</h3><p>실습 폴더에 들어 있는 원본 데이터입니다. 엑셀로 열어 우리 회사 WO 데이터로 수정해두면 실습이 더 실감 납니다.</p></div>
   </div>
   <div style="margin-top:16px;background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#92400e;line-height:1.6;">💡 이 앱은 별도 CDN 라이브러리를 쓰지 않아서 인터넷 연결이 끊겨도 실습에 지장이 없습니다.</div>
@@ -344,7 +344,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <!-- 슬라이드 12: 실제 사용한 AI 생성 프롬프트 -->
 <div class="slide s-prompt">
   <h2>실제 사용한 AI 생성 프롬프트</h2>
-  <div class="sub">아래 프롬프트를 VS Code의 Cline에 그대로 붙여넣으면 작업지시서 관리 앱이 완성됩니다</div>
+  <div class="sub">아래 프롬프트를 VS Code의 zoo code에 그대로 붙여넣으면 작업지시서 관리 앱이 완성됩니다</div>
   <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px 16px;">
     <span style="font-size:13px;font-weight:700;color:#4f46e5;">📂 샘플 데이터 — 먼저 다운로드 후 작업 폴더에 저장하세요</span>
     <a href="https://dmcom2.github.io/vibe-coding/data/샘플데이터_작업지시.csv" download style="display:inline-flex;align-items:center;gap:5px;background:#6366f1;color:#fff;border-radius:8px;padding:5px 14px;font-size:13px;font-weight:600;text-decoration:none;">📥 샘플데이터_작업지시.csv</a>
@@ -367,11 +367,55 @@ KPI 바: 전체·진행중·완료·보류·납기초과 카드.
 인쇄 출력 (@media print CSS).
 localStorage 저장.
 코드에 한국어 주석 달아줘</div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 zoo code 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ zoo code이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
   <div class="extend-tips">
     <div class="extend-tip"><b>🖨️ 인쇄 기능 추가</b>"작업지시서 인쇄 기능을 추가해줘: 인쇄 버튼 클릭시 해당 WO 내용만 출력, 상단 회사명/타이틀·기본정보·작업내용·서명란, @media print CSS로 헤더/필터바/카드그리드는 숨기기"</div>
     <div class="extend-tip"><b>📱 QR 코드 출력</b>"WO 카드에 QR 코드를 추가해서 모바일로 스캔하면 상세정보가 보이게 해줘"</div>
     <div class="extend-tip"><b>📊 납기 달성율 통계</b>"이번달 WO의 납기 준수율 통계를 도넛 차트로 보여줘"</div>
+  </div>
+</div>
+
+<!-- 슬라이드: 프롬프트 해설 -->
+<div class="slide s-content">
+  <div class="slide-header" style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p style="font-size:18px;color:#64748b;margin-top:4px;">앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#f5f3ff;border-left:4px solid #6366f1;padding:14px;border-radius:8px;">
+        <strong style="color:#6366f1;">POINT 1 — 상태 메타 객체 선행 정의</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">STATUS_META={waiting, progress, inspect, done, hold}처럼 상태 코드·라벨·색상을 한 객체로 묶으면 카드·필터·KPI에서 일관되게 재사용됩니다.</p>
+      </div>
+      <div style="background:#ecfdf5;border-left:4px solid #059669;padding:14px;border-radius:8px;">
+        <strong style="color:#059669;">POINT 2 — 계산 로직을 수식으로 명시</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">"진행률=produced÷qty×100", "D-Day=(dueDate-today)÷86400000"처럼 계산식을 직접 쓰면 오차 없는 함수가 생성됩니다.</p>
+      </div>
+      <div style="background:#fffbeb;border-left:4px solid #d97706;padding:14px;border-radius:8px;">
+        <strong style="color:#d97706;">POINT 3 — 채번 형식을 예시로 제시</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">"WO-YYYYMM-NNN" 같은 실제 출력 예시를 주면 자동 채번 포맷 오류 없이 의도한 형식이 생성됩니다.</p>
+      </div>
+      <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:14px;border-radius:8px;">
+        <strong style="color:#dc2626;">POINT 4 — 공정 단계를 순서대로 나열</strong>
+        <p style="margin:6px 0 0;font-size:0.9em;">8단계 공정명을 순서대로 나열하면 버튼 순서·진행률 계산이 나열한 순서 그대로 생성됩니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);padding:16px;border-radius:10px;">
+      <strong>✏️ 비교해 보기</strong>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+        <div style="background:rgba(255,255,255,0.7);padding:10px;border-radius:6px;">
+          <strong>❌ 막연한 요청</strong>
+          <p style="font-size:0.85em;margin:4px 0 0;">"작업지시서 관리 시스템 만들어줘"</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.9);padding:10px;border-radius:6px;">
+          <strong>✅ 구체적인 요청</strong>
+          <p style="font-size:0.85em;margin:4px 0 0;">"지시번호는 WO-YYYYMM-NNN 형식, 진행률=produced÷qty×100, D-Day=(납기일-오늘)÷86400000"</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -381,7 +425,7 @@ localStorage 저장.
   <div class="sub">AI가 만든 코드를 VS Code에서 실행하는 4단계</div>
   <div style="display:flex;flex-direction:column;gap:14px;">
     <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(14,165,233,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">1</div><div><h4 style="font-size:21px;font-weight:600;color:#0c2d48;margin-bottom:4px;">폴더 열기</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code에서 실습 폴더를 엽니다 (메뉴 → 파일 → 폴더 열기)</p></div></div>
-    <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(14,165,233,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">2</div><div><h4 style="font-size:21px;font-weight:600;color:#0c2d48;margin-bottom:4px;">파일 3개 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">Cline이 만든 <strong>index.html · style.css · script.js</strong> 3개 파일이 폴더에 있는지 확인 (없으면 Cline의 승인 대기 확인)</p></div></div>
+    <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(14,165,233,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">2</div><div><h4 style="font-size:21px;font-weight:600;color:#0c2d48;margin-bottom:4px;">파일 3개 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">zoo code이 만든 <strong>index.html · style.css · script.js</strong> 3개 파일이 폴더에 있는지 확인 (없으면 zoo code의 승인 대기 확인)</p></div></div>
     <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(14,165,233,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">3</div><div><h4 style="font-size:21px;font-weight:600;color:#0c2d48;margin-bottom:4px;">Go Live 클릭</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">VS Code 우측 하단 <strong>Go Live</strong> 버튼 클릭 (Live Server 확장 필요)</p></div></div>
     <div style="display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:12px;padding:18px 24px;box-shadow:0 2px 8px rgba(14,165,233,.08);"><div style="min-width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;">4</div><div><h4 style="font-size:21px;font-weight:600;color:#0c2d48;margin-bottom:4px;">기능 확인</h4><p style="font-size:18px;color:#64748b;line-height:1.6;">WO 등록 → 공정 버튼 클릭 → 진행률·D-Day가 바뀌는지 직접 눌러보며 확인</p></div></div>
   </div>
@@ -395,7 +439,7 @@ localStorage 저장.
     <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🗂️ "화면이 하얗거나 스타일이 안 먹어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><strong>index.html · style.css · script.js</strong> 3개 파일이 <strong>같은 폴더</strong>에 있는지, 파일명이 정확한지 확인하세요.</p></div>
     <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">수정한 <strong>모든 파일을 저장(Ctrl+S)</strong>하세요. 탭 이름 옆 ● 표시는 저장 안 됨 표시! 저장 후 브라우저 <strong>새로고침(F5)</strong>.</p></div>
     <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">📅 "D-Day나 진행률이 이상해요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">납기일·착수일 형식이 <strong>YYYY-MM-DD</strong>인지 확인하세요. 날짜 형식이 다르면 계산이 어긋납니다.</p></div>
-    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">⏸️ "Cline이 멈춰서 아무것도 안 해요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. Cline 채팅창의 승인 버튼을 눌러주세요.</p></div>
+    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">⏸️ "zoo code이 멈춰서 아무것도 안 해요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">파일을 만들거나 고치기 전에 <strong>승인(Approve)</strong>을 기다리는 중입니다. zoo code 채팅창의 승인 버튼을 눌러주세요.</p></div>
   </div>
   <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #0ea5e9;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#0c2d48;line-height:1.6;">🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.</div>
 </div>
@@ -470,16 +514,16 @@ localStorage 저장.
   <p>WO 채번 · 진행률 계산 · D-Day 경보 · 모달 재사용 패턴</p>
   <div class="mission-grid">
     <div class="mission-card">
-      <div class="m-num">핵심 패턴 1</div>
-      <div class="m-title">qty/produced → progPct() → 진행률 바 자동 반영</div>
+      <div class="m-num">도전 미션 1</div>
+      <div class="m-title">담당자별 완료 WO 건수·납기 준수율 집계 → 생산성 순위표 표시</div>
     </div>
     <div class="mission-card">
-      <div class="m-num">핵심 패턴 2</div>
-      <div class="m-title">(dueDate-today)/86400000 → D-Day 계산</div>
+      <div class="m-num">도전 미션 2</div>
+      <div class="m-title">기존 WO 복사(Clone) 버튼 → 동일 스펙 신규 WO 빠르게 발행</div>
     </div>
     <div class="mission-card">
-      <div class="m-num">핵심 패턴 3</div>
-      <div class="m-title">editId 유무로 신규/수정 하나의 모달 분기</div>
+      <div class="m-num">도전 미션 3</div>
+      <div class="m-title">상태·공정 변경 시 일시·변경자 기록 → WO별 감사 이력 조회</div>
     </div>
   </div>
 </div>
