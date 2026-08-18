@@ -25,7 +25,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .s-title .meta{display:flex;gap:32px;justify-content:center;}
 .s-title .meta .val{font-size:31px;font-weight:700;color:#10b981;}
 .s-title .meta .lbl{font-size:16px;color:rgba(255,255,255,.4);margin-top:4px;}
-.s-content{background:#e0f2fe;padding:56px 72px;}
+.s-content{background:#e0f2fe;padding:56px 72px 140px;}
 .s-content h2{font-size:37px;font-weight:700;color:#0a2318;margin-bottom:8px;}
 .s-content .sub{font-size:21px;color:#64748b;margin-bottom:36px;padding-bottom:20px;border-bottom:2px solid #6ee7b7;}
 .card-row{display:flex;gap:20px;margin-bottom:24px;}
@@ -33,13 +33,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .card.blue{border-left-color:#3b82f6;} .card.amber{border-left-color:#f59e0b;} .card.red{border-left-color:#ef4444;}
 .card h3{font-size:20px;font-weight:600;color:#475569;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
 .card p{font-size:18px;color:#334155;line-height:1.7;}
-.s-dark{background:#064e3b;padding:56px 72px;}
+.s-dark{background:#064e3b;padding:56px 72px 140px;}
 .s-dark h2{font-size:35px;font-weight:700;color:#6ee7b7;margin-bottom:8px;}
 .s-dark .sub{font-size:20px;color:#0a3d2c;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #0d4a33;}
 .code-block{background:#051f17;border-radius:12px;padding:24px 28px;font-family:'Consolas','D2Coding',monospace;font-size:18px;line-height:1.8;color:#a7f3d0;border:1px solid #0d4a33;margin-bottom:20px;overflow:auto;}
 .kw{color:#6ee7b7;} .fn{color:#93c5fd;} .str{color:#fde68a;} .cm{color:#0a3d2c;font-style:italic;} .num{color:#fb923c;}
 .tip-box{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:10px;padding:16px 20px;color:#6ee7b7;font-size:18px;line-height:1.6;}
-.s-grad{background:linear-gradient(135deg,#e0f2fe 0%,#bae6fd 100%);padding:56px 72px;}
+.s-grad{background:linear-gradient(135deg,#e0f2fe 0%,#bae6fd 100%);padding:56px 72px 140px;}
 .s-grad h2{font-size:37px;font-weight:700;color:#0a2318;margin-bottom:8px;}
 .s-grad .sub{font-size:21px;color:#64748b;margin-bottom:36px;padding-bottom:20px;border-bottom:2px solid #4ade80;}
 .step-list{display:flex;flex-direction:column;gap:16px;}
@@ -62,13 +62,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .icon-box .label{font-size:16px;color:#64748b;font-weight:600;}
 
 /* 프롬프트 슬라이드 */
-.s-prompt{background:#e0f2fe;padding:56px 72px;}
+.s-prompt{background:#e0f2fe;padding:clamp(20px,3vh,56px) 72px 140px;overflow-y:auto;}
 .s-prompt h2{font-size:33px;font-weight:700;color:#1e1e3a;margin-bottom:8px;}
 .s-prompt .sub{font-size:18px;color:#64748b;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #c7d2fe;}
 .prompt-copy-label{font-size:14px;font-weight:700;color:#6366f1;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
-.prompt-box{background:#1e1e2e;border-radius:12px;padding:22px 26px;font-family:'Consolas','D2Coding',monospace;font-size:16px;line-height:1.8;color:#a6e3a1;white-space:pre-line;max-height:52vh;overflow:auto;border:1px solid #313244;}
-.extend-tips{display:flex;gap:12px;margin-top:16px;}
-.extend-tip{flex:1;background:#fff;border-radius:10px;padding:14px 16px;border-left:3px solid #6366f1;font-size:16px;color:#475569;line-height:1.55;}
+.prompt-box{background:#1e1e2e;border-radius:12px;padding:22px 26px;font-family:'Consolas','D2Coding',monospace;font-size:16px;line-height:1.8;color:#a6e3a1;white-space:pre-line;min-height:180px;max-height:clamp(180px,45vh,480px);overflow:auto;border:1px solid #313244;}
+.extend-tips{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;}
+.extend-tip{flex:1;min-width:180px;background:#fff;border-radius:10px;padding:14px 16px;border-left:3px solid #6366f1;font-size:16px;color:#475569;line-height:1.55;}
 .extend-tip b{color:#1e1e3a;display:block;margin-bottom:4px;}
 .nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
 .nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
