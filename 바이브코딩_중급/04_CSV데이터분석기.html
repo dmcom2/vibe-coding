@@ -326,6 +326,51 @@ dropZone.<span class="at">addEventListener</span>(<span class="st">'drop'</span>
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기능을 섹션별로 구조화</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"업로드 영역 / 열 선택 / 분석 결과"처럼 기능을 그룹으로 묶어 요청하면 AI가 전체 앱 구조를 한눈에 파악해 누락 없이 구현합니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">라이브러리 이름을 직접 지정</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"Chart.js CDN, PapaParse CDN"처럼 원하는 라이브러리를 이름으로 명시하면 AI가 검색 없이 바로 올바른 CDN 링크를 삽입해줍니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">예외 상황을 사전에 명시</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"UTF-8 먼저 시도, 깨짐 감지 시 EUC-KR로 자동 재시도"처럼 엣지 케이스를 미리 적으면 AI가 방어 코드를 함께 작성해 완성도가 높아집니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">산출물 형식까지 지정</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"3개 파일로 나눠줘, 한국어 주석 달아줘"처럼 결과물의 파일 구조와 가독성 조건을 명시하면 유지보수하기 좋은 코드가 만들어집니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"CSV 파일 불러오는 거 만들어줘"<br>→ 파싱 방법, 차트 종류, 파일 구조가 제각각
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"PapaParse CDN으로 파싱, 열 선택 시 통계 카드·히스토그램 즉시 업데이트, 3파일 분리"<br>→ 한 번에 원하는 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
   <div class="slide-body">
@@ -386,8 +431,8 @@ dropZone.<span class="at">addEventListener</span>(<span class="st">'drop'</span>
   <div class="slide-body">
     <div class="mgrid">
       <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>컬럼 정렬</h3><p>헤더 클릭 시 오름차순/내림차순으로 행을 정렬합니다.</p><div class="mcode">헤더 클릭 → 정렬.<br>▲ 오름차순 / ▼ 내림차순.<br>숫자/문자열 자동 감지.</div></div>
-      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>검색 필터</h3><p>특정 컬럼에서 검색어를 포함하는 행만 표시합니다.</p><div class="mcode">검색 입력창 추가.<br>입력 즉시 테이블 필터링.<br>일치 텍스트 하이라이트.</div></div>
-      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>CSV 내보내기</h3><p>현재 필터/정렬된 데이터를 새 CSV 파일로 다운로드합니다.</p><div class="mcode">Blob으로 CSV 재생성.<br>헤더+데이터 합치기.<br>파일명에 날짜 포함.</div></div>
+      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>이상값 하이라이트</h3><p>평균 ± 2 표준편차를 벗어난 셀을 자동 감지해 테이블에서 빨간색으로 강조합니다.</p><div class="mcode">숫자 컬럼 표준편차 계산.<br>±2σ 초과 셀 배경색 강조.<br>이상값 개수 통계 카드에 추가.</div></div>
+      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>산점도 시각화</h3><p>X축·Y축으로 쓸 숫자 컬럼을 각각 선택해 두 컬럼의 상관관계를 산점도로 시각화합니다.</p><div class="mcode">X축·Y축 드롭다운 추가.<br>Chart.js scatter 타입 사용.<br>점에 마우스 올리면 행 데이터 툴팁.</div></div>
     </div>
   </div>
 </div>

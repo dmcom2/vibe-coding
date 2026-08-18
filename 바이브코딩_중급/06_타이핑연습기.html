@@ -333,6 +333,51 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">섹션으로 나눠 명세하기</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">프롬프트를 "화면 구성 / 기능 / 디자인"으로 구분해 작성했습니다. AI가 전체 구조를 한눈에 파악하므로 빠뜨리거나 뒤섞는 실수가 없어집니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">시각 규칙을 색상 코드로 명시</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"맞음: 초록색, 틀림: 빨간색 배경, 미입력: 회색, 커서: 파란 언더라인"처럼 색상을 직접 지정했습니다. AI가 디자인을 임의로 결정하지 않고 정확히 구현합니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">트리거→결과 쌍으로 기술</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"첫 글자 입력 시→타이머 시작", "목표 텍스트 끝까지 입력 시→결과 화면 표시"처럼 조건과 동작을 함께 씁니다. AI가 언제 무엇을 해야 할지 혼동하지 않습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기술 조건을 마지막에 한 번에</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"파일 3개로 나눠서, 한국어 주석 달아줘"처럼 파일 구조와 코드 품질 요구사항을 마지막에 묶어 명시하면 AI가 처음부터 올바른 구조로 코드를 작성합니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"타이핑 연습기 만들어줘"<br>→ 색상·파일구조·동작 방식이 매번 제각각
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"화면 구성·색상 규칙·기능 목록·파일 구조를 섹션별로 명시"<br>→ 한 번에 원하는 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
   <div class="slide-body">
@@ -400,7 +445,7 @@ textarea.<span class="at">addEventListener</span>(<span class="st">'input'</span
     <div class="mgrid">
       <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>레벨 시스템</h3><p>초급/중급/고급 제시문을 분리하고 레벨 선택 기능을 추가합니다.</p><div class="mcode">초급: 짧은 문장 (50자)<br>중급: 일반 문장 (100자)<br>고급: 긴 문단 (200자)</div></div>
       <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>오타 분석</h3><p>자주 틀리는 글자 통계를 표시합니다.</p><div class="mcode">오타 발생시 글자 기록.<br>완료 후 오타 많은 순 표시.<br>"ㅇ→ㄴ" 형식으로 보여주기.</div></div>
-      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>영문 모드</h3><p>한국어/영어 모드를 전환하여 영문 타이핑도 연습합니다.</p><div class="mcode">토글로 한/영 전환.<br>영문 제시문 5개 추가.<br>영문 WPM은 공백 기준 단어수.</div></div>
+      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>타임어택 모드</h3><p>제한 시간 안에 최대한 많이 타이핑하는 카운트다운 모드를 추가합니다.</p><div class="mcode">30초 / 60초 선택 버튼.<br>카운트다운 타이머 표시.<br>시간 종료 시 자동 결과 표시.</div></div>
     </div>
   </div>
 </div>

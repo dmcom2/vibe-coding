@@ -344,6 +344,51 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">레이아웃을 텍스트로 그려라</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">[왼쪽 사이드바] / [오른쪽 메인 영역]처럼 화면 구조를 글로 묘사하면 AI가 정확한 2컬럼 레이아웃을 만든다. 머릿속 그림을 언어로 옮기는 것이 핵심이다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기능은 목록으로 낱낱이 나열</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"날짜별 목록", "기분 선택", "자동저장"처럼 기능을 bullet으로 하나씩 나열하면 AI가 빠짐없이 모두 구현한다. 한 덩어리로 설명하면 일부가 누락된다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">구현 방법은 몰라도 된다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"날짜별로 저장해줘"처럼 무엇을(what)만 설명하면 어떻게(how — 날짜 키 구조, localStorage)는 AI가 스스로 설계한다. 기술 용어를 몰라도 기능 관점으로만 요청하면 충분하다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">출력 형식 조건을 끝에 명시</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"3개 파일로 나눠줘" + "한국어 주석 달아줘"처럼 결과물 형식을 마지막에 지정하면 나중에 수정·관리하기 좋은 코드를 받는다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"업무일지 앱 만들어줘"<br>→ 단순 메모장, 저장 없음, 단일 파일
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"섹션 3개(오늘한일/내일할일/특이사항) + 기분 선택 + 1초 자동저장 + 3개 파일로 분리"<br>→ 한 번에 원하는 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
   <div class="slide-body">
@@ -410,9 +455,9 @@ textarea.<span class="at">addEventListener</span>(<span class="st">'input'</span
   <div class="slide-header"><div class="icon" style="background:#d1fae5;">✏️</div><div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div></div>
   <div class="slide-body">
     <div class="mgrid">
-      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>주간 요약</h3><p>해당 주의 일지를 자동으로 합쳐서 주간 보고서를 생성합니다.</p><div class="mcode">월~금 일지 합치기.<br>"주간 보고서 생성" 버튼.<br>Blob으로 다운로드.</div></div>
-      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>태그 통계</h3><p>전체 일지에서 사용한 태그 빈도를 막대 차트로 시각화합니다.</p><div class="mcode">모든 일지의 태그 수집.<br>빈도수 집계 (reduce).<br>Chart.js로 시각화.</div></div>
-      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>업무 템플릿</h3><p>회의록, 일일 업무, 프로젝트 보고 등 미리 만들어진 양식을 불러옵니다.</p><div class="mcode">템플릿 3종 이상.<br>클릭 시 textarea에 삽입.<br>기존 내용 덮어쓰기 확인.</div></div>
+      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>글자 수 카운터</h3><p>각 textarea 하단에 현재 입력한 글자 수를 실시간으로 표시합니다.</p><div class="mcode">"오늘 한 일" textarea 하단에<br>'현재 글자 수 / 500자' 형식으로<br>실시간 글자 수 카운터를 추가해줘.</div></div>
+      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>CSV 내보내기</h3><p>전체 일지를 날짜·기분·태그·내용 컬럼으로 CSV 파일로 다운로드합니다.</p><div class="mcode">모든 일지를 날짜, 기분, 태그,<br>오늘한일, 내일할일 컬럼의<br>CSV 파일로 내보내는 버튼을 추가해줘.</div></div>
+      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>연속 작성 스트릭</h3><p>오늘부터 거슬러 올라가며 연속으로 일지를 쓴 일수를 배지로 표시합니다.</p><div class="mcode">연속 작성 일수를 계산해서<br>헤더에 '🔥 연속 N일 작성 중!'<br>형태의 배지로 표시해줘.</div></div>
     </div>
   </div>
 </div>

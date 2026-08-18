@@ -321,6 +321,51 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">첫 문장에 목적을 명시</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"HTML, CSS, JavaScript로 월간 캘린더를 만들어줘"처럼 무엇을 만들지 한 문장으로 시작하면 AI가 전체 구조를 즉시 파악해 엉뚱한 방향으로 진행하지 않습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기능을 섹션·목록으로 열거</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"기능:", "기타:", "디자인:" 섹션으로 나눠 글머리 기호로 나열하면 AI가 항목을 빠뜨리지 않고 모두 구현합니다. 문단으로 섞어 쓰면 일부 기능이 누락될 수 있습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">파일 구조까지 지정</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"index.html, style.css, script.js 3개로 나눠서"처럼 출력 형태를 명시하면 AI가 유지보수하기 좋은 구조로 코드를 분리합니다. 지정하지 않으면 모든 코드가 한 파일에 뭉쳐질 수 있습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">코드 품질 조건 추가</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"한국어 주석 달아줘"처럼 코드 스타일 조건을 덧붙이면 나중에 코드를 읽거나 수정할 때 훨씬 이해하기 쉬운 결과물이 나옵니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"캘린더 앱 만들어줘"<br>→ 기능 누락, 단일 파일, 영어 주석 등 예측 불가한 결과
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"기능 목록 + 3파일 분리 + 한국어 주석"<br>→ 한 번에 원하는 구조와 품질로 완성
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
   <div class="slide-body">
@@ -386,9 +431,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="slide-header"><div class="icon" style="background:#dbeafe;">✏️</div><div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div></div>
   <div class="slide-body">
     <div class="mgrid">
-      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>공휴일 표시</h3><p>한국 공휴일을 하드코딩해서 빨간색으로 표시합니다.</p><div class="mcode">const HOLIDAYS 객체.<br>날짜 키로 공휴일명 조회.<br>빨간 텍스트로 표시.</div></div>
-      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>주간 뷰</h3><p>월간/주간 뷰를 탭으로 전환합니다.</p><div class="mcode">주 계산: 7일씩 슬라이스.<br>현재 주 하이라이트.<br>이전주/다음주 이동.</div></div>
-      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>반복 일정</h3><p>매주/매달 반복되는 일정을 등록합니다.</p><div class="mcode">일정에 repeat 속성 추가.<br>'weekly' / 'monthly' 선택.<br>캘린더 빌드 시 자동 삽입.</div></div>
+      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>일정 검색</h3><p>캘린더 상단에 검색창을 추가해 일정명으로 검색하면 해당 날짜 셀을 노란색으로 하이라이트합니다.</p><div class="mcode">캘린더 상단에 검색창을 추가해줘.<br>일정명을 입력하면 해당 날짜 셀을<br>노란색 테두리로 강조해줘.</div></div>
+      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>D-Day 카운터</h3><p>중요한 날짜를 D-Day로 등록하면 캘린더 상단에 "D-7" 형태로 남은 날짜를 실시간으로 표시합니다.</p><div class="mcode">캘린더 상단에 D-Day 등록 기능을 추가해줘.<br>날짜와 이름을 입력하면<br>"D-7" 형태로 남은 날을 표시해줘.</div></div>
+      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>드래그 앤 드롭</h3><p>일정을 다른 날짜 셀로 드래그해서 날짜를 변경할 수 있도록 합니다. localStorage도 자동으로 업데이트됩니다.</p><div class="mcode">캘린더 일정을 다른 날짜 셀로<br>드래그 앤 드롭해서 이동할 수 있게 해줘.<br>이동 후 localStorage도 자동 업데이트해줘.</div></div>
     </div>
   </div>
 </div>

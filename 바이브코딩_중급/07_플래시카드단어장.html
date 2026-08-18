@@ -363,6 +363,51 @@ JSON 내보내기 / JSON 가져오기 버튼
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">결과 중심으로 기술하기</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"타이머 모드 토글: 체크 시 10초 카운트다운 바 표시, 시간 초과 시 자동 몰라요 처리"처럼 UI 동작을 직접 묘사해 AI 해석 여지를 없앴습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">탭·섹션별로 기능 분류하기</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">[학습 탭] / [카드 관리 탭]으로 구역을 나눠 기술해 전체 레이아웃을 AI가 명확히 구조화할 수 있게 했습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">구현 힌트를 함께 제공하기</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"localStorage 저장", "JSON 내보내기/가져오기", "이미지 업로드 시 320px 자동 압축"처럼 기술 방법을 명시해 AI가 올바른 구현을 선택했습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">파일 구조와 품질 기준 명시하기</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"파일은 index.html, style.css, script.js 3개로 나눠서, 코드에 한국어 주석"처럼 결과물 형태와 품질 기준을 미리 못 박았습니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"단어 공부 앱 만들어줘"<br>→ 어떤 단어인지, 어떤 기능인지 AI가 마음대로 결정
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"업무 영어 15개·IT 용어 15개 내장, 타이머 모드, 오답 자동 재출제, 파일 3개로 분리"<br>→ 한 번에 원하는 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
   <div class="slide-body">
@@ -426,9 +471,9 @@ JSON 내보내기 / JSON 가져오기 버튼
   <div class="slide-header"><div class="icon" style="background:#ede9fe;">✏️</div><div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div></div>
   <div class="slide-body">
     <div class="mgrid">
-      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>타이머 모드</h3><p>카드마다 제한 시간을 주고 시간 초과 시 자동으로 오답 처리합니다.</p><div class="mcode">카드 표시 시 타이머 시작.<br>5초 카운트다운 표시.<br>시간 초과 → 자동 오답.</div></div>
-      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>발음 기호</h3><p>영어 단어 카드에 발음 기호를 추가하고 Web Speech API로 읽어줍니다.</p><div class="mcode">speechSynthesis.speak() 사용.<br>스피커 버튼으로 발음 재생.<br>발음 기호 텍스트 추가.</div></div>
-      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>이미지 카드</h3><p>카드에 이미지를 업로드해서 이미지 → 단어 연상 학습을 합니다.</p><div class="mcode">카드에 이미지 추가 기능.<br>앞면: 이미지 표시.<br>뒷면: 단어+뜻 표시.</div></div>
+      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>카드 색상 테마</h3><p>덱마다 카드 앞면 배경색을 다르게 설정해 학습할 덱을 색으로 구분합니다.</p><div class="mcode">카드 상단에 색상 팔레트(5가지)를 추가해줘.<br>선택한 색을 카드 앞면 배경에 반영하고<br>localStorage에 저장해줘.</div></div>
+      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>즐겨찾기 카드</h3><p>카드에 별표(★) 버튼을 추가해 중요 카드만 따로 모아 집중 학습합니다.</p><div class="mcode">카드에 ★ 버튼을 추가해줘.<br>즐겨찾기 카드만 모으는 '즐겨찾기' 덱을<br>덱 선택 버튼에 추가해줘.</div></div>
+      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>학습 통계 차트</h3><p>최근 7일간 날짜별 정답/오답 수를 막대 차트로 시각화해 성장을 확인합니다.</p><div class="mcode">최근 7일 학습 기록을 날짜별로<br>Canvas API 또는 SVG 막대 차트로 보여주는<br>통계 화면을 추가해줘.</div></div>
     </div>
   </div>
 </div>

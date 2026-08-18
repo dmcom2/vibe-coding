@@ -381,6 +381,51 @@ textarea.<span class="at">addEventListener</span>(<span class="st">'input'</span
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">도구와 결과물을 첫 문장에 명시</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"HTML, CSS, JavaScript로 마크다운 에디터를 만들어줘"처럼 <strong>사용 기술과 만들 것</strong>을 첫 줄에 못 박으면 AI가 엉뚱한 스택을 선택하지 않습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기술 선택에 이유까지 함께 제공</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"CDN 없이 인라인으로 포함해줘 (오프라인에서도 동작)"처럼 <strong>조건과 그 이유</strong>를 붙이면 AI가 다른 상황에서도 같은 원칙을 지킵니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">기능을 번호 목록으로 빠짐없이 나열</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">1~9번 기능을 번호로 명시하면 AI가 <strong>누락 없이 구현</strong>하고, 나중에 "기능 3번만 수정해줘"처럼 <strong>정확히 지목</strong>할 수 있습니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">결과물 형식(파일 구조)까지 지정</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"index.html · style.css · script.js 3개로 나눠서, 한국어 주석 달아줘"처럼 <strong>파일 개수와 코드 스타일</strong>을 명시하면 받자마자 쓸 수 있는 결과물이 나옵니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"마크다운 에디터 만들어줘"<br>→ 기능·파일 구조·라이브러리를 AI가 임의로 결정
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"기능 9개 번호 나열 + 3파일 분리 + 인라인 marked.js + 한국어 주석"<br>→ 한 번에 원하는 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
   <div class="slide-body">
@@ -438,7 +483,7 @@ textarea.<span class="at">addEventListener</span>(<span class="st">'input'</span
   <div class="slide-header"><div class="icon" style="background:#e0e7ff;">✏️</div><div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div></div>
   <div class="slide-body">
     <div class="mgrid">
-      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>표 삽입 버튼</h3><p>툴바에 "표 삽입" 버튼을 추가해서 3x3 마크다운 표 템플릿을 삽입합니다.</p><div class="mcode">툴바에 "표 삽입" 버튼.<br>클릭 시 3x3 표 템플릿<br>커서 위치에 삽입.</div></div>
+      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>인쇄 버튼</h3><p>툴바에 🖨️ 인쇄 버튼을 추가해서 미리보기 내용을 브라우저 인쇄 대화상자로 바로 출력합니다.</p><div class="mcode">툴바에 🖨️ 인쇄 버튼 추가.<br>클릭 시 window.print()로<br>미리보기 영역만 인쇄.</div></div>
       <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>전체화면 모드</h3><p>F11 키 또는 버튼으로 편집기를 전체화면으로 전환합니다.</p><div class="mcode">F11 또는 버튼으로<br>전체화면 전환.<br>ESC로 원래 크기 복귀.</div></div>
       <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>문서 목록</h3><p>localStorage에 여러 문서를 저장하고 사이드바에 목록을 표시합니다.</p><div class="mcode">왼쪽 사이드바에<br>저장된 문서 목록.<br>추가/삭제/이름변경.</div></div>
     </div>

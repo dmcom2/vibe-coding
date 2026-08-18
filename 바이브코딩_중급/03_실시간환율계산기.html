@@ -323,6 +323,51 @@ CNY(위안), GBP(파운드), AUD(호주달러), CAD(캐나다달러)
   </div>
 </div>
 
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
+    <div>
+      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
+      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">목적 선언이 먼저다</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"실시간 환율 계산기를 만들어줘"처럼 <strong>무엇을 만들지 첫 줄에 한 문장</strong>으로 선언하면 AI가 전체 방향을 잡고 세부 기능을 배치합니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">데이터 소스와 예외를 함께 지정</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">API URL과 "실패 시 예비 데이터로 자동 전환"을 <strong>같이 적으면</strong> AI가 try/catch 폴백 패턴을 자동으로 작성합니다. 빠트리면 오류 처리 없는 코드가 나옵니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">레이아웃을 위치어로 설명</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"상단 · 중앙 · 하단"처럼 <strong>위치어로 UI 영역을 구분</strong>하면 AI가 HTML 구조를 그대로 반영합니다. 기능 목록만 나열하면 배치가 제각각이 됩니다.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
+        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">파일 구조까지 지시</p>
+        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"index.html, style.css, script.js 3개로 나눠줘"처럼 <strong>출력 형태까지 지정</strong>하면 수정·유지관리하기 쉬운 코드를 한 번에 얻습니다.</p>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
+      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
+        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
+          <strong>❌ 막연한 요청</strong><br>"환율 계산기 만들어줘"<br>→ 단순 HTML 한 파일, 오류 처리 없이 결과가 제각각
+        </div>
+        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
+          <strong>✅ 구체적인 요청</strong><br>"fetch + 폴백 + 상태 뱃지 + 파일 3개로 분리"<br>→ 한 번에 완성도 높은 결과
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide s-grad">
   <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
   <div class="slide-body">
@@ -383,8 +428,8 @@ CNY(위안), GBP(파운드), AUD(호주달러), CAD(캐나다달러)
   <div class="slide-header"><div class="icon" style="background:#bae6fd;">✏️</div><div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div></div>
   <div class="slide-body">
     <div class="mgrid">
-      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>통화 추가</h3><p>CHF, CAD, AUD 통화를 드롭다운에 추가합니다.</p><div class="mcode">국기 이모지 + 통화코드.<br>CHF 🇨🇭 스위스 프랑<br>CAD 🇨🇦 캐나다 달러</div></div>
-      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>환율 변동 표시</h3><p>이전 환율 대비 오름/내림을 화살표와 퍼센트로 표시합니다.</p><div class="mcode">이전 환율 localStorage 저장.<br>변동률 = (현재-이전)/이전*100<br>↑빨강 ↓파랑으로 표시.</div></div>
+      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>통화 검색 필터</h3><p>통화 코드나 이름을 입력하면 결과 카드가 실시간으로 필터링됩니다.</p><div class="mcode">결과 카드 위에 검색창 추가.<br>입력값으로 카드 실시간 필터.<br>"USD" 입력 시 USD 카드만 표시.</div></div>
+      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>금액 순 정렬</h3><p>변환 금액이 높은 순 / 낮은 순으로 결과 카드를 정렬하는 버튼을 추가합니다.</p><div class="mcode">정렬 토글 버튼 추가.<br>카드 배열을 금액 기준 sort.<br>정렬 상태 아이콘(↑↓)으로 표시.</div></div>
       <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>알림 기능</h3><p>특정 환율 도달 시 브라우저 알림을 보냅니다.</p><div class="mcode">목표 환율 입력.<br>Notification API 권한 요청.<br>달성시 알림 발송.</div></div>
     </div>
   </div>
