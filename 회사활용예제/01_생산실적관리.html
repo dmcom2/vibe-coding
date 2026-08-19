@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -95,6 +95,20 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
 .result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
 .result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
+/* ── 시나리오 슬라이드 ── */
+.s-story{background:linear-gradient(150deg,#0f172a 0%,#0c2540 55%,#0c3361 100%);color:#f1f5f9;display:flex;flex-direction:column;justify-content:center;padding:0 80px 100px;}
+.story-eyebrow{font-size:0.82rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#38bdf8;margin-bottom:28px;}
+.story-title{font-size:clamp(1.6rem,3.8vw,2.6rem);font-weight:900;line-height:1.25;margin-bottom:36px;}
+.story-title em{color:#7dd3fc;font-style:normal;}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;}
+.story-card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:22px 24px;}
+.story-card-label{font-size:0.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;margin-bottom:10px;}
+.story-card-body{font-size:1.05rem;line-height:1.7;color:#cbd5e1;}
+.story-card-body strong{color:#f1f5f9;font-weight:700;}
+.story-quote{margin-top:28px;max-width:740px;background:rgba(56,189,248,.1);border-left:3px solid #38bdf8;border-radius:0 10px 10px 0;padding:16px 22px;font-size:1.09rem;line-height:1.7;color:#bae6fd;font-style:italic;}
+.story-quote cite{display:block;margin-top:8px;font-size:0.82rem;font-style:normal;color:#64748b;}
+.story-resolve{margin-top:20px;display:flex;align-items:center;gap:12px;font-size:1.05rem;color:#f1f5f9;}
+.story-resolve-dot{width:10px;height:10px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -345,6 +359,30 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 </div>
 
 <!-- 슬라이드 12: 실제 생성 프롬프트 -->
+
+<!-- ★ 시나리오 슬라이드 -->
+<div class="slide s-story">
+  <div class="story-eyebrow">📌 SITUATION &amp; ROLE</div>
+  <div class="story-title">당신은 생산팀 <em>과장</em>입니다.<br>라인별 일일 생산 실적 집계가 매일 아침 문제입니다.</div>
+  <div class="story-quote">
+    매일 아침 각 라인 반장들이 수기로 적어 오는 생산량을<br>내가 또 Excel에 옮겨 입력하잖아. 오타도 나고 집계도 늦고.<br>라인별로 바로 입력하고 실적이 자동 집계되는 거 만들어줄 수 있어?
+    <cite>— 생산부장, 아침 조회</cite>
+  </div>
+  <div class="story-grid" style="margin-top:28px;">
+    <div class="story-card">
+      <div class="story-card-label">🚫 현실적 제약</div>
+      <div class="story-card-body">ERP는 <strong>생산팀 입력 권한 없음</strong>.<br>수기 → Excel 이중 작업으로 오류 빈발.<br>보고 마감은 매일 오전 9시.</div>
+    </div>
+    <div class="story-card">
+      <div class="story-card-label">💡 내가 가진 것</div>
+      <div class="story-card-body">라인별 생산 항목·목표 수량 파악.<br>집계 방식 명확히 알고 있음.<br><strong>AI로 입력·집계 자동화 구현 의지.</strong></div>
+    </div>
+  </div>
+  <div class="story-resolve">
+    <span class="story-resolve-dot"></span>
+    <span>그래서 결심했습니다 — <strong>AI한테 직접 만들어달라고 해보자.</strong> 아래 프롬프트가 그 결과입니다.</span>
+  </div>
+</div>
 <div class="slide s-prompt">
   <div class="slide-header">ACTUAL AI GENERATION PROMPT</div>
   <h2>실제 사용한 AI 생성 프롬프트</h2>
