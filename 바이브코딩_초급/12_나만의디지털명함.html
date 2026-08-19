@@ -121,6 +121,20 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .sp-row{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;}
 .sp-card{flex:1;min-width:180px;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:0.92rem;color:var(--sub);line-height:1.55;}
 .sp-card b{color:var(--text);display:block;margin-bottom:4px;}
+/* ── 시나리오 슬라이드 ── */
+.s-story{background:linear-gradient(150deg,#0f172a 0%,#0c2540 55%,#0c3361 100%);color:#f1f5f9;display:flex;flex-direction:column;justify-content:center;padding:0 80px 100px;}
+.story-eyebrow{font-size:0.82rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#38bdf8;margin-bottom:28px;}
+.story-title{font-size:clamp(1.6rem,3.8vw,2.6rem);font-weight:900;line-height:1.25;margin-bottom:36px;}
+.story-title em{color:#7dd3fc;font-style:normal;}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;}
+.story-card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:22px 24px;}
+.story-card-label{font-size:0.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;margin-bottom:10px;}
+.story-card-body{font-size:1.05rem;line-height:1.7;color:#cbd5e1;}
+.story-card-body strong{color:#f1f5f9;font-weight:700;}
+.story-quote{margin-top:28px;max-width:740px;background:rgba(56,189,248,.1);border-left:3px solid #38bdf8;border-radius:0 10px 10px 0;padding:16px 22px;font-size:1.09rem;line-height:1.7;color:#bae6fd;font-style:italic;}
+.story-quote cite{display:block;margin-top:8px;font-size:0.82rem;font-style:normal;color:#64748b;}
+.story-resolve{margin-top:20px;display:flex;align-items:center;gap:12px;font-size:1.05rem;color:#f1f5f9;}
+.story-resolve-dot{width:10px;height:10px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -379,6 +393,30 @@ input.<span class="at">addEventListener</span>(<span class="st">'change'</span>,
 
 <!-- S6 AI 프롬프트 -->
 
+
+<!-- ★ 시나리오 슬라이드 -->
+<div class="slide s-story">
+  <div class="story-eyebrow">📌 SITUATION &amp; ROLE</div>
+  <div class="story-title">당신은 <em>프리랜서 디자이너</em>입니다.<br>새 클라이언트를 만날 때마다 연락처 공유가 어색합니다.</div>
+  <div class="story-quote">
+    명함을 건네면 버려지고, 카카오톡 연락처 공유는 너무 개인적인 느낌이야.<br>링크 하나 보내면 내 포트폴리오·연락처·SNS가 다 보이는<br>디지털 명함 페이지 만들어줄 수 있어?
+    <cite>— 클라이언트 미팅 후 혼자 생각</cite>
+  </div>
+  <div class="story-grid" style="margin-top:28px;">
+    <div class="story-card">
+      <div class="story-card-label">🚫 현실적 제약</div>
+      <div class="story-card-body">Linktree 같은 서비스는 <strong>무료 버전 디자인 한계</strong>.<br>개인 홈페이지는 도메인·서버 비용 발생.<br>내 브랜드 느낌을 살린 맞춤 디자인이 없음.</div>
+    </div>
+    <div class="story-card">
+      <div class="story-card-label">💡 내가 가진 것</div>
+      <div class="story-card-body">넣고 싶은 정보·디자인 방향 명확함.<br>링크·SNS 주소 모두 준비됨.<br><strong>AI에게 만들어달라고 하면 오늘 바로 쓸 수 있겠다는 확신.</strong></div>
+    </div>
+  </div>
+  <div class="story-resolve">
+    <span class="story-resolve-dot"></span>
+    <span>그래서 결심했습니다 — <strong>AI한테 직접 만들어달라고 해보자.</strong> 아래 프롬프트가 그 결과입니다.</span>
+  </div>
+</div>
 <div class="slide s-prompt">
   <div class="sp-header">
     <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
