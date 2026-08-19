@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>중급 02 — 사내 일정 & 프로젝트 칸반 보드</title>
+<title>중급 01 — 사내 일정 & 프로젝트 칸반 보드</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--ac:#0284c7;--text:#0f172a;--sub:#64748b;--surface:#f8fafc;}
@@ -88,6 +88,20 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
 .result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
 .result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
+/* ── 시나리오 슬라이드 ── */
+.s-story{background:linear-gradient(150deg,#0f172a 0%,#0c2540 55%,#0c3361 100%);color:#f1f5f9;display:flex;flex-direction:column;justify-content:center;padding:0 80px 100px;}
+.story-eyebrow{font-size:0.82rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#38bdf8;margin-bottom:28px;}
+.story-title{font-size:clamp(1.6rem,3.8vw,2.6rem);font-weight:900;line-height:1.25;margin-bottom:36px;}
+.story-title em{color:#7dd3fc;font-style:normal;}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;}
+.story-card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:22px 24px;}
+.story-card-label{font-size:0.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;margin-bottom:10px;}
+.story-card-body{font-size:1.05rem;line-height:1.7;color:#cbd5e1;}
+.story-card-body strong{color:#f1f5f9;font-weight:700;}
+.story-quote{margin-top:28px;max-width:740px;background:rgba(56,189,248,.1);border-left:3px solid #38bdf8;border-radius:0 10px 10px 0;padding:16px 22px;font-size:1.09rem;line-height:1.7;color:#bae6fd;font-style:italic;}
+.story-quote cite{display:block;margin-top:8px;font-size:0.82rem;font-style:normal;color:#64748b;}
+.story-resolve{margin-top:20px;display:flex;align-items:center;gap:12px;font-size:1.05rem;color:#f1f5f9;}
+.story-resolve-dot{width:10px;height:10px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -98,7 +112,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="slide s-title active">
   <div class="badge">바이브코딩 중급 과정</div>
   <h1>사내 일정 & <span>칸반 보드</span></h1>
-  <p>중급 02 — Drag & Drop API, JSON 데이터 백업/복원, 모달 구현으로 완성하는 협업 시스템</p>
+  <p>중급 01 — Drag & Drop API, JSON 데이터 백업/복원, 모달 구현으로 완성하는 협업 시스템</p>
   <div class="meta-row">
     <div class="meta-chip">📋 Kanban Board</div>
     <div class="meta-chip">⏱ 60분</div>
@@ -239,6 +253,42 @@ column.<span class="at">addEventListener</span>(<span class="st">'drop'</span>, 
   </div>
 </div>
 
+<!-- ★ 시나리오 슬라이드 (AI 프롬프트 앞) -->
+<div class="slide s-story">
+  <div class="story-eyebrow">📌 SITUATION &amp; ROLE</div>
+  <div class="story-title">당신은 중소기업 <em>경영지원팀 대리 3년차</em>입니다.<br>오늘 팀장님이 갑자기 슬랙을 보냈습니다.</div>
+
+  <div class="story-quote">
+    "다음 주 임원 보고에 우리 팀 업무 현황을 한눈에 보여줘야 해.<br>
+    할 일이 뭔지, 누가 뭘 하고 있는지, 뭐가 끝났는지 딱 보이게 정리해줄 수 있어?"
+    <cite>— 팀장, 오전 9:14</cite>
+  </div>
+
+  <div class="story-grid" style="margin-top:28px;">
+    <div class="story-card">
+      <div class="story-card-label">🚫 현실적 제약</div>
+      <div class="story-card-body">
+        Trello · Jira 같은 유료 툴은<br>
+        <strong>IT 부서 결재만 2주</strong> 걸립니다.<br>
+        예산도, 시간도 없습니다.
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-card-label">💡 내가 가진 것</div>
+      <div class="story-card-body">
+        코딩 경험 <strong>없음</strong>.<br>
+        하지만 AI에게 원하는 걸<br>
+        <strong>말로 설명할 수 있는 능력</strong> 있음.
+      </div>
+    </div>
+  </div>
+
+  <div class="story-resolve">
+    <span class="story-resolve-dot"></span>
+    <span>그래서 결심했습니다 — <strong>AI한테 직접 만들어달라고 해보자.</strong> 아래 프롬프트가 그 결과입니다.</span>
+  </div>
+</div>
+
 <div class="slide s-prompt">
   <div class="sp-header">
     <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
@@ -351,7 +401,7 @@ column.<span class="at">addEventListener</span>(<span class="st">'drop'</span>, 
 </div>
 
 <div class="slide s-content">
-  <div class="slide-header"><div class="icon" style="background:#e0f2fe;">✅</div><div><h2>실습 완료 체크리스트</h2><p>아래 항목이 모두 정상 동작하면 중급 02 과정 완료!</p></div></div>
+  <div class="slide-header"><div class="icon" style="background:#e0f2fe;">✅</div><div><h2>실습 완료 체크리스트</h2><p>아래 항목이 모두 정상 동작하면 중급 01 과정 완료!</p></div></div>
   <div class="slide-body">
     <div class="clist">
       <div class="ci2"><div class="cbox">☐</div>카드를 마우스 드래그로 다른 컬럼에 이동시킬 수 있다</div>
@@ -366,9 +416,9 @@ column.<span class="at">addEventListener</span>(<span class="st">'drop'</span>, 
 <div class="slide s-end">
   <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
   <div class="result-link-tip">완성 예제 보기</div>
-  <h2>중급 02 <span>완료!</span> 📋</h2>
+  <h2>중급 01 <span>완료!</span> 📋</h2>
   <p>Drag & Drop API와 JSON 데이터를 활용하여 실무형 칸반 보드를 성공적으로 만들었습니다.</p>
-  <div class="nh"><span>▶</span> 다음 과정: <strong>중급 03 — 실시간 대시보드 & CSV 보고서 생성기</strong></div>
+  <div class="nh"><span>▶</span> 다음 과정: <strong>중급 02 — 부서별 예산 및 경비정산기</strong></div>
 </div>
 
 </div>
