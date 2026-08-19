@@ -174,7 +174,21 @@
         <div><div class="sub-num" style="margin-top:2px;">①</div><div class="dashed" style="margin-top:6px;"></div></div>
         <div style="flex:1;padding-bottom:4px;">
           <h3 style="font-weight:700;color:#fff;margin-bottom:8px;">공식 웹사이트에서 설치 파일 다운로드</h3>
-          <p style="font-size:14px;color:#94a3b8;margin-bottom:12px;">Antigravity 공식 사이트에 접속하여 Windows용 <code style="font-family:'JetBrains Mono',monospace;font-size:12px;padding:2px 7px;background:#0f172a;border:1px solid #334155;border-radius:5px;color:#8ab4f8;">.exe</code> 설치 파일을 다운로드합니다.</p>
+          <p style="font-size:14px;color:#94a3b8;margin-bottom:12px;">
+            Antigravity 공식 사이트에 접속하여 Windows용 <code style="font-family:'JetBrains Mono',monospace;font-size:12px;padding:2px 7px;background:#0f172a;border:1px solid #334155;border-radius:5px;color:#8ab4f8;">.exe</code> 설치 파일을 다운로드합니다.
+          </p>
+          
+          <!-- 설치 항목 선택 주의사항 -->
+          <div class="cl cl-a" style="margin-bottom:12px;padding:12px 16px;">
+            <span style="font-size:18px;flex-shrink:0;">👇</span>
+            <div style="font-size:13px;line-height:1.6;">
+              <p style="font-weight:700;color:#fcd34d;margin-bottom:2px;">설치 항목 선택 주의</p>
+              <p style="color:#fbbf24;">
+                링크 접속 시 페이지 상단에 가장 먼저 보이는 <strong>Antigravity 2.0</strong>이 아닌, <strong style="color:#fff;text-decoration:underline;">화면을 아래로 드래그(스크롤)하여 Antigravity IDE를 찾아 설치</strong>하셔야 합니다.
+              </p>
+            </div>
+          </div>
+
           <div class="cb">
             <div class="cb-head"><span class="cb-label">공식 다운로드 URL</span><button class="cpbtn" onclick="cp(this,'https://antigravity.google/download')">복사</button></div>
             <div class="cb-body"><code style="color:#8ab4f8;">https://antigravity.google/download</code></div>
@@ -298,7 +312,7 @@
       <div style="background:#0f172a;padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
         <p style="font-size:13px;color:#94a3b8;line-height:1.6;">나중에 주계정 쿼터가 소진되면, 로그아웃 후 위와 동일한 Sign in 과정을 <strong style="color:#fff;">부계정(계정 B)</strong>으로 반복합니다.</p>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <span style="font-size:12px;padding:3px 10px;border-radius:6px;background:#1e293b;border:1px solid #334155;color:#64748b;font-family:'JetBrains Mono',monospace;">좌측 하단 계정 아이콘</span>
+          <span style="font-size:12px;padding:3px 10px;border-radius:6px;background:#1e293b;border:1px solid #334155;color:#64748b;font-family:'JetBrains Mono',monospace;">우측 상단 계정 아이콘</span>
           <span style="color:#334155;">➔</span>
           <span style="font-size:12px;padding:3px 10px;border-radius:6px;background:#1e293b;border:1px solid #334155;color:#64748b;font-family:'JetBrains Mono',monospace;">Sign Out</span>
           <span style="color:#334155;">➔</span>
@@ -442,7 +456,7 @@
             <span style="width:28px;height:28px;border-radius:50%;background:#06b6d4;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0;">1</span>
             <div>
               <p style="font-weight:700;color:#fff;font-size:14px;margin-bottom:3px;">주간 쿼터 소진 확인 후 로그아웃</p>
-              <p style="font-size:13px;color:#64748b;">IDE 좌측 하단 계정 아이콘 클릭 ➔ <strong style="color:#67e8f9;">[Sign Out]</strong> 클릭하여 현재 계정 로그아웃</p>
+              <p style="font-size:13px;color:#64748b;">IDE 우측 상단 계정 아이콘 클릭 ➔ <strong style="color:#67e8f9;">[Sign Out]</strong> 클릭하여 현재 계정 로그아웃</p>
             </div>
           </div>
         </div>
@@ -506,6 +520,8 @@
       <div style="border-radius:16px;border:1px solid rgba(6,182,212,.3);overflow:hidden;">
         <div style="background:rgba(8,51,68,.2);padding:16px 20px;border-bottom:1px solid rgba(6,182,212,.2);"><div style="display:flex;align-items:center;gap:10px;"><span style="font-size:20px;">📊</span><span style="font-weight:800;color:#fff;">쿼터 &amp; 사용량 확인</span></div></div>
         <div style="background:#0f172a;padding:20px;display:flex;flex-direction:column;gap:12px;">
+          
+          <!-- A. Settings 탭 -->
           <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 16px;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="width:20px;height:20px;border-radius:50%;background:#06b6d4;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;flex-shrink:0;">A</span><p style="font-weight:700;color:#67e8f9;font-size:13px;">Settings → Model Quotas 탭</p></div>
             <div style="display:flex;flex-direction:column;gap:5px;">
@@ -514,10 +530,35 @@
               <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:#94a3b8;"><span style="color:#06b6d4;font-weight:700;">③</span><span>모델별 잔여 쿼터 및 리셋 시간 확인</span></div>
             </div>
           </div>
+
+          <!-- B. Antigravity Watcher 하단 상태줄 -->
           <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 16px;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:20px;height:20px;border-radius:50%;background:#0891b2;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;flex-shrink:0;">B</span><p style="font-weight:700;color:#67e8f9;font-size:13px;">하단 상태줄(Status Bar)</p></div>
-            <p style="font-size:13px;color:#94a3b8;line-height:1.6;">IDE 하단 상태줄에 실시간 잔여 쿼터가 표시됩니다. 클릭하면 상세 팝업이 열립니다.</p>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+              <span style="width:20px;height:20px;border-radius:50%;background:#0891b2;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff;flex-shrink:0;">B</span>
+              <p style="font-weight:700;color:#67e8f9;font-size:13px;">Antigravity Watcher 하단 상태줄 (Status Bar)</p>
+            </div>
+            <p style="font-size:13px;color:#94a3b8;line-height:1.6;margin-bottom:8px;">
+              <strong>Antigravity Watcher</strong> 확장 프로그램 설치 시, IDE 하단 상태줄에 약어로 실시간 쿼터 상태가 표시됩니다.
+            </p>
+            
+            <!-- 약어 태그 -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+              <span style="font-size:11px;padding:2px 8px;border-radius:4px;background:rgba(66,133,244,.15);border:1px solid rgba(66,133,244,.3);color:#8ab4f8;font-family:'JetBrains Mono',monospace;">🟢 GP: Gemini Pro</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:4px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#34d399;font-family:'JetBrains Mono',monospace;">🟢 GF: Gemini Flash</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:4px;background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.3);color:#c4b5fd;font-family:'JetBrains Mono',monospace;">🟢 CG: Claude-GPT</span>
+            </div>
+
+            <!-- 툴팁 실물 상세 안내 박스 -->
+            <div style="background:rgba(15,23,42,.9);padding:10px 12px;border-radius:8px;border:1px solid rgba(6,182,212,.3);">
+              <p style="font-size:12px;color:#67e8f9;font-weight:700;margin-bottom:4px;">💡 마우스 호버(Hover) 시 툴팁 상세 정보</p>
+              <ul style="font-size:12px;color:#94a3b8;line-height:1.6;margin:0;padding-left:16px;">
+                <li><strong style="color:#e2e8f0;">Account:</strong> 현재 로그인된 계정 이메일 및 요금제 플랜 정보</li>
+                <li><strong style="color:#e2e8f0;">Model Quota %:</strong> 모델별 잔여 쿼터 퍼센티지 (예: 96.0%, 100.0%)</li>
+                <li><strong style="color:#e2e8f0;">Resets at &amp; Countdown:</strong> 쿼터 초기화 시각 및 남은 카운트다운 시간</li>
+              </ul>
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -544,6 +585,18 @@
       </div>
 
     </div>
+
+    <!-- 🔔 Windows 알림 차단 팁 -->
+    <div class="cl cl-c" style="margin-top:20px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;">
+      <span style="font-size:20px;flex-shrink:0;">🔕</span>
+      <div>
+        <p style="font-weight:700;color:#67e8f9;margin-bottom:4px;font-size:14px;">팁: 작업 중 반복되는 알림 끄기 설정</p>
+        <p style="font-size:13px;color:#94a3b8;line-height:1.6;">
+          Antigravity IDE 사용 중 화면 우측 하단에 <strong style="color:#e2e8f0;">"안티그래비티 IDE 작동 확인"</strong> 등 토스트 알림이 자주 떠서 방해된다면, 알림창 우측 상단의 <strong style="color:#fff;">⋯ (더보기)</strong> 버튼을 클릭한 후 <strong style="color:#67e8f9;">[Antigravity IDE에 대한 모든 알림 끄기]</strong>를 선택하세요. 이후 작업 중 알림 팝업이 더 이상 뜨지 않습니다.
+        </p>
+      </div>
+    </div>
+
   </section>
 
   <!-- ══ 완료 체크리스트 ══ -->
