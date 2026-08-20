@@ -308,6 +308,19 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .sp-row{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;}
 .sp-card{flex:1;min-width:180px;background:var(--white);border-radius:10px;padding:13px 15px;border-left:3px solid var(--indigo);font-size:0.92rem;color:var(--sub);line-height:1.55;}
 .sp-card b{color:var(--text);display:block;margin-bottom:4px;}
+.s-story{background:linear-gradient(150deg,#0f172a 0%,#0c2540 55%,#0c3361 100%);color:#f1f5f9;display:flex;flex-direction:column;justify-content:center;padding:0 80px 100px;}
+.story-eyebrow{font-size:0.82rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#38bdf8;margin-bottom:28px;}
+.story-title{font-size:clamp(1.6rem,3.8vw,2.6rem);font-weight:900;line-height:1.25;margin-bottom:36px;}
+.story-title em{color:#7dd3fc;font-style:normal;}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;}
+.story-card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:22px 24px;}
+.story-card-label{font-size:0.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;margin-bottom:10px;}
+.story-card-body{font-size:1.05rem;line-height:1.7;color:#cbd5e1;}
+.story-card-body strong{color:#f1f5f9;font-weight:700;}
+.story-quote{margin-top:28px;max-width:740px;background:rgba(56,189,248,.1);border-left:3px solid #38bdf8;border-radius:0 10px 10px 0;padding:16px 22px;font-size:1.09rem;line-height:1.7;color:#bae6fd;font-style:italic;}
+.story-quote cite{display:block;margin-top:8px;font-size:0.82rem;font-style:normal;color:#64748b;}
+.story-resolve{margin-top:20px;display:flex;align-items:center;gap:12px;font-size:1.05rem;color:#f1f5f9;}
+.story-resolve-dot{width:10px;height:10px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -625,7 +638,28 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
 </div>
 
-<div class="slide s-prompt">
+
+    <!-- 배경 시나리오 슬라이드 -->
+    <div class="slide s-story">
+      <p class="story-eyebrow">SITUATION & ROLE</p>
+      <h2 class="story-title">회사 행사 부스에 <em>내 이름표</em>가 없다?</h2>
+      <div class="story-grid">
+        <div class="story-card">
+          <p class="story-card-label">상황 (Situation)</p>
+          <p class="story-card-body">다음 주 신입사원 환영회 부스 행사. 담당자가 <strong>이름표 출력 예산</strong>을 신청 안 해서 종이 이름표가 없는 상황.</p>
+        </div>
+        <div class="story-card">
+          <p class="story-card-label">역할 (Role)</p>
+          <p class="story-card-body">총무팀 막내인 당신, <strong>오늘 오후까지</strong> 20명 참가자 모두 쓸 수 있는 디지털 이름표를 만들어야 합니다.</p>
+        </div>
+      </div>
+      <blockquote class="story-quote">
+        "종이 이름표 대신 태블릿 화면에 이름 크게 띄워두면 되지 않나요?"
+        <cite>— 팀장님의 한 마디</cite>
+      </blockquote>
+      <p class="story-resolve"><span class="story-resolve-dot"></span>코드 한 줄 몰라도 AI와 함께 30분 만에 디지털 이름표 웹앱을 완성합니다.</p>
+    </div>
+    <div class="slide s-prompt">
   <div class="sp-header">
     <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
     <h2>실제 사용한 AI 생성 프롬프트</h2>
