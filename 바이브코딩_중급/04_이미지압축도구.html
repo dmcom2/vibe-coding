@@ -247,7 +247,41 @@ c.<span class="at">toBlob</span>(blob =&gt; <span class="at">setResult</span>(bl
   </div>
 </div>
 
-<!-- 슬라이드 07: Blob과 ESM Dynamic Import -->
+<!-- 슬라이드 07: @imgly/background-removal 라이브러리 소개 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fce7f3;">✂️</div>
+    <div><h2>@imgly/background-removal 라이브러리</h2><p>서버 없이 브라우저에서 AI로 배경 자동 제거 (누끼 따기)</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+
+      <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:14px;padding:16px 18px;">
+        <p style="font-size:0.8rem;font-weight:800;color:#16a34a;margin-bottom:8px;">🔒 클라이언트 100% 처리</p>
+        <p style="font-size:0.97rem;color:#166534;line-height:1.65;">이미지 데이터를 <strong>외부 서버로 전송하지 않습니다.</strong> 모든 처리가 사용자의 브라우저 메모리 안에서만 일어나므로 서버 API 비용이 없고 개인정보 보호에 강력합니다.</p>
+      </div>
+
+      <div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:14px;padding:16px 18px;">
+        <p style="font-size:0.8rem;font-weight:800;color:#1d4ed8;margin-bottom:8px;">⚡ ONNX + WebAssembly / WebGPU</p>
+        <p style="font-size:0.97rem;color:#1e3a5f;line-height:1.65;">경량화된 AI 모델(ONNX 포맷)과 WebAssembly·WebGPU 기술로 신경망 연산을 수행합니다. 별도 소프트웨어 설치 없이 브라우저만으로 AI 추론이 가능합니다.</p>
+      </div>
+
+      <div style="background:#fdf4ff;border:1.5px solid #d8b4fe;border-radius:14px;padding:16px 18px;">
+        <p style="font-size:0.8rem;font-weight:800;color:#7c3aed;margin-bottom:8px;">📁 다양한 입출력 포맷</p>
+        <p style="font-size:0.97rem;color:#4c1d95;line-height:1.65;"><strong>입력:</strong> URL, File, Blob, ImageData, ArrayBuffer 등<br><strong>출력:</strong> 배경이 <strong>투명(PNG)</strong>으로 처리된 Blob 반환<br>전경·배경·마스크 출력 타입 선택 가능</p>
+      </div>
+
+      <div style="background:#fff7ed;border:1.5px solid #fdba74;border-radius:14px;padding:16px 18px;">
+        <p style="font-size:0.8rem;font-weight:800;color:#c2410c;margin-bottom:8px;">📊 모델 선택 &amp; 진행률 콜백</p>
+        <p style="font-size:0.97rem;color:#7c2d12;line-height:1.65;"><strong>isnet_fp16</strong> — 기본값, 약 80MB, 고정밀<br><strong>isnet_quint8</strong> — 경량, 약 40MB, 빠름<br>첫 실행 시 모델 다운로드 진행률을 UI로 표시 가능</p>
+      </div>
+
+    </div>
+    <div class="qb"><strong>핵심 요약.</strong> <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px;">@imgly/background-removal</code> v1.4.5는 설치·서버 없이 브라우저 한 줄 import로 AI 누끼 따기가 가능한 오픈소스 라이브러리입니다. 첫 실행 시 모델 파일을 CDN에서 다운로드(30~80MB)하며, 이후에는 브라우저 캐시가 적용됩니다.</div>
+  </div>
+</div>
+
+<!-- 슬라이드 08(구 07): Blob과 ESM Dynamic Import -->
 <div class="slide s-content">
   <div class="slide-header">
     <div class="icon" style="background:#ede9fe;">🚀</div>
