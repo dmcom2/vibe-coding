@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -81,6 +81,20 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 .sp-row{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;}
 .sp-card{flex:1;min-width:180px;background:#fff;border-radius:10px;padding:13px 15px;border-left:3px solid var(--ac);font-size:0.92rem;color:#475569;line-height:1.55;}
 .sp-card b{color:#0f172a;display:block;margin-bottom:4px;}
+.prompt-fs-overlay{position:fixed;inset:0;background:rgba(2,10,26,.93);backdrop-filter:blur(6px);z-index:2000;display:none;flex-direction:column;align-items:stretch;}
+.prompt-fs-overlay.open{display:flex;}
+.prompt-fs-header{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid rgba(186,230,253,.15);flex-shrink:0;}
+.prompt-fs-title{font-size:0.85rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;}
+.prompt-fs-actions{display:flex;gap:10px;align-items:center;}
+.prompt-fs-copy{padding:7px 18px;border-radius:8px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.1);color:#38bdf8;font-size:0.84rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.prompt-fs-copy:hover{background:rgba(56,189,248,.22);border-color:#38bdf8;}
+.prompt-fs-copy.copied{background:#059669;border-color:#059669;color:#fff;}
+.prompt-fs-close{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#f1f5f9;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.prompt-fs-close:hover{background:rgba(220,38,38,.4);border-color:#dc2626;color:#fff;}
+.prompt-fs-body{flex:1;overflow-y:auto;padding:32px 48px;}
+.prompt-fs-code{font-family:'Cascadia Code','Consolas','D2Coding',monospace;font-size:1rem;line-height:1.9;color:#bae6fd;white-space:pre-wrap;word-break:break-word;}
+.prompt-expand-btn{position:absolute;top:clamp(18px,3vh,44px);right:64px;display:inline-flex;align-items:center;gap:6px;padding:6px 15px;border-radius:8px;border:1px solid #bae6fd;background:rgba(2,132,199,.08);color:#0284c7;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all .2s;z-index:10;}
+.prompt-expand-btn:hover{background:#0284c7;color:#fff;border-color:#0284c7;}
 .nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
 .nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
 .nav-dot:hover{background:#94a3b8;}
@@ -299,6 +313,7 @@ uniqueVars.<span class="at">forEach</span>(varName =&gt; {
 </div>
 <div class="slide s-prompt">
   <div class="sp-header">
+    <button class="prompt-expand-btn" onclick="openPromptFs()"><span>⛶</span> 전체화면으로 보기</button>
     <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
     <h2>실제 사용 AI 생성 프롬프트</h2>
     <p>아래 프롬프트를 복사하여 VS Code의 Zoo Code 패널에 전송하세요</p>
@@ -830,14 +845,44 @@ const RESULT_HTML_B64 = "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImtvIj4KPGhlYWQ+CiA
 function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
 function openResultPopup(){const w=window.open('','resultPopup','left=0,top=0,resizable=yes,scrollbars=yes');w.moveTo(0,0);w.resizeTo(screen.availWidth,screen.availHeight);w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
 
+function openPromptFs(){
+  var box=document.querySelector('.slide.active .sp-box');
+  if(!box)return;
+  document.getElementById('promptFsCode').textContent=box.textContent;
+  document.getElementById('promptFsOverlay').classList.add('open');
+  var btn=document.getElementById('promptFsCopyBtn');
+  btn.textContent='📋 복사';btn.classList.remove('copied');
+}
+function closePromptFs(){document.getElementById('promptFsOverlay').classList.remove('open');}
+function closePromptFsOutside(e){if(e.target===document.getElementById('promptFsOverlay'))closePromptFs();}
+function copyPromptFs(){
+  var text=document.getElementById('promptFsCode').textContent;
+  navigator.clipboard.writeText(text).then(function(){
+    var btn=document.getElementById('promptFsCopyBtn');
+    btn.textContent='✅ 복사됨';btn.classList.add('copied');
+    setTimeout(function(){btn.textContent='📋 복사';btn.classList.remove('copied');},2200);
+  });
+}
 const slides=Array.from(document.querySelectorAll('.slide'));
 const total=slides.length;let current=0;
 const dotsWrap=document.getElementById('navDots');
 slides.forEach((_,i)=>{const dot=document.createElement('button');dot.className='nav-dot'+(i===0?' active':'');dot.setAttribute('aria-label',`${i+1}번 슬라이드로 이동`);dot.onclick=()=>goTo(i);dotsWrap.appendChild(dot);});
 function goTo(idx){if(idx<0||idx>=total)return;const prev=current;current=idx;slides[prev].classList.remove('active');slides[prev].classList.add('exit');setTimeout(()=>slides[prev].classList.remove('exit'),420);slides[current].classList.add('active');document.getElementById('counter').textContent=`${current+1} / ${total}`;document.getElementById('slideLabel').textContent=`${current+1} / ${total}`;document.getElementById('progressBar').style.width=`${(current+1)/total*100}%`;document.getElementById('prevBtn').disabled=current===0;document.getElementById('nextBtn').disabled=current===total-1;document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===current));const isDark=slides[current].classList.contains('s-dark')||slides[current].classList.contains('s-title')||slides[current].classList.contains('s-end');document.getElementById('slideLabel').style.color=isDark?'rgba(255,255,255,.4)':'rgba(0,0,0,.25)';}
 function changeSlide(dir){goTo(current+dir);}
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
+document.addEventListener('keydown',e=>{if(document.getElementById('promptFsOverlay').classList.contains('open')){if(e.key==='Escape')closePromptFs();return;}>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1);}});
 goTo(0);
 </script>
+<div class="prompt-fs-overlay" id="promptFsOverlay" onclick="closePromptFsOutside(event)">
+  <div class="prompt-fs-header">
+    <span class="prompt-fs-title">📋 실제 AI 생성 프롬프트 — 전체보기</span>
+    <div class="prompt-fs-actions">
+      <button class="prompt-fs-copy" id="promptFsCopyBtn" onclick="copyPromptFs()">📋 복사</button>
+      <button class="prompt-fs-close" onclick="closePromptFs()" title="닫기 (Esc)">✕</button>
+    </div>
+  </div>
+  <div class="prompt-fs-body">
+    <div class="prompt-fs-code" id="promptFsCode"></div>
+  </div>
+</div>
 </body>
 </html>
