@@ -130,26 +130,26 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="progress-bar" id="progressBar"></div>
 <div class="slide-label" id="slideLabel"></div>
 <div class="deck">
-
+<div class="deck">
 <div class="slide s-title active">
   <div class="badge">바이브코딩 중급 과정</div>
   <h1>설문지 <span>생성기</span></h1>
-  <p>중급 08 — 동적 폼 생성, 다양한 질문 유형, 응답 통계 시각화</p>
+  <p>중급 08 — 동적 폼 생성 · NPS 분석 · Node.js 사내 배포 서버</p>
   <div class="meta-row">
     <div class="meta-chip">📋 동적 DOM 생성</div>
-    <div class="meta-chip">⏱ 30분</div>
-    <div class="meta-chip">🔧 중급 난이도</div>
+    <div class="meta-chip">⏱ 60분</div>
+    <div class="meta-chip">🖥️ 서버 배포 포함</div>
   </div>
 </div>
 
 <div class="slide s-content">
-  <div class="slide-header"><div class="icon" style="background:#cffafe;">📋</div><div><h2>오늘 만드는 것</h2><p>드래그로 순서 조정, 응답 통계까지 있는 설문지 제작 도구</p></div></div>
+  <div class="slide-header"><div class="icon" style="background:#cffafe;">📋</div><div><h2>오늘 만드는 것</h2><p>설문 제작 + 결과 통계 + 사내 배포 서버까지 갖춘 설문 도구</p></div></div>
   <div class="slide-body">
     <div class="cards">
-      <div class="card"><div class="ci">🔧</div><h3>설문 편집기</h3><p>질문 추가/삭제/순서 변경<br>4가지 질문 유형 지원<br>드래그로 순서 재배치</p></div>
-      <div class="card"><div class="ci">📝</div><h3>설문 응답 화면</h3><p>편집기 → 응답 화면 전환<br>유형별 입력 컴포넌트 렌더링<br>제출 시 유효성 검사</p></div>
-      <div class="card"><div class="ci">📊</div><h3>응답 통계</h3><p>응답 수집 및 집계<br>Chart.js로 선택 결과 시각화<br>텍스트 응답 목록 표시</p></div>
-      <div class="card"><div class="ci">💾</div><h3>localStorage 저장</h3><p>설문 구조와 응답 모두 저장<br>새로고침 후에도 유지<br>설문 초기화 기능</p></div>
+      <div class="card"><div class="ci">🔧</div><h3>설문 편집기</h3><p>질문 추가/삭제/드래그 재배치<br>객관식·체크박스·NPS·텍스트 4가지<br>빠른 시작 템플릿 3종</p></div>
+      <div class="card"><div class="ci">📊</div><h3>응답 통계</h3><p>[−][숫자][+] 스테퍼로 응답 수 입력<br>Chart.js 도넛·막대 차트 실시간 갱신<br>NPS 점수 자동 계산</p></div>
+      <div class="card"><div class="ci">🖨️</div><h3>인쇄 / PDF 저장</h3><p>통계 결과를 PDF로 저장<br>인쇄 전용 레이아웃 자동 적용<br>설문 제목·날짜 자동 삽입</p></div>
+      <div class="card"><div class="ci">🌐</div><h3>사내 배포 서버</h3><p>Node.js + Express 서버 (port 8947)<br>직원 응답 페이지(respond.html) 제공<br>응답 JSON 자동 저장</p></div>
     </div>
   </div>
 </div>
@@ -161,9 +161,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
   <div class="slide-body">
     <div style="display:flex;flex-direction:column;gap:11px;">
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 오늘의 재료: 동적 폼 생성 · renderSurvey</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 VS Code의 zoo code에게 요청 (3개 파일로 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— zoo code이 만든 index.html · style.css · script.js를 확인하고 Go Live로 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">1</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>개념 이해</strong> <span style="color:#64748b;font-size:1.04rem;">— 동적 폼 생성·NPS·서버 동작 원리 (외울 필요 없음)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">10분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">2</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>AI로 만들기</strong> <span style="color:#64748b;font-size:1.04rem;">— 프롬프트를 복사해 Cline에게 요청 (단일 파일 index.html 생성)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">3</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>실행하기</strong> <span style="color:#64748b;font-size:1.04rem;">— index.html을 Go Live로 실행하거나 node server.js로 서버 실행</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">5분</div></div>
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">4</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>코드 읽어보기</strong> <span style="color:#64748b;font-size:1.04rem;">— AI가 만든 코드의 핵심 동작 원리 이해 (외울 필요 없어요!)</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 18px;"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.17rem;flex-shrink:0;">5</div><div style="flex:1;font-size:1.14rem;color:#1e293b;"><strong>직접 수정 미션</strong> <span style="color:#64748b;font-size:1.04rem;">— AI에게 추가 요청해서 나만의 것으로 업그레이드</span></div><div style="font-size:0.94rem;font-weight:700;color:#6366f1;background:#eef2ff;padding:4px 10px;border-radius:12px;flex-shrink:0;">15분</div></div>
     </div>
@@ -174,14 +174,14 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="slide s-content">
   <div class="slide-header">
     <div class="icon" style="background:#dbeafe;">🎒</div>
-    <div><h2>시작 전 준비물 체크</h2><p>초급 과정과 동일 + 인터넷 연결 하나만 더 확인하면 됩니다</p></div>
+    <div><h2>시작 전 준비물 체크</h2><p>설문 배포까지 하려면 Node.js 설치 하나만 추가로 필요합니다</p></div>
   </div>
   <div class="slide-body">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">💻</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>VS Code + Live Server</strong><br><span style="color:#64748b;font-size:1.01rem;">초급 과정에서 설치한 그대로 사용합니다. Live Server가 켜져 있어야 Chart.js CDN이 정상 동작합니다.</span></div></div>
-      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🤖</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>zoo code 확장</strong><br><span style="color:#64748b;font-size:1.01rem;">오늘은 파일이 3개(index.html·style.css·script.js)로 나뉘어 생성됩니다. 각 파일의 승인(Approve) 버튼을 빠짐없이 눌러주세요.</span></div></div>
-      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🌐</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>인터넷 연결</strong><br><span style="color:#64748b;font-size:1.01rem;">응답 통계 차트를 Chart.js CDN(외부 서버)에서 불러오므로 인터넷이 필요합니다. 사내망이 CDN을 막는 경우 강사에게 문의하세요.</span></div></div>
-      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📁</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>실습 폴더</strong><br><span style="color:#64748b;font-size:1.01rem;">초급과 같은 "바이브코딩" 폴더 안에 중급 결과물도 함께 모아두면 나중에 찾기 쉽습니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">💻</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>VS Code + Live Server</strong><br><span style="color:#64748b;font-size:1.01rem;">초급 과정에서 설치한 그대로 사용합니다. Chart.js CDN이 동작하려면 Go Live 상태에서 열어야 합니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🤖</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Cline 확장</strong><br><span style="color:#64748b;font-size:1.01rem;">오늘은 파일이 <strong>index.html 하나</strong>로 생성됩니다. Approve 버튼을 누르면 즉시 완성됩니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:2px solid #fbbf24;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">🟢</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>Node.js (서버 배포용)</strong><br><span style="color:#64748b;font-size:1.01rem;"><strong>nodejs.org</strong>에서 LTS 버전 설치. <code style="background:#fef3c7;padding:1px 6px;border-radius:4px;">node -v</code>를 터미널에 입력해 설치 확인. 서버 배포 미션에 필요합니다.</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:14px 18px;"><div style="font-size:1.43rem;flex-shrink:0;">📁</div><div style="font-size:1.11rem;color:#1e293b;line-height:1.6;"><strong>실습 폴더</strong><br><span style="color:#64748b;font-size:1.01rem;">"바이브코딩/중급/08_설문지생성기" 폴더를 미리 만들어두세요. server.js, index.html, respond.html이 같은 폴더에 있어야 합니다.</span></div></div>
     </div>
   </div>
 </div>
@@ -193,14 +193,91 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   </div>
   <div class="slide-body">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 동적 폼 생성</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">질문 데이터 배열을 바탕으로 <strong>입력 화면(HTML)을 그때그때 코드로 만들어내는</strong> 방식. 질문이 늘어도 코드는 그대로</p></div>
-      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 질문 유형(type)</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">각 질문이 <strong>text·radio·checkbox·rating</strong> 중 무엇인지 나타내는 값. 유형에 따라 다른 입력 UI가 그려짐</p></div>
-      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 응답 배열</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">제출된 설문 응답이 하나씩 쌓이는 <strong>객체(object)들의 배열</strong>. 통계 계산의 원본 데이터</p></div>
-      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 시각화(Chart.js)</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">숫자로 된 응답 집계를 <strong>막대·도넛 그래프</strong>로 그려주는 CDN 라이브러리</p></div>
-      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 로컬 통계 집계</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">서버 없이 브라우저 안에서 응답 배열을 <strong>순회하며 직접 세고 합산</strong>해 통계를 만드는 방식</p></div>
-      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 localStorage 목록 관리</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">설문 구조와 응답 목록을 <strong>브라우저 보관함</strong>에 저장해 새로고침해도 유지되게 하는 방식</p></div>
+      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 동적 폼 생성</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">질문 데이터 배열을 기반으로 <strong>입력 화면(HTML)을 코드로 즉석 생성</strong>하는 방식. 질문이 늘어도 코드 수정 불필요</p></div>
+      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 질문 유형 (4가지)</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;"><strong>radio(객관식) · checkbox(체크박스) · nps(0~10점) · text(텍스트)</strong>. 유형에 따라 입력 UI와 차트 형태가 달라짐</p></div>
+      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 NPS (순추천지수)</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">0~10점 중 <strong>9·10 = 추천, 7·8 = 중립, 0~6 = 비추천</strong>으로 분류. NPS = 추천% − 비추천%로 계산</p></div>
+      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 스테퍼 입력</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;"><strong>[−][숫자][+]</strong> 버튼으로 응답 수를 1씩 조정하는 UI. 0 미만으로 내려가지 않음</p></div>
+      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 클라이언트 / 서버</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;"><strong>클라이언트</strong>= 직원 브라우저, <strong>서버</strong>= 응답을 받아 저장하는 PC. 둘이 HTTP로 데이터를 주고받음</p></div>
+      <div style="background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 16px;"><p style="font-weight:800;font-size:1.11rem;color:#0891b2;margin-bottom:5px;">📌 REST API</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">브라우저 ↔ 서버가 <strong>URL + HTTP 메서드(GET/POST)</strong>로 데이터를 주고받는 약속. fetch()로 호출</p></div>
     </div>
     <div style="margin-top:14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#166534;line-height:1.6;">🌱 낯선 단어가 나와도 괜찮습니다. 코드는 <strong>AI가 쓰고</strong>, 우리는 <strong>읽고 요청</strong>만 하면 돼요!</div>
+  </div>
+</div>
+
+<div class="slide s-dark">
+  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">🌐</div><div><h2>서버가 왜 필요할까요?</h2><p>브라우저만으로는 여러 직원이 함께 응답하기 어렵습니다</p></div></div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+      <div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:18px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#f87171;letter-spacing:.08em;margin-bottom:8px;">❌ 서버 없이 (localStorage만)</p>
+        <ul style="font-size:1.03rem;color:#cbd5e1;line-height:1.9;padding-left:18px;">
+          <li>내 브라우저 안에만 저장됨</li>
+          <li>다른 직원은 내 데이터를 볼 수 없음</li>
+          <li>응답 집계를 직접 수동 입력해야 함</li>
+        </ul>
+      </div>
+      <div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:12px;padding:18px 20px;">
+        <p style="font-size:0.82rem;font-weight:700;color:#4ade80;letter-spacing:.08em;margin-bottom:8px;">✅ 서버 있을 때 (Node.js)</p>
+        <ul style="font-size:1.03rem;color:#cbd5e1;line-height:1.9;padding-left:18px;">
+          <li>직원이 URL 접속 → 응답 제출</li>
+          <li>responses.json에 자동 저장</li>
+          <li>관리자가 결과를 실시간 확인 가능</li>
+        </ul>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:16px 20px;">
+      <p style="font-size:0.82rem;font-weight:700;color:#38bdf8;letter-spacing:.08em;margin-bottom:10px;">🔄 전체 흐름</p>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:1.04rem;color:#e2e8f0;">
+        <span style="background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.3);padding:8px 14px;border-radius:9px;">👤 직원 브라우저<br><span style="font-size:0.84rem;color:#94a3b8;">respond.html 접속</span></span>
+        <span style="color:#38bdf8;font-size:1.3rem;">→</span>
+        <span style="background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.3);padding:8px 14px;border-radius:9px;">📡 HTTP POST<br><span style="font-size:0.84rem;color:#94a3b8;">/api/response</span></span>
+        <span style="color:#38bdf8;font-size:1.3rem;">→</span>
+        <span style="background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.3);padding:8px 14px;border-radius:9px;">🖥️ server.js<br><span style="font-size:0.84rem;color:#94a3b8;">Port 8947</span></span>
+        <span style="color:#38bdf8;font-size:1.3rem;">→</span>
+        <span style="background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.3);padding:8px 14px;border-radius:9px;">💾 responses.json<br><span style="font-size:0.84rem;color:#94a3b8;">자동 저장</span></span>
+      </div>
+    </div>
+    <div style="margin-top:14px;background:rgba(56,189,248,.08);border-left:3px solid #38bdf8;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.04rem;color:#bae6fd;">💡 "서버"라고 하면 거대한 컴퓨터를 떠올리지만, 오늘은 <strong>내 PC에서 node server.js 하나</strong>로 서버를 돌립니다. 사내망이면 충분합니다.</div>
+  </div>
+</div>
+
+<div class="slide s-dark">
+  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">⚙️</div><div><h2>server.js 코드 이해</h2><p>Node.js + Express로 80줄 안에 완성되는 사내 설문 서버</p></div></div>
+  <div class="slide-body">
+    <div class="cb" style="background:#04111e;font-size:0.96rem;">
+<span class="kw">const</span> express = <span class="at">require</span>(<span class="st">'express'</span>); <span class="cm">// ① 웹 서버 프레임워크</span>
+<span class="kw">const</span> fs      = <span class="at">require</span>(<span class="st">'fs'</span>);      <span class="cm">// ② 파일 읽기/쓰기</span>
+<span class="kw">const</span> app  = <span class="at">express</span>();
+<span class="kw">const</span> PORT = <span class="vl">8947</span>;
+
+app.<span class="at">use</span>(express.<span class="at">json</span>());           <span class="cm">// JSON 요청 파싱</span>
+app.<span class="at">use</span>(express.<span class="at">static</span>(__dirname)); <span class="cm">// ③ 현재 폴더 정적 파일 서빙</span>
+
+<span class="cm">// ④ 라우팅 — URL + HTTP 메서드로 기능 분리</span>
+app.<span class="at">post</span>(<span class="st">'/api/survey'</span>, (req, res) =&gt; {
+  fs.<span class="at">writeFileSync</span>(<span class="st">'survey.json'</span>, <span class="tg">JSON</span>.<span class="at">stringify</span>(req.body, <span class="kw">null</span>, <span class="vl">2</span>));
+  res.<span class="at">json</span>({ ok: <span class="kw">true</span> });     <span class="cm">// 관리자가 설문 배포 시 저장</span>
+});
+
+app.<span class="at">get</span>(<span class="st">'/api/survey'</span>, (req, res) =&gt; {
+  res.<span class="at">json</span>(<span class="tg">JSON</span>.<span class="at">parse</span>(fs.<span class="at">readFileSync</span>(<span class="st">'survey.json'</span>, <span class="st">'utf8'</span>)));
+});                               <span class="cm">// respond.html이 설문 구조를 읽을 때</span>
+
+app.<span class="at">post</span>(<span class="st">'/api/response'</span>, (req, res) =&gt; {
+  <span class="kw">const</span> list = <span class="tg">JSON</span>.<span class="at">parse</span>(fs.<span class="at">readFileSync</span>(<span class="st">'responses.json'</span>, <span class="st">'utf8'</span>));
+  list.<span class="at">push</span>({ ...req.body, createdAt: <span class="kw">new</span> <span class="tg">Date</span>().<span class="at">toISOString</span>() });
+  fs.<span class="at">writeFileSync</span>(<span class="st">'responses.json'</span>, <span class="tg">JSON</span>.<span class="at">stringify</span>(list, <span class="kw">null</span>, <span class="vl">2</span>));
+  res.<span class="at">json</span>({ ok: <span class="kw">true</span>, total: list.length });
+});                               <span class="cm">// 직원 응답 저장</span>
+
+app.<span class="at">listen</span>(PORT, <span class="st">'0.0.0.0'</span>, () =&gt; console.<span class="at">log</span>(<span class="st">`서버 시작: http://localhost:${PORT}`</span>));
+    </div>
+    <div style="margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font-size:0.92rem;">
+      <div style="background:rgba(255,255,255,.06);border-radius:9px;padding:10px 12px;color:#bae6fd;"><strong style="color:#38bdf8;">① express</strong><br>웹 요청/응답을<br>쉽게 처리해주는<br>Node.js 라이브러리</div>
+      <div style="background:rgba(255,255,255,.06);border-radius:9px;padding:10px 12px;color:#bae6fd;"><strong style="color:#38bdf8;">② fs</strong><br>파일 시스템.<br>JSON 파일을<br>읽고 쓸 때 사용</div>
+      <div style="background:rgba(255,255,255,.06);border-radius:9px;padding:10px 12px;color:#bae6fd;"><strong style="color:#38bdf8;">③ static</strong><br>폴더 안 HTML/<br>CSS/JS 파일을<br>브라우저에 제공</div>
+      <div style="background:rgba(255,255,255,.06);border-radius:9px;padding:10px 12px;color:#bae6fd;"><strong style="color:#38bdf8;">④ routing</strong><br>URL + GET/POST로<br>기능을 나눠<br>처리하는 규칙</div>
+    </div>
   </div>
 </div>
 
@@ -210,44 +287,31 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
     <div class="two">
       <div>
         <div class="cb">
-<span class="cm">// 질문 데이터 구조</span>
+<span class="cm">// 질문 데이터 구조 (4가지 유형)</span>
 <span class="kw">const</span> questions = [
-  {
-    id: <span class="vl">1</span>,
-    type: <span class="st">'text'</span>,
-    label: <span class="st">'이름을 입력하세요'</span>,
-    required: <span class="kw">true</span>
-  },
-  {
-    id: <span class="vl">2</span>,
-    type: <span class="st">'radio'</span>,
-    label: <span class="st">'만족도는?'</span>,
-    options: [<span class="st">'매우 만족'</span>,<span class="st">'만족'</span>,<span class="st">'보통'</span>,<span class="st">'불만족'</span>]
-  },
-  {
-    id: <span class="vl">3</span>,
-    type: <span class="st">'checkbox'</span>,
-    label: <span class="st">'관심 분야를 선택하세요'</span>,
-    options: [<span class="st">'개발'</span>,<span class="st">'디자인'</span>,<span class="st">'기획'</span>]
-  },
-  {
-    id: <span class="vl">4</span>,
-    type: <span class="st">'rating'</span>,
-    label: <span class="st">'추천 점수 (1~5)',</span>
-    max: <span class="vl">5</span>
-  }
+  { id: <span class="vl">1</span>, type: <span class="st">'text'</span>,
+    title: <span class="st">'이름을 입력하세요'</span>, required: <span class="kw">true</span> },
+  { id: <span class="vl">2</span>, type: <span class="st">'radio'</span>,
+    title: <span class="st">'만족도는?'</span>,
+    options: [<span class="st">'매우 만족'</span>,<span class="st">'만족'</span>,<span class="st">'보통'</span>,<span class="st">'불만족'</span>] },
+  { id: <span class="vl">3</span>, type: <span class="st">'checkbox'</span>,
+    title: <span class="st">'관심 분야를 선택하세요'</span>,
+    options: [<span class="st">'개발'</span>,<span class="st">'디자인'</span>,<span class="st">'기획'</span>] },
+  { id: <span class="vl">4</span>, type: <span class="st">'nps'</span>,
+    title: <span class="st">'이 교육을 추천하시겠습니까?'</span> }
 ];
         </div>
       </div>
       <div>
         <div class="qt-row">
-          <div class="qt"><h4>📝 text</h4><p>한 줄 텍스트 입력</p><pre>&lt;input type="text"&gt;</pre></div>
-          <div class="qt"><h4>🔘 radio</h4><p>단일 선택</p><pre>&lt;input type="radio"
+          <div class="qt"><h4>📝 text</h4><p>텍스트 입력 (집계 제외)</p><pre>&lt;textarea&gt;</pre></div>
+          <div class="qt"><h4>🔘 radio</h4><p>단일 선택 → 도넛 차트</p><pre>&lt;input type="radio"
  name="q2"&gt;</pre></div>
-          <div class="qt"><h4>☑️ checkbox</h4><p>다중 선택</p><pre>&lt;input type="checkbox"
+          <div class="qt"><h4>☑️ checkbox</h4><p>다중 선택 → 막대 차트</p><pre>&lt;input type="checkbox"
  name="q3"&gt;</pre></div>
-          <div class="qt"><h4>⭐ rating</h4><p>별점 (1~N)</p><pre>★★★★☆
-클릭으로 점수 선택</pre></div>
+          <div class="qt"><h4>📊 nps</h4><p>0~10점 → 3그룹 + NPS</p><pre>비추천 0-6
+중립   7-8
+추천   9-10</pre></div>
         </div>
       </div>
     </div>
@@ -255,43 +319,36 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 </div>
 
 <div class="slide s-dark">
-  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">⚙️</div><div><h2>renderSurvey — 중첩 렌더링</h2><p>questions 배열 → map → innerHTML 패턴</p></div></div>
+  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">⚙️</div><div><h2>renderInput — 유형별 분기 렌더링</h2><p>switch문으로 질문 유형에 따라 다른 HTML을 반환하는 패턴</p></div></div>
   <div class="slide-body">
-    <div class="cb" style="background:#04111e;font-size:0.99rem;">
-<span class="kw">function</span> <span class="at">renderSurvey</span>() {
-  <span class="kw">const</span> html = questions.<span class="at">map</span>((q, idx) => <span class="st">`
-    &lt;div class="question" data-id="${q.id}"&gt;
-      &lt;p class="q-label"&gt;
-        ${idx + 1}. ${q.label}
-        ${q.required ? '&lt;span class="req"&gt;*&lt;/span&gt;' : ''}
-      &lt;/p&gt;
-      ${renderInput(q)}
-    &lt;/div&gt;
-  `</span>).<span class="at">join</span>(<span class="st">''</span>);    <span class="cm">// 배열 → 문자열 병합</span>
-
-  document.<span class="at">getElementById</span>(<span class="st">'survey'</span>).innerHTML = html;
-}
-
-<span class="cm">// 유형별 입력 렌더링</span>
+    <div class="cb" style="background:#04111e;font-size:0.97rem;">
 <span class="kw">function</span> <span class="at">renderInput</span>(q) {
   <span class="kw">switch</span> (q.type) {
+
     <span class="kw">case</span> <span class="st">'text'</span>:
-      <span class="kw">return</span> <span class="st">`&lt;input type="text" name="q${q.id}"&gt;`</span>;
+      <span class="kw">return</span> <span class="st">`&lt;textarea name="q${q.id}" rows="2"&gt;&lt;/textarea&gt;`</span>;
 
     <span class="kw">case</span> <span class="st">'radio'</span>:
     <span class="kw">case</span> <span class="st">'checkbox'</span>:
-      <span class="kw">return</span> q.options.<span class="at">map</span>(opt => <span class="st">`
+      <span class="kw">return</span> q.options.<span class="at">map</span>(opt =&gt; <span class="st">`
         &lt;label&gt;
-          &lt;input type="${q.type}" name="q${q.id}"
-                 value="${opt}"&gt; ${opt}
+          &lt;input type="${q.type}" name="q${q.id}" value="${opt}"&gt; ${opt}
         &lt;/label&gt;`</span>).<span class="at">join</span>(<span class="st">''</span>);    <span class="cm">// 중첩 map!</span>
 
-    <span class="kw">case</span> <span class="st">'rating'</span>:
-      <span class="kw">return</span> [...Array(q.max)].<span class="at">map</span>((_, i) =>
-        <span class="st">`&lt;span class="star" data-val="${i+1}"&gt;★&lt;/span&gt;`</span>
-      ).<span class="at">join</span>(<span class="st">''</span>);
+    <span class="kw">case</span> <span class="st">'nps'</span>:
+      <span class="kw">return</span> [<span class="vl">0</span>,<span class="vl">1</span>,<span class="vl">2</span>,<span class="vl">3</span>,<span class="vl">4</span>,<span class="vl">5</span>,<span class="vl">6</span>,<span class="vl">7</span>,<span class="vl">8</span>,<span class="vl">9</span>,<span class="vl">10</span>].<span class="at">map</span>(n =&gt;
+        <span class="st">`&lt;button class="nps-btn" data-val="${n}"&gt;${n}&lt;/button&gt;`</span>
+      ).<span class="at">join</span>(<span class="st">''</span>);   <span class="cm">// 0~10 버튼 11개</span>
   }
 }
+
+<span class="cm">// NPS 결과 집계 — 비추천/중립/추천 3그룹</span>
+<span class="kw">function</span> <span class="at">calcNPS</span>(counts) {
+  <span class="kw">const</span> { detractor = <span class="vl">0</span>, neutral = <span class="vl">0</span>, promoter = <span class="vl">0</span> } = counts;
+  <span class="kw">const</span> total = detractor + neutral + promoter;
+  <span class="kw">if</span> (!total) <span class="kw">return</span> <span class="vl">0</span>;
+  <span class="kw">return</span> <span class="tg">Math</span>.<span class="at">round</span>((promoter - detractor) / total * <span class="vl">100</span>);
+}   <span class="cm">// NPS = (추천% − 비추천%)</span>
     </div>
   </div>
 </div>
@@ -299,29 +356,25 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
 <div class="slide s-content">
   <div class="slide-header">
     <div class="icon" style="background:#cffafe;">💬</div>
-    <div><h2>AI에게 말 거는 법 — 프롬프트 3단 구조</h2><p>중급도 원리는 같습니다. 다만 "파일을 나눠달라"는 조건이 하나 추가됩니다</p></div>
+    <div><h2>AI에게 말 거는 법 — 프롬프트 3단 구조</h2><p>중급도 원리는 같습니다. 오늘은 단일 파일로 요청합니다</p></div>
   </div>
   <div class="slide-body">
     <div style="display:flex;flex-direction:column;gap:10px;">
       <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#0891b2;flex-shrink:0;">①</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">무엇을</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"설문지 생성기를 만들어줘"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">만들 것을 <strong>한 문장</strong>으로. 첫 줄이 가장 중요합니다</span></div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#0891b2;flex-shrink:0;">②</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">기능/라이브러리</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"Chart.js CDN 사용, 4가지 질문 유형, 응답 통계 시각화"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">필요한 <strong>기능과 외부 라이브러리</strong>를 목록으로 나열합니다</span></div></div>
-      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#0891b2;flex-shrink:0;">③</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">조건/파일 구조</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"index.html, style.css, script.js 3개로 나눠줘"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">중급부터는 <strong>파일을 나눠달라는 조건</strong>을 꼭 넣어야 관리가 편합니다</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#0891b2;flex-shrink:0;">②</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">기능/라이브러리</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"Chart.js CDN, 3가지 질문 유형, 응답 통계 시각화"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">필요한 <strong>기능과 외부 라이브러리</strong>를 목록으로 나열합니다</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;"><div style="font-size:1.43rem;font-weight:800;color:#0891b2;flex-shrink:0;">③</div><div style="flex:1;"><span style="font-weight:800;font-size:1.12rem;color:#1e293b;">조건/파일 구조</span> <code style="font-size:0.96rem;background:#f1f5f9;border-radius:6px;padding:2px 8px;color:#475569;">"index.html 단일 파일로, 한국어 주석"</code><br><span style="font-size:0.99rem;color:#64748b;line-height:1.6;">단일 파일로 요청하면 <strong>파일 누락 문제가 없어</strong> 실행이 훨씬 쉽습니다</span></div></div>
     </div>
-    <div style="margin-top:12px;background:#ecfeff;border-left:4px solid #0891b2;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#0e7490;line-height:1.6;">💡 라이브러리 이름이 기억 안 나도 괜찮습니다. "선택 결과를 그래프로 보여주는 라이브러리 써줘"처럼 <strong>말로 설명해도</strong> AI가 Chart.js를 선택해줍니다.</div>
+    <div style="margin-top:12px;background:#ecfeff;border-left:4px solid #0891b2;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#0e7490;line-height:1.6;">💡 "단일 파일로"라고 명시하면 Cline이 index.html 하나에 CSS·JS를 모두 인라인으로 작성합니다. 관리가 간편하고 이동도 쉽습니다.</div>
   </div>
 </div>
 
-
-<!-- ★ 시나리오 슬라이드 (AI 프롬프트 앞) -->
 <div class="slide s-story">
   <div class="story-eyebrow">📌 SITUATION &amp; ROLE</div>
-  <div class="story-title">당신은 인사팀 주임입니다.<br>이번 달 안에 직원 만족도 조사를 해야 합니다.</div>
-
+  <div class="story-title">당신은 인사팀 주임입니다.<br>이번 달 안에 <em>직원 만족도 조사</em>를 해야 합니다.</div>
   <div class="story-quote">
     이번 달 직원 만족도 설문 돌려야 해.<br>Google Form은 보안팀에서 외부 툴이라 안 된다고 했으니까,<br>우리가 직접 쓸 수 있는 설문 도구 만들어줄 수 있어?
     <cite>— 팀장, 월요일 오전 11:40</cite>
   </div>
-
   <div class="story-grid" style="margin-top:28px;">
     <div class="story-card">
       <div class="story-card-label">🚫 현실적 제약</div>
@@ -332,172 +385,139 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
       <div class="story-card-body">설문 문항 초안 완성.<br>원하는 결과 형식 명확함.<br><strong>AI에게 요청하면 된다는 확신.</strong></div>
     </div>
   </div>
-
   <div class="story-resolve">
     <span class="story-resolve-dot"></span>
     <span>그래서 결심했습니다 — <strong>AI한테 직접 만들어달라고 해보자.</strong> 아래 프롬프트가 그 결과입니다.</span>
   </div>
 </div>
+
 <div class="slide s-prompt">
   <div class="sp-header">
     <button class="prompt-expand-btn" onclick="openPromptFs()"><span>⛶</span> 전체화면으로 보기</button>
     <div class="sp-badge">ACTUAL AI GENERATION PROMPT</div>
     <h2>실제 사용한 AI 생성 프롬프트</h2>
-    <p>아래 프롬프트를 VS Code의 zoo code에 붙여넣으면 설문지 생성기가 완성됩니다</p>
+    <p>아래 프롬프트를 VS Code의 Cline에 붙여넣으면 설문지 생성기 기본 버전이 완성됩니다</p>
   </div>
   <div class="sp-label">▼ COPY &amp; PASTE THIS PROMPT</div>
-  <div class="sp-box">HTML, CSS, JavaScript로 설문지 생성기를 만들어줘.
+  <div class="sp-box">HTML, CSS, JavaScript 단일 파일(index.html)로 설문지 생성기를 만들어줘.
 
 라이브러리: Chart.js CDN
 
-3가지 탭: ✏️ 생성 / 📝 응답 / 📊 결과
+2가지 탭: ✏️ 설문 생성 / 📊 결과 입력
 
-[생성 탭]
-- 빠른 시작 템플릿 3종: 만족도 조사·회의 평가·온보딩 피드백 (클릭 시 기본 질문 자동 채움)
-- 설문 제목 입력
-- 질문 추가 버튼: 단답형 / 객관식 / 체크박스 / 별점(1~5) / 슬라이더(0~10)
+[설문 생성 탭]
+- 설문 제목·설명 입력
+- 질문 추가 버튼: 객관식(radio) / 체크박스(checkbox) / 텍스트(text)
 - 각 질문 카드:
   - 질문 텍스트 편집
   - 필수 답변 체크박스
-  - 객관식/체크박스: 선택지 추가/삭제
+  - 객관식·체크박스: 선택지 추가/삭제
   - ↑↓ 순서 이동, 삭제 버튼
+- localStorage로 설문 구조 자동 저장
 
-[응답 탭]
-- 설문 제목 표시
-- 진행률 바 (n/n 답변 완료)
-- 각 질문에 맞는 입력 UI
-- 제출 버튼 → 응답 저장 + 완료 메시지
-
-[결과 탭]
-- 총 응답 수
-- 각 질문별 시각화:
-  - 객관식: 도넛 차트
-  - 체크박스: 가로 막대 차트
-  - 별점/슬라이더: 막대 차트 + 평균 점수
-  - 단답형: 응답 목록
-- CSV 내보내기 버튼 (UTF-8 BOM)
-- 응답 초기화 버튼
+[결과 입력 탭]
+- 각 질문별 선택지별 응답 인원 수를 숫자 입력으로 직접 입력
+- 입력 즉시 차트 실시간 갱신
+- 질문별 시각화:
+  - 객관식 → 도넛 차트
+  - 체크박스 → 가로 막대 차트
+  - 텍스트 → 집계 제외
+- localStorage로 결과 데이터 저장
 
 기타:
-- localStorage로 설문 구조 + 응답 저장 (여러 설문 저장·불러오기·삭제 가능)
+- 다크/라이트 테마 전환 버튼 (상단 🌙 버튼, CSS 변수(:root) 방식, 선택 테마 localStorage 저장)
 - 토스트 알림, 커스텀 다이얼로그 (alert/confirm 대신)
-- 도움말 팝업: 사용법·질문 유형·FAQ 3개 탭
-- 다크/라이트 테마 전환 버튼 (상단 🌙 버튼, 선택 테마 localStorage 저장)
-- 응답용 공유 링크 생성: [🔗 응답용 공유 링크 생성] 버튼으로 응답 탭 URL 생성 및 클립보드 복사
-- 조건부 분기 로직: 객관식 선택지마다 다음에 보여줄 질문 번호를 지정할 수 있는 분기 설정
+- 전체 초기화 버튼
 
-파일은 index.html, style.css, script.js 3개로 나눠서 만들고, 코드에 한국어 주석 달아줘</div>
-  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 zoo code 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ zoo code이 만든 3개 파일 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ 다음 슬라이드에서 실행</span></div>
+파일은 index.html 하나로 만들고, 코드에 한국어 주석 달아줘.</div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">👣 <b>따라하기</b><span>① 위 프롬프트 전체 복사</span><span style="color:#34d399;">▶</span><span>② VS Code의 Cline 채팅창에 붙여넣고 전송</span><span style="color:#34d399;">▶</span><span>③ Cline이 만든 index.html 승인(Approve)</span><span style="color:#34d399;">▶</span><span>④ Go Live로 실행</span></div>
   <div class="sp-row">
-    <div class="sp-card"><b>🔗 공유 링크</b>설문 내용을 URL 파라미터로 인코딩해서 공유 가능한 링크를 생성하는 버튼을 추가해줘.</div>
-    <div class="sp-card"><b>❓ 조건부 질문</b>특정 답변 선택 시 다음 질문이 달라지는 분기 로직을 설문 생성 시 설정할 수 있게 해줘.</div>
-    <div class="sp-card"><b>📄 결과 PDF</b>통계 결과 페이지를 window.print()로 인쇄/PDF 저장하는 버튼을 추가해줘.</div>
+    <div class="sp-card"><b>🖱️ 스테퍼 입력</b>결과 입력의 숫자 input을 [−][숫자][+] 버튼으로 교체해줘. 클릭으로 1씩 증감하고 0 미만은 방지해줘.</div>
+    <div class="sp-card"><b>📋 빠른 시작 템플릿</b>만족도 조사·회의 평가·교육 평가 버튼을 추가해서 클릭하면 해당 주제의 기본 질문들이 자동으로 채워지게 해줘.</div>
+    <div class="sp-card"><b>🔀 드래그 순서 변경</b>↑↓ 버튼 대신 질문 카드를 마우스로 드래그해서 순서를 바꿀 수 있게 해줘. HTML5 draggable 속성 활용.</div>
   </div>
 </div>
 
 <div class="slide s-content">
   <div class="slide-header">
     <div class="icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🔍</div>
-    <div>
-      <h2>프롬프트 해설 — 왜 잘 작동했을까?</h2>
-      <p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p>
-    </div>
+    <div><h2>프롬프트 해설 — 왜 잘 작동했을까?</h2><p>앞 슬라이드 프롬프트를 분석해 "AI에게 잘 말하는 법"을 배웁니다</p></div>
   </div>
   <div class="slide-body">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
-        <p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p>
-        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">탭으로 역할을 먼저 나눴다</p>
-        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"3가지 탭: 생성/응답/결과"처럼 화면 역할을 먼저 구분하면 AI가 각 영역을 독립적으로 설계합니다. 역할 구분 없이 요청하면 기능이 한 화면에 뒤섞입니다.</p>
-      </div>
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
-        <p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p>
-        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">질문 유형을 하나씩 열거했다</p>
-        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"단답형/객관식/체크박스/별점/슬라이더"처럼 데이터 유형을 목록으로 나열하면 AI가 각 유형에 맞는 입력 컴포넌트를 빠짐없이 만듭니다. "여러 종류"라고만 하면 임의로 선택됩니다.</p>
-      </div>
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
-        <p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p>
-        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">시각화를 유형별로 짝지어 지정했다</p>
-        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"객관식 → 도넛 차트, 체크박스 → 가로 막대 차트"처럼 데이터 유형과 차트 종류를 1:1로 대응시켜 요청하면 AI가 차트를 임의 선택하지 않고 의도대로 만듭니다.</p>
-      </div>
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;">
-        <p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p>
-        <p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">UX 세부 동작까지 명시했다</p>
-        <p style="font-size:1.01rem;color:#475569;line-height:1.65;">"토스트 알림, 커스텀 다이얼로그 (alert/confirm 대신)"처럼 브라우저 기본 팝업 대신 쓸 방식을 구체적으로 지정하면 완성도 높은 UX가 나옵니다.</p>
-      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;"><p style="font-size:0.82rem;font-weight:700;color:#6366f1;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 1</p><p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">탭으로 역할을 먼저 나눴다</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">"2가지 탭: 설문 생성 / 결과 입력"처럼 화면 역할을 먼저 구분하면 AI가 각 영역을 독립적으로 설계합니다. 역할 구분 없이 요청하면 기능이 뒤섞입니다.</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;"><p style="font-size:0.82rem;font-weight:700;color:#059669;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 2</p><p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">질문 유형을 하나씩 열거했다</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">"객관식/체크박스/텍스트"처럼 데이터 유형을 목록으로 나열하면 AI가 각 유형에 맞는 입력 컴포넌트를 빠짐없이 만듭니다. "여러 종류"라고만 하면 임의로 선택됩니다.</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;"><p style="font-size:0.82rem;font-weight:700;color:#d97706;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 3</p><p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">시각화를 유형별로 짝지어 지정했다</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">"객관식 → 도넛 차트, 체크박스 → 가로 막대 차트"처럼 데이터 유형과 차트를 1:1로 대응시키면 AI가 임의 선택하지 않고 의도대로 만듭니다.</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;"><p style="font-size:0.82rem;font-weight:700;color:#dc2626;letter-spacing:.08em;margin-bottom:6px;">✅ POINT 4</p><p style="font-weight:800;font-size:1.13rem;color:#1e293b;margin-bottom:6px;">"단일 파일"로 명시했다</p><p style="font-size:1.01rem;color:#475569;line-height:1.65;">"index.html 하나로"라고 지정하면 CSS·JS가 인라인으로 통합됩니다. 파일 누락 실수가 없어 초보자도 바로 실행 가능합니다.</p></div>
     </div>
-    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;">
-      <p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;">
-        <div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;">
-          <strong>❌ 막연한 요청</strong><br>"설문지 만들어줘. 결과도 보여줘."<br>→ 결과가 제각각
-        </div>
-        <div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;">
-          <strong>✅ 구체적인 요청</strong><br>"3탭, 5가지 질문 유형, 유형별 차트 직접 지정, Chart.js CDN"<br>→ 한 번에 원하는 결과
-        </div>
-      </div>
-    </div>
+    <div style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;"><p style="font-weight:800;font-size:1.07rem;color:#5b21b6;margin-bottom:8px;">🆚 막연한 요청 vs 이 프롬프트의 차이</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.98rem;"><div style="background:rgba(220,38,38,.07);border-radius:8px;padding:10px 14px;color:#7f1d1d;line-height:1.6;"><strong>❌ 막연한 요청</strong><br>"설문지 만들어줘. 결과도 보여줘."<br>→ 결과가 제각각</div><div style="background:rgba(5,150,105,.07);border-radius:8px;padding:10px 14px;color:#064e3b;line-height:1.6;"><strong>✅ 구체적인 요청</strong><br>"2탭, 3가지 질문 유형, 유형별 차트 직접 지정, 단일 파일"<br>→ 한 번에 원하는 결과</div></div></div>
   </div>
 </div>
 
 <div class="slide s-grad">
-  <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>AI가 만든 코드를 실행하는 4단계</p></div></div>
+  <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🚀</div><div><h2>파일 실행 방법</h2><p>기본 실행(Go Live) 또는 서버 포함 실행(Node.js) — 둘 중 선택</p></div></div>
   <div class="slide-body">
-    <div class="steps">
-      <div class="step"><div class="snum">1</div><div><h4>폴더 열기</h4><p>VS Code에서 <code>08_설문지생성기</code> 폴더를 엽니다</p></div></div>
-      <div class="step"><div class="snum">2</div><div><h4>Go Live 실행</h4><p>Chart.js를 위해 <code>Go Live</code>로 로컬 서버 실행</p></div></div>
-      <div class="step"><div class="snum">3</div><div><h4>설문 만들기</h4><p>편집 탭에서 질문 추가, 유형 선택, 선택지 작성</p></div></div>
-      <div class="step"><div class="snum">4</div><div><h4>응답 후 통계 확인</h4><p>미리보기에서 응답 제출 → 통계 탭에서 차트 확인!</p></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+      <div><p style="font-weight:800;font-size:1.08rem;color:#0891b2;margin-bottom:10px;">🔵 기본 실행 (통계만 사용)</p>
+        <div class="steps">
+          <div class="step"><div class="snum">1</div><div><h4>폴더 열기</h4><p>VS Code에서 <code>08_설문지생성기</code> 폴더 열기</p></div></div>
+          <div class="step"><div class="snum">2</div><div><h4>Go Live 실행</h4><p>index.html 우클릭 → <code>Open with Live Server</code></p></div></div>
+          <div class="step"><div class="snum">3</div><div><h4>설문 만들고 통계 확인</h4><p>편집 탭에서 질문 추가 → 결과 탭에서 숫자 입력</p></div></div>
+        </div>
+      </div>
+      <div><p style="font-weight:800;font-size:1.08rem;color:#059669;margin-bottom:10px;">🟢 서버 포함 실행 (직원 배포)</p>
+        <div class="steps">
+          <div class="step"><div class="snum">1</div><div><h4>패키지 설치</h4><p>터미널에서 <code>npm install</code> 실행 (최초 1회)</p></div></div>
+          <div class="step"><div class="snum">2</div><div><h4>서버 시작</h4><p><code>node server.js</code> 실행 → <code>http://localhost:8947</code> 열기</p></div></div>
+          <div class="step"><div class="snum">3</div><div><h4>배포 및 응답 수집</h4><p>설문 만들고 → 서버 배포 버튼 → 직원에게 URL 공유</p></div></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="slide s-content">
-  <div class="slide-header">
-    <div class="icon" style="background:#fee2e2;">🆘</div>
-    <div><h2>자주 막히는 문제 &amp; 해결법</h2><p>여기서 멈추는 게 정상입니다 — 옆 사람도 같은 곳에서 막혀 있어요</p></div>
-  </div>
+  <div class="slide-header"><div class="icon" style="background:#fee2e2;">🆘</div><div><h2>자주 막히는 문제 &amp; 해결법</h2><p>여기서 멈추는 게 정상입니다 — 옆 사람도 같은 곳에서 막혀 있어요</p></div></div>
   <div class="slide-body">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🗂️ "화면이 하얗거나 스타일이 안 먹어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><strong>index.html · style.css · script.js</strong> 3개 파일이 <strong>같은 폴더</strong>에 있는지, 파일명이 정확한지 확인하세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">수정한 <strong>모든 파일을 저장(Ctrl+S)</strong>하세요. 탭 이름 옆 ● 표시는 저장 안 됨 표시! 저장 후 브라우저 <strong>새로고침(F5)</strong>.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">📡 "차트·변환 등 기능이 안 나와요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">CDN 라이브러리는 <strong>인터넷 연결</strong>이 필요합니다. <strong>F12 → Console</strong>의 빨간 오류를 복사해 AI에게 붙여넣으세요.</p></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">✂️ "파일이 3개로 나뉘지 않고 하나로 나왔어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">AI에게 <strong>"index.html, style.css, script.js 3개 파일로 나눠서 각각 코드블록으로 보여줘"</strong>라고 요청하세요.</p></div></div>
-    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#3730a3;line-height:1.6;">🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사(캡처)해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">⬜ "화면이 하얗거나 스타일이 없어요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">Go Live로 열었는지 확인. index.html을 직접 더블클릭으로 열면 CDN이 안 불러질 수 있습니다.</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">💾 "고쳤는데 화면이 그대로예요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">파일 저장(<strong>Ctrl+S</strong>)을 먼저 하세요. 탭 이름 옆 ● 표시는 저장 안 됨! 저장 후 <strong>F5</strong> 새로고침.</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🟢 "node server.js 실행이 안 돼요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;">npm install</code>을 먼저 실행했는지 확인. <code>node -v</code>로 Node.js 설치 여부도 확인하세요.</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🌐 "배포 버튼이 안 보여요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">배포 버튼은 <strong>port 8947로 접속</strong>했을 때만 나타납니다. <code>http://localhost:8947</code>로 열어야 합니다.</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">📡 "차트가 안 나와요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;">CDN 라이브러리는 <strong>인터넷 연결</strong>이 필요합니다. <strong>F12 → Console</strong>의 빨간 오류를 복사해 AI에게 붙여넣으세요.</p></div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:15px 18px;"><p style="font-weight:800;color:#dc2626;font-size:1.11rem;margin-bottom:7px;">🔗 "직원이 respond.html에 접속 못 해요"</p><p style="font-size:1.03rem;color:#475569;line-height:1.7;"><code>ipconfig</code>로 IPv4 주소 확인 → <code>http://[내 IP]:8947/respond.html</code>로 공유. 같은 사내망이어야 합니다.</p></div>
+    </div>
+    <div style="margin-top:16px;background:#eef2ff;border-left:4px solid #6366f1;border-radius:0 10px 10px 0;padding:12px 18px;font-size:1.07rem;color:#3730a3;line-height:1.6;">🤖 <strong>만능 해결법:</strong> 오류 메시지나 이상한 화면을 그대로 복사해서 AI에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 대부분 해결됩니다.</div>
   </div>
 </div>
 
 <div class="slide s-dark">
-  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">↕️</div><div><h2>질문 순서 변경 — 배열 교환</h2><p>위/아래 버튼 클릭 시 배열 요소 위치를 바꾸는 패턴</p></div></div>
+  <div class="slide-header"><div class="icon" style="background:rgba(255,255,255,.1);">↕️</div><div><h2>배열 교환 · 스테퍼 패턴</h2><p>순서 이동과 [−][숫자][+] 입력 — 자주 나오는 핵심 패턴 2가지</p></div></div>
   <div class="slide-body">
-    <div class="cb" style="background:#04111e;">
+    <div class="cb" style="background:#04111e;font-size:0.96rem;">
+<span class="cm">// 1. 질문 순서 이동 — 배열 요소 교환 (구조분해 할당)</span>
 <span class="kw">function</span> <span class="at">moveQuestion</span>(idx, direction) {
-  <span class="cm">// direction: -1 (위), +1 (아래)</span>
-  <span class="kw">const</span> targetIdx = idx + direction;
-
-  <span class="cm">// 범위 체크</span>
-  <span class="kw">if</span> (targetIdx &lt; <span class="vl">0</span> || targetIdx >= questions.length)
-    <span class="kw">return</span>;
-
-  <span class="cm">// 배열 두 요소 교환 (구조분해 할당)</span>
-  [questions[idx], questions[targetIdx]] =
-  [questions[targetIdx], questions[idx]];
-
-  <span class="at">saveQuestions</span>();
+  <span class="kw">const</span> target = idx + direction;
+  <span class="kw">if</span> (target &lt; <span class="vl">0</span> || target &gt;= questions.length) <span class="kw">return</span>;
+  [questions[idx], questions[target]] = [questions[target], questions[idx]];
   <span class="at">renderEditor</span>(); <span class="cm">// 화면 다시 그리기</span>
 }
 
-<span class="cm">// 버튼 HTML에서 호출</span>
-<span class="cm">// onclick="moveQuestion(${idx}, -1)"  → 위로</span>
-<span class="cm">// onclick="moveQuestion(${idx}, +1)"  → 아래로</span>
+<span class="cm">// 2. 스테퍼 — [−][숫자][+] 버튼으로 1씩 증감 (0 미만 방지)</span>
+<span class="kw">function</span> <span class="at">stepCount</span>(qId, key, dir) {
+  <span class="kw">if</span> (!counts[qId]) counts[qId] = {};
+  <span class="kw">const</span> next = <span class="tg">Math</span>.<span class="at">max</span>(<span class="vl">0</span>, (counts[qId][key] || <span class="vl">0</span>) + dir);
+  counts[qId][key] = next;
+  <span class="at">renderChartForQ</span>(qId);   <span class="cm">// 차트 즉시 갱신</span>
+}
 
-<span class="cm">// 응답 수집 (FormData 또는 수동)</span>
-<span class="kw">function</span> <span class="at">collectResponses</span>() {
-  <span class="kw">const</span> form = document.<span class="at">getElementById</span>(<span class="st">'surveyForm'</span>);
-  <span class="kw">const</span> data = <span class="kw">new</span> <span class="tg">FormData</span>(form);
-  <span class="kw">const</span> response = {};
-  data.<span class="at">forEach</span>((value, key) => {
-    response[key] = response[key]
-      ? [...[].concat(response[key]), value]
-      : value;
-  });
-  <span class="kw">return</span> response;
+<span class="cm">// HTML 스테퍼 구조</span>
+<span class="kw">function</span> <span class="at">stepper</span>(qId, key, val) {
+  <span class="kw">return</span> <span class="st">`&lt;div class="stepper"&gt;
+    &lt;button onclick="stepCount(${qId},'${key}',-1)"&gt;−&lt;/button&gt;
+    &lt;input type="number" min="0" value="${val}"&gt;
+    &lt;button onclick="stepCount(${qId},'${key}',+1)"&gt;+&lt;/button&gt;
+  &lt;/div&gt;`</span>;
 }
     </div>
   </div>
@@ -507,26 +527,76 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Se
   <div class="slide-header"><div class="icon" style="background:#cffafe;">✏️</div><div><h2>직접 수정 미션</h2><p>AI에게 요청해서 기능을 추가해보세요</p></div></div>
   <div class="slide-body">
     <div class="mgrid">
-      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>마감일 표시</h3><p>생성 탭에 마감 날짜 입력칸을 추가하고, 응답 탭 상단에 남은 일수를 D-Day 형식으로 표시합니다.</p><div class="mcode">날짜 input 추가.<br>D-Day 계산 함수 작성.<br>응답 탭에 남은 일수 표시.</div></div>
-      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>다크 모드</h3><p>오른쪽 상단에 🌙/☀️ 버튼을 추가해 전체 테마를 전환하고, 선택한 테마를 localStorage로 유지합니다.</p><div class="mcode">CSS 변수로 테마 정의.<br>토글 버튼 UI 추가.<br>localStorage로 테마 저장.</div></div>
-      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>설문 목록 관리</h3><p>여러 개의 설문을 localStorage에 저장하고, 목록에서 선택해 불러오거나 삭제하는 다중 설문 관리 기능을 추가합니다.</p><div class="mcode">surveys 배열로 다중 저장.<br>설문 목록 UI 추가.<br>선택·복사·삭제 기능 구현.</div></div>
+      <div class="mc m1"><div class="ms">⭐</div><h3>미션 1<br>인쇄 / PDF 저장</h3><p>결과 입력 탭 하단에 🖨️ 인쇄/PDF 버튼을 추가해 설문 통계 결과를 인쇄하거나 PDF로 저장합니다.</p><div class="mcode">window.print() 호출 버튼 추가.<br>@media print CSS로 UI 숨기기.<br>설문 제목·날짜 인쇄 헤더 삽입.</div></div>
+      <div class="mc m2"><div class="ms">⭐⭐</div><h3>미션 2<br>NPS 문항 추가</h3><p>질문 유형에 NPS(0~10점)를 추가하고, 비추천·중립·추천 3그룹으로 집계해 NPS 점수를 자동 계산합니다.</p><div class="mcode">NPS 질문 유형 추가.<br>3그룹 스테퍼 입력 UI 구성.<br>NPS = (추천%−비추천%) 계산.</div></div>
+      <div class="mc m3"><div class="ms">⭐⭐⭐</div><h3>미션 3<br>사내 배포 서버</h3><p>Node.js + Express로 server.js를 만들고, 직원이 respond.html에서 응답하면 JSON에 자동 저장되게 합니다.</p><div class="mcode">server.js 생성 (port 8947).<br>respond.html 응답자 페이지.<br>배포 버튼 + 응답자 URL 표시.</div></div>
+    </div>
+    <div class="sp-row" style="margin-top:14px;">
+      <div class="sp-card"><b>🖱️ 스테퍼 입력</b>결과 입력의 숫자 input을 [−][숫자][+] 버튼으로 교체해줘.</div>
+      <div class="sp-card"><b>📋 빠른 시작 템플릿</b>만족도 조사·회의 평가·교육 평가 버튼 클릭 시 기본 질문 자동 채우기.</div>
+      <div class="sp-card"><b>🔀 드래그 순서 변경</b>↑↓ 버튼 대신 HTML5 draggable로 드래그 순서 변경.</div>
     </div>
   </div>
 </div>
 
-<div class="slide s-content">
-  <div class="slide-header"><div class="icon" style="background:#cffafe;">✅</div><div><h2>실습 완료 체크리스트</h2><p>아래 항목을 모두 완료하면 중급 08 마스터!</p></div></div>
-  <div class="slide-body">
-    <div class="clist">
-      <div class="ci2"><div class="cbox">☐</div>4가지 질문 유형을 모두 추가할 수 있다</div>
-      <div class="ci2"><div class="cbox">☐</div>미리보기에서 설문이 정상적으로 표시된다</div>
-      <div class="ci2"><div class="cbox">☐</div>응답 제출 후 통계 탭에서 결과가 보인다</div>
-      <div class="ci2"><div class="cbox">☐</div>질문 순서를 위/아래 버튼으로 변경할 수 있다</div>
-      <div class="ci2"><div class="cbox">☐</div>미션 하나 이상 도전했다</div>
-    </div>
+<div class="slide s-prompt">
+  <div class="sp-header">
+    <button class="prompt-expand-btn" onclick="openPromptFs()"><span>⛶</span> 전체화면으로 보기</button>
+    <div class="sp-badge">COMPLETE PROMPT — ALL FEATURES</div>
+    <h2>완성형 프롬프트 — 모든 기능 포함</h2>
+    <p>미션까지 모두 포함한 풀스펙 버전. 처음부터 완성품을 한 번에 만들고 싶을 때 사용합니다.</p>
   </div>
+  <div class="sp-label">▼ FULL-SPEC PROMPT</div>
+  <div class="sp-box">HTML, CSS, JavaScript 단일 파일(index.html)로 설문지 생성기 풀스펙 완성형을 만들어줘.
+
+라이브러리: Chart.js CDN
+
+2가지 탭: ✏️ 설문 생성 / 📊 결과 입력
+
+[설문 생성 탭]
+- 설문 제목·설명 입력
+- 빠른 시작 템플릿: 만족도 조사 / 회의 평가 / 교육 평가 클릭 → 기본 질문 자동 채우기
+- 질문 추가 버튼: 객관식(radio) / 체크박스(checkbox) / NPS(0~10점) / 텍스트(text)
+- 각 질문 카드:
+  - 질문 텍스트 편집
+  - 필수 답변 체크박스
+  - 객관식·체크박스: 선택지 추가/삭제
+  - NPS 미리보기: 0~10 색상 구분 버튼 (비추천 빨강 / 중립 노랑 / 추천 초록)
+  - 마우스 드래그로 순서 변경 (HTML5 draggable)
+  - 삭제 버튼
+- AI 질문 자동 생성: Gemini API 연동, API 키 입력 UI, 주제 입력 → 질문 목록 자동 추가
+- localStorage로 설문 구조 자동 저장
+
+[결과 입력 탭]
+- 각 선택지별 응답 수를 [−][숫자][+] 스테퍼 버튼으로 입력 (0 미만 방지)
+- NPS: 비추천(0-6) / 중립(7-8) / 추천(9-10) 3그룹 스테퍼 입력
+  - NPS 점수 = (추천% − 비추천%) 자동 계산
+- 입력 즉시 차트 실시간 갱신
+- 질문별 시각화:
+  - 객관식 → 도넛 차트
+  - 체크박스 → 가로 막대 차트
+  - NPS → 그룹 막대 차트 + NPS 점수 표시
+- 🖨️ 인쇄/PDF 버튼:
+  - window.print() 호출
+  - @media print CSS로 버튼·탭 숨기기
+  - 인쇄 헤더에 설문 제목·날짜 표시
+- localStorage로 결과 데이터 저장
+
+기타:
+- 다크/라이트 테마 전환 버튼 (🌙, CSS 변수 방식, localStorage 저장)
+- 토스트 알림, 커스텀 다이얼로그 (alert/confirm 대신)
+- 전체 초기화 버튼
+- 서버 배포 버튼 (port 8947 접속 시에만 표시):
+  - /api/survey POST로 설문 구조 서버에 저장
+  - 배포 완료 후 응답자 URL(respond.html) 표시 + 복사 버튼
+
+파일은 index.html 하나로 만들고, 코드에 한국어 주석 달아줘.
+※ 서버 연동용 server.js (Node.js + Express, port 8947)와
+  respond.html (응답자 페이지)도 별도 작성해줘.</div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:9px 14px;font-size:0.95rem;font-weight:600;color:#065f46;flex-wrap:wrap;">⭐ <b>완성형 프롬프트</b><span>미션을 모두 직접 구현해보고 마지막에 이 프롬프트로 한 번 더 생성하면 학습 효과가 2배!</span></div>
 </div>
 
+</div>
 <div class="slide s-end">
   <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
   <div class="result-link-tip">완성 예제 보기</div>
@@ -585,5 +655,7 @@ goTo(0);
     <div class="prompt-fs-code" id="promptFsCode"></div>
   </div>
 </div>
+</body>
+</html>
 </body>
 </html>
