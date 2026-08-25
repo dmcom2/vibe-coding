@@ -413,6 +413,7 @@ app.<span class="at">listen</span>(PORT, <span class="st">'0.0.0.0'</span>, () =
   - 필수 답변 체크박스
   - 객관식·체크박스: 선택지 추가/삭제
   - ↑↓ 순서 이동, 삭제 버튼
+- AI 질문 자동 생성: Gemini API 연동, API 키 입력 UI, 주제 입력 → 질문 목록 자동 추가
 - localStorage로 설문 구조 자동 저장
 
 [결과 입력 탭]
@@ -536,6 +537,39 @@ app.<span class="at">listen</span>(PORT, <span class="st">'0.0.0.0'</span>, () =
       <div class="sp-card"><b>📋 빠른 시작 템플릿</b>만족도 조사·회의 평가·교육 평가 버튼 클릭 시 기본 질문 자동 채우기.</div>
       <div class="sp-card"><b>🔀 드래그 순서 변경</b>↑↓ 버튼 대신 HTML5 draggable로 드래그 순서 변경.</div>
     </div>
+  </div>
+</div>
+
+<div class="slide s-grad">
+  <div class="slide-header" style="background:transparent;"><div class="icon" style="background:#fff;">🗺️</div><div><h2>미션 3 완료 후 — 서버 운영 순서</h2><p>server.js를 만들었다면 이제 실제로 사내 설문을 돌려봅시다</p></div></div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <div style="display:flex;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;align-items:flex-start;">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0891b2,#0e7490);color:#fff;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+        <div><strong style="font-size:1.09rem;color:#1e293b;">패키지 설치 (최초 1회)</strong><br><span style="color:#64748b;font-size:1.01rem;">08_설문지생성기 폴더를 VS Code 터미널로 열고</span><br><code style="background:#ecfeff;color:#0891b2;padding:2px 8px;border-radius:5px;font-size:0.97rem;">npm install</code> <span style="color:#64748b;font-size:0.97rem;">— express 패키지가 node_modules 폴더에 설치됩니다</span></div>
+      </div>
+      <div style="display:flex;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;align-items:flex-start;">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0891b2,#0e7490);color:#fff;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+        <div><strong style="font-size:1.09rem;color:#1e293b;">서버 시작</strong><br><code style="background:#ecfeff;color:#0891b2;padding:2px 8px;border-radius:5px;font-size:0.97rem;">node server.js</code> <span style="color:#64748b;font-size:0.97rem;">— 터미널에 "서버 시작: http://localhost:8947" 메시지가 뜨면 성공</span></div>
+      </div>
+      <div style="display:flex;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;align-items:flex-start;">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0891b2,#0e7490);color:#fff;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+        <div><strong style="font-size:1.09rem;color:#1e293b;">관리자 접속 &amp; 설문 제작</strong><br><span style="color:#64748b;font-size:1.01rem;">브라우저에서 <code style="background:#ecfeff;color:#0891b2;padding:2px 6px;border-radius:4px;">http://localhost:8947</code> 접속 → ✏️ 탭에서 설문 질문 추가</span></div>
+      </div>
+      <div style="display:flex;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;align-items:flex-start;">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0891b2,#0e7490);color:#fff;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
+        <div><strong style="font-size:1.09rem;color:#1e293b;">서버에 배포</strong><br><span style="color:#64748b;font-size:1.01rem;">상단 <strong>☁️ 서버에 배포</strong> 버튼 클릭 → 응답자 URL이 자동으로 표시됩니다</span><br><code style="background:#ecfeff;color:#0891b2;padding:2px 8px;border-radius:5px;font-size:0.97rem;">http://[내 IP]:8947/respond.html</code></div>
+      </div>
+      <div style="display:flex;gap:14px;background:#fff;border:1px solid #a5f3fc;border-radius:12px;padding:13px 18px;align-items:flex-start;">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0891b2,#0e7490);color:#fff;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div>
+        <div><strong style="font-size:1.09rem;color:#1e293b;">직원에게 URL 공유 &amp; 응답 수집</strong><br><span style="color:#64748b;font-size:1.01rem;">📋 복사 버튼으로 URL 복사 → 사내 메신저·메일로 공유<br>직원이 접속해 응답 제출하면 <strong>responses.json</strong>에 자동 저장</span><br><span style="font-size:0.93rem;color:#94a3b8;">※ 내 IP 확인: 터미널에서 <code>ipconfig</code> → IPv4 주소</span></div>
+      </div>
+      <div style="display:flex;gap:14px;background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:13px 18px;align-items:flex-start;">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#059669,#047857);color:#fff;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">6</div>
+        <div><strong style="font-size:1.09rem;color:#1e293b;">결과 확인 &amp; PDF 저장</strong><br><span style="color:#64748b;font-size:1.01rem;">📊 결과 입력 탭에서 숫자 확인 → 🖨️ 인쇄/PDF 버튼으로 보고서 저장<br>서버를 종료하려면 터미널에서 <code>Ctrl + C</code></span></div>
+      </div>
+    </div>
+    <div style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:11px 16px;font-size:1.04rem;color:#92400e;line-height:1.6;">⚠️ <strong>서버를 끄면 직원이 접속할 수 없습니다.</strong> 응답 수집이 끝날 때까지 터미널 창과 node server.js를 켜두세요.</div>
   </div>
 </div>
 
