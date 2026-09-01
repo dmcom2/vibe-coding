@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<!-- Zoo Code × gpt-5.4-Mini 안정화 셋팅 매뉴얼 (인라인 스타일 버전) -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoo Code 안정화 셋팅 매뉴얼</title>
+</head>
+<body style="margin:0;padding:0;font-family:'맑은 고딕','Segoe UI',sans-serif;background:#f0fdf4;color:#1e293b;padding-bottom:60px;">
+
+<!-- 헤더 -->
+<div style="background:linear-gradient(135deg,#064e3b 0%,#065f46 40%,#10b981 80%,#34d399 100%);padding:44px 24px 52px;text-align:center;">
+  <div style="max-width:760px;margin:0 auto;">
+    <div style="display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:6px 20px;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:18px;letter-spacing:.05em;">🛠️ 설정 가이드 v3.80.1</div>
+    <h1 style="font-size:2.2rem;font-weight:900;color:#fff;line-height:1.25;margin:0 0 12px;">Zoo Code × <span style="color:#6ee7b7;">gpt-5.4-Mini</span><br>안정화 셋팅 매뉴얼</h1>
+    <p style="font-size:1.05rem;color:rgba(255,255,255,.8);line-height:1.7;margin:0 0 22px;">에러 0% · 빠른 응답 · 토큰 절감을 위한 최적화 설정</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:8px 18px;font-size:.88rem;font-weight:600;color:#fff;">⚡ 토큰 절감 70%</div>
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:8px 18px;font-size:.88rem;font-weight:600;color:#fff;">🚫 400 에러 방지</div>
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:8px 18px;font-size:.88rem;font-weight:600;color:#fff;">🇰🇷 한국어 응답</div>
+    </div>
+  </div>
+</div>
+
+<div style="max-width:840px;margin:0 auto;padding:0 20px;">
+
+  <!-- 안내 배너 -->
+  <div style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:16px 20px;margin-top:28px;display:flex;gap:12px;align-items:flex-start;">
+    <div style="font-size:1.3rem;flex-shrink:0;margin-top:1px;">📌</div>
+    <div style="font-size:.95rem;line-height:1.75;color:#78350f;">
+      <strong>아래 가이드는 유료 API 키를 배포할 때 적용하는 설정입니다.</strong><br>
+      단, <strong style="color:#b45309;">규칙(Rule) 탭의 MD 파일</strong>은 지금 바로 적용해 두시면 좋습니다.
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div style="margin-top:36px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#fff;flex-shrink:0;">1</div>
+      <div>
+        <div style="font-size:1.35rem;font-weight:900;color:#1e293b;">규칙(Rule) 탭 설정</div>
+        <div style="font-size:.92rem;color:#475569;margin-top:3px;">토큰 절감 70% 핵심 설정 — 코드 전체 재출력 방지</div>
+      </div>
+    </div>
+
+    <!-- 규칙 생성 방법 카드 -->
+    <div style="background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #e2e8f0;margin-bottom:14px;">
+      <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#059669;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #d1fae5;">규칙 생성 방법</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:0;">
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#10b981;color:#fff;font-size:.76rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">1</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;"><strong>[📜 규칙]</strong> 메뉴 클릭 후 <strong>[+ 규칙 추가]</strong> 버튼 선택</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#10b981;color:#fff;font-size:.76rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">2</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;">팝업에서 아래 값 입력
+            <div style="margin-top:8px;display:flex;flex-direction:column;gap:5px;">
+              <div style="font-size:.88rem;color:#475569;">이름 → <code style="background:#f1f5f9;padding:2px 7px;border-radius:4px;color:#1e293b;">vibe-coding-rules</code> (소문자, 하이픈)</div>
+              <div style="font-size:.88rem;color:#475569;">위치 → <strong>전역</strong> (모든 프로젝트 적용) 또는 <strong>워크스페이스</strong></div>
+              <div style="font-size:.88rem;color:#475569;">규칙 유형 → <strong>일반 규칙</strong></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#10b981;color:#fff;font-size:.76rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">3</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;"><strong>[만들기]</strong> 클릭 → 열리는 <code style="background:#f1f5f9;padding:2px 7px;border-radius:4px;">.md</code> 에디터에 아래 내용 복사·붙여넣기 후 <kbd style="background:#f1f5f9;border:1px solid #e2e8f0;border-radius:4px;padding:2px 7px;font-size:.82rem;">Ctrl + S</kbd> 저장</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 프롬프트 코드박스 -->
+    <div style="background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #e2e8f0;margin-bottom:14px;">
+      <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#059669;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #d1fae5;">규칙 파일(.md)에 입력할 프롬프트</div>
+      <div style="background:#0f2016;border-radius:10px;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;background:#1a3326;padding:9px 16px;">
+          <span style="font-size:.75rem;font-weight:700;color:#6ee7b7;letter-spacing:.1em;">MARKDOWN</span>
+          <button onclick="copyCode(this)" style="background:rgba(110,231,183,.12);border:1px solid rgba(110,231,183,.25);border-radius:6px;color:#6ee7b7;font-size:.76rem;font-weight:700;padding:4px 12px;cursor:pointer;font-family:inherit;">복사</button>
+        </div>
+        <div id="ruleCode" style="padding:18px 20px;font-family:'Consolas','D2Coding',monospace;font-size:.88rem;line-height:1.75;color:#a7f3d0;overflow-x:auto;word-break:break-word;margin:0;">
+<span style="color:#34d399;font-weight:700;"># Vibe Coding 효율화 규칙</span><br><br>
+<span style="color:#34d399;font-weight:700;">## 1. 코드 출력 및 토큰 절약 규칙</span><br>
+<span style="color:#6ee7b7;">-</span> 코드를 수정할 때 파일 전체를 처음부터 끝까지 새로 출력하지 마세요.<br>
+<span style="color:#6ee7b7;">-</span> 기존 코드에서 변경이 필요한 부분만 정확히 지정하여 수정 블록(Diff 형식)으로 적용하세요.<br>
+<span style="color:#6ee7b7;">-</span> 불필요한 인사말, 단순 상태 요약, 반복 설명 텍스트는 모두 생략하고<br>
+&nbsp;&nbsp;결론 및 실행 디렉티브만 간결하게 출력하세요.<br><br>
+<span style="color:#34d399;font-weight:700;">## 2. 파일 관리 규칙</span><br>
+<span style="color:#6ee7b7;">-</span> 요청받지 않은 외부 라이브러리나 패키지를 임의로 추가하지 마세요.<br>
+<span style="color:#6ee7b7;">-</span> 코드 주석은 핵심 로직에만 한국어로 간결하게 작성하세요.<br><br>
+<span style="color:#34d399;font-weight:700;">## 3. 언어 및 응답 스타일</span><br>
+<span style="color:#6ee7b7;">-</span> 기본 설명 언어는 한국어로 답변하세요.
+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div style="margin-top:36px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#fff;flex-shrink:0;">2</div>
+      <div>
+        <div style="font-size:1.35rem;font-weight:900;color:#1e293b;">프로필 추가 — GPT-5.4-Mini (유료 모델)</div>
+        <div style="font-size:.92rem;color:#475569;margin-top:3px;">복잡한 작업에는 gemini-3.5-flash-lite 대신 GPT-5.4-Mini 유료 모델로 전환해서 사용</div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #e2e8f0;margin-bottom:14px;">
+      <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#059669;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #d1fae5;">프로필 생성 방법</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b5cf6;color:#fff;font-size:.76rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">1</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;">Zoo Code 사이드바 상단 프로필 영역 클릭 → <strong>[+ 새 프로필]</strong> 선택</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b5cf6;color:#fff;font-size:.76rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">2</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;">프로필 이름 입력 → <code style="background:#f1f5f9;padding:2px 7px;border-radius:4px;">GPT-5.4-Mini 유료</code> (구분하기 쉬운 이름)</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b5cf6;color:#fff;font-size:.76rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">3</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;">공급자 탭에서 아래 설정값만 변경 (나머지는 기존 프로필과 동일)</div>
+        </div>
+      </div>
+
+      <!-- 변경 설정값 -->
+      <div style="background:#faf5ff;border-radius:10px;padding:16px 18px;border:1px solid #e9d5ff;">
+        <div style="font-size:.78rem;font-weight:800;color:#7c3aed;letter-spacing:.05em;margin-bottom:12px;">변경할 설정값 (STEP 3와 다른 항목만)</div>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:8px 0;border-bottom:1px solid #ede9fe;">
+          <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:160px;flex-shrink:0;">모델</div>
+          <div style="font-size:.92rem;color:#1e293b;flex:1;"><code style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:5px;font-weight:700;">openai/gpt-5.4-Mini</code> <span style="font-size:.82rem;color:#94a3b8;">← 유료 유료 모델</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:8px 0;">
+          <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:160px;flex-shrink:0;">나머지 항목</div>
+          <div style="font-size:.92rem;color:#475569;flex:1;">STEP 3 설정과 동일하게 유지</div>
+        </div>
+      </div>
+
+      <div style="background:#f0fdf4;border-left:4px solid #10b981;border-radius:0 10px 10px 0;padding:12px 16px;font-size:.9rem;color:#065f46;line-height:1.7;margin-top:14px;">
+        💡 <strong>사용 전환 방법.</strong> 사이드바 상단 프로필명 클릭 → 원하는 프로필 선택. gemini-3.5-flash-lite는 빠른 일반 작업에, GPT-5.4-Mini 유료 모델은 복잡한 설계·분석 작업에 사용하세요.
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div style="margin-top:36px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#2563eb);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#fff;flex-shrink:0;">3</div>
+      <div>
+        <div style="font-size:1.35rem;font-weight:900;color:#1e293b;">공급자(Provider) 탭 설정</div>
+        <div style="font-size:.92rem;color:#475569;margin-top:3px;">매개변수 에러 0% — gpt-5.4-Mini × BizRouter 맞춤 설정</div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #e2e8f0;margin-bottom:14px;">
+      <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#059669;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #d1fae5;">필수 설정값</div>
+
+      <!-- 설정 행들 -->
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">API 제공자</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;"><code style="background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:5px;font-weight:700;">OpenAI Compatible</code></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">기본 URL</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;line-height:1.55;">
+          <code style="background:#f1f5f9;padding:2px 8px;border-radius:5px;">https://api.bizrouter.ai/v1</code>
+          <span style="display:inline-block;background:#fef3c7;color:#92400e;border-radius:6px;padding:2px 9px;font-size:.76rem;font-weight:700;margin-left:4px;">끝에 /v1 필수</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">API 키</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;">비즈라우터 API Key <code style="background:#f1f5f9;padding:2px 8px;border-radius:5px;">sk-br-...</code></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">모델</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;"><code style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:5px;font-weight:700;">openai/gpt-5.4-Mini</code> <span style="font-size:.82rem;color:#94a3b8;">[직접 입력 후 조회되면 클릭]</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">R1 모델 매개변수</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;line-height:1.55;"><span style="display:inline-block;background:#fee2e2;color:#991b1b;border-radius:6px;padding:2px 9px;font-size:.76rem;font-weight:700;">☐ OFF (체크 해제)</span> <span style="font-size:.83rem;color:#94a3b8;">— 400 에러 방지</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">스트리밍 활성화</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;"><span style="display:inline-block;background:#dcfce7;color:#166534;border-radius:6px;padding:2px 9px;font-size:.76rem;font-weight:700;">☑ ON (체크)</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">최대 출력 토큰 포함</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;"><span style="display:inline-block;background:#fee2e2;color:#991b1b;border-radius:6px;padding:2px 9px;font-size:.76rem;font-weight:700;">☐ OFF (체크 해제)</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">추론 노력 (Reasoning Effort)</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;line-height:1.55;"><span style="display:inline-block;background:#fee2e2;color:#991b1b;border-radius:6px;padding:2px 9px;font-size:.76rem;font-weight:700;">☐ OFF (체크 해제)</span> <span style="font-size:.83rem;color:#94a3b8;">— 매개변수 오류 방지</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">최대 출력 토큰</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;line-height:1.55;">
+          <code style="background:#f1f5f9;padding:2px 8px;border-radius:5px;font-weight:700;">16384</code>
+          <div style="display:inline-flex;align-items:center;gap:5px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:5px 10px;font-size:.8rem;color:#92400e;margin-top:5px;display:block;width:fit-content;">⚠️ -1이나 128000으로 과도하게 잡으면 컨텍스트 창이 빨리 차서 이전 대화가 잘릴 수 있습니다.</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">컨텍스트 창 크기</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;"><code style="background:#f1f5f9;padding:2px 8px;border-radius:5px;font-weight:700;">400000</code></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">이미지 지원</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;"><span style="display:inline-block;background:#dcfce7;color:#166534;border-radius:6px;padding:2px 9px;font-size:.76rem;font-weight:700;">☑ ON (체크)</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:11px 0;">
+        <div style="font-size:.88rem;font-weight:700;color:#475569;min-width:180px;flex-shrink:0;padding-top:1px;">프롬프트 캐시</div>
+        <div style="font-size:.92rem;color:#1e293b;flex:1;line-height:1.55;"><span style="display:inline-block;background:#dcfce7;color:#166534;border-radius:6px;padding:2px 9px;font-size:.76rem;font-weight:700;">☑ ON (체크)</span> <span style="font-size:.83rem;color:#94a3b8;">— 비즈라우터 캐싱 할인으로 비용 절감</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MCP 팁 -->
+  <div style="margin-top:20px;">
+    <div style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:14px 18px;font-size:.92rem;color:#78350f;line-height:1.7;">
+      <strong>💡 MCP 서버 탭 주의.</strong> 추가 도구를 쓸 계획이 없다면 MCP 서버는 <strong>OFF</strong>로 두세요. 미사용 MCP 스키마가 매 프롬프트마다 수천 토큰씩 낭비됩니다. 필요한 서버만 켜고 나머지는 끄는 게 기본입니다.
+    </div>
+  </div>
+
+  <!-- 최종 체크리스트 -->
+  <div style="margin-top:36px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#fff;flex-shrink:0;">✓</div>
+      <div>
+        <div style="font-size:1.35rem;font-weight:900;color:#1e293b;">최종 세팅 확인 체크리스트</div>
+        <div style="font-size:.92rem;color:#475569;margin-top:3px;">아래 항목을 모두 확인한 뒤 작업을 시작하세요</div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #e2e8f0;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-radius:10px;padding:11px 14px;border:1px solid #e2e8f0;">
+          <div style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;flex-shrink:0;margin-top:1px;font-weight:800;">1</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;"><strong>[규칙]</strong> 탭에 <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px;">vibe-coding-rules.md</code> 파일이 정상 등록되었는가?</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-radius:10px;padding:11px 14px;border:1px solid #e2e8f0;">
+          <div style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;flex-shrink:0;margin-top:1px;font-weight:800;">2</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;"><strong>GPT-5.4-Mini 유료</strong> 프로필이 추가되어 있고 모델이 <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px;">openai/gpt-5.4-Mini</code>로 설정되어 있는가?</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-radius:10px;padding:11px 14px;border:1px solid #e2e8f0;">
+          <div style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;flex-shrink:0;margin-top:1px;font-weight:800;">3</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;"><strong>[공급자]</strong> 탭의 기본 URL 끝에 <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px;">/v1</code>이 붙어 있고, <strong>R1 매개변수</strong>와 <strong>추론 노력</strong>이 꺼져(OFF) 있는가?</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-radius:10px;padding:11px 14px;border:1px solid #e2e8f0;">
+          <div style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;flex-shrink:0;margin-top:1px;font-weight:800;">4</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;">모드가 <strong>💻 Code 모드</strong>로 설정되어 있는가?</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-radius:10px;padding:11px 14px;border:1px solid #e2e8f0;">
+          <div style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;flex-shrink:0;margin-top:1px;font-weight:800;">5</div>
+          <div style="font-size:.92rem;color:#1e293b;line-height:1.55;">필요 없는 <strong>MCP 서버</strong>가 모두 <strong>OFF</strong>인가? (미사용 서버는 토큰 낭비)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 완료 배너 -->
+  <div style="background:linear-gradient(135deg,#064e3b,#065f46,#10b981);border-radius:14px;padding:28px;margin-top:36px;text-align:center;color:#fff;">
+    <h3 style="font-size:1.2rem;font-weight:800;margin:0 0 8px;">🚀 셋팅 완료 후 첫 요청 예시</h3>
+    <p style="font-size:.95rem;opacity:.85;line-height:1.7;margin:0 0 12px;">위 설정이 모두 완료되면 아래 문구로 작동 여부를 확인하세요.</p>
+    <div style="display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 18px;font-family:monospace;font-size:.9rem;letter-spacing:.02em;">"안녕, 잘 작동하고 있어?"</div>
+    <p style="margin-top:14px;font-size:.88rem;opacity:.75;">정상 응답이 오면 셋팅 완료. 바로 작업을 시작하세요.</p>
+  </div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  var text = [
+    '# Vibe Coding 효율화 규칙',
+    '',
+    '## 1. 코드 출력 및 토큰 절약 규칙',
+    '- 코드를 수정할 때 파일 전체를 처음부터 끝까지 새로 출력하지 마세요.',
+    '- 기존 코드에서 변경이 필요한 부분만 정확히 지정하여 수정 블록(Diff 형식)으로 적용하세요.',
+    '- 불필요한 인사말, 단순 상태 요약, 반복 설명 텍스트는 모두 생략하고',
+    '  결론 및 실행 디렉티브만 간결하게 출력하세요.',
+    '',
+    '## 2. 파일 관리 규칙',
+    '- 요청받지 않은 외부 라이브러리나 패키지를 임의로 추가하지 마세요.',
+    '- 코드 주석은 핵심 로직에만 한국어로 간결하게 작성하세요.',
+    '',
+    '## 3. 언어 및 응답 스타일',
+    '- 기본 설명 언어는 한국어로 답변하세요.'
+  ].join('\n');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '복사됨!';
+    btn.style.background = '#059669';
+    btn.style.borderColor = '#059669';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = '복사';
+      btn.style.background = 'rgba(110,231,183,.12)';
+      btn.style.borderColor = 'rgba(110,231,183,.25)';
+      btn.style.color = '#6ee7b7';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
