@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<!-- 초급 과정 최종 과제 실습 교재 — 나만의 할일 체크리스트 -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>초급 최종 과제 — 나만의 할일 체크리스트</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --green:#10b981;--green-dk:#059669;--green-lt:#d1fae5;
+  --text:#1e293b;--sub:#64748b;--surface:#f8fafc;
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Segoe UI',sans-serif;}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease;transform:translateX(60px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit{opacity:0;transform:translateX(-60px);}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#059669,#10b981,#34d399);transition:width .35s ease;z-index:999;}
+.nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.43rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--green);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:var(--green);color:#fff;transform:scale(1.08);}
+.nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:1.04rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
+.nav-dot:hover{background:#94a3b8;}
+.nav-dot.active{width:22px;border-radius:5px;background:var(--green);}
+
+/* 완성 예제 팝업 */
+.result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
+.result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
+.result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
+
+/* 슬라이드 타입 */
+.s-title{background:linear-gradient(135deg,#064e3b 0%,#065f46 40%,#10b981 100%);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:1.07rem;font-weight:700;margin-bottom:28px;display:inline-block;}
+.s-title h1{font-size:clamp(2.2rem,6vw,3.4rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
+.s-title h1 span{color:#6ee7b7;}
+.s-title p{font-size:1.25rem;opacity:.82;margin-bottom:36px;}
+.meta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:1.1rem;font-weight:600;}
+.s-content{background:var(--surface);}
+.s-grad{background:linear-gradient(150deg,#ecfdf5,#d1fae5);}
+.s-dark{background:#1e2e22;color:#d1fae5;}
+.s-end{background:linear-gradient(135deg,#064e3b,#065f46,#10b981,#34d399);align-items:center;justify-content:center;text-align:center;color:#fff;}
+
+.slide-header{padding:34px 68px 22px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:14px;}
+.s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
+.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.54rem;flex-shrink:0;}
+.slide-header h2{font-size:1.85rem;font-weight:800;color:var(--text);}
+.s-dark .slide-header h2{color:#d1fae5;}
+.slide-header p{font-size:1.1rem;color:var(--sub);margin-top:2px;}
+.s-dark .slide-header p{color:#6ee7b7;}
+.slide-body{flex:1;padding:28px 68px 140px;overflow-y:auto;}
+
+/* 카드 스타일 */
+.concept-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.concept-card{background:#fff;border-radius:13px;padding:22px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.concept-card .cc-icon{font-size:2rem;margin-bottom:8px;}
+.concept-card h3{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.concept-card p{font-size:1.1rem;color:var(--sub);line-height:1.65;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+.quote-box{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:4px solid var(--green);border-radius:0 12px 12px 0;padding:16px 20px;font-size:1.1rem;color:var(--text);line-height:1.7;margin-bottom:18px;}
+.quote-box strong{color:var(--green-dk);}
+.step-list{display:flex;flex-direction:column;gap:10px;}
+.step-item{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:11px;padding:15px 20px;border:1px solid #e2e8f0;}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--green),#34d399);color:#fff;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;}
+.step-item h4{font-size:1.18rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step-item p{font-size:1.08rem;color:var(--sub);}
+.step-item code{background:var(--green-lt);color:var(--green-dk);padding:1px 6px;border-radius:4px;font-size:.97rem;}
+.check-list{display:flex;flex-direction:column;gap:10px;}
+.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:1.1rem;font-weight:600;color:var(--text);}
+.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--green),#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;flex-shrink:0;}
+.code-block{background:#1e2e22;color:#d1fae5;border-radius:12px;padding:20px 24px;font-family:'Cascadia Code','Consolas',monospace;font-size:1.02rem;line-height:1.8;overflow-x:auto;position:relative;margin-bottom:14px;}
+.code-block .lang{position:absolute;top:9px;right:13px;font-size:.82rem;color:#6ee7b7;font-family:sans-serif;}
+.kw{color:#a7f3d0;}.tg{color:#6ee7b7;}.at{color:#34d399;}.st{color:#86efac;}.cm{color:#4b7a59;font-style:italic;}.vl{color:#fcd34d;}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.mission-card{border-radius:13px;padding:20px;}
+.m1{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #6ee7b7;}
+.m2{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #93c5fd;}
+.m3{background:linear-gradient(135deg,#fefce8,#fef08a40);border:1px solid #fde047;}
+.mission-card .m-star{font-size:1.3rem;margin-bottom:6px;}
+.mission-card h3{font-size:1.12rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+.mission-card p{font-size:1rem;color:var(--sub);line-height:1.55;margin-bottom:10px;}
+.mission-code{background:rgba(0,0,0,.06);border-radius:7px;padding:9px 12px;font-family:monospace;font-size:.92rem;color:var(--text);line-height:1.6;}
+
+/* 프롬프트 슬라이드 */
+.s-prompt{background:#f0fdf4;padding:clamp(20px,3vh,40px) 72px 140px;overflow-y:auto;}
+.sp-header{margin-bottom:16px;}
+.sp-badge{font-size:0.85rem;font-weight:700;color:var(--green-dk);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.sp-header h2{font-size:clamp(20px,3.4vw,30px);font-weight:800;color:var(--text);margin-bottom:5px;}
+.sp-header p{font-size:1.06rem;color:var(--sub);padding-bottom:12px;border-bottom:2px solid #a7f3d0;}
+.sp-label{font-size:0.85rem;font-weight:700;color:var(--green-dk);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;margin-top:14px;}
+.sp-box{background:#064e3b;border-radius:12px;padding:18px 22px;font-family:'Consolas','D2Coding',monospace;font-size:.93rem;line-height:1.85;color:#a7f3d0;white-space:pre-line;min-height:160px;max-height:clamp(180px,45vh,450px);overflow:auto;border:1px solid #065f46;position:relative;}
+.sp-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.sp-card{flex:1;min-width:180px;background:#fff;border-radius:10px;padding:12px 15px;border-left:3px solid var(--green);font-size:.9rem;color:var(--sub);line-height:1.55;}
+.sp-card b{color:var(--text);display:block;margin-bottom:4px;}
+
+/* 전체화면 오버레이 */
+.prompt-fs-overlay{position:fixed;inset:0;background:rgba(2,20,10,.93);backdrop-filter:blur(6px);z-index:2000;display:none;flex-direction:column;align-items:stretch;}
+.prompt-fs-overlay.open{display:flex;}
+.prompt-fs-header{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid rgba(167,243,208,.15);flex-shrink:0;}
+.prompt-fs-title{font-size:0.85rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6ee7b7;}
+.prompt-fs-actions{display:flex;gap:10px;align-items:center;}
+.prompt-fs-copy{padding:7px 18px;border-radius:8px;border:1px solid rgba(110,231,183,.4);background:rgba(110,231,183,.1);color:#6ee7b7;font-size:0.84rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.prompt-fs-copy:hover{background:rgba(110,231,183,.22);border-color:#6ee7b7;}
+.prompt-fs-copy.copied{background:#059669;border-color:#059669;color:#fff;}
+.prompt-fs-close{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#f1f5f9;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.prompt-fs-close:hover{background:rgba(220,38,38,.4);border-color:#dc2626;color:#fff;}
+.prompt-fs-body{flex:1;overflow-y:auto;padding:32px 48px;}
+.prompt-fs-code{font-family:'Cascadia Code','Consolas','D2Coding',monospace;font-size:1rem;line-height:1.9;color:#a7f3d0;white-space:pre-wrap;word-break:break-word;}
+.prompt-expand-btn{position:absolute;top:10px;right:12px;display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;border:1px solid #6ee7b7;background:rgba(16,185,129,.1);color:#10b981;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.prompt-expand-btn:hover{background:#10b981;color:#fff;border-color:#10b981;}
+
+/* 기능 명세 슬라이드 */
+.section-label{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-dk);margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid var(--green-lt);}
+.spec-list{display:flex;flex-direction:column;gap:8px;}
+.spec-item{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:10px;padding:11px 14px;border:1px solid #e2e8f0;border-left:3px solid var(--green);}
+.spec-icon{font-size:1.15rem;flex-shrink:0;margin-top:1px;}
+.spec-title{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.spec-desc{font-size:.86rem;color:var(--sub);line-height:1.55;}
+.spec-tag{display:inline-block;background:var(--green-lt);color:var(--green-dk);border-radius:4px;padding:1px 6px;font-size:.73rem;font-weight:700;margin:2px 2px 0 0;}
+
+/* 마무리 슬라이드 */
+.s-end h2{font-size:2.4rem;font-weight:900;margin-bottom:14px;}
+.s-end h2 span{color:#6ee7b7;}
+.s-end p{font-size:1.2rem;opacity:.85;margin-bottom:16px;max-width:580px;line-height:1.7;}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;max-width:680px;}
+.sg{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:11px;padding:14px 10px;font-size:1rem;font-weight:600;}
+.sg .sg-num{font-size:1.5rem;font-weight:900;color:#6ee7b7;}
+.next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:12px 28px;border-radius:13px;font-size:1.1rem;display:inline-flex;align-items:center;gap:10px;}
+
+/* 기술 매핑 표 */
+.skill-table{width:100%;border-collapse:collapse;font-size:1.03rem;}
+.skill-table th{background:linear-gradient(135deg,#059669,#10b981);color:#fff;padding:10px 14px;text-align:left;font-weight:700;}
+.skill-table td{padding:10px 14px;border-bottom:1px solid #e2e8f0;color:var(--text);}
+.skill-table tr:nth-child(even) td{background:#f8fafc;}
+.skill-table tr:hover td{background:var(--green-lt);}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.8rem;font-weight:700;margin:1px 2px;}
+.tag-g{background:var(--green-lt);color:var(--green-dk);}
+.tag-b{background:#dbeafe;color:#1d4ed8;}
+.tag-p{background:#ede9fe;color:#7c3aed;}
+.tag-y{background:#fef3c7;color:#b45309;}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="deck">
+
+<!-- S1 표지 -->
+<div class="slide s-title active">
+  <div class="badge">바이브코딩 초급 과정 — 최종 과제</div>
+  <h1>나만의 <span>할일 체크리스트</span></h1>
+  <p>초급 12개 실습에서 배운 모든 기술을 하나로 합쳐보세요</p>
+  <div class="meta-row">
+    <div class="meta-chip">📋 할일 추가·완료·삭제</div>
+    <div class="meta-chip">🏷️ 카테고리 분류</div>
+    <div class="meta-chip">💾 localStorage 저장</div>
+    <div class="meta-chip">⏱ 소요 시간: 30~40분</div>
+  </div>
+</div>
+
+<!-- S2 완성품 소개 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#d1fae5;">📋</div>
+    <div><h2>오늘 만드는 것</h2><p>업무·개인·학습 3가지 카테고리로 할일을 관리하는 체크리스트</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="concept-cards">
+      <div class="concept-card"><div class="cc-icon">✍️</div><h3>할일 입력</h3><p>카테고리 선택 후 입력<br>Enter 키 또는 버튼으로 추가<br>최대 60자 입력 가능</p></div>
+      <div class="concept-card"><div class="cc-icon">✅</div><h3>완료 체크</h3><p>체크버튼 클릭으로 완료 처리<br>완료된 항목은 취소선 표시<br>다시 클릭하면 미완료로 복구</p></div>
+      <div class="concept-card"><div class="cc-icon">📊</div><h3>진행률 표시</h3><p>상단 헤더에 완료 개수 표시<br>녹색 프로그레스 바로 진행률<br>100%에 도달하면 축하 메시지</p></div>
+      <div class="concept-card"><div class="cc-icon">💾</div><h3>자동 저장</h3><p>localStorage로 브라우저 저장<br>새로 고침해도 데이터 유지<br>카테고리·완료 상태 모두 보존</p></div>
+    </div>
+    <div style="margin-top:14px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:4px solid #10b981;border-radius:0 12px 12px 0;padding:12px 18px;font-size:1.08rem;color:#065f46;line-height:1.7;">
+      🎯 <strong>완성품 기준.</strong> 오른쪽 상단 🔗 버튼을 눌러 완성된 결과물을 확인하세요. 만드는 과정에서 막히면 언제든 참고하세요!
+    </div>
+  </div>
+</div>
+
+<!-- S3 진행 순서 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#d1fae5;">🗺️</div>
+    <div><h2>과제 진행 순서</h2><p>3단계 프롬프트로 완성 — 막히면 Antigravity에게 질문하세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="step-list">
+      <div class="step-item"><div class="step-num">1</div><div><h4>1단계 — 기본 틀 만들기</h4><p>HTML 구조 + CSS 디자인 + 날짜 표시<br><span style="font-size:.95rem;color:#10b981;font-weight:700;">→ 헤더, 입력창, 빈 목록이 나타나면 성공</span></p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div><h4>2단계 — 기능 구현하기</h4><p>할일 추가 / 완료 체크 / 삭제 / 카테고리 분류 / 필터<br><span style="font-size:.95rem;color:#10b981;font-weight:700;">→ 할일을 추가·체크·삭제할 수 있으면 성공</span></p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div><h4>3단계 — 저장 & 꾸미기</h4><p>localStorage 저장 + 진행률 바 + 토스트 메시지 + 빈 상태<br><span style="font-size:.95rem;color:#10b981;font-weight:700;">→ 새로 고침 후에도 데이터가 남아 있으면 성공</span></p></div></div>
+    </div>
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;">
+        <p style="font-size:1rem;font-weight:800;color:#1e293b;margin-bottom:6px;">💡 막혔을 때 대처법</p>
+        <p style="font-size:.98rem;color:#64748b;line-height:1.7;">오류 메시지나 이상한 화면을 그대로 복사해서 Antigravity에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;">
+        <p style="font-size:1rem;font-weight:800;color:#1e293b;margin-bottom:6px;">📁 파일 위치</p>
+        <p style="font-size:.98rem;color:#64748b;line-height:1.7;">바탕화면 → 바이브코딩 → <code style="background:#d1fae5;color:#059669;padding:1px 6px;border-radius:4px;">과제_할일체크리스트</code> 폴더를 새로 만들고 VS Code로 열어주세요.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 배운 기술 정리 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fef3c7;">🏆</div>
+    <div><h2>배운 기술 총정리</h2><p>초급 12개 실습에서 익힌 기술이 이 과제에 모두 담겨 있습니다</p></div>
+  </div>
+  <div class="slide-body">
+    <table class="skill-table">
+      <thead>
+        <tr><th>실습</th><th>배운 기술</th><th>이 과제에서 사용하는 곳</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>01–02 디지털이름표·시계</td><td><span class="tag tag-g">HTML 구조</span><span class="tag tag-g">날짜 표시</span></td><td>오늘 날짜 헤더에 표시</td></tr>
+        <tr><td>03 간단메모장</td><td><span class="tag tag-b">localStorage</span></td><td>할일 목록 브라우저에 저장</td></tr>
+        <tr><td>04 클릭카운터</td><td><span class="tag tag-g">버튼 클릭 이벤트</span><span class="tag tag-g">숫자 증가</span></td><td>완료 개수 카운트</td></tr>
+        <tr><td>05 인사말카드</td><td><span class="tag tag-p">input 이벤트</span><span class="tag tag-p">DOM 조작</span></td><td>입력창 값 읽어서 목록에 추가</td></tr>
+        <tr><td>06 계산기</td><td><span class="tag tag-g">수식 계산</span><span class="tag tag-g">Math 함수</span></td><td>진행률(%) 계산</td></tr>
+        <tr><td>07 글자꾸미기</td><td><span class="tag tag-y">CSS 클래스 토글</span></td><td>완료 항목에 취소선 CSS 적용</td></tr>
+        <tr><td>08 랜덤업무배정기</td><td><span class="tag tag-b">동적 목록 렌더링</span></td><td>할일 목록을 JS로 화면에 그리기</td></tr>
+        <tr><td>09 알림배너</td><td><span class="tag tag-p">토스트·알림 메시지</span></td><td>추가/삭제 시 토스트 메시지</td></tr>
+        <tr><td>10 OX퀴즈</td><td><span class="tag tag-g">상태 관리</span><span class="tag tag-g">배열 필터</span></td><td>카테고리 필터 탭 구현</td></tr>
+        <tr><td>11 글자수세기</td><td><span class="tag tag-b">실시간 업데이트</span></td><td>진행률 바 실시간 갱신</td></tr>
+        <tr><td>12 디지털명함</td><td><span class="tag tag-p">종합 설계</span><span class="tag tag-p">UX 완성</span></td><td>과제 전체 구조·스타일 설계</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S5 1단계: 기본 화면 만들기 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#d1fae5;">🏗️</div>
+    <div><h2>1단계 — 기본 화면 만들기</h2><p>완성품 예시를 참고해 Antigravity에 화면 구성을 스스로 요청해 보세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="section-label">구현할 화면 요소</div>
+        <div class="spec-list">
+          <div class="spec-item"><div class="spec-icon">📋</div><div><div class="spec-title">상단 헤더</div><div class="spec-desc">앱 제목 + 오늘 날짜 · 초록색 그라데이션 배경 · 흰색 글자</div></div></div>
+          <div class="spec-item"><div class="spec-icon">🏷️</div><div><div class="spec-title">카테고리 선택 탭 3개</div><div class="spec-desc">💼 업무 / 🏠 개인 / 📚 학습 — 선택 시 탭 배경색 변경</div></div></div>
+          <div class="spec-item"><div class="spec-icon">✏️</div><div><div class="spec-title">할일 입력창 + 추가 버튼</div><div class="spec-desc">Enter 키로도 추가 가능 · 빈칸 입력 시 경고</div></div></div>
+          <div class="spec-item"><div class="spec-icon">📝</div><div><div class="spec-title">할일 목록 영역</div><div class="spec-desc">할일이 추가될 공간 (처음엔 비어 있어도 됨)</div></div></div>
+        </div>
+        <div class="section-label" style="margin-top:16px;">기술 조건</div>
+        <div style="background:#fff;border-radius:10px;padding:13px 16px;border:1px solid #e2e8f0;font-size:.9rem;color:var(--sub);line-height:1.9;">
+          <div>🎨 전체 배경 <code style="background:#d1fae5;color:#065f46;padding:1px 7px;border-radius:4px;font-size:.82rem;">#f0fdf4</code> · 최대 너비 720px · 가운데 정렬</div>
+          <div>🚫 외부 라이브러리 사용 금지 — 순수 HTML + CSS + JS만</div>
+          <div>📄 파일 하나(index.html)에 모두 포함</div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">작업 순서</div>
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div><h4>완성품 예시 확인</h4><p>우측 상단 🔗 버튼을 눌러 완성품을 보고 화면 구조를 파악하세요</p></div></div>
+          <div class="step-item"><div class="step-num">2</div><div><h4>Antigravity에 요청</h4><p>VS Code에서 index.html을 만들고, 화면 요소와 디자인 조건을 전달하세요</p></div></div>
+          <div class="step-item"><div class="step-num">3</div><div><h4>Go Live로 확인</h4><p>브라우저에서 열어 헤더·탭·입력창이 보이는지 확인하세요</p></div></div>
+        </div>
+        <div class="section-label" style="margin-top:16px;">완료 기준</div>
+        <div class="check-list">
+          <div class="check-item"><div class="check-box">✓</div>초록색 헤더 + 카테고리 탭 3개 + 입력창이 화면에 보임</div>
+          <div class="check-item"><div class="check-box">✓</div>탭 클릭 시 선택된 탭 색상이 변함</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 2단계: 기능 구현하기 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">⚙️</div>
+    <div><h2>2단계 — 기능 구현하기</h2><p>1단계에서 만든 index.html에 아래 기능들을 Antigravity에 요청해 추가하세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="section-label">구현할 기능</div>
+        <div class="spec-list">
+          <div class="spec-item"><div class="spec-icon">➕</div><div><div class="spec-title">할일 추가</div><div class="spec-desc">Enter 또는 버튼 클릭 시 추가 · 선택된 카테고리 함께 저장 · 빈칸 경고</div></div></div>
+          <div class="spec-item"><div class="spec-icon">📌</div><div><div class="spec-title">항목 표시</div><div class="spec-desc">체크버튼 + 텍스트 + 카테고리 뱃지 + 삭제(✕) 버튼<br>항목 왼쪽 카테고리별 컬러 보더 <span class="spec-tag">업무 #3b82f6</span><span class="spec-tag">개인 #f59e0b</span><span class="spec-tag">학습 #8b5cf6</span></div></div></div>
+          <div class="spec-item"><div class="spec-icon">✅</div><div><div class="spec-title">완료 처리</div><div class="spec-desc">체크 시 텍스트 취소선 + 항목 흐리게 · 완료 항목은 목록 맨 아래로 이동</div></div></div>
+          <div class="spec-item"><div class="spec-icon">🔍</div><div><div class="spec-title">필터 탭</div><div class="spec-desc">전체 / 업무 / 개인 / 학습 / 완료 — 각 버튼에 해당 항목 수 표시 · 선택한 탭만 표시</div></div></div>
+          <div class="spec-item"><div class="spec-icon">🗑️</div><div><div class="spec-title">삭제</div><div class="spec-desc">삭제 버튼(✕) 클릭 시 해당 항목 제거</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">작업 순서</div>
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div><h4>1단계 결과 열기</h4><p>index.html이 Go Live로 열려 있는 상태에서 시작하세요</p></div></div>
+          <div class="step-item"><div class="step-num">2</div><div><h4>기능 요청</h4><p>전체를 한 번에 요청하거나 추가 → 표시 → 필터 → 삭제 순서로 나눠 요청하세요</p></div></div>
+          <div class="step-item"><div class="step-num">3</div><div><h4>기능별 테스트</h4><p>기능을 추가할 때마다 브라우저에서 즉시 확인하세요</p></div></div>
+          <div class="step-item"><div class="step-num">4</div><div><h4>오류 수정</h4><p>안 되면 "○○버튼이 눌려도 반응 없어" 처럼 증상을 구체적으로 말하세요</p></div></div>
+        </div>
+        <div class="section-label" style="margin-top:16px;">완료 기준</div>
+        <div class="check-list">
+          <div class="check-item"><div class="check-box">✓</div>할일 추가 → 목록에 나타남</div>
+          <div class="check-item"><div class="check-box">✓</div>체크 → 취소선 + 맨 아래 이동</div>
+          <div class="check-item"><div class="check-box">✓</div>필터 클릭 → 해당 항목만 표시됨</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 3단계: 저장 & 완성하기 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ede9fe;">💾</div>
+    <div><h2>3단계 — 저장 & 완성하기</h2><p>2단계 기능이 모두 동작하는지 확인한 뒤 마무리 기능을 추가하세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="section-label">구현할 기능</div>
+        <div class="spec-list">
+          <div class="spec-item"><div class="spec-icon">💾</div><div><div class="spec-title">localStorage 자동 저장</div><div class="spec-desc">추가·완료·삭제 시 자동 저장 · F5 후에도 목록 유지 · 저장 키 <code style="background:#ede9fe;color:#6d28d9;padding:1px 6px;border-radius:4px;font-size:.8rem;">todos_v2</code></div></div></div>
+          <div class="spec-item"><div class="spec-icon">📊</div><div><div class="spec-title">헤더 통계 + 진행률</div><div class="spec-desc">통계 칩 3개: 남은 할일 / 완료 / 전체<br>완료율(%) + 상황 메시지 + 흰색 진행률 바<br><span class="spec-tag">0개 → "할 일을 추가해 보세요!"</span><span class="spec-tag">100% → "🎉 모두 완료!"</span></div></div></div>
+          <div class="spec-item"><div class="spec-icon">🧹</div><div><div class="spec-title">완료 항목 일괄 삭제</div><div class="spec-desc">필터 바 오른쪽에 버튼 · 완료 항목 있을 때만 표시 · 클릭 시 전부 삭제</div></div></div>
+          <div class="spec-item"><div class="spec-icon">🔔</div><div><div class="spec-title">토스트 알림</div><div class="spec-desc">추가 시 초록색 / 삭제 시 어두운색 · 하단 중앙 2초 후 사라짐</div></div></div>
+          <div class="spec-item"><div class="spec-icon">🎉</div><div><div class="spec-title">빈 상태 안내 + 축하 팝업</div><div class="spec-desc">목록 비었을 때 이모지 + 안내 문구 · 완료율 100% 시 축하 팝업</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">작업 순서</div>
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div><h4>2단계 기능 점검</h4><p>추가·체크·필터·삭제가 모두 정상 동작하는지 먼저 확인하세요</p></div></div>
+          <div class="step-item"><div class="step-num">2</div><div><h4>localStorage 저장부터</h4><p>저장 기능을 먼저 요청하고 F5로 목록이 유지되는지 바로 확인하세요</p></div></div>
+          <div class="step-item"><div class="step-num">3</div><div><h4>나머지 기능 순서대로</h4><p>헤더 통계 → 완료 삭제 버튼 → 토스트 → 빈 상태 → 축하 팝업 순으로 요청하세요</p></div></div>
+          <div class="step-item"><div class="step-num">4</div><div><h4>완성품과 직접 비교</h4><p>🔗 완성품 예시와 자신의 결과를 비교해 부족한 부분을 스스로 개선해 보세요</p></div></div>
+        </div>
+        <div class="section-label" style="margin-top:16px;">완료 기준</div>
+        <div class="check-list">
+          <div class="check-item"><div class="check-box">✓</div>F5 후에도 할일 목록이 유지됨</div>
+          <div class="check-item"><div class="check-box">✓</div>헤더에 통계 칩 3개 + 진행률 바 표시</div>
+          <div class="check-item"><div class="check-box">✓</div>100% 달성 시 축하 팝업 표시</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S8 실행 확인 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#d1fae5;">🧪</div>
+    <div><h2>완성 후 테스트 체크리스트</h2><p>아래 항목을 직접 실행하며 확인해 보세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="check-list">
+      <div class="check-item"><div class="check-box">✓</div>카테고리(업무/개인/학습)를 선택하면 버튼 색이 바뀐다</div>
+      <div class="check-item"><div class="check-box">✓</div>입력창에 할일을 쓰고 Enter 키를 누르면 목록에 추가된다</div>
+      <div class="check-item"><div class="check-box">✓</div>추가된 항목에 선택한 카테고리 뱃지가 붙어 있다</div>
+      <div class="check-item"><div class="check-box">✓</div>체크버튼을 누르면 완료 처리(취소선+흐리게)되고 다시 누르면 해제된다</div>
+      <div class="check-item"><div class="check-box">✓</div>필터 탭을 클릭하면 해당 카테고리 항목만 보인다</div>
+      <div class="check-item"><div class="check-box">✓</div>헤더의 완료 개수와 진행률 바가 체크할 때마다 바뀐다</div>
+      <div class="check-item"><div class="check-box">✓</div>삭제(✕) 버튼을 누르면 항목이 사라진다</div>
+      <div class="check-item"><div class="check-box">✓</div>F5로 새로 고침해도 할일 목록이 그대로 남아 있다</div>
+      <div class="check-item"><div class="check-box">✓</div>할일 추가·삭제 시 화면 하단에 토스트 메시지가 나타났다 사라진다</div>
+    </div>
+  </div>
+</div>
+
+<!-- S9 보너스 미션 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fef9c3;">⭐</div>
+    <div><h2>보너스 미션</h2><p>기본 과제를 완성한 분들을 위한 추가 도전 과제</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="mission-grid">
+      <div class="mission-card m1">
+        <div class="m-star">⭐</div>
+        <h3>우선순위 표시</h3>
+        <p>할일에 중요도(높음/보통/낮음)를 추가하고 색으로 구분해 보세요.</p>
+        <div class="mission-code">Antigravity에게<br>"할일마다 우선순위<br>(높음/보통/낮음)<br>선택 기능 추가해줘"</div>
+      </div>
+      <div class="mission-card m2">
+        <div class="m-star">⭐⭐</div>
+        <h3>마감일 설정</h3>
+        <p>날짜 입력을 추가해서 마감일이 지난 항목을 붉은색으로 강조해 보세요.</p>
+        <div class="mission-code">Antigravity에게<br>"날짜 입력 추가하고<br>마감일 지난 항목<br>붉은색으로 표시해줘"</div>
+      </div>
+      <div class="mission-card m3">
+        <div class="m-star">⭐⭐⭐</div>
+        <h3>전체 삭제·공유</h3>
+        <p>완료된 항목만 한 번에 지우는 버튼과 할일 목록을 텍스트로 복사하는 기능을 추가해 보세요.</p>
+        <div class="mission-code">Antigravity에게<br>"완료 항목 일괄 삭제<br>버튼 + 전체 목록<br>클립보드 복사 버튼"</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-radius:13px;padding:15px 20px;border:1px solid #6ee7b7;">
+      <p style="font-size:1.06rem;font-weight:800;color:#065f46;margin-bottom:5px;">💡 보너스 미션 팁</p>
+      <p style="font-size:1rem;color:#047857;line-height:1.7;">위의 Antigravity 요청 문구를 복사해서 그대로 붙여넣으면 됩니다. 기본 과제를 완성한 뒤 도전해 보세요!</p>
+    </div>
+  </div>
+</div>
+
+<!-- S10 자주 막히는 문제 -->
+<div class="slide s-dark">
+  <div class="slide-header">
+    <div class="icon" style="background:rgba(255,255,255,.1);">🔧</div>
+    <div><h2>자주 막히는 문제 & 해결법</h2><p>이 화면으로 돌아와서 확인하세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="background:#1a3a20;border-radius:12px;padding:16px 20px;border-left:4px solid #10b981;">
+        <p style="font-size:1.05rem;font-weight:800;color:#6ee7b7;margin-bottom:6px;">❓ 버튼을 눌러도 아무것도 안 나와요</p>
+        <p style="font-size:.99rem;color:#a7f3d0;line-height:1.65;">개발자 도구(F12) → Console 탭을 열어서 빨간 에러 메시지를 복사한 뒤 Antigravity에게 "이 오류 고쳐줘"라고 붙여넣으세요.</p>
+      </div>
+      <div style="background:#1a3a20;border-radius:12px;padding:16px 20px;border-left:4px solid #34d399;">
+        <p style="font-size:1.05rem;font-weight:800;color:#6ee7b7;margin-bottom:6px;">❓ 새로 고침하면 목록이 사라져요</p>
+        <p style="font-size:.99rem;color:#a7f3d0;line-height:1.65;">localStorage 저장 코드가 빠진 것입니다. 3단계 프롬프트로 돌아가서 다시 요청하거나, Antigravity에게 "새로 고침해도 목록이 유지되도록 localStorage를 추가해줘"라고 말하세요.</p>
+      </div>
+      <div style="background:#1a3a20;border-radius:12px;padding:16px 20px;border-left:4px solid #10b981;">
+        <p style="font-size:1.05rem;font-weight:800;color:#6ee7b7;margin-bottom:6px;">❓ 화면이 깨지거나 CSS가 이상해요</p>
+        <p style="font-size:.99rem;color:#a7f3d0;line-height:1.65;">Antigravity에게 화면 캡처를 붙여넣거나 "레이아웃이 깨졌어, 다시 고쳐줘"라고 말하면 자동으로 수정해 줍니다.</p>
+      </div>
+      <div style="background:#1a3a20;border-radius:12px;padding:16px 20px;border-left:4px solid #34d399;">
+        <p style="font-size:1.05rem;font-weight:800;color:#6ee7b7;margin-bottom:6px;">❓ 필터를 눌렀는데 목록이 안 바뀌어요</p>
+        <p style="font-size:.99rem;color:#a7f3d0;line-height:1.65;">Antigravity에게 "필터 탭을 클릭해도 목록이 안 바뀌는 버그를 고쳐줘"라고 정확히 설명해 주세요.</p>
+      </div>
+    </div>
+    <div style="margin-top:14px;background:#064e3b;border-radius:10px;padding:13px 18px;font-size:1rem;color:#a7f3d0;line-height:1.7;">
+      🤖 <strong>만능 해결법.</strong> 어떤 문제든 오류 메시지나 현상을 그대로 복사해서 Antigravity에게 붙여넣으면 대부분 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<!-- S11 마무리 -->
+<div class="slide s-end">
+  <a class="result-link" href="#" onclick="openResultPopup();return false;" title="완성 예제 새 창으로 보기">🔗</a>
+  <div class="result-link-tip">완성 예제 보기</div>
+  <h2>🎉 과제 <span>완성!</span></h2>
+  <p>초급 12개 실습에서 배운 모든 기술을<br>하나의 앱으로 완성하셨습니다.</p>
+  <div class="summary-grid">
+    <div class="sg"><div class="sg-num">12</div>기술 활용</div>
+    <div class="sg"><div class="sg-num">3</div>단계 완성</div>
+    <div class="sg"><div class="sg-num">💾</div>로컬 저장</div>
+    <div class="sg"><div class="sg-num">🏆</div>과제 수료!</div>
+  </div>
+  <div class="next-hint"><span>▶</span> 다음 단계: <strong>바이브코딩 중급 과정에서 만나요!</strong></div>
+  <p style="margin-top:22px;font-size:0.95rem;font-weight:700;letter-spacing:.05em;color:rgba(255,255,255,.9);white-space:nowrap;">본 교육자료는 사전 승인 없이 외부에 유출하거나 공유할 수 없습니다. — AI정보기획팀</p>
+</div>
+
+</div><!-- /deck -->
+
+<!-- 전체화면 프롬프트 오버레이 -->
+<div class="prompt-fs-overlay" id="promptFsOverlay">
+  <div class="prompt-fs-header">
+    <div class="prompt-fs-title" id="promptFsTitle"></div>
+    <div class="prompt-fs-actions">
+      <button class="prompt-fs-copy" id="promptFsCopyBtn" onclick="copyPromptFs()">복사</button>
+      <button class="prompt-fs-close" onclick="closePromptFS()">✕</button>
+    </div>
+  </div>
+  <div class="prompt-fs-body">
+    <pre class="prompt-fs-code" id="promptFsCode"></pre>
+  </div>
+</div>
+
+<!-- 점 네비게이션 -->
+<div class="nav-dots" id="navDots"></div>
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
+  <span class="slide-counter" id="counter">1 / 11</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+</div>
+
+<script>
+// ── 슬라이드 네비게이션 ──
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+function buildDots() {
+  const c = document.getElementById('navDots');
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    b.title = (i + 1) + '페이지';
+    b.addEventListener('click', () => goTo(i));
+    c.appendChild(b);
+  });
+}
+buildDots();
+
+function goTo(n) {
+  const prev = cur;
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('exit');
+  setTimeout(() => slides[prev].classList.remove('exit'), 420);
+  cur = n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  document.getElementById('progressBar').style.width = ((cur + 1) / total * 100) + '%';
+  document.getElementById('counter').textContent = (cur + 1) + ' / ' + total;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total - 1;
+}
+function changeSlide(dir) { if (cur + dir >= 0 && cur + dir < total) goTo(cur + dir); }
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  if (document.getElementById('promptFsOverlay').classList.contains('open')) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+});
+document.getElementById('progressBar').style.width = (1 / total * 100) + '%';
+
+// ── 프롬프트 전체화면 ──
+let _fsCurId = '';
+function openPromptFS(elemId, title) {
+  _fsCurId = elemId;
+  const el = document.getElementById(elemId);
+  const raw = el.innerText.replace(/⤢ 전체 화면\s*$/,'').trim();
+  document.getElementById('promptFsTitle').textContent = title;
+  document.getElementById('promptFsCode').textContent = raw;
+  document.getElementById('promptFsCopyBtn').textContent = '복사';
+  document.getElementById('promptFsCopyBtn').classList.remove('copied');
+  document.getElementById('promptFsOverlay').classList.add('open');
+}
+function closePromptFS() { document.getElementById('promptFsOverlay').classList.remove('open'); }
+function copyPromptFs() {
+  const text = document.getElementById('promptFsCode').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('promptFsCopyBtn');
+    btn.textContent = '복사됨!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePromptFS(); });
+
+// ── 완성 예제 팝업 ──
+function b64ToUtf8(b64){const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8').decode(bytes);}
+function openResultPopup(){const w=window.open('','resultPopup','width='+screen.availWidth+',height='+screen.availHeight+',left=0,top=0,resizable=yes,scrollbars=yes');w.document.open();w.document.write(b64ToUtf8(RESULT_HTML_B64));w.document.close();}
+const RESULT_HTML_B64='PCFET0NUWVBFIGh0bWw+CjwhLS0g7LSI6riJIOqzvOyglSDstZzsooUg6rO87KCcIOyZhOyEse2SiCDigJQg64KY66eM7J2YIO2VoOydvCDssrTtgazrpqzsiqTtirggdjIgKOyDmO2UjCDrjbDsnbTthLDCt+qzoOq4iSDrlJTsnpDsnbgpIC0tPgo8aHRtbCBsYW5nPSJrbyI+CjxoZWFkPgo8bWV0YSBjaGFyc2V0PSJVVEYtOCI+CjxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KPHRpdGxlPuuCmOunjOydmCDtlaDsnbwg7LK07YGs66as7Iqk7Yq4PC90aXRsZT4KPHN0eWxlPgoqe21hcmdpbjowO3BhZGRpbmc6MDtib3gtc2l6aW5nOmJvcmRlci1ib3g7fQo6cm9vdHsKICAtLWJnOiNmMGZkZjQ7LS1jYXJkOiNmZmY7LS10ZXh0OiMxZTI5M2I7LS1zdWI6IzQ3NTU2OTstLW11dGVkOiM5NGEzYjg7CiAgLS1ib3JkZXI6I2QxZmFlNTstLWJvcmRlci1sdDojZTJlOGYwOwogIC0tc2hhZG93OjAgMnB4IDEycHggcmdiYSgxNiwxODUsMTI5LC4xMCk7LS1zaGFkb3ctbGc6MCA4cHggMzJweCByZ2JhKDE2LDE4NSwxMjksLjE0KTsKICAtLXByaW1hcnk6IzEwYjk4MTstLXByaW1hcnktZGs6IzA1OTY2OTstLXByaW1hcnktbHQ6I2QxZmFlNTstLXByaW1hcnkteGx0OiNlY2ZkZjU7CiAgLS13b3JrOiMzYjgyZjY7LS13b3JrLWx0OiNkYmVhZmU7LS13b3JrLXhsdDojZWZmNmZmOwogIC0tcGVyc29uYWw6I2Y1OWUwYjstLXBlcnNvbmFsLWx0OiNmZWYzYzc7LS1wZXJzb25hbC14bHQ6I2ZmZmJlYjsKICAtLXN0dWR5OiM4YjVjZjY7LS1zdHVkeS1sdDojZWRlOWZlOy0tc3R1ZHkteGx0OiNmNWYzZmY7CiAgLS1kYW5nZXI6I2VmNDQ0NDstLXJhZGl1czoxNHB4Oy0tcmFkaXVzLXNtOjEwcHg7Cn0KYm9keXtmb250LWZhbWlseTonU2Vnb2UgVUknLCfrp5HsnYAg6rOg65SVJyxzYW5zLXNlcmlmO2JhY2tncm91bmQ6dmFyKC0tYmcpO21pbi1oZWlnaHQ6MTAwdmg7Y29sb3I6dmFyKC0tdGV4dCk7fQoKLyog4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQIO2XpOuNlCDilZDilZDilZDilZDilZDilZDilZDilZAgKi8KLmFwcC1oZWFkZXJ7CiAgYmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCMwNjVmNDYgMCUsIzA1OTY2OSA0NSUsIzEwYjk4MSA4MCUsIzM0ZDM5OSAxMDAlKTsKICBwYWRkaW5nOjIycHggMjRweCAzMnB4O3Bvc2l0aW9uOnJlbGF0aXZlO292ZXJmbG93OmhpZGRlbjsKfQouYXBwLWhlYWRlcjo6YmVmb3JlewogIGNvbnRlbnQ6Jyc7cG9zaXRpb246YWJzb2x1dGU7dG9wOi00MHB4O3JpZ2h0Oi00MHB4OwogIHdpZHRoOjIyMHB4O2hlaWdodDoyMjBweDtib3JkZXItcmFkaXVzOjUwJTsKICBiYWNrZ3JvdW5kOnJnYmEoMjU1LDI1NSwyNTUsLjA2KTtwb2ludGVyLWV2ZW50czpub25lOwp9Ci5hcHAtaGVhZGVyOjphZnRlcnsKICBjb250ZW50OicnO3Bvc2l0aW9uOmFic29sdXRlO2JvdHRvbTotNjBweDtsZWZ0OjMwJTsKICB3aWR0aDoxNjBweDtoZWlnaHQ6MTYwcHg7Ym9yZGVyLXJhZGl1czo1MCU7CiAgYmFja2dyb3VuZDpyZ2JhKDI1NSwyNTUsMjU1LC4wNCk7cG9pbnRlci1ldmVudHM6bm9uZTsKfQouaGVhZGVyLWlubmVye21heC13aWR0aDo3MjBweDttYXJnaW46MCBhdXRvO3Bvc2l0aW9uOnJlbGF0aXZlO3otaW5kZXg6MTt9Ci5oZWFkZXItcm93MXtkaXNwbGF5OmZsZXg7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47YWxpZ24taXRlbXM6ZmxleC1zdGFydDttYXJnaW4tYm90dG9tOjE4cHg7Z2FwOjEycHg7fQouaGVhZGVyLWxlZnQgLmFwcC10aXRsZXtmb250LXNpemU6MS41NXJlbTtmb250LXdlaWdodDo5MDA7Y29sb3I6I2ZmZjtsZXR0ZXItc3BhY2luZzotLjAyZW07fQouaGVhZGVyLWxlZnQgLmFwcC1zdWJ7Zm9udC1zaXplOi44MnJlbTtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LC43NSk7bWFyZ2luLXRvcDozcHg7fQouaGVhZGVyLXN0YXRze2Rpc3BsYXk6ZmxleDtnYXA6MTBweDt9Ci5zdGF0LWNoaXB7YmFja2dyb3VuZDpyZ2JhKDI1NSwyNTUsMjU1LC4xNSk7Ym9yZGVyOjFweCBzb2xpZCByZ2JhKDI1NSwyNTUsMjU1LC4yKTtib3JkZXItcmFkaXVzOjEycHg7cGFkZGluZzo4cHggMTRweDt0ZXh0LWFsaWduOmNlbnRlcjtiYWNrZHJvcC1maWx0ZXI6Ymx1cig0cHgpO30KLnN0YXQtY2hpcCAucy1udW17Zm9udC1zaXplOjEuM3JlbTtmb250LXdlaWdodDo5MDA7Y29sb3I6I2ZmZjtsaW5lLWhlaWdodDoxO30KLnN0YXQtY2hpcCAucy1sYmx7Zm9udC1zaXplOi42OHJlbTtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LC43Mik7bWFyZ2luLXRvcDoycHg7Zm9udC13ZWlnaHQ6NjAwO30KLnByb2dyZXNzLXNlY3Rpb257fQoucHJvZ3Jlc3MtaW5mb3tkaXNwbGF5OmZsZXg7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47YWxpZ24taXRlbXM6Y2VudGVyO21hcmdpbi1ib3R0b206N3B4O30KLnByb2dyZXNzLXBjdHtmb250LXNpemU6LjlyZW07Zm9udC13ZWlnaHQ6ODAwO2NvbG9yOiNmZmY7fQoucHJvZ3Jlc3MtbXNne2ZvbnQtc2l6ZTouOHJlbTtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LC44KTt9Ci5wcm9ncmVzcy10cmFja3tiYWNrZ3JvdW5kOnJnYmEoMjU1LDI1NSwyNTUsLjIpO2JvcmRlci1yYWRpdXM6OHB4O2hlaWdodDo4cHg7b3ZlcmZsb3c6aGlkZGVuO30KLnByb2dyZXNzLWJhcntoZWlnaHQ6MTAwJTtib3JkZXItcmFkaXVzOjhweDtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCg5MGRlZywjZmZmLHJnYmEoMjU1LDI1NSwyNTUsLjg1KSk7dHJhbnNpdGlvbjp3aWR0aCAuNnMgY3ViaWMtYmV6aWVyKC40LDAsLjIsMSk7fQoKLyog4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQIOuplOyduCDilZDilZDilZDilZDilZDilZDilZDilZAgKi8KLm1haW57bWF4LXdpZHRoOjcyMHB4O21hcmdpbjowIGF1dG87cGFkZGluZzoyMHB4IDE2cHggMTAwcHg7fQoKLyog4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQIOyeheugpSDsubTrk5wg4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQICovCi5pbnB1dC1jYXJke2JhY2tncm91bmQ6dmFyKC0tY2FyZCk7Ym9yZGVyLXJhZGl1czp2YXIoLS1yYWRpdXMpO3BhZGRpbmc6MThweCAyMHB4O2JveC1zaGFkb3c6dmFyKC0tc2hhZG93LWxnKTttYXJnaW4tYm90dG9tOjE2cHg7Ym9yZGVyOjFweCBzb2xpZCB2YXIoLS1ib3JkZXIpO30KLmlucHV0LWxhYmVse2ZvbnQtc2l6ZTouNzJyZW07Zm9udC13ZWlnaHQ6ODAwO2xldHRlci1zcGFjaW5nOi4wOGVtO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtjb2xvcjp2YXIoLS1wcmltYXJ5LWRrKTttYXJnaW4tYm90dG9tOjEwcHg7fQouY2F0LXRhYnN7ZGlzcGxheTpmbGV4O2dhcDo2cHg7bWFyZ2luLWJvdHRvbToxMnB4O30KLmNhdC10YWJ7CiAgcGFkZGluZzo2cHggMTRweDtib3JkZXItcmFkaXVzOjIwcHg7Ym9yZGVyOjEuNXB4IHNvbGlkIHZhcigtLWJvcmRlci1sdCk7CiAgYmFja2dyb3VuZDojZjhmYWZjO2NvbG9yOnZhcigtLW11dGVkKTtmb250LXNpemU6LjhyZW07Zm9udC13ZWlnaHQ6NzAwOwogIGN1cnNvcjpwb2ludGVyO3RyYW5zaXRpb246YWxsIC4ycztmb250LWZhbWlseTppbmhlcml0Owp9Ci5jYXQtdGFiOmhvdmVye2JvcmRlci1jb2xvcjp2YXIoLS1wcmltYXJ5KTtjb2xvcjp2YXIoLS1wcmltYXJ5KTt9Ci5jYXQtdGFiLmF3e2JhY2tncm91bmQ6dmFyKC0td29yayk7Ym9yZGVyLWNvbG9yOnZhcigtLXdvcmspO2NvbG9yOiNmZmY7Ym94LXNoYWRvdzowIDNweCAxMHB4IHJnYmEoNTksMTMwLDI0NiwuMyk7fQouY2F0LXRhYi5hcHtiYWNrZ3JvdW5kOnZhcigtLXBlcnNvbmFsKTtib3JkZXItY29sb3I6dmFyKC0tcGVyc29uYWwpO2NvbG9yOiNmZmY7Ym94LXNoYWRvdzowIDNweCAxMHB4IHJnYmEoMjQ1LDE1OCwxMSwuMyk7fQouY2F0LXRhYi5hc3tiYWNrZ3JvdW5kOnZhcigtLXN0dWR5KTtib3JkZXItY29sb3I6dmFyKC0tc3R1ZHkpO2NvbG9yOiNmZmY7Ym94LXNoYWRvdzowIDNweCAxMHB4IHJnYmEoMTM5LDkyLDI0NiwuMyk7fQouaW5wdXQtcm93e2Rpc3BsYXk6ZmxleDtnYXA6OHB4O3Bvc2l0aW9uOnJlbGF0aXZlO30KLnRvZG8taW5wdXR7CiAgZmxleDoxO3BhZGRpbmc6MTJweCA0OHB4IDEycHggMTZweDtib3JkZXI6MS41cHggc29saWQgdmFyKC0tYm9yZGVyLWx0KTtib3JkZXItcmFkaXVzOnZhcigtLXJhZGl1cy1zbSk7CiAgZm9udC1zaXplOi45NXJlbTtmb250LWZhbWlseTppbmhlcml0O2NvbG9yOnZhcigtLXRleHQpO291dGxpbmU6bm9uZTsKICB0cmFuc2l0aW9uOmJvcmRlci1jb2xvciAuMnMsYm94LXNoYWRvdyAuMnM7YmFja2dyb3VuZDojZmFmY2ZmOwp9Ci50b2RvLWlucHV0OmZvY3Vze2JvcmRlci1jb2xvcjp2YXIoLS1wcmltYXJ5KTtib3gtc2hhZG93OjAgMCAwIDNweCByZ2JhKDE2LDE4NSwxMjksLjEyKTtiYWNrZ3JvdW5kOiNmZmY7fQouY2hhci1oaW50e3Bvc2l0aW9uOmFic29sdXRlO3JpZ2h0OjEwMHB4O3RvcDo1MCU7dHJhbnNmb3JtOnRyYW5zbGF0ZVkoLTUwJSk7Zm9udC1zaXplOi42OHJlbTtjb2xvcjp2YXIoLS1tdXRlZCk7cG9pbnRlci1ldmVudHM6bm9uZTt9Ci5idG4tYWRkewogIHBhZGRpbmc6MTJweCAyMHB4O2JhY2tncm91bmQ6bGluZWFyLWdyYWRpZW50KDEzNWRlZyx2YXIoLS1wcmltYXJ5KSx2YXIoLS1wcmltYXJ5LWRrKSk7Y29sb3I6I2ZmZjsKICBib3JkZXI6bm9uZTtib3JkZXItcmFkaXVzOnZhcigtLXJhZGl1cy1zbSk7Zm9udC1zaXplOi45cmVtO2ZvbnQtd2VpZ2h0OjcwMDtjdXJzb3I6cG9pbnRlcjsKICBmb250LWZhbWlseTppbmhlcml0O3RyYW5zaXRpb246YWxsIC4yczt3aGl0ZS1zcGFjZTpub3dyYXA7CiAgYm94LXNoYWRvdzowIDNweCAxMHB4IHJnYmEoMTYsMTg1LDEyOSwuMzUpOwp9Ci5idG4tYWRkOmhvdmVye3RyYW5zZm9ybTp0cmFuc2xhdGVZKC0xcHgpO2JveC1zaGFkb3c6MCA1cHggMTZweCByZ2JhKDE2LDE4NSwxMjksLjQ1KTt9Ci5idG4tYWRkOmFjdGl2ZXt0cmFuc2Zvcm06dHJhbnNsYXRlWSgwKTt9CgovKiDilZDilZDilZDilZDilZDilZDilZDilZAg7ZWE7YSwIOuwlCDilZDilZDilZDilZDilZDilZDilZDilZAgKi8KLmZpbHRlci1yb3d7ZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6NnB4O21hcmdpbi1ib3R0b206MTRweDtmbGV4LXdyYXA6d3JhcDt9Ci5maWx0ZXItYnRuewogIHBhZGRpbmc6NXB4IDEzcHg7Ym9yZGVyLXJhZGl1czoyMHB4O2JvcmRlcjoxLjVweCBzb2xpZCB2YXIoLS1ib3JkZXItbHQpOwogIGJhY2tncm91bmQ6dmFyKC0tY2FyZCk7Y29sb3I6dmFyKC0tc3ViKTtmb250LXNpemU6Ljc4cmVtO2ZvbnQtd2VpZ2h0OjcwMDsKICBjdXJzb3I6cG9pbnRlcjt0cmFuc2l0aW9uOmFsbCAuMThzO2ZvbnQtZmFtaWx5OmluaGVyaXQ7Cn0KLmZpbHRlci1idG46aG92ZXJ7Ym9yZGVyLWNvbG9yOnZhcigtLXByaW1hcnkpO2NvbG9yOnZhcigtLXByaW1hcnkpO30KLmZpbHRlci1idG4uYWN0aXZle2JhY2tncm91bmQ6dmFyKC0tcHJpbWFyeSk7Ym9yZGVyLWNvbG9yOnZhcigtLXByaW1hcnkpO2NvbG9yOiNmZmY7Ym94LXNoYWRvdzowIDJweCA4cHggcmdiYSgxNiwxODUsMTI5LC4zKTt9Ci5maWx0ZXItY291bnR7Zm9udC1zaXplOi42OHJlbTtiYWNrZ3JvdW5kOnJnYmEoMCwwLDAsLjA3KTtib3JkZXItcmFkaXVzOjhweDtwYWRkaW5nOjFweCA2cHg7bWFyZ2luLWxlZnQ6MnB4O2ZvbnQtd2VpZ2h0OjcwMDt9Ci5maWx0ZXItYnRuLmFjdGl2ZSAuZmlsdGVyLWNvdW50e2JhY2tncm91bmQ6cmdiYSgyNTUsMjU1LDI1NSwuMjUpO30KLnNwYWNlcntmbGV4OjE7fQouYnRuLWNsZWFyewogIHBhZGRpbmc6NXB4IDEycHg7Ym9yZGVyLXJhZGl1czoyMHB4O2JvcmRlcjoxLjVweCBzb2xpZCAjZmVjYWNhOwogIGJhY2tncm91bmQ6I2ZmZjtjb2xvcjp2YXIoLS1kYW5nZXIpO2ZvbnQtc2l6ZTouNzVyZW07Zm9udC13ZWlnaHQ6NzAwOwogIGN1cnNvcjpwb2ludGVyO3RyYW5zaXRpb246YWxsIC4xOHM7Zm9udC1mYW1pbHk6aW5oZXJpdDtkaXNwbGF5Om5vbmU7Cn0KLmJ0bi1jbGVhcjpob3ZlcntiYWNrZ3JvdW5kOnZhcigtLWRhbmdlcik7Y29sb3I6I2ZmZjtib3JkZXItY29sb3I6dmFyKC0tZGFuZ2VyKTt9Ci5idG4tY2xlYXIudmlzaWJsZXtkaXNwbGF5OmJsb2NrO30KCi8qIOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkCDrqqnroZ0g7JiB7JetIOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkCAqLwoubGlzdC1oZWFkZXJ7ZGlzcGxheTpmbGV4O2p1c3RpZnktY29udGVudDpzcGFjZS1iZXR3ZWVuO2FsaWduLWl0ZW1zOmNlbnRlcjttYXJnaW4tYm90dG9tOjEwcHg7fQoubGlzdC1pbmZve2ZvbnQtc2l6ZTouNzhyZW07Y29sb3I6dmFyKC0tc3ViKTtmb250LXdlaWdodDo2MDA7fQoudG9kby1saXN0e2Rpc3BsYXk6ZmxleDtmbGV4LWRpcmVjdGlvbjpjb2x1bW47Z2FwOjdweDt9CgovKiDilZDilZDilZDilZDilZDilZDilZDilZAg7ZWg7J28IOyVhOydtO2FnCDilZDilZDilZDilZDilZDilZDilZDilZAgKi8KLnRvZG8taXRlbXsKICBkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDoxMnB4OwogIGJhY2tncm91bmQ6dmFyKC0tY2FyZCk7Ym9yZGVyLXJhZGl1czp2YXIoLS1yYWRpdXMtc20pOwogIHBhZGRpbmc6MTNweCAxNXB4O2JveC1zaGFkb3c6MCAxcHggNnB4IHJnYmEoMCwwLDAsLjA1KTsKICBib3JkZXI6MS41cHggc29saWQgdmFyKC0tYm9yZGVyLWx0KTtib3JkZXItbGVmdC13aWR0aDo0cHg7CiAgdHJhbnNpdGlvbjp0cmFuc2Zvcm0gLjE4cyxib3gtc2hhZG93IC4xOHMsb3BhY2l0eSAuM3M7CiAgYW5pbWF0aW9uOnNsaWRlSW4gLjI4cyBjdWJpYy1iZXppZXIoLjM0LDEuMzYsLjY0LDEpOwogIGN1cnNvcjpkZWZhdWx0Owp9Ci50b2RvLWl0ZW06aG92ZXJ7dHJhbnNmb3JtOnRyYW5zbGF0ZVgoMnB4KTtib3gtc2hhZG93OjAgNHB4IDE2cHggcmdiYSgwLDAsMCwuMDgpO30KLnRvZG8taXRlbS5jYXQtd29yay1pdGVte2JvcmRlci1sZWZ0LWNvbG9yOnZhcigtLXdvcmspO30KLnRvZG8taXRlbS5jYXQtcGVyc29uYWwtaXRlbXtib3JkZXItbGVmdC1jb2xvcjp2YXIoLS1wZXJzb25hbCk7fQoudG9kby1pdGVtLmNhdC1zdHVkeS1pdGVte2JvcmRlci1sZWZ0LWNvbG9yOnZhcigtLXN0dWR5KTt9CkBrZXlmcmFtZXMgc2xpZGVJbntmcm9te29wYWNpdHk6MDt0cmFuc2Zvcm06dHJhbnNsYXRlWCgtMTJweCl9dG97b3BhY2l0eToxO3RyYW5zZm9ybTp0cmFuc2xhdGVYKDApfX0KLnRvZG8taXRlbS5yZW1vdmluZ3tvcGFjaXR5OjA7dHJhbnNmb3JtOnRyYW5zbGF0ZVgoMjBweCkgc2NhbGUoLjk2KTtwb2ludGVyLWV2ZW50czpub25lO30KLnRvZG8taXRlbS5kb25lLWl0ZW17b3BhY2l0eTouNTg7YmFja2dyb3VuZDojZmFmYWZhO30KLnRvZG8taXRlbS5kb25lLWl0ZW0gLnRvZG8tdGV4dHt0ZXh0LWRlY29yYXRpb246bGluZS10aHJvdWdoO2NvbG9yOnZhcigtLW11dGVkKTt9CgoudG9kby1jaGVja3sKICB3aWR0aDoyMnB4O2hlaWdodDoyMnB4O2JvcmRlci1yYWRpdXM6NnB4O2JvcmRlcjoycHggc29saWQgdmFyKC0tYm9yZGVyLWx0KTsKICBiYWNrZ3JvdW5kOiNmOGZhZmM7Y3Vyc29yOnBvaW50ZXI7ZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyOwogIGZvbnQtc2l6ZTouOHJlbTt0cmFuc2l0aW9uOmFsbCAuMnM7ZmxleC1zaHJpbms6MDsKfQoudG9kby1jaGVjazpob3Zlcntib3JkZXItY29sb3I6dmFyKC0tcHJpbWFyeSk7YmFja2dyb3VuZDp2YXIoLS1wcmltYXJ5LXhsdCk7fQoudG9kby1jaGVjay5jaGVja2Vke2JhY2tncm91bmQ6dmFyKC0tcHJpbWFyeSk7Ym9yZGVyLWNvbG9yOnZhcigtLXByaW1hcnkpO2NvbG9yOiNmZmY7fQoKLnRvZG8tdGV4dHtmbGV4OjE7Zm9udC1zaXplOi45M3JlbTtjb2xvcjp2YXIoLS10ZXh0KTtsaW5lLWhlaWdodDoxLjQ7bWluLXdpZHRoOjA7d29yZC1icmVhazpicmVhay1hbGw7fQoKLmNhdC1iYWRnZXsKICBwYWRkaW5nOjNweCA5cHg7Ym9yZGVyLXJhZGl1czoxMHB4O2ZvbnQtc2l6ZTouN3JlbTtmb250LXdlaWdodDo3MDA7ZmxleC1zaHJpbms6MDsKICBsZXR0ZXItc3BhY2luZzouMDFlbTsKfQouYnd7YmFja2dyb3VuZDp2YXIoLS13b3JrLWx0KTtjb2xvcjp2YXIoLS13b3JrKTt9Ci5icHtiYWNrZ3JvdW5kOnZhcigtLXBlcnNvbmFsLWx0KTtjb2xvcjojYjQ1MzA5O30KLmJze2JhY2tncm91bmQ6dmFyKC0tc3R1ZHktbHQpO2NvbG9yOnZhcigtLXN0dWR5KTt9CgouYnRuLWRlbHsKICB3aWR0aDoyNnB4O2hlaWdodDoyNnB4O2JvcmRlci1yYWRpdXM6NnB4O2JvcmRlcjoxcHggc29saWQgI2ZlZTJlMjsKICBiYWNrZ3JvdW5kOiNmZmY7Y29sb3I6I2ZjYTVhNTtmb250LXNpemU6Ljc4cmVtO2N1cnNvcjpwb2ludGVyOwogIGRpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OmNlbnRlcjsKICB0cmFuc2l0aW9uOmFsbCAuMThzO2ZsZXgtc2hyaW5rOjA7Cn0KLmJ0bi1kZWw6aG92ZXJ7YmFja2dyb3VuZDp2YXIoLS1kYW5nZXIpO2NvbG9yOiNmZmY7Ym9yZGVyLWNvbG9yOnZhcigtLWRhbmdlcik7fQoKLyog4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQIOu5iCDsg4Htg5wg4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQ4pWQICovCi5lbXB0eS1zdGF0ZXt0ZXh0LWFsaWduOmNlbnRlcjtwYWRkaW5nOjUycHggMjBweCA0MHB4O30KLmVtcHR5LWljb257Zm9udC1zaXplOjMuMnJlbTttYXJnaW4tYm90dG9tOjE0cHg7b3BhY2l0eTouNjt9Ci5lbXB0eS10aXRsZXtmb250LXNpemU6MXJlbTtmb250LXdlaWdodDo3MDA7Y29sb3I6dmFyKC0tc3ViKTttYXJnaW4tYm90dG9tOjZweDt9Ci5lbXB0eS1zdWJ7Zm9udC1zaXplOi44NXJlbTtjb2xvcjp2YXIoLS1tdXRlZCk7bGluZS1oZWlnaHQ6MS43O30KCi8qIOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkCDstpXtlZgg7Jik67KE66CI7J20IOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkCAqLwouY2VsZWJyYXRlewogIHBvc2l0aW9uOmZpeGVkO2luc2V0OjA7ZGlzcGxheTpmbGV4O2ZsZXgtZGlyZWN0aW9uOmNvbHVtbjsKICBhbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OmNlbnRlcjt6LWluZGV4OjUwMDtwb2ludGVyLWV2ZW50czpub25lOwogIG9wYWNpdHk6MDt0cmFuc2l0aW9uOm9wYWNpdHkgLjRzOwp9Ci5jZWxlYnJhdGUuc2hvd3tvcGFjaXR5OjE7fQouY2VsZWJyYXRlLWJveHsKICBiYWNrZ3JvdW5kOiNmZmY7Ym9yZGVyLXJhZGl1czoyNHB4O3BhZGRpbmc6MzJweCA0OHB4O3RleHQtYWxpZ246Y2VudGVyOwogIGJveC1zaGFkb3c6MCAyMHB4IDYwcHggcmdiYSgwLDAsMCwuMTUpOwogIGFuaW1hdGlvbjpwb3BJbiAuNHMgY3ViaWMtYmV6aWVyKC4zNCwxLjM2LC42NCwxKTsKfQpAa2V5ZnJhbWVzIHBvcElue2Zyb217dHJhbnNmb3JtOnNjYWxlKC43KTtvcGFjaXR5OjB9dG97dHJhbnNmb3JtOnNjYWxlKDEpO29wYWNpdHk6MX19Ci5jZWxlYnJhdGUtaWNvbntmb250LXNpemU6My41cmVtO21hcmdpbi1ib3R0b206MTBweDt9Ci5jZWxlYnJhdGUtdGl0bGV7Zm9udC1zaXplOjEuNXJlbTtmb250LXdlaWdodDo5MDA7Y29sb3I6IzA2NGUzYjttYXJnaW4tYm90dG9tOjZweDt9Ci5jZWxlYnJhdGUtc3Vie2ZvbnQtc2l6ZTouOTVyZW07Y29sb3I6dmFyKC0tc3ViKTt9CgovKiDilZDilZDilZDilZDilZDilZDilZDilZAg7Yag7Iqk7Yq4IOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkCAqLwoudG9hc3R7CiAgcG9zaXRpb246Zml4ZWQ7Ym90dG9tOjI4cHg7bGVmdDo1MCU7dHJhbnNmb3JtOnRyYW5zbGF0ZVgoLTUwJSkgdHJhbnNsYXRlWSgxNnB4KTsKICBiYWNrZ3JvdW5kOiMxZTI5M2I7Y29sb3I6I2ZmZjtwYWRkaW5nOjEwcHggMjJweDtib3JkZXItcmFkaXVzOjI0cHg7CiAgZm9udC1zaXplOi44NHJlbTtmb250LXdlaWdodDo2MDA7b3BhY2l0eTowO3RyYW5zaXRpb246YWxsIC4yOHM7CiAgei1pbmRleDo5OTk7d2hpdGUtc3BhY2U6bm93cmFwO3BvaW50ZXItZXZlbnRzOm5vbmU7CiAgYm94LXNoYWRvdzowIDRweCAyMHB4IHJnYmEoMCwwLDAsLjIpOwp9Ci50b2FzdC5zaG93e29wYWNpdHk6MTt0cmFuc2Zvcm06dHJhbnNsYXRlWCgtNTAlKSB0cmFuc2xhdGVZKDApO30KLnRvYXN0LnN1Y2Nlc3N7YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLHZhcigtLXByaW1hcnkpLHZhcigtLXByaW1hcnktZGspKTt9Ci50b2FzdC53YXJue2JhY2tncm91bmQ6I2Y1OWUwYjt9Cjwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+Cgo8IS0tIOKUgOKUgCDtl6TrjZQg4pSA4pSAIC0tPgo8ZGl2IGNsYXNzPSJhcHAtaGVhZGVyIj4KICA8ZGl2IGNsYXNzPSJoZWFkZXItaW5uZXIiPgogICAgPGRpdiBjbGFzcz0iaGVhZGVyLXJvdzEiPgogICAgICA8ZGl2IGNsYXNzPSJoZWFkZXItbGVmdCI+CiAgICAgICAgPGRpdiBjbGFzcz0iYXBwLXRpdGxlIj7wn5OLIOuCmOunjOydmCDtlaDsnbwg7LK07YGs66as7Iqk7Yq4PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iYXBwLXN1YiIgaWQ9InRvZGF5RGF0ZSI+PC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJoZWFkZXItc3RhdHMiPgogICAgICAgIDxkaXYgY2xhc3M9InN0YXQtY2hpcCI+PGRpdiBjbGFzcz0icy1udW0iIGlkPSJzdGF0UGVuZGluZyI+MDwvZGl2PjxkaXYgY2xhc3M9InMtbGJsIj7rgqjsnYAg7ZWg7J28PC9kaXY+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0ic3RhdC1jaGlwIj48ZGl2IGNsYXNzPSJzLW51bSIgaWQ9InN0YXREb25lIj4wPC9kaXY+PGRpdiBjbGFzcz0icy1sYmwiPuyZhOujjDwvZGl2PjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9InN0YXQtY2hpcCI+PGRpdiBjbGFzcz0icy1udW0iIGlkPSJzdGF0VG90YWwiPjA8L2Rpdj48ZGl2IGNsYXNzPSJzLWxibCI+7KCE7LK0PC9kaXY+PC9kaXY+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJwcm9ncmVzcy1zZWN0aW9uIj4KICAgICAgPGRpdiBjbGFzcz0icHJvZ3Jlc3MtaW5mbyI+CiAgICAgICAgPHNwYW4gY2xhc3M9InByb2dyZXNzLXBjdCIgaWQ9InBjdFRleHQiPjAlPC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJwcm9ncmVzcy1tc2ciIGlkPSJwY3RNc2ciPu2VoCDsnbzsnYQg7LaU6rCA7ZW0IOuztOyEuOyalCE8L3NwYW4+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJwcm9ncmVzcy10cmFjayI+PGRpdiBjbGFzcz0icHJvZ3Jlc3MtYmFyIiBpZD0icHJvZ3Jlc3NCYXIiIHN0eWxlPSJ3aWR0aDowJSI+PC9kaXY+PC9kaXY+CiAgICA8L2Rpdj4KICA8L2Rpdj4KPC9kaXY+Cgo8IS0tIOKUgOKUgCDrqZTsnbgg4pSA4pSAIC0tPgo8ZGl2IGNsYXNzPSJtYWluIj4KCiAgPCEtLSDsnoXroKUg7Lm065OcIC0tPgogIDxkaXYgY2xhc3M9ImlucHV0LWNhcmQiPgogICAgPGRpdiBjbGFzcz0iaW5wdXQtbGFiZWwiPuy5tO2FjOqzoOumrCDshKDtg50g7ZuEIO2VoOydvCDstpTqsIA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImNhdC10YWJzIiBpZD0iY2F0VGFicyI+CiAgICAgIDxidXR0b24gY2xhc3M9ImNhdC10YWIgYXciIGRhdGEtY2F0PSLsl4XrrLQiIG9uY2xpY2s9InNlbGVjdENhdCh0aGlzLCfsl4XrrLQnKSI+8J+SvCDsl4XrrLQ8L2J1dHRvbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iY2F0LXRhYiIgICBkYXRhLWNhdD0i6rCc7J24IiBvbmNsaWNrPSJzZWxlY3RDYXQodGhpcywn6rCc7J24JykiPvCfj6Ag6rCc7J24PC9idXR0b24+CiAgICAgIDxidXR0b24gY2xhc3M9ImNhdC10YWIiICAgZGF0YS1jYXQ9Iu2VmeyKtSIgb25jbGljaz0ic2VsZWN0Q2F0KHRoaXMsJ+2VmeyKtScpIj7wn5OaIO2VmeyKtTwvYnV0dG9uPgogICAgPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJpbnB1dC1yb3ciPgogICAgICA8aW5wdXQgY2xhc3M9InRvZG8taW5wdXQiIGlkPSJ0b2RvSW5wdXQiIHR5cGU9InRleHQiCiAgICAgICAgICAgICBwbGFjZWhvbGRlcj0i7Jik64qYIO2VoCDsnbzsnYQg7J6F66Cl7ZWY6rOgIEVudGVy4oCmIiBtYXhsZW5ndGg9IjYwIgogICAgICAgICAgICAgb25pbnB1dD0idXBkYXRlQ2hhckhpbnQodGhpcykiPgogICAgICA8c3BhbiBjbGFzcz0iY2hhci1oaW50IiBpZD0iY2hhckhpbnQiPjwvc3Bhbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuLWFkZCIgb25jbGljaz0iYWRkVG9kbygpIj7vvIsg7LaU6rCAPC9idXR0b24+CiAgICA8L2Rpdj4KICA8L2Rpdj4KCiAgPCEtLSDtlYTthLAg67CUIC0tPgogIDxkaXYgY2xhc3M9ImZpbHRlci1yb3ciPgogICAgPGJ1dHRvbiBjbGFzcz0iZmlsdGVyLWJ0biBhY3RpdmUiIGRhdGEtZj0iYWxsIiAgICAgb25jbGljaz0ic2V0RmlsdGVyKHRoaXMsJ2FsbCcpIj7soITssrQgPHNwYW4gY2xhc3M9ImZpbHRlci1jb3VudCIgaWQ9ImNudC1hbGwiPjA8L3NwYW4+PC9idXR0b24+CiAgICA8YnV0dG9uIGNsYXNzPSJmaWx0ZXItYnRuIiAgICAgICAgZGF0YS1mPSLsl4XrrLQiICAgIG9uY2xpY2s9InNldEZpbHRlcih0aGlzLCfsl4XrrLQnKSI+8J+SvCDsl4XrrLQgPHNwYW4gY2xhc3M9ImZpbHRlci1jb3VudCIgaWQ9ImNudC3sl4XrrLQiPjA8L3NwYW4+PC9idXR0b24+CiAgICA8YnV0dG9uIGNsYXNzPSJmaWx0ZXItYnRuIiAgICAgICAgZGF0YS1mPSLqsJzsnbgiICAgIG9uY2xpY2s9InNldEZpbHRlcih0aGlzLCfqsJzsnbgnKSI+8J+PoCDqsJzsnbggPHNwYW4gY2xhc3M9ImZpbHRlci1jb3VudCIgaWQ9ImNudC3qsJzsnbgiPjA8L3NwYW4+PC9idXR0b24+CiAgICA8YnV0dG9uIGNsYXNzPSJmaWx0ZXItYnRuIiAgICAgICAgZGF0YS1mPSLtlZnsirUiICAgIG9uY2xpY2s9InNldEZpbHRlcih0aGlzLCftlZnsirUnKSI+8J+TmiDtlZnsirUgPHNwYW4gY2xhc3M9ImZpbHRlci1jb3VudCIgaWQ9ImNudC3tlZnsirUiPjA8L3NwYW4+PC9idXR0b24+CiAgICA8YnV0dG9uIGNsYXNzPSJmaWx0ZXItYnRuIiAgICAgICAgZGF0YS1mPSJkb25lIiAgICBvbmNsaWNrPSJzZXRGaWx0ZXIodGhpcywnZG9uZScpIj7inIUg7JmE66OMIDxzcGFuIGNsYXNzPSJmaWx0ZXItY291bnQiIGlkPSJjbnQtZG9uZSI+MDwvc3Bhbj48L2J1dHRvbj4KICAgIDxkaXYgY2xhc3M9InNwYWNlciI+PC9kaXY+CiAgICA8YnV0dG9uIGNsYXNzPSJidG4tY2xlYXIiIGlkPSJidG5DbGVhciIgb25jbGljaz0iY2xlYXJEb25lKCkiPuyZhOujjCDtla3rqqkg7IKt7KCcPC9idXR0b24+CiAgPC9kaXY+CgogIDwhLS0g66qp66GdIC0tPgogIDxkaXYgY2xhc3M9Imxpc3QtaGVhZGVyIj4KICAgIDxzcGFuIGNsYXNzPSJsaXN0LWluZm8iIGlkPSJsaXN0SW5mbyI+PC9zcGFuPgogIDwvZGl2PgogIDxkaXYgY2xhc3M9InRvZG8tbGlzdCIgaWQ9InRvZG9MaXN0Ij48L2Rpdj4KPC9kaXY+Cgo8IS0tIOyZhOyEsSDstpXtlZggLS0+CjxkaXYgY2xhc3M9ImNlbGVicmF0ZSIgaWQ9ImNlbGVicmF0ZSI+CiAgPGRpdiBjbGFzcz0iY2VsZWJyYXRlLWJveCI+CiAgICA8ZGl2IGNsYXNzPSJjZWxlYnJhdGUtaWNvbiI+8J+OiTwvZGl2PgogICAgPGRpdiBjbGFzcz0iY2VsZWJyYXRlLXRpdGxlIj7rqqjrkZAg7JmE66OMITwvZGl2PgogICAgPGRpdiBjbGFzcz0iY2VsZWJyYXRlLXN1YiI+7Jik64qYIO2VoCDsnbzsnYQg7KCE67aAIOuniOyzpOyWtOyalC48YnI+7IiY6rOg7ZWY7IWo7Iq164uI64ukISDwn4+GPC9kaXY+CiAgPC9kaXY+CjwvZGl2PgoKPCEtLSDthqDsiqTtirggLS0+CjxkaXYgY2xhc3M9InRvYXN0IiBpZD0idG9hc3QiPjwvZGl2PgoKPHNjcmlwdD4KLy8g4pSA4pSAIOyDmO2UjCDrjbDsnbTthLAgKOyymOydjCDsi6Ttlokg7Iuc66eMIOyggeyaqSkg4pSA4pSACmNvbnN0IFNBTVBMRSA9IFsKICB7aWQ6MSwgdGV4dDon7YyAIOyjvOqwhCDtmozsnZgg7J6Q66OMIOykgOu5hCcsICAgICAgICAgIGNhdDon7JeF66y0JywgZG9uZTp0cnVlfSwKICB7aWQ6MiwgdGV4dDon6rGw656Y7LKYIOydtOuplOydvCDtmozsi6DtlZjquLAnLCAgICAgICAgICAgY2F0Oifsl4XrrLQnLCBkb25lOmZhbHNlfSwKICB7aWQ6MywgdGV4dDon7JuU6rCEIOuztOqzoOyEnCDstIjslYgg7J6R7ISxJywgICAgICAgICAgICBjYXQ6J+yXheustCcsIGRvbmU6ZmFsc2V9LAogIHtpZDo0LCB0ZXh0OifquLDtmo3slYgg6rKA7YagIOuwjyDtlLzrk5zrsLEg66mU66qoJywgICAgICAgY2F0Oifsl4XrrLQnLCBkb25lOmZhbHNlfSwKICB7aWQ6NSwgdGV4dDon7KCQ7IusIOyatOuPmSAzMOu2hCAo7Zes7Iqk7J6lKScsICAgICAgICAgIGNhdDon6rCc7J24JywgZG9uZTp0cnVlfSwKICB7aWQ6NiwgdGV4dDon64+F7IScIDIw7Y6Y7J207KeAJywgICAgICAgICAgICAgICAgICAgY2F0OifqsJzsnbgnLCBkb25lOmZhbHNlfSwKICB7aWQ6NywgdGV4dDon7J6lIOuztOq4sCDigJQg7LGE7IaMwrfqs7zsnbzCt+yasOycoCcsICAgICAgICBjYXQ6J+qwnOyduCcsIGRvbmU6ZmFsc2V9LAogIHtpZDo4LCB0ZXh0OidKYXZhU2NyaXB0IOuwsOyXtCDrqZTshJzrk5wg67O17Iq1JywgICAgICBjYXQ6J+2VmeyKtScsIGRvbmU6dHJ1ZX0sCiAge2lkOjksIHRleHQ6J0NTUyBHcmlkIOugiOydtOyVhOybgyDsi6TsirUnLCAgICAgICAgICAgY2F0OiftlZnsirUnLCBkb25lOmZhbHNlfSwKICB7aWQ6MTAsdGV4dDonR2l0SHVi7JeQIOyYpOuKmCDsnpHsl4Ug7Luk67CL7ZWY6riwJywgICAgICBjYXQ6J+2VmeyKtScsIGRvbmU6ZmFsc2V9LApdOwoKbGV0IF9sc09rID0gdHJ1ZTsKZnVuY3Rpb24gbHNHZXQoayl7IHRyeXsgcmV0dXJuIGxvY2FsU3RvcmFnZS5nZXRJdGVtKGspOyB9Y2F0Y2goZSl7IF9sc09rPWZhbHNlOyByZXR1cm4gbnVsbDsgfSB9CmZ1bmN0aW9uIGxzU2V0KGssdil7IHRyeXsgaWYoX2xzT2spIGxvY2FsU3RvcmFnZS5zZXRJdGVtKGssdik7IH1jYXRjaChlKXsgX2xzT2s9ZmFsc2U7IH0gfQpjb25zdCBSQVcgPSBsc0dldCgndG9kb3NfdjInKTsKbGV0IHRvZG9zID0gUkFXID8gSlNPTi5wYXJzZShSQVcpIDogU0FNUExFLm1hcCh0PT4oey4uLnQsIGlkOnQuaWQqMTAwMH0pKTsKbGV0IHNlbGVjdGVkQ2F0ID0gJ+yXheustCc7CmxldCBjdXJyZW50RmlsdGVyID0gJ2FsbCc7CmxldCBjZWxlYnJhdGVkID0gZmFsc2U7CgovLyDilIDilIAg64Kg7KecIOKUgOKUgAooZnVuY3Rpb24gc2hvd0RhdGUoKXsKICBjb25zdCBkID0gbmV3IERhdGUoKTsKICBjb25zdCBkYXlzID0gWyfsnbwnLCfsm5QnLCftmZQnLCfsiJgnLCfrqqknLCfquIgnLCfthqAnXTsKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndG9kYXlEYXRlJykudGV4dENvbnRlbnQgPQogICAgZC5nZXRGdWxsWWVhcigpKyfrhYQgJysoZC5nZXRNb250aCgpKzEpKyfsm5QgJytkLmdldERhdGUoKSsn7J28ICgnK2RheXNbZC5nZXREYXkoKV0rJyknOwp9KSgpOwoKLy8g4pSA4pSAIOq4gOyekOyImCDtnoztirgg4pSA4pSACmZ1bmN0aW9uIHVwZGF0ZUNoYXJIaW50KGVsKXsKICBjb25zdCBuID0gZWwudmFsdWUubGVuZ3RoOwogIGNvbnN0IGhpbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY2hhckhpbnQnKTsKICBoaW50LnRleHRDb250ZW50ID0gbiA+IDAgPyBuKycvNjAnIDogJyc7CiAgaGludC5zdHlsZS5jb2xvciA9IG4gPj0gNTAgPyAnI2Y1OWUwYicgOiAnIzk0YTNiOCc7Cn0KCi8vIOKUgOKUgCDsubTthYzqs6Drpqwg7ISg7YOdIOKUgOKUgApmdW5jdGlvbiBzZWxlY3RDYXQoYnRuLCBjYXQpewogIHNlbGVjdGVkQ2F0ID0gY2F0OwogIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5jYXQtdGFiJykuZm9yRWFjaCh0ID0+IHQuY2xhc3NOYW1lID0gJ2NhdC10YWInKTsKICBidG4uY2xhc3NOYW1lID0gJ2NhdC10YWIgJyArIChjYXQ9PT0n7JeF66y0Jz8nYXcnOmNhdD09PSfqsJzsnbgnPydhcCc6J2FzJyk7Cn0KCi8vIOKUgOKUgCDtlYTthLAg4pSA4pSACmZ1bmN0aW9uIHNldEZpbHRlcihidG4sIGYpewogIGN1cnJlbnRGaWx0ZXIgPSBmOwogIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5maWx0ZXItYnRuJykuZm9yRWFjaChiID0+IGIuY2xhc3NMaXN0LnJlbW92ZSgnYWN0aXZlJykpOwogIGJ0bi5jbGFzc0xpc3QuYWRkKCdhY3RpdmUnKTsKICByZW5kZXIoKTsKfQoKLy8g4pSA4pSAIOy2lOqwgCDilIDilIAKZnVuY3Rpb24gYWRkVG9kbygpewogIGNvbnN0IGlucCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0b2RvSW5wdXQnKTsKICBjb25zdCB0ZXh0ID0gaW5wLnZhbHVlLnRyaW0oKTsKICBpZiAoIXRleHQpeyBzaG93VG9hc3QoJ+2VoCDsnbzsnYQg7J6F66Cl7ZW0IOyjvOyEuOyalCEg4pyP77iPJywnd2FybicpOyByZXR1cm47IH0KICB0b2Rvcy51bnNoaWZ0KHtpZDogRGF0ZS5ub3coKSwgdGV4dCwgY2F0OiBzZWxlY3RlZENhdCwgZG9uZTogZmFsc2V9KTsKICBpbnAudmFsdWUgPSAnJzsKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY2hhckhpbnQnKS50ZXh0Q29udGVudCA9ICcnOwogIHNhdmUoKTsgcmVuZGVyKCk7CiAgc2hvd1RvYXN0KCfstpTqsIDrkJDslrTsmpQhIOKchScsJ3N1Y2Nlc3MnKTsKfQoKLy8g4pSA4pSAIOyZhOujjCDthqDquIAg4pSA4pSACmZ1bmN0aW9uIHRvZ2dsZURvbmUoaWQpewogIGNvbnN0IHQgPSB0b2Rvcy5maW5kKHQ9PnQuaWQ9PT1pZCk7CiAgaWYoIXQpIHJldHVybjsKICB0LmRvbmUgPSAhdC5kb25lOwogIHNhdmUoKTsgcmVuZGVyKCk7CiAgaWYodC5kb25lKSBzaG93VG9hc3QoJ+yZhOujjCDsspjrpqzrkJDsirXri4jri6Qg8J+OrycsJ3N1Y2Nlc3MnKTsKfQoKLy8g4pSA4pSAIOyCreygnCAo7JWg64uI66mU7J207IWYIO2PrO2VqCkg4pSA4pSACmZ1bmN0aW9uIGRlbGV0ZVRvZG8oaWQpewogIGNvbnN0IGVsID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcignW2RhdGEtaWQ9IicraWQrJyJdJyk7CiAgaWYoZWwpeyBlbC5jbGFzc0xpc3QuYWRkKCdyZW1vdmluZycpOyB9CiAgc2V0VGltZW91dCgoKT0+ewogICAgdG9kb3MgPSB0b2Rvcy5maWx0ZXIodD0+dC5pZCE9PWlkKTsKICAgIHNhdmUoKTsgcmVuZGVyKCk7CiAgICBzaG93VG9hc3QoJ+yCreygnOuQkOyKteuLiOuLpC4nKTsKICB9LCAyODApOwp9CgovLyDilIDilIAg7JmE66OMIO2VreuqqSDsnbzqtIQg7IKt7KCcIOKUgOKUgApmdW5jdGlvbiBjbGVhckRvbmUoKXsKICBjb25zdCBjbnQgPSB0b2Rvcy5maWx0ZXIodD0+dC5kb25lKS5sZW5ndGg7CiAgaWYoIWNudCl7IHNob3dUb2FzdCgn7JmE66OM65CcIO2VreuqqeydtCDsl4bsirXri4jri6QuJyk7IHJldHVybjsgfQogIHRvZG9zID0gdG9kb3MuZmlsdGVyKHQ9PiF0LmRvbmUpOwogIHNhdmUoKTsgcmVuZGVyKCk7CiAgc2hvd1RvYXN0KGNudCsn6rCcIOyZhOujjCDtla3rqqnsnYQg7IKt7KCc7ZaI7Iq164uI64ukLicsJ3N1Y2Nlc3MnKTsKfQoKLy8g4pSA4pSAIOyggOyepSDilIDilIAKZnVuY3Rpb24gc2F2ZSgpeyBsc1NldCgndG9kb3NfdjInLCBKU09OLnN0cmluZ2lmeSh0b2RvcykpOyB9CgovLyDilIDilIAg66CM642U66eBIOKUgOKUgApmdW5jdGlvbiByZW5kZXIoKXsKICBjb25zdCBkb25lICA9IHRvZG9zLmZpbHRlcih0PT50LmRvbmUpLmxlbmd0aDsKICBjb25zdCB0b3RhbCA9IHRvZG9zLmxlbmd0aDsKICBjb25zdCBwZW5kaW5nID0gdG90YWwgLSBkb25lOwogIGNvbnN0IHBjdCA9IHRvdGFsPT09MCA/IDAgOiBNYXRoLnJvdW5kKGRvbmUvdG90YWwqMTAwKTsKCiAgLy8g7Zek642UIO2GteqzhAogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzdGF0UGVuZGluZycpLnRleHRDb250ZW50ID0gcGVuZGluZzsKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc3RhdERvbmUnKS50ZXh0Q29udGVudCAgICA9IGRvbmU7CiAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3N0YXRUb3RhbCcpLnRleHRDb250ZW50ICAgPSB0b3RhbDsKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncHJvZ3Jlc3NCYXInKS5zdHlsZS53aWR0aCA9IHBjdCsnJSc7CiAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3BjdFRleHQnKS50ZXh0Q29udGVudCAgICAgPSBwY3QrJyUnOwogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwY3RNc2cnKS50ZXh0Q29udGVudCA9CiAgICB0b3RhbD09PTAgPyAn7ZWgIOydvOydhCDstpTqsIDtlbQg67O07IS47JqUIScgOgogICAgcGN0PT09MTAwID8gJ/Cfjokg66qo65GQIOyZhOujjCEg7IiY6rOg7ZWY7IWo7Iq164uI64ukIScgOgogICAgcGVuZGluZysn6rCcIOuCqOydjCAoJytkb25lKycvJyt0b3RhbCsnKSc7CgogIC8vIOy2le2VmCDtmqjqs7wgKDEwMCUg64us7ISxIOy1nOy0iCAx7ZqMKQogIGlmKHBjdD09PTEwMCAmJiB0b3RhbD4wICYmICFjZWxlYnJhdGVkKXsKICAgIGNlbGVicmF0ZWQgPSB0cnVlOwogICAgY29uc3QgY2VsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NlbGVicmF0ZScpOwogICAgY2VsLmNsYXNzTGlzdC5hZGQoJ3Nob3cnKTsKICAgIHNldFRpbWVvdXQoKCk9PmNlbC5jbGFzc0xpc3QucmVtb3ZlKCdzaG93JyksIDI2MDApOwogIH0KICBpZihwY3Q8MTAwKSBjZWxlYnJhdGVkID0gZmFsc2U7CgogIC8vIO2VhO2EsCDsubTsmrTtirgKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY250LWFsbCcpLnRleHRDb250ZW50ICA9IHRvdGFsOwogIFsn7JeF66y0Jywn6rCc7J24Jywn7ZWZ7Iq1J10uZm9yRWFjaChjPT57CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY250LScrYykudGV4dENvbnRlbnQgPSB0b2Rvcy5maWx0ZXIodD0+dC5jYXQ9PT1jKS5sZW5ndGg7CiAgfSk7CiAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NudC1kb25lJykudGV4dENvbnRlbnQgPSBkb25lOwoKICAvLyDsmYTro4wg7J286rSE7IKt7KCcIOuyhO2KvAogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdidG5DbGVhcicpLmNsYXNzTGlzdC50b2dnbGUoJ3Zpc2libGUnLCBkb25lID4gMCk7CgogIC8vIO2VhO2EsCDsoIHsmqkgKOyZhOujjCDtla3rqqnsnYAg66eoIOyVhOuemCkKICBsZXQgZmlsdGVyZWQgPSBbLi4udG9kb3NdOwogIGlmKGN1cnJlbnRGaWx0ZXI9PT0nZG9uZScpICAgICAgIGZpbHRlcmVkID0gdG9kb3MuZmlsdGVyKHQ9PnQuZG9uZSk7CiAgZWxzZSBpZihjdXJyZW50RmlsdGVyIT09J2FsbCcpICAgZmlsdGVyZWQgPSB0b2Rvcy5maWx0ZXIodD0+dC5jYXQ9PT1jdXJyZW50RmlsdGVyKTsKICBmaWx0ZXJlZC5zb3J0KChhLGIpPT4gYS5kb25lPT09Yi5kb25lID8gMCA6IGEuZG9uZSA/IDEgOiAtMSk7CgogIC8vIOuqqeuhnSBpbmZvCiAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xpc3RJbmZvJykudGV4dENvbnRlbnQgPQogICAgY3VycmVudEZpbHRlcj09PSdhbGwnICAgID8gJ+y0nSAnK3RvdGFsKyfqsJwg7ZWg7J28JyA6CiAgICBjdXJyZW50RmlsdGVyPT09J2RvbmUnICAgPyAn7JmE66OMICcrZG9uZSsn6rCcJyA6CiAgICBjdXJyZW50RmlsdGVyKyfsubTthYzqs6DrpqwgJytmaWx0ZXJlZC5sZW5ndGgrJ+qwnCc7CgogIC8vIOuqqeuhnSDroIzrjZQKICBjb25zdCBsaXN0ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3RvZG9MaXN0Jyk7CiAgaWYoZmlsdGVyZWQubGVuZ3RoPT09MCl7CiAgICBjb25zdCBtc2dzID0gewogICAgICBhbGw6ICBbJ/Cfk50nLCfrk7HroZ3rkJwg7ZWg7J287J20IOyXhuyKteuLiOuLpCcsJ+ychOyXkOyEnCDsmKTripjsnZgg7ZWg7J287J2EIOy2lOqwgO2VtCDrs7TshLjsmpQhJ10sCiAgICAgIGRvbmU6IFsn8J+OrycsJ+yZhOujjO2VnCDtla3rqqnsnbQg7JeG7Iq164uI64ukJywn7LK07YGs67KE7Yq87J2EIOuIjOufrCDsmYTro4wg7LKY66as7ZWY7IS47JqULiddLAogICAgfTsKICAgIGNvbnN0IG0gPSBtc2dzW2N1cnJlbnRGaWx0ZXJdIHx8IFsn8J+UjScsJ+ydtCDsubTthYzqs6DrpqzripQg67mE7JeI7Iq164uI64ukJywn7JyE7JeQ7IScIO2VoOydvOydhCDstpTqsIDtlZjshLjsmpQuJ107CiAgICBsaXN0LmlubmVySFRNTCA9IGA8ZGl2IGNsYXNzPSJlbXB0eS1zdGF0ZSI+PGRpdiBjbGFzcz0iZW1wdHktaWNvbiI+JHttWzBdfTwvZGl2PjxkaXYgY2xhc3M9ImVtcHR5LXRpdGxlIj4ke21bMV19PC9kaXY+PGRpdiBjbGFzcz0iZW1wdHktc3ViIj4ke21bMl19PC9kaXY+PC9kaXY+YDsKICAgIHJldHVybjsKICB9CgogIGNvbnN0IGNhdENsYXNzID0geyfsl4XrrLQnOidjYXQtd29yay1pdGVtJywn6rCc7J24JzonY2F0LXBlcnNvbmFsLWl0ZW0nLCftlZnsirUnOidjYXQtc3R1ZHktaXRlbSd9OwogIGNvbnN0IGNhdEJhZGdlID0geyfsl4XrrLQnOididycsJ+qwnOyduCc6J2JwJywn7ZWZ7Iq1JzonYnMnfTsKICBjb25zdCBjYXRJY29uICA9IHsn7JeF66y0Jzon8J+SvCcsJ+qwnOyduCc6J/Cfj6AnLCftlZnsirUnOifwn5OaJ307CgogIGxpc3QuaW5uZXJIVE1MID0gZmlsdGVyZWQubWFwKHQ9PmAKICAgIDxkaXYgY2xhc3M9InRvZG8taXRlbSAke2NhdENsYXNzW3QuY2F0XX0gJHt0LmRvbmU/J2RvbmUtaXRlbSc6Jyd9IiBkYXRhLWlkPSIke3QuaWR9Ij4KICAgICAgPGJ1dHRvbiBjbGFzcz0idG9kby1jaGVjayAke3QuZG9uZT8nY2hlY2tlZCc6Jyd9IiBvbmNsaWNrPSJ0b2dnbGVEb25lKCR7dC5pZH0pIiB0aXRsZT0iJHt0LmRvbmU/J+uvuOyZhOujjOuhnCDrs4Dqsr0nOifsmYTro4wg7LKY66asJ30iPiR7dC5kb25lPyfinJMnOicnfTwvYnV0dG9uPgogICAgICA8c3BhbiBjbGFzcz0idG9kby10ZXh0Ij4ke2VzY0h0bWwodC50ZXh0KX08L3NwYW4+CiAgICAgIDxzcGFuIGNsYXNzPSJjYXQtYmFkZ2UgJHtjYXRCYWRnZVt0LmNhdF19Ij4ke2NhdEljb25bdC5jYXRdfSAke3QuY2F0fTwvc3Bhbj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iYnRuLWRlbCIgb25jbGljaz0iZGVsZXRlVG9kbygke3QuaWR9KSIgdGl0bGU9IuyCreygnCI+4pyVPC9idXR0b24+CiAgICA8L2Rpdj5gKS5qb2luKCcnKTsKfQoKZnVuY3Rpb24gZXNjSHRtbChzKXsKICByZXR1cm4gcy5yZXBsYWNlKC8mL2csJyZhbXA7JykucmVwbGFjZSgvPC9nLCcmbHQ7JykucmVwbGFjZSgvPi9nLCcmZ3Q7JykucmVwbGFjZSgvIi9nLCcmcXVvdDsnKTsKfQoKLy8g4pSA4pSAIO2GoOyKpO2KuCDilIDilIAKbGV0IHRvYXN0VDsKZnVuY3Rpb24gc2hvd1RvYXN0KG1zZyx0eXBlKXsKICBjbGVhclRpbWVvdXQodG9hc3RUKTsKICBjb25zdCBlbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0b2FzdCcpOwogIGVsLnRleHRDb250ZW50ID0gbXNnOwogIGVsLmNsYXNzTmFtZSA9ICd0b2FzdCBzaG93JysodHlwZT8nICcrdHlwZTonJyk7CiAgdG9hc3RUID0gc2V0VGltZW91dCgoKT0+ZWwuY2xhc3NOYW1lPSd0b2FzdCcsIDIyMDApOwp9CgovLyDilIDilIAg7YKk67O065OcIOKUgOKUgApkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndG9kb0lucHV0JykuYWRkRXZlbnRMaXN0ZW5lcigna2V5ZG93bicsZT0+ewogIGlmKGUua2V5PT09J0VudGVyJykgYWRkVG9kbygpOwp9KTsKCnJlbmRlcigpOwo8L3NjcmlwdD4KPC9ib2R5Pgo8L2h0bWw+Cg==';
+</script>
+</body>
+</html>
