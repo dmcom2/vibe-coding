@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<!-- 중급 과정 최종 과제 실습 교재 — 팀 프로젝트 현황 대시보드 (Node.js + Gemini AI 반영) -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>중급 최종 과제 — 팀 프로젝트 현황 대시보드</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --blue:#3b82f6;--blue-dk:#1d4ed8;--blue-lt:#dbeafe;
+  --text:#1e293b;--sub:#64748b;--surface:#f8fafc;
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'맑은 고딕','Segoe UI',sans-serif;}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease;transform:translateX(60px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit{opacity:0;transform:translateX(-60px);}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#1d4ed8,#3b82f6,#93c5fd);transition:width .35s ease;z-index:999;}
+.nav{position:fixed;bottom:28px;right:36px;display:flex;align-items:center;gap:12px;z-index:999;}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.43rem;font-weight:700;background:rgba(255,255,255,.9);color:var(--blue);box-shadow:0 2px 12px rgba(0,0,0,.15);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:var(--blue);color:#fff;transform:scale(1.08);}
+.nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+.slide-counter{background:rgba(255,255,255,.9);color:var(--sub);padding:6px 14px;border-radius:20px;font-size:1.04rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.nav-dots{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;z-index:999;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.15);max-width:min(78vw,640px);overflow-x:auto;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;flex-shrink:0;padding:0;transition:all .25s ease;}
+.nav-dot:hover{background:#94a3b8;}
+.nav-dot.active{width:22px;border-radius:5px;background:var(--blue);}
+
+/* 슬라이드 타입 */
+.s-title{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 40%,#3b82f6 100%);align-items:center;justify-content:center;text-align:center;color:#fff;}
+.s-title .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 20px;border-radius:20px;font-size:1.07rem;font-weight:700;margin-bottom:28px;display:inline-block;}
+.s-title h1{font-size:clamp(2.2rem,6vw,3.4rem);font-weight:900;line-height:1.2;margin-bottom:20px;}
+.s-title h1 span{color:#93c5fd;}
+.s-title p{font-size:1.25rem;opacity:.82;margin-bottom:36px;}
+.meta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.meta-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:10px 22px;border-radius:12px;font-size:1.1rem;font-weight:600;}
+.s-content{background:var(--surface);}
+.s-grad{background:linear-gradient(150deg,#eff6ff,#dbeafe);}
+.s-dark{background:#0f1e36;color:#bfdbfe;}
+.s-end{background:linear-gradient(135deg,#0f172a,#1e3a8a,#3b82f6,#93c5fd);align-items:center;justify-content:center;text-align:center;color:#fff;}
+
+.slide-header{padding:34px 68px 22px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:14px;}
+.s-dark .slide-header{border-bottom:1px solid rgba(255,255,255,.1);}
+.slide-header .icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.54rem;flex-shrink:0;}
+.slide-header h2{font-size:1.85rem;font-weight:800;color:var(--text);}
+.s-dark .slide-header h2{color:#bfdbfe;}
+.slide-header p{font-size:1.1rem;color:var(--sub);margin-top:2px;}
+.s-dark .slide-header p{color:#93c5fd;}
+.slide-body{flex:1;padding:28px 68px 140px;overflow-y:auto;}
+
+/* 카드 스타일 */
+.concept-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.concept-card{background:#fff;border-radius:13px;padding:22px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.concept-card .cc-icon{font-size:2rem;margin-bottom:8px;}
+.concept-card h3{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.concept-card p{font-size:1.1rem;color:var(--sub);line-height:1.65;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+.step-list{display:flex;flex-direction:column;gap:10px;}
+.step-item{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:11px;padding:15px 20px;border:1px solid #e2e8f0;}
+.step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;color:#fff;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;}
+.s1-num{background:linear-gradient(135deg,#0d9488,#14b8a6);}
+.s2-num{background:linear-gradient(135deg,#0369a1,#0284c7);}
+.s3-num{background:linear-gradient(135deg,#7c3aed,#8b5cf6);}
+.step-item h4{font-size:1.18rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.step-item p{font-size:1.08rem;color:var(--sub);}
+.step-item code{background:var(--blue-lt);color:var(--blue-dk);padding:1px 6px;border-radius:4px;font-size:.97rem;}
+.check-list{display:flex;flex-direction:column;gap:10px;}
+.check-item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:9px;padding:13px 17px;border:1px solid #e2e8f0;font-size:1.1rem;font-weight:600;color:var(--text);}
+.check-box{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--blue),#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;flex-shrink:0;}
+.check-box.teal{background:linear-gradient(135deg,#0d9488,#14b8a6);}
+.check-box.purple{background:linear-gradient(135deg,#7c3aed,#8b5cf6);}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.mission-card{border-radius:13px;padding:20px;}
+.m1{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #93c5fd;}
+.m2{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1px solid #c4b5fd;}
+.m3{background:linear-gradient(135deg,#fefce8,#fef08a40);border:1px solid #fde047;}
+.mission-card .m-star{font-size:1.3rem;margin-bottom:6px;}
+.mission-card h3{font-size:1.12rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+.mission-card p{font-size:1rem;color:var(--sub);line-height:1.55;}
+
+/* 기능 명세 */
+.section-label{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-dk);margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid var(--blue-lt);}
+.spec-list{display:flex;flex-direction:column;gap:8px;}
+.spec-item{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:10px;padding:11px 14px;border:1px solid #e2e8f0;border-left:3px solid var(--blue);}
+.spec-item.teal{border-left-color:#0d9488;}
+.spec-item.purple{border-left-color:#7c3aed;}
+.spec-icon{font-size:1.15rem;flex-shrink:0;margin-top:1px;}
+.spec-title{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.spec-desc{font-size:.86rem;color:var(--sub);line-height:1.55;}
+
+/* 기술 매핑 표 */
+.skill-table{width:100%;border-collapse:collapse;font-size:1.03rem;}
+.skill-table th{background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;padding:10px 14px;text-align:left;font-weight:700;}
+.skill-table td{padding:10px 14px;border-bottom:1px solid #e2e8f0;color:var(--text);}
+.skill-table tr:nth-child(even) td{background:#f8fafc;}
+.skill-table tr:hover td{background:var(--blue-lt);}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.8rem;font-weight:700;margin:1px 2px;}
+.tag-b{background:#dbeafe;color:#1d4ed8;}
+.tag-p{background:#ede9fe;color:#7c3aed;}
+.tag-g{background:#d1fae5;color:#065f46;}
+.tag-y{background:#fef3c7;color:#b45309;}
+.tag-r{background:#fee2e2;color:#b91c1c;}
+.tag-t{background:#ccfbf1;color:#0f766e;}
+
+/* 프롬프트 박스 */
+.prompt-box{background:#042f2e;border-radius:12px;padding:16px 20px;margin-top:14px;}
+.prompt-box .pb-label{font-size:0.8rem;font-weight:800;letter-spacing:.1em;color:#5eead4;margin-bottom:10px;}
+.prompt-box pre{font-family:'맑은 고딕','Segoe UI',sans-serif;font-size:0.95rem;color:#a7f3d0;line-height:1.85;white-space:pre-wrap;max-height:clamp(180px,38vh,380px);overflow-y:auto;}
+.prompt-copy-btn{float:right;margin-top:-4px;padding:4px 12px;border-radius:6px;border:1px solid #5eead4;background:transparent;color:#5eead4;font-size:0.8rem;font-weight:700;cursor:pointer;transition:all .18s;}
+.prompt-copy-btn:hover{background:#5eead4;color:#042f2e;}
+.prompt-copy-btn.copied{background:#059669;border-color:#059669;color:#fff;}
+.warn-note{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:10px 16px;font-size:1rem;color:#92400e;line-height:1.65;margin-top:12px;}
+
+/* 마무리 슬라이드 */
+.s-end h2{font-size:2.4rem;font-weight:900;margin-bottom:14px;}
+.s-end h2 span{color:#93c5fd;}
+.s-end p{font-size:1.2rem;opacity:.85;margin-bottom:16px;max-width:580px;line-height:1.7;}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;max-width:680px;}
+.sg{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:11px;padding:14px 10px;font-size:1rem;font-weight:600;}
+.sg .sg-num{font-size:1.5rem;font-weight:900;color:#93c5fd;}
+.next-hint{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:12px 28px;border-radius:13px;font-size:1.1rem;display:inline-flex;align-items:center;gap:10px;}
+.result-link{position:absolute;top:30px;right:36px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.49rem;color:#fff;text-decoration:none;cursor:pointer;transition:all .2s;}
+.result-link:hover{background:rgba(255,255,255,.25);transform:scale(1.08);}
+.result-link-tip{position:absolute;top:86px;right:36px;font-size:0.86rem;color:rgba(255,255,255,.55);letter-spacing:.03em;}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="deck">
+
+<!-- S1 표지 -->
+<div class="slide s-title active">
+  <a class="result-link" href="index.html" target="_blank" title="완성품 보기">🔗</a>
+  <div class="result-link-tip">완성품 보기</div>
+  <div class="badge">바이브코딩 중급 과정 — 최종 과제</div>
+  <h1>팀 프로젝트 <span>현황 대시보드</span></h1>
+  <p>3단계로 쌓아 올리는 실전 프로젝트 — 칸반 보드 · 서버 저장 · Gemini AI</p>
+  <div class="meta-row">
+    <div class="meta-chip">🗂️ 칸반 보드</div>
+    <div class="meta-chip">🖥️ Node.js 서버</div>
+    <div class="meta-chip">📁 JSON 파일 저장</div>
+    <div class="meta-chip">🤖 Gemini AI 보고서</div>
+  </div>
+</div>
+
+<!-- S2 완성품 소개 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">🗂️</div>
+    <div><h2>오늘 만드는 것</h2><p>팀 업무를 칸반 보드로 관리하고 Gemini AI가 현황을 분석해 보고서를 자동 생성하는 대시보드</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="concept-cards">
+      <div class="concept-card"><div class="cc-icon">🗂️</div><h3>칸반 보드 (드래그 앤 드롭)</h3><p>할 일 / 진행 중 / 완료 3열로 업무 카드를 관리합니다. 카드를 드래그해서 열 사이를 이동합니다. 우선순위 배지, D-day, 담당자 아바타까지 표시됩니다.</p></div>
+      <div class="concept-card"><div class="cc-icon">📈</div><h3>Chart.js 차트 + 현황 사이드바</h3><p>도넛 차트로 상태별 업무 비율을 시각화합니다. 담당자별 진행률 바가 카드 변경 즉시 실시간으로 갱신됩니다.</p></div>
+      <div class="concept-card"><div class="cc-icon">🖥️</div><h3>Node.js 서버 + data.json 저장</h3><p>서버를 만들어 업무와 보고서 이력을 data.json 파일에 영구 저장합니다. 새로고침해도 데이터가 사라지지 않습니다. npm 패키지 설치는 불필요합니다.</p></div>
+      <div class="concept-card"><div class="cc-icon">🤖</div><h3>Gemini AI 보고서 + 이력 관리</h3><p>버튼 한 번으로 AI 현황 분석 보고서를 생성합니다. 보고서 이력이 사이드바에 자동 저장되고, 클릭해서 재열람할 수 있습니다. JSON 내보내기도 지원합니다.</p></div>
+    </div>
+    <div style="margin-top:14px;background:#0f172a;border-radius:12px;padding:13px 18px;display:flex;align-items:center;gap:16px;">
+      <span style="font-size:1.6rem;flex-shrink:0;">📁</span>
+      <p style="font-family:monospace;font-size:0.98rem;color:#5eead4;line-height:1.7;"><strong style="color:#a7f3d0;">최종 파일 구조</strong><br>index.html &nbsp;·&nbsp; server.js &nbsp;·&nbsp; .env &nbsp;·&nbsp; data.json (자동 생성) &nbsp;·&nbsp; start.bat</p>
+    </div>
+  </div>
+</div>
+
+<!-- S3 진행 순서 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;">🗺️</div>
+    <div><h2>과제 진행 순서 — 3단계</h2><p>각 단계마다 브라우저에서 직접 확인하고 다음 단계로 넘어가세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="step-list">
+      <div class="step-item"><div class="step-num s1-num">1</div><div><h4>1단계 — 칸반 보드 기본 틀 (index.html)</h4><p>서버 없이 브라우저에서 바로 열 수 있는 단일 HTML 파일. 3열 칸반 보드, 드래그 앤 드롭, 업무 추가 모달, Chart.js 도넛 차트, CSV 내보내기까지 완성.<br><span style="font-size:.95rem;color:#0d9488;font-weight:700;">→ index.html을 파일로 열어 칸반 보드가 보이면 성공</span></p></div></div>
+      <div class="step-item"><div class="step-num s2-num">2</div><div><h4>2단계 — Node.js 서버 + data.json 영구 저장</h4><p>server.js 생성. Node.js 내장 모듈(http, fs, path)만 사용 — npm install 불필요. GET/POST /api/data로 데이터를 파일에 영구 저장. node server.js로 실행.<br><span style="font-size:.95rem;color:#0369a1;font-weight:700;">→ 새로고침해도 데이터가 남으면 성공</span></p></div></div>
+      <div class="step-item"><div class="step-num s3-num">3</div><div><h4>3단계 — Gemini AI 보고서 생성 + 이력 관리</h4><p>Gemini API 프록시 추가. API 키는 서버의 .env에 보관 (브라우저에 노출 안 됨). 보고서 생성 → 이력 저장 → 클릭 재열람. JSON 내보내기 추가.<br><span style="font-size:.95rem;color:#7c3aed;font-weight:700;">→ AI 보고서가 생성되고 이력에 남으면 성공</span></p></div></div>
+    </div>
+    <div class="warn-note">💡 <strong>2단계부터는 서버 실행이 필요합니다.</strong> 터미널에서 <code style="background:#fef3c7;color:#b45309;padding:1px 6px;border-radius:4px;">node server.js</code> 실행 후 <strong>http://localhost:3002</strong> 접속. 또는 start.bat 더블클릭.</div>
+  </div>
+</div>
+
+<!-- S4 배운 기술 정리 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fef3c7;">🏆</div>
+    <div><h2>배운 기술 총정리</h2><p>중급 12개 실습에서 익힌 기술이 이 과제에 모두 담겨 있습니다</p></div>
+  </div>
+  <div class="slide-body">
+    <table class="skill-table">
+      <thead>
+        <tr><th>실습</th><th>배운 기술</th><th>이 과제에서 사용하는 곳</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>01 사내일정 칸반보드</td><td><span class="tag tag-b">칸반 UI</span><span class="tag tag-b">드래그&드롭</span></td><td>3열 칸반 보드 레이아웃 및 HTML5 draggable 카드 이동</td></tr>
+        <tr><td>02 부서별 예산 & 경비정산기</td><td><span class="tag tag-g">CRUD 관리</span><span class="tag tag-g">합계 계산</span></td><td>업무 카드 추가·수정·삭제 로직</td></tr>
+        <tr><td>03 실시간 환율 계산기</td><td><span class="tag tag-b">fetch API</span><span class="tag tag-b">async/await</span></td><td>GET /api/data, POST /api/data, POST /api/gemini 호출</td></tr>
+        <tr><td>04 이미지 압축 도구</td><td><span class="tag tag-p">FileReader</span><span class="tag tag-p">Canvas API</span></td><td>CSV·JSON 파일 생성 및 다운로드 처리</td></tr>
+        <tr><td>05 사내 제품 카탈로그 뷰어</td><td><span class="tag tag-b">카드 UI</span><span class="tag tag-g">필터·검색</span></td><td>업무 카드 디자인 및 담당자 필터·검색</td></tr>
+        <tr><td>06 고객응답 메일 템플릿 생성기</td><td><span class="tag tag-y">폼 설계</span><span class="tag tag-y">입력값 처리</span></td><td>업무 추가·수정 모달 폼</td></tr>
+        <tr><td>07 사내 IT FAQ 지식베이스</td><td><span class="tag tag-g">검색 필터링</span><span class="tag tag-b">JSON 데이터</span></td><td>담당자·우선순위 필터 기능, data.json 구조 설계</td></tr>
+        <tr><td>08 설문지 생성기</td><td><span class="tag tag-p">동적 UI 생성</span><span class="tag tag-p">결과 집계</span></td><td>현황 KPI 실시간 집계 (calcReportData)</td></tr>
+        <tr><td>09 월간 캘린더</td><td><span class="tag tag-b">Date 계산</span><span class="tag tag-b">이벤트 CRUD</span></td><td>마감일 계산 및 D-day 배지 표시</td></tr>
+        <tr><td>10 업무일지</td><td><span class="tag tag-g">날짜 필터링</span><span class="tag tag-t">Node.js fs</span></td><td>data.json 파일 읽기·쓰기 (readData / writeData)</td></tr>
+        <tr><td>11 견적서 생성기</td><td><span class="tag tag-y">서버 API</span><span class="tag tag-y">프록시 패턴</span></td><td>POST /api/gemini 서버 프록시로 API 키 보호</td></tr>
+        <tr><td>12 팀 업무 실적 대시보드</td><td><span class="tag tag-p">Chart.js</span><span class="tag tag-t">AI 연동</span></td><td>도넛 차트 + Gemini AI 보고서 생성 + 이력 관리</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S5 1단계: 칸반 보드 기본 틀 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ccfbf1;color:#0d9488;font-size:1.2rem;font-weight:900;">1</div>
+    <div><h2>1단계 — 칸반 보드 기본 틀 (index.html)</h2><p>완성품을 참고해서 직접 만들어 보세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="spec-list">
+      <div class="spec-item teal"><div class="spec-icon">📐</div><div><div class="spec-title">헤더 + 컨트롤 바</div></div></div>
+      <div class="spec-item teal"><div class="spec-icon">🗂️</div><div><div class="spec-title">3열 칸반 + 드래그 앤 드롭</div></div></div>
+      <div class="spec-item teal"><div class="spec-icon">🃏</div><div><div class="spec-title">업무 카드 (우선순위 배지 · 담당자 아바타 · D-day · 태그)</div></div></div>
+      <div class="spec-item teal"><div class="spec-icon">📊</div><div><div class="spec-title">우측 사이드바 (Chart.js 도넛 차트 · 담당자 현황 · AI 보고서 패널)</div></div></div>
+      <div class="spec-item teal"><div class="spec-icon">📝</div><div><div class="spec-title">업무 추가 / 수정 모달</div></div></div>
+      <div class="spec-item teal"><div class="spec-icon">📤</div><div><div class="spec-title">CSV 내보내기</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 2단계: Node.js 서버 + data.json -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#dbeafe;color:#0369a1;font-size:1.2rem;font-weight:900;">2</div>
+    <div><h2>2단계 — Node.js 서버 + data.json 영구 저장</h2><p>완성품을 참고해서 직접 만들어 보세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="spec-list">
+      <div class="spec-item" style="border-left-color:#0369a1;"><div class="spec-icon">🖥️</div><div><div class="spec-title">server.js — Node.js 내장 모듈만 사용 (http · fs · path · https)</div></div></div>
+      <div class="spec-item" style="border-left-color:#0369a1;"><div class="spec-icon">📁</div><div><div class="spec-title">data.json — tasks + reportHistory 단일 파일 저장</div></div></div>
+      <div class="spec-item" style="border-left-color:#0369a1;"><div class="spec-icon">🌐</div><div><div class="spec-title">API 엔드포인트 (GET /api/data · POST /api/data · GET /api/status)</div></div></div>
+      <div class="spec-item" style="border-left-color:#0369a1;"><div class="spec-icon">🔄</div><div><div class="spec-title">index.html 수정 — async init() + 디바운스 save() + localStorage 제거</div></div></div>
+      <div class="spec-item" style="border-left-color:#0369a1;"><div class="spec-icon">🚀</div><div><div class="spec-title">.env (PORT=3002) + start.bat</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 3단계: Gemini AI 보고서 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#ede9fe;color:#7c3aed;font-size:1.2rem;font-weight:900;">3</div>
+    <div><h2>3단계 — Gemini AI 보고서 생성 + 이력 관리</h2><p>완성품을 참고해서 직접 만들어 보세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="spec-list">
+      <div class="spec-item purple"><div class="spec-icon">🔑</div><div><div class="spec-title">.env에 GEMINI_API_KEY + GEMINI_MODEL 추가</div></div></div>
+      <div class="spec-item purple"><div class="spec-icon">🔐</div><div><div class="spec-title">POST /api/gemini — 서버 프록시 (API 키 브라우저 미노출)</div></div></div>
+      <div class="spec-item purple"><div class="spec-icon">📊</div><div><div class="spec-title">AI 보고서 생성 — KPI 4개 + 4개 섹션 모달 (API 미연결 시 토스트 후 중단)</div></div></div>
+      <div class="spec-item purple"><div class="spec-icon">📋</div><div><div class="spec-title">보고서 이력 — 사이드바 저장 · 클릭 재열람 · data.json 동기화</div></div></div>
+      <div class="spec-item purple"><div class="spec-icon">📤</div><div><div class="spec-title">JSON 내보내기 (tasks + reportHistory 전체 포함)</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S8 완성 후 테스트 체크리스트 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#d1fae5;">🧪</div>
+    <div><h2>완성 후 테스트 체크리스트</h2><p>각 단계를 마친 후 아래 항목을 직접 실행하며 확인해 보세요</p></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div>
+        <p style="font-size:0.82rem;font-weight:800;color:#0d9488;letter-spacing:.08em;margin-bottom:8px;">✅ 1단계 — 칸반 보드</p>
+        <div class="check-list" style="gap:7px;">
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box teal" style="width:22px;height:22px;font-size:0.9rem;">✓</div>index.html 열면 칸반 보드가 표시된다</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box teal" style="width:22px;height:22px;font-size:0.9rem;">✓</div>업무 추가 → 모달 → 카드가 "할 일" 열에 생긴다</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box teal" style="width:22px;height:22px;font-size:0.9rem;">✓</div>카드를 드래그해서 다른 열로 이동할 수 있다</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box teal" style="width:22px;height:22px;font-size:0.9rem;">✓</div>사이드바에 도넛 차트와 담당자 현황이 보인다</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box teal" style="width:22px;height:22px;font-size:0.9rem;">✓</div>CSV 내보내기 버튼으로 파일을 다운로드할 수 있다</div>
+        </div>
+        <p style="font-size:0.82rem;font-weight:800;color:#0369a1;letter-spacing:.08em;margin-top:12px;margin-bottom:8px;">✅ 2단계 — 서버 + 저장</p>
+        <div class="check-list" style="gap:7px;">
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box" style="width:22px;height:22px;font-size:0.9rem;background:linear-gradient(135deg,#0369a1,#0284c7);">✓</div>node server.js 실행 → 포트 3002 메시지 확인</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box" style="width:22px;height:22px;font-size:0.9rem;background:linear-gradient(135deg,#0369a1,#0284c7);">✓</div>http://localhost:3002 접속 → 대시보드 표시</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box" style="width:22px;height:22px;font-size:0.9rem;background:linear-gradient(135deg,#0369a1,#0284c7);">✓</div>업무 추가 후 폴더에 data.json 파일 생성 확인</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box" style="width:22px;height:22px;font-size:0.9rem;background:linear-gradient(135deg,#0369a1,#0284c7);">✓</div>새로고침(F5)해도 카드가 그대로 남아 있다</div>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.82rem;font-weight:800;color:#7c3aed;letter-spacing:.08em;margin-bottom:8px;">✅ 3단계 — AI 보고서</p>
+        <div class="check-list" style="gap:7px;">
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box purple" style="width:22px;height:22px;font-size:0.9rem;">✓</div>.env에 GEMINI_API_KEY(AIza...) 입력 후 서버 재시작</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box purple" style="width:22px;height:22px;font-size:0.9rem;">✓</div>"AI 보고서 생성" 클릭 → AI 분석 보고서가 열린다</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box purple" style="width:22px;height:22px;font-size:0.9rem;">✓</div>사이드바 AI 패널에 이력 항목이 추가된다</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box purple" style="width:22px;height:22px;font-size:0.9rem;">✓</div>이력 클릭 → 해당 보고서가 다시 열린다</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box purple" style="width:22px;height:22px;font-size:0.9rem;">✓</div>JSON 내보내기에 보고서 이력이 포함된다</div>
+          <div class="check-item" style="padding:10px 14px;font-size:1rem;"><div class="check-box purple" style="width:22px;height:22px;font-size:0.9rem;">✓</div>API 키 없을 때 "연결 안됨" 토스트가 나온다</div>
+        </div>
+        <div class="warn-note" style="margin-top:10px;">
+          🔑 <strong>Gemini API 키 발급</strong><br>
+          aistudio.google.com/apikey → Create API Key<br>
+          <strong>AIza</strong>로 시작하는 39자 키를 .env에 입력하세요.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S9 보너스 미션 -->
+<div class="slide s-content">
+  <div class="slide-header">
+    <div class="icon" style="background:#fef9c3;">⭐</div>
+    <div><h2>보너스 미션</h2><p>기본 과제를 완성한 분들을 위한 추가 도전 과제</p></div>
+  </div>
+  <div class="slide-body">
+    <div class="mission-grid">
+      <div class="mission-card m1">
+        <div class="m-star">⭐</div>
+        <h3>담당자별 완료율 알림</h3>
+        <p>담당자 현황 사이드바에서 완료율이 50% 미만인 담당자를 빨간색으로 강조해 보세요. Antigravity에게 "담당자 완료율 50% 미만이면 경고 색상 표시" 라고 요청하면 됩니다.</p>
+      </div>
+      <div class="mission-card m2">
+        <div class="m-star">⭐⭐</div>
+        <h3>보고서 인쇄 기능</h3>
+        <p>보고서 모달에 인쇄 버튼을 추가하고 window.print()로 PDF 저장까지 되게 만들어 보세요. 인쇄 스타일(print CSS)도 깔끔하게 정리하면 완성입니다.</p>
+      </div>
+      <div class="mission-card m3">
+        <div class="m-star">⭐⭐⭐</div>
+        <h3>다중 프로젝트 지원</h3>
+        <p>사이드바 상단에 프로젝트 선택 드롭다운을 추가하고, 프로젝트마다 별도의 data_프로젝트명.json을 만들어 서버에서 분리 저장해 보세요.</p>
+      </div>
+    </div>
+    <div style="margin-top:16px;background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6;border-radius:0 12px 12px 0;padding:13px 18px;font-size:1.05rem;color:#1e3a8a;line-height:1.75;">
+      💡 <strong>막혔을 때 대처법.</strong> 오류 메시지나 이상한 화면을 그대로 복사해서 Antigravity에게 <strong>"이거 왜 안 돼? 고쳐줘"</strong>라고 붙여넣으세요. 서버 오류는 터미널 콘솔 내용도 함께 붙여넣으면 훨씬 빠르게 해결됩니다.
+    </div>
+  </div>
+</div>
+
+<!-- S10 마무리 -->
+<div class="slide s-end">
+  <h2>수고하셨습니다! <span>🎉</span></h2>
+  <p>칸반 보드 · Node.js 서버 · Gemini AI 보고서까지<br>실무에서 바로 쓸 수 있는 수준의 대시보드를 직접 만들었습니다.</p>
+  <div class="summary-grid">
+    <div class="sg"><div class="sg-num">3</div>단계 구현</div>
+    <div class="sg"><div class="sg-num">12</div>실습 종합</div>
+    <div class="sg"><div class="sg-num">5</div>핵심 파일</div>
+    <div class="sg"><div class="sg-num">3</div>보너스 도전</div>
+  </div>
+  <div class="next-hint"><span>▶</span> 다음 단계: <strong>Antigravity에게 "이 앱에 로그인 기능을 추가해줘"</strong> 라고 요청해 보세요!</div>
+  <p style="margin-top:22px;font-size:0.95rem;font-weight:700;letter-spacing:.05em;color:rgba(255,255,255,.9);white-space:nowrap;">본 교육자료는 사전 승인 없이 외부에 유출하거나 공유할 수 없습니다. — AI정보기획팀</p>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav-dots" id="navDots"></div>
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>‹</button>
+  <span class="slide-counter" id="counter">1 / 10</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+function buildDots() {
+  const c = document.getElementById('navDots');
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    b.title = (i + 1) + '페이지';
+    b.addEventListener('click', () => goTo(i));
+    c.appendChild(b);
+  });
+}
+buildDots();
+
+function goTo(n) {
+  const prev = cur;
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('exit');
+  setTimeout(() => slides[prev].classList.remove('exit'), 420);
+  cur = n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  document.getElementById('counter').textContent = (cur + 1) + ' / ' + total;
+  document.getElementById('progressBar').style.width = ((cur + 1) / total * 100) + '%';
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total - 1;
+}
+function changeSlide(dir) { if (cur + dir >= 0 && cur + dir < total) goTo(cur + dir); }
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+});
+document.getElementById('progressBar').style.width = (1 / total * 100) + '%';
+
+function copyPrompt(btn) {
+  const pre = btn.closest('.prompt-box').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '✅ 복사됨';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
