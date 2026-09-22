@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>데이터베이스 기초 | 비전공자를 위한 PostgreSQL 설치와 실습</title>
+<title>데이터베이스 기초 | 비전공자를 위한 SQLite 설치와 실습</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -337,8 +337,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
 <!-- ══ S1 TITLE ══ -->
 <div class="slide active" id="s1">
   <div class="si">
-    <div class="hero-t">데이터베이스 기초<em>비전공자를 위한 PostgreSQL 설치와 실습</em></div>
-    <p class="hero-sub">엑셀·구글시트로 버티는 것에도 한계가 옵니다<br>내 컴퓨터에 진짜 DB를 설치하고, AI에게 SQL을 시켜 직접 다뤄봅니다</p>
+    <div class="hero-t">데이터베이스 기초<em>비전공자를 위한 SQLite 설치와 실습</em></div>
+    <p class="hero-sub">엑셀·구글시트로 버티는 것에도 한계가 옵니다<br>내 컴퓨터에 파일 하나짜리 진짜 DB를 설치하고, AI에게 SQL을 시켜 직접 다뤄봅니다</p>
     <div class="hero-bs">
       <span class="hb"><i class="fas fa-database"></i> 1부: DB 개념</span>
       <span class="hb" style="color:#c4b5fd;"><i class="fas fa-table"></i> 2부: 핵심 원리</span>
@@ -368,8 +368,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <div class="obj-card">
         <div class="obj-n tsk">02</div>
         <div>
-          <div class="obj-t">내 컴퓨터에 PostgreSQL을 직접 설치하고 관리한다</div>
-          <div class="obj-d">무료·오픈소스 DB인 PostgreSQL을 설치하고, pgAdmin이라는 관리 화면에서 테이블을 만들고 데이터를 넣고 뺍니다.</div>
+          <div class="obj-t">내 컴퓨터에 SQLite를 직접 설치하고 관리한다</div>
+          <div class="obj-d">무료·오픈소스 DB인 SQLite를 설치하고, DB Browser for SQLite라는 관리 화면에서 테이블을 만들고 데이터를 넣고 뺍니다.</div>
         </div>
       </div>
       <div class="obj-card">
@@ -608,7 +608,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <div class="co co-g">
         <div class="co-ic"><i class="fas fa-robot tg"></i></div>
         <div>
-          <div class="co-tx"><b>오늘 실습의 원칙: SQL 문법은 AI가 씁니다.</b> 여러분은 "무엇을, 왜" 필요한지 정확히 말하고, AI가 짠 SQL을 pgAdmin에 붙여넣고 실행 버튼만 누르면 됩니다. 1편부터 계속 써온 패턴과 완전히 같습니다. 참고로 이 4개 명령(만들고·읽고·고치고·지우고)을 묶어서 <b>CRUD</b>(Create·Read·Update·Delete)라고 부르는데, 3부 실습에서 이 이름 그대로 다시 만납니다.</div>
+          <div class="co-tx"><b>오늘 실습의 원칙: SQL 문법은 AI가 씁니다.</b> 여러분은 "무엇을, 왜" 필요한지 정확히 말하고, AI가 짠 SQL을 DB Browser for SQLite의 SQL 실행 탭에 붙여넣고 실행 버튼만 누르면 됩니다. 1편부터 계속 써온 패턴과 완전히 같습니다. 참고로 이 4개 명령(만들고·읽고·고치고·지우고)을 묶어서 <b>CRUD</b>(Create·Read·Update·Delete)라고 부르는데, 3부 실습에서 이 이름 그대로 다시 만납니다.</div>
         </div>
       </div>
     </div>
@@ -627,7 +627,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
         실습 — 설치부터 관리까지<br><span style="color:#c7d2fe;">내 컴퓨터에 진짜 DB를 띄웁니다</span>
       </div>
       <div style="font-size:clamp(15px,1.5vw,19px);color:rgba(255,255,255,.78);line-height:1.75;margin-top:8px;">
-        PostgreSQL 설치 → pgAdmin 접속 → 테이블 생성 → CRUD → 백업·복원 → 보안 위생
+        SQLite 설치 → DB Browser 접속 → 테이블 생성 → CRUD → 백업·복원 → 보안 위생
       </div>
       <div class="fl g10" style="margin-top:16px;flex-wrap:wrap;">
         <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;color:#fff;font-size:.85rem;font-weight:700;"><i class="fas fa-download"></i> 설치</div>
@@ -640,12 +640,12 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
   </div>
 </div>
 
-<!-- ══ S11 PostgreSQL 설치 가이드 ══ -->
+<!-- ══ S11 SQLite + DB Browser 설치 가이드 ══ -->
 <div class="slide" id="s11">
   <div class="si">
     <div>
       <div class="stag"><i class="fas fa-download"></i> 3부 · 설치·실습</div>
-      <h2 class="stit">PostgreSQL <span class="ac">설치하기</span> (5분)</h2>
+      <h2 class="stit">SQLite + DB Browser <span class="ac">설치하기</span> (5분)</h2>
       <div class="sbar"></div>
     </div>
     <div class="sb" style="justify-content:center;">
@@ -653,59 +653,59 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
         <div class="tml-row">
           <div class="tml-num">1</div>
           <div class="tml-line"></div>
-          <div class="tml-body"><div class="tml-t">공식 사이트에서 설치파일 받기</div><div class="tml-d"><b>postgresql.org/download</b> 접속 → Windows 선택 → 설치 프로그램(EDB 배포판) 다운로드. 이 설치파일 하나에 PostgreSQL 본체와 관리 화면인 <b>pgAdmin4</b>가 같이 들어있습니다.</div></div>
+          <div class="tml-body"><div class="tml-t">DB Browser for SQLite 다운로드</div><div class="tml-d"><b>sqlitebrowser.org/dl</b> 접속 → Windows 64-bit 설치파일 선택 → 다운로드. 비밀번호·포트 설정 없이 Next 몇 번으로 설치가 끝납니다. SQLite 본체는 별도로 설치할 필요가 없습니다.</div></div>
         </div>
         <div class="tml-row">
           <div class="tml-num">2</div>
           <div class="tml-line"></div>
-          <div class="tml-body"><div class="tml-t">설치 실행 — 대부분 기본값 그대로 Next</div><div class="tml-d">설치 위치, 포트 번호(기본 <b>5432</b>)는 특별한 이유가 없다면 그대로 두고 Next를 누릅니다.</div></div>
+          <div class="tml-body"><div class="tml-t">설치 실행 — Next 몇 번으로 완료</div><div class="tml-d">복잡한 설정 화면이 전혀 없습니다. 설치 경로를 기본값 그대로 두고 Next → Install → Finish. 비밀번호를 만들거나 포트를 설정할 일이 없습니다.</div></div>
         </div>
         <div class="tml-row">
           <div class="tml-num">3</div>
           <div class="tml-line"></div>
-          <div class="tml-body"><div class="tml-t"><span class="tr fw9">★ 가장 중요 ★</span> superuser 비밀번호 설정</div><div class="tml-d">"postgres"라는 관리자 계정의 비밀번호를 설정하는 화면이 나옵니다. <b>이 비밀번호를 반드시 메모해두세요</b> — pgAdmin 접속과 이후 파이썬 연결 실습에서 계속 씁니다.</div></div>
+          <div class="tml-body"><div class="tml-t">DB Browser 실행 → 새 데이터베이스 만들기</div><div class="tml-d">설치 후 DB Browser for SQLite를 실행합니다. 상단 메뉴 <b>"새 데이터베이스"</b> 클릭 → 파일 이름을 <b>practice.db</b>로 저장. 이 .db 파일 하나가 곧 여러분의 데이터베이스입니다.</div></div>
         </div>
         <div class="tml-row">
           <div class="tml-num">4</div>
           <div class="tml-line"></div>
-          <div class="tml-body"><div class="tml-t">Stack Builder는 건너뛰기(Skip)</div><div class="tml-d">설치 마지막에 추가 도구 설치를 물어보는 Stack Builder가 뜹니다. 오늘 실습엔 필요 없으니 <b>건너뛰기</b>를 누르고 완료합니다.</div></div>
+          <div class="tml-body"><div class="tml-t">(선택) Node.js 프로젝트에 better-sqlite3 추가</div><div class="tml-d">파이썬·Node.js 연결 실습을 할 경우에만 필요합니다. Python: <code>import sqlite3</code>는 <b>내장 모듈</b>이라 별도 설치 불필요. Node.js: <code>npm install better-sqlite3</code> 한 줄로 완료됩니다.</div></div>
         </div>
       </div>
-      <div class="co co-r">
-        <div class="co-ic"><i class="fas fa-triangle-exclamation tr"></i></div>
+      <div class="co co-g">
+        <div class="co-ic"><i class="fas fa-circle-check tg"></i></div>
         <div>
-          <div class="co-tx"><b>비밀번호를 잊어버렸다면</b> 당황하지 말고 아래 방법을 그대로 따라 해보세요. 재설치 없이 복구할 수 있습니다 — 오늘 처음 다루는 도구인 만큼 실수는 자연스러운 과정입니다.</div>
+          <div class="co-tx"><b>SQLite는 서버가 없습니다.</b> PostgreSQL 같은 서버형 DB는 설치 후 항상 백그라운드 서비스가 돌아야 하지만, SQLite는 .db 파일에 직접 읽고 쓰는 구조라 서비스 실행·종료가 필요 없습니다. 처음 DB를 다루는 분께 딱 맞는 이유가 여기 있습니다.</div>
         </div>
       </div>
       <div class="fl jcc">
-        <button class="lnk-btn" onclick="openPop('p5')"><i class="fas fa-unlock-keyhole"></i> 참고 · 비밀번호 복구 방법 보기</button>
+        <button class="lnk-btn" onclick="openPop('p5')"><i class="fas fa-lightbulb"></i> 참고 · DB Browser 활용 팁 보기</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ S12 pgAdmin 접속 + 실습1 ══ -->
+<!-- ══ S12 DB Browser 접속 + 실습1 ══ -->
 <div class="slide" id="s12">
   <div class="si">
     <div>
       <div class="stag"><i class="fas fa-server"></i> 3부 · 설치·실습</div>
-      <h2 class="stit">pgAdmin 접속하고 <span class="ac">첫 테이블 만들기</span></h2>
+      <h2 class="stit">DB Browser 열고 <span class="ac">첫 테이블 만들기</span></h2>
       <div class="sbar"></div>
     </div>
     <div class="sb">
       <div class="card">
-        <div class="ct"><i class="fas fa-route tp"></i> pgAdmin 첫 접속 순서</div>
+        <div class="ct"><i class="fas fa-route tp"></i> DB Browser for SQLite 첫 사용 순서</div>
         <div class="cd" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;">1</div><span>시작 메뉴에서 <b>pgAdmin 4</b> 실행 (브라우저 창처럼 열립니다)</span></div>
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;">2</div><span>왼쪽 트리에서 <b>Servers → PostgreSQL</b> 더블클릭 → 설치할 때 만든 비밀번호 입력</span></div>
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;">3</div><span><b>Databases</b> 우클릭 → Create → Database → 이름을 <b>practice_db</b>로 짓고 Save</span></div>
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;">4</div><span>만든 <b>practice_db</b> 우클릭 → <b>Query Tool</b> 열기 — 여기가 AI가 짜준 SQL을 붙여넣고 실행하는 곳입니다</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;">1</div><span>DB Browser for SQLite 실행 → 상단 <b>"새 데이터베이스"</b> 클릭 → 파일명 <b>practice.db</b>로 저장 (이 파일이 곧 DB입니다)</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;">2</div><span>화면 상단 탭에서 <b>"SQL 실행"</b> 탭 클릭 — 여기에 AI가 짜준 SQL을 붙여넣습니다</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;">3</div><span>SQL을 붙여넣은 후 <b>▶(실행) 버튼</b> 또는 <b>F5</b>를 누르면 실행됩니다</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;">4</div><span>실행 후 <b>"데이터베이스 구조"</b> 탭을 누르면 만들어진 테이블 목록을 확인할 수 있습니다</span></div>
         </div>
       </div>
       <div class="co co-p">
         <div class="co-ic"><i class="fas fa-lightbulb tp"></i></div>
         <div>
-          <div class="co-tx">Query Tool은 <b>Alt+F11(VBA 편집기)</b>이나 <b>Alt+F8(매크로 목록)</b>과 같은 역할입니다. "코드를 붙여넣고 실행 버튼(▶ 또는 F5)을 누르는 곳" — 이미 1~4편에서 익숙한 패턴입니다.</div>
+          <div class="co-tx">SQL 실행 탭은 <b>Alt+F11(VBA 편집기)</b>이나 <b>Alt+F8(매크로 목록)</b>과 같은 역할입니다. "코드를 붙여넣고 실행 버튼(▶ 또는 F5)을 누르는 곳" — 이미 1~4편에서 익숙한 패턴입니다.</div>
         </div>
       </div>
       <div class="fl jcc">
@@ -749,7 +749,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <div class="co co-sk">
         <div class="co-ic"><i class="fas fa-eye tsk"></i></div>
         <div>
-          <div class="co-tx">실행 결과는 Query Tool 아래 <b>Data Output</b> 탭에서 바로 확인됩니다. 또는 왼쪽 트리에서 테이블 우클릭 → <b>View/Edit Data → All Rows</b>를 누르면 엑셀처럼 표로도 볼 수 있습니다.</div>
+          <div class="co-tx">실행 결과는 SQL 실행 탭 아래 결과 영역에서 바로 확인됩니다. 또는 상단 <b>"데이터 보기"</b> 탭을 누르면 엑셀처럼 표로도 볼 수 있습니다. 변경사항은 <b>Ctrl+S</b>로 저장(커밋)해야 .db 파일에 반영됩니다.</div>
         </div>
       </div>
       <div class="fl jcc">
@@ -774,17 +774,17 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <div class="g2">
         <div class="fc">
           <div class="fc-h"><div class="ib" style="background:rgba(16,185,129,.12);color:var(--gd);"><i class="fas fa-file-export"></i></div><div class="fc-t">백업(Backup)</div></div>
-          <div class="fc-d">데이터베이스 우클릭 → <b>Backup...</b> → 파일 이름 지정 → Backup 버튼. DB 전체가 <code>.backup</code> 파일 하나로 저장됩니다.</div>
+          <div class="fc-d">탐색기에서 <b>practice.db</b> 파일을 복사해 다른 폴더에 붙여넣기. 이것으로 끝입니다. DB 전체가 .db 파일 하나이기 때문에, 파일 복사 = 완전 백업입니다.</div>
         </div>
         <div class="fc">
           <div class="fc-h"><div class="ib" style="background:rgba(79,70,229,.12);color:var(--p);"><i class="fas fa-file-import"></i></div><div class="fc-t">복원(Restore)</div></div>
-          <div class="fc-d">새 빈 데이터베이스 생성 → 우클릭 → <b>Restore...</b> → 아까 만든 백업 파일 선택. 지워졌던 데이터가 그대로 돌아옵니다.</div>
+          <div class="fc-d">백업해둔 <b>.db 파일</b>을 원래 위치에 덮어쓰기(또는 DB Browser에서 파일 열기로 선택). 지워졌던 데이터가 그대로 돌아옵니다.</div>
         </div>
       </div>
       <div class="co co-a">
         <div class="co-ic"><i class="fas fa-graduation-cap ta"></i></div>
         <div>
-          <div class="co-tx">이번 실습에서는 일부러 <b>DROP TABLE로 테이블을 진짜로 삭제</b>해본 뒤, 방금 만든 백업으로 되살리는 과정까지 체험합니다. "지워도 괜찮다"는 안전감을 몸으로 익히는 게 목표입니다.</div>
+          <div class="co-tx">이번 실습에서는 일부러 <b>DROP TABLE로 테이블을 진짜로 삭제</b>해본 뒤, 방금 복사해둔 .db 백업 파일로 되살리는 과정까지 체험합니다. "지워도 괜찮다"는 안전감을 몸으로 익히는 게 목표입니다.</div>
         </div>
       </div>
       <div class="fl jcc">
@@ -805,22 +805,22 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
     <div class="sb">
       <div class="g3">
         <div class="fc">
-          <div class="fc-h"><div class="ib" style="background:rgba(239,68,68,.12);color:var(--rd);"><i class="fas fa-key"></i></div><div class="fc-t">비밀번호 노출 금지</div></div>
-          <div class="fc-d">postgres 관리자 비밀번호는 카카오톡·이메일로 절대 그대로 보내지 않습니다. 코드 안에 그대로 적어놓고 깃허브 같은 공개 저장소에 올리는 것도 같은 실수입니다.</div>
+          <div class="fc-h"><div class="ib" style="background:rgba(239,68,68,.12);color:var(--rd);"><i class="fas fa-folder-open"></i></div><div class="fc-t">.db 파일 접근 권한</div></div>
+          <div class="fc-d">SQLite는 .db 파일 자체가 데이터베이스입니다. 이 파일을 카카오톡·이메일로 그대로 보내거나, 공개 폴더·공용 드라이브에 두면 누구나 열어볼 수 있습니다. <b>파일 위치와 공유 권한</b>을 신경 써야 합니다.</div>
         </div>
         <div class="fc">
-          <div class="fc-h"><div class="ib" style="background:rgba(245,158,11,.12);color:var(--ad);"><i class="fas fa-network-wired"></i></div><div class="fc-t">외부에 포트 열지 않기</div></div>
-          <div class="fc-d">공유기 포트포워딩으로 5432 포트를 인터넷에 그대로 열어두면 전세계에서 내 DB에 접근을 시도할 수 있습니다. 오늘 실습은 <b>내 컴퓨터 안에서만</b> 접속하는 구조라 안전합니다.</div>
+          <div class="fc-h"><div class="ib" style="background:rgba(245,158,11,.12);color:var(--ad);"><i class="fas fa-code-branch"></i></div><div class="fc-t">Git에 .db 파일 올리지 않기</div></div>
+          <div class="fc-d">data/ 폴더나 *.db 파일을 깃허브 공개 저장소에 실수로 올리면 데이터가 전부 노출됩니다. 프로젝트에 <b>.gitignore</b>를 만들고 <code>data/</code>와 <code>*.db</code>를 반드시 추가하세요.</div>
         </div>
         <div class="fc">
-          <div class="fc-h"><div class="ib" style="background:rgba(139,92,246,.12);color:var(--pu);"><i class="fas fa-code"></i></div><div class="fc-t">코드에 하드코딩 지양</div></div>
-          <div class="fc-d">비밀번호를 스크립트 맨 위 변수로 분리해두는 습관만으로도 실수를 크게 줄입니다. 4부 파이썬 실습에서 바로 이 방식으로 연습합니다.</div>
+          <div class="fc-h"><div class="ib" style="background:rgba(139,92,246,.12);color:var(--pu);"><i class="fas fa-code"></i></div><div class="fc-t">DB 경로 하드코딩 지양</div></div>
+          <div class="fc-d">.db 파일 경로를 스크립트 맨 위 변수로 분리해두는 습관이 중요합니다. 4부 파이썬 실습에서 <code>DB_PATH = "practice.db"</code> 형태로 바로 이 방식을 연습합니다.</div>
         </div>
       </div>
       <div class="co co-g">
         <div class="co-ic"><i class="fas fa-circle-check tg"></i></div>
         <div>
-          <div class="co-tx">오늘은 딱 이 세 가지만 기억하면 충분합니다. <b>.env 파일</b>처럼 더 정교한 비밀정보 관리법은 다음 단계로 남겨두고, 오늘은 "비밀번호는 소중히, 포트는 닫아두기"까지만 체화합니다.</div>
+          <div class="co-tx">오늘은 딱 이 세 가지만 기억하면 충분합니다. SQLite는 서버 비밀번호나 포트 보안 대신 <b>"파일을 어디 두느냐"</b>가 핵심입니다. .db 파일을 소중히, .gitignore에 추가하기까지만 체화합니다.</div>
         </div>
       </div>
     </div>
@@ -868,16 +868,16 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
         </div>
       </div>
       <div class="co co-g">
-        <div class="co-ic"><i class="fas fa-box-open tg"></i></div>
+        <div class="co-ic"><i class="fas fa-gift tg"></i></div>
         <div>
-          <div class="co-tx"><b>실습에서 만날 낯선 단어 둘만 미리 알아두세요.</b> "라이브러리(패키지)"는 남이 미리 만들어둔 파이썬 기능 모음입니다 — 파이썬이 PostgreSQL과 대화하는 기능은 기본으로 없어서, <b>psycopg2</b>라는 라이브러리를 받아와야 합니다. 이걸 받아오는(설치하는) 명령어가 <b>pip install</b>입니다 — 딱 이 두 단어만 기억하면 충분합니다.</div>
+          <div class="co-tx"><b>SQLite는 파이썬에 이미 내장되어 있습니다.</b> PostgreSQL 같은 서버형 DB는 <code>pip install</code>로 별도 라이브러리를 받아야 하지만, SQLite는 <b>import sqlite3</b> 한 줄이면 끝입니다 — pip install 없이 바로 사용할 수 있습니다. SQLite를 선택하는 이유 중 하나가 바로 이 편의성입니다.</div>
         </div>
       </div>
       <div class="card">
-        <div class="ct"><i class="fas fa-terminal tg"></i> Cline으로 설치하기 — 이번에도 AI에게 시킵니다</div>
+        <div class="ct"><i class="fas fa-terminal tg"></i> Antigravity로 설치하기 — 이번에도 AI에게 시킵니다</div>
         <div class="cd" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">1</div><span>4편에서 쓰던 <b>VS Code + Cline</b>을 엽니다. Cline 채팅창에 <b>"윈도우 winget으로 파이썬 최신 버전을 설치해줘"</b>라고 요청합니다.</span></div>
-          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">2</div><span>Cline이 터미널에서 <code>winget install Python.Python.3.12</code> 같은 명령을 직접 실행합니다. 실행 승인을 물으면 <b>허용(Approve)</b>을 눌러줍니다.</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">1</div><span>4편에서 쓰던 <b>VS Code + Antigravity</b>를 엽니다. Antigravity 채팅창에 <b>"윈도우 winget으로 파이썬 최신 버전을 설치해줘"</b>라고 요청합니다.</span></div>
+          <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">2</div><span>Antigravity가 터미널에서 <code>winget install Python.Python.3.12</code> 같은 명령을 직접 실행합니다. 실행 승인을 물으면 <b>허용(Approve)</b>을 눌러줍니다.</span></div>
           <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">3</div><span>설치가 끝나면 <span class="tr fw9">터미널을 새로 하나 더 열어서</span> <code>python --version</code>을 입력해 확인합니다 — 기존에 열려있던 터미널은 PATH가 갱신되지 않아 새로 열어야 합니다.</span></div>
           <div class="fl g10 aifs"><div class="sn" style="width:28px;height:28px;font-size:.75rem;background:var(--g);">4</div><span>버전 번호가 출력되면 설치 성공. 이제 새 폴더에 <code>db_test.py</code> 파일을 만들어 실습을 시작합니다.</span></div>
         </div>
@@ -914,8 +914,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
           <div class="sum-d">테이블·행·열·기본키는 전부 엑셀 개념<br>SQL 문법은 AI가 짭니다</div>
         </div>
         <div class="sum" style="border-left:4px solid var(--p);">
-          <div class="sum-t tp"><i class="fas fa-server"></i> 설치·관리</div>
-          <div class="sum-d">PostgreSQL + pgAdmin 로컬 설치<br>백업·복원까지 손으로 한 번 해봤습니다</div>
+          <div class="sum-t tp"><i class="fas fa-database"></i> 설치·관리</div>
+          <div class="sum-d">SQLite + DB Browser 로컬 설치<br>.db 파일 복사로 백업·복원까지 손으로 해봤습니다</div>
         </div>
         <div class="sum" style="border-left:4px solid var(--g);">
           <div class="sum-t tg"><i class="fab fa-python"></i> 파이썬 연결</div>
@@ -925,7 +925,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
       <div style="background:linear-gradient(135deg,rgba(79,70,229,.12),rgba(14,165,233,.1));border:1px solid rgba(79,70,229,.25);border-radius:var(--rad);padding:22px;text-align:center;">
         <div style="font-size:1.8rem;margin-bottom:10px;">🗄️</div>
         <div class="fw9" style="font-size:1.3rem;color:#312e81;margin-bottom:8px;">이제 여러분 컴퓨터엔 진짜 DB가 있습니다</div>
-        <div class="tsb md">오늘 만든 practice_db와 회원 테이블은 그대로 남아있습니다. 다음에 새 프로젝트를 시작할 때, "시트로 할까 DB로 할까"를 스스로 판단해보세요.</div>
+        <div class="tsb md">오늘 만든 practice.db와 회원 테이블은 그대로 남아있습니다. 다음에 새 프로젝트를 시작할 때, "시트로 할까 DB로 할까"를 스스로 판단해보세요.</div>
       </div>
     </div>
   </div>
@@ -941,12 +941,12 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
     </div>
     <div class="sb" style="justify-content:center;">
       <div class="card">
-        <div class="ct"><i class="fas fa-cloud tp"></i> Supabase — 오늘 배운 PostgreSQL이 그대로 통합니다</div>
-        <div class="cd" style="margin-top:6px;">오늘 로컬에서 쓴 PostgreSQL 문법은 <b>Supabase</b>에서도 100% 동일하게 통합니다. Supabase는 클라우드에 무료로 Postgres DB를 만들어주고, 3편에서 만든 것 같은 웹앱이 브라우저에서 바로 접속할 수 있는 방법(API)까지 자동으로 제공합니다.</div>
+        <div class="ct"><i class="fas fa-cloud tp"></i> Supabase — SQLite 개념이 그대로 통합니다</div>
+        <div class="cd" style="margin-top:6px;">오늘 로컬에서 익힌 SQL 문법과 테이블 개념은 <b>Supabase</b>에서도 거의 그대로 통합니다. Supabase는 클라우드에 무료로 PostgreSQL DB를 만들어주고, 3편에서 만든 것 같은 웹앱이 브라우저에서 바로 접속할 수 있는 방법(API)까지 자동으로 제공합니다. SQLite로 개념을 익혔다면 진입장벽이 훨씬 낮아집니다.</div>
       </div>
       <table class="ttab">
         <tr><th>단계</th><th>배운 것</th><th>다음에 필요하면</th></tr>
-        <tr><td>오늘</td><td>로컬 PostgreSQL 설치·관리, 파이썬 연결</td><td>개념과 SQL에 익숙해지기</td></tr>
+        <tr><td>오늘</td><td>로컬 SQLite 설치·관리 (파일 기반), 파이썬 연결</td><td>개념과 SQL에 익숙해지기</td></tr>
         <tr><td>다음</td><td>Supabase로 클라우드 DB + 웹앱 연결</td><td>4편 바이브 코딩 실습에 실시간 DB를 붙이고 싶을 때</td></tr>
       </table>
       <div class="co co-pu">
@@ -1029,11 +1029,11 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
     <div class="pop-b">
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
-        <div class="scen">S12까지 따라왔다면 pgAdmin에서 <b>practice_db</b>를 만들고 <b>Query Tool</b>을 열어둔 상태입니다. 이제 그 안에 "회원 관리"용 테이블을 하나 만듭니다. SQL 문법은 몰라도 됩니다 — AI에게 요구사항만 정확히 전달합니다.</div>
+        <div class="scen">S12까지 따라왔다면 DB Browser for SQLite에서 <b>practice.db</b>를 만들고 <b>SQL 실행</b> 탭을 열어둔 상태입니다. 이제 그 안에 "회원 관리"용 테이블을 하나 만듭니다. SQL 문법은 몰라도 됩니다 — AI에게 요구사항만 정확히 전달합니다.</div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-terminal"></i> 1단계 — AI에게 CREATE TABLE 시키기</div>
-        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>PostgreSQL에서 회원 관리용 테이블을 만들려고 해.
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>SQLite에서 회원 관리용 테이블을 만들려고 해.
 아래 조건에 맞는 CREATE TABLE 문을 짜줘.
 
 <b>[테이블 이름]</b> members
@@ -1046,32 +1046,32 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
 - 등급: 문자열, 별도로 입력 안 하면 '일반'이 자동으로 들어가게
 
 <b>[조건]</b>
-- PostgreSQL 최신 문법 기준으로 작성 (자동증가는 SERIAL이나
-  GENERATED ALWAYS AS IDENTITY 중 요즘 권장되는 방식으로)
+- SQLite 문법 기준으로 작성 (자동증가는 INTEGER PRIMARY KEY AUTOINCREMENT)
 - 컬럼명은 전부 소문자로 적어줘 (예: 회원id, 이름, 연락처, 가입일, 등급)
   — 나중에 파이썬에서 똑같은 이름으로 다시 불러올 거라 대소문자를
   지금 통일해두는 게 중요해
-- 완성 후 "pgAdmin Query Tool에 붙여넣고 실행하는 방법"도
+- 완성 후 "DB Browser for SQLite SQL 실행 탭에 붙여넣고 실행하는 방법"도
   한 문단으로 설명해줘</div>
       </div>
       <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-shoe-prints"></i> 2단계 — Query Tool에서 실행</div>
+        <div class="pop-sec-t"><i class="fas fa-shoe-prints"></i> 2단계 — SQL 실행 탭에서 실행</div>
         <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> AI가 준 SQL 전체를 복사해 <b>Query Tool 빈 화면</b>에 붙여넣기</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> 키보드 <b>F5</b> 또는 상단 ▶(Execute) 버튼 클릭</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> 하단에 <b>"Query returned successfully"</b> 메시지가 뜨면 성공</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> 왼쪽 트리의 <b>Tables</b>를 우클릭 → Refresh → <b>members</b> 테이블이 보이는지 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> AI가 준 SQL 전체를 복사해 <b>SQL 실행 탭 빈 화면</b>에 붙여넣기</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 키보드 <b>F5</b> 또는 상단 ▶(실행) 버튼 클릭</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 결과 영역에 <b>"query executed successfully"</b> 메시지가 뜨면 성공</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>"데이터베이스 구조"</b> 탭을 열어 <b>members</b> 테이블이 보이는지 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>Ctrl+S</b>로 변경사항을 .db 파일에 저장</div>
         </div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-triangle-exclamation"></i> 에러가 났다면</div>
-        <div class="warn">당황하지 말고 <b>화면 하단에 빨간 글씨로 뜬 에러 메시지 전체</b>를 그대로 복사해 AI에게 붙여넣고 "이 에러 고쳐줘"라고 요청하세요. 해석하려 하지 말고 그대로 전달하는 것이 가장 빠릅니다.</div>
+        <div class="warn">당황하지 말고 <b>결과 영역에 빨간 글씨로 뜬 에러 메시지 전체</b>를 그대로 복사해 AI에게 붙여넣고 "이 에러 고쳐줘"라고 요청하세요. 해석하려 하지 말고 그대로 전달하는 것이 가장 빠릅니다.</div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-list-check"></i> 체크포인트</div>
         <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> Tables 목록에 <b>members</b> 테이블이 보이는가?</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> members 우클릭 → Properties → Columns 탭에서 5개 컬럼이 모두 있는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> "데이터베이스 구조" 탭에 <b>members</b> 테이블이 보이는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> members 항목을 펼쳐서 5개 컬럼이 모두 있는가?</div>
         </div>
       </div>
     </div>
@@ -1094,7 +1094,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Noto Sans KR',sa
     <div class="pop-b">
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
-        <div class="scen">실습 1에서 만든 <b>members</b> 테이블은 아직 비어있습니다. 이번엔 데이터를 넣고(Create), 조회하고(Read), 고치고(Update), 지우는(Delete) 4단계를 순서대로 AI에게 시켜서 진행합니다. 매 단계마다 Query Tool에 붙여넣고 F5로 실행하세요.</div>
+        <div class="scen">실습 1에서 만든 <b>members</b> 테이블은 아직 비어있습니다. 이번엔 데이터를 넣고(Create), 조회하고(Read), 고치고(Update), 지우는(Delete) 4단계를 순서대로 AI에게 시켜서 진행합니다. 매 단계마다 <b>DB Browser SQL 실행 탭</b>에 붙여넣고 F5로 실행하세요.</div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-1"></i> Create — 샘플 회원 데이터 넣기</div>
@@ -1138,7 +1138,7 @@ DELETE문을 짜줘. 역시 WHERE 조건을
         <div class="pop-sec-t"><i class="fas fa-list-check"></i> 체크포인트</div>
         <div class="fl fdc g8">
           <div class="chk-li"><i class="fas fa-circle-check"></i> UPDATE·DELETE를 실행하기 전 <b>WHERE 조건이 있는지</b> AI 답변에서 반드시 확인했는가? (WHERE 없이 실행하면 테이블 전체가 바뀌거나 몽땅 지워집니다)</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> View/Edit Data → All Rows로 최종 데이터가 예상대로 바뀌었는지 눈으로 확인했는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>"데이터 보기"</b> 탭에서 최종 데이터가 예상대로 바뀌었는지 눈으로 확인했는가?</div>
         </div>
       </div>
       <div class="pop-sec">
@@ -1165,44 +1165,45 @@ DELETE문을 짜줘. 역시 WHERE 조건을
     <div class="pop-b">
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
-        <div class="scen">지금 <b>practice_db</b>에는 실습 2에서 넣은 회원 데이터가 들어있습니다. 이 데이터를 백업 파일로 저장한 뒤, 일부러 테이블을 통째로 지워보고, 백업으로 되살립니다. "실수해도 괜찮다"는 감각을 손으로 익히는 게 목적입니다.</div>
+        <div class="scen">지금 <b>practice.db</b>에는 실습 2에서 넣은 회원 데이터가 들어있습니다. 이 파일을 복사해 백업한 뒤, 일부러 테이블을 통째로 지워보고, 백업 파일로 되살립니다. "실수해도 괜찮다"는 감각을 손으로 익히는 게 목적입니다.</div>
       </div>
       <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-1"></i> STEP 1 — 백업하기</div>
+        <div class="pop-sec-t"><i class="fas fa-1"></i> STEP 1 — .db 파일 복사로 백업하기</div>
         <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> 왼쪽 트리에서 <b>practice_db</b> 우클릭 → <b>Backup...</b></div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> Filename에 저장 경로 지정 (예: 바탕화면에 <code>practice_db_backup</code>)</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> Format은 기본값(Custom) 그대로 두고 <b>Backup</b> 버튼 클릭</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> "Backup completed successfully" 메시지가 뜨면 성공 — 파일이 실제로 생겼는지 탐색기에서 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> DB Browser에서 <b>Ctrl+S</b>로 먼저 저장 (변경사항 반영)</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 탐색기에서 <b>practice.db</b> 파일 찾기 → 마우스 우클릭 → 복사</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 같은 폴더나 바탕화면에 붙여넣기 → <b>practice_backup.db</b>로 이름 변경</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 두 파일(.db와 _backup.db)이 모두 탐색기에 보이는지 확인 — 백업 완료</div>
         </div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-2"></i> STEP 2 — 일부러 지워보기</div>
-        <div class="scen">이제 정말로 테이블을 삭제합니다. 이 명령은 <b>되돌릴 수 없으니</b>, 방금 백업을 마쳤는지 한 번 더 확인한 뒤 진행하세요.</div>
+        <div class="scen">이제 정말로 테이블을 삭제합니다. 이 명령은 <b>되돌릴 수 없으니</b>, 방금 백업 파일을 만들었는지 한 번 더 확인한 뒤 진행하세요.</div>
         <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>DROP TABLE members;</div>
         <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> 위 문장을 Query Tool에 붙여넣고 F5 실행 → members 테이블이 목록에서 사라진 것을 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 위 문장을 SQL 실행 탭에 붙여넣고 F5 실행 → "데이터베이스 구조" 탭에서 members 테이블이 사라진 것을 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>Ctrl+S</b>로 저장 — 이제 practice.db에서 테이블이 완전히 지워졌습니다</div>
         </div>
       </div>
       <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-3"></i> STEP 3 — 복원으로 되살리기</div>
+        <div class="pop-sec-t"><i class="fas fa-3"></i> STEP 3 — 백업 파일로 복원하기</div>
         <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> practice_db 우클릭 → <b>Restore...</b></div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> Filename에서 STEP 1에서 만든 백업 파일 선택</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>Restore</b> 버튼 클릭 → 완료 메시지 확인</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> Tables 새로고침 → <b>members</b> 테이블과 데이터가 그대로 돌아왔는지 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> DB Browser에서 현재 파일 닫기</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 탐색기에서 <b>practice_backup.db</b>를 복사 → <b>practice.db</b>로 이름 바꿔 덮어쓰기</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> DB Browser에서 <b>practice.db</b> 다시 열기 → "데이터베이스 구조" 탭 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>members</b> 테이블과 데이터가 그대로 돌아왔는지 "데이터 보기"에서 확인</div>
         </div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-list-check"></i> 체크포인트</div>
         <div class="fl fdc g8">
           <div class="chk-li"><i class="fas fa-circle-check"></i> DROP TABLE로 지운 뒤 정말로 사라진 것을 눈으로 봤는가?</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> 복원 후 View/Edit Data로 데이터 개수가 실습 2 때와 같은지 확인했는가?</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> 복원 후 "데이터 보기"에서 데이터 개수가 실습 2 때와 같은지 확인했는가?</div>
         </div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-dumbbell"></i> 응용 미션</div>
-        <div class="msn">실무에서는 "매일 자정에 자동으로 백업"처럼 주기적인 백업이 중요합니다. 여유가 되면 AI에게 "PostgreSQL을 매일 자동으로 백업하는 방법을 알려줘"라고 물어보고 답변만 읽어보세요 — 오늘 당장 설정하지 않아도, 이런 방법이 있다는 것만 알아둬도 충분합니다.</div>
+        <div class="msn">실무에서는 "매일 자정에 자동으로 백업"처럼 주기적인 백업이 중요합니다. 여유가 되면 AI에게 "SQLite .db 파일을 매일 자동으로 백업하는 방법(윈도우 스케줄러나 파이썬 스크립트)을 알려줘"라고 물어보고 답변만 읽어보세요 — 오늘 당장 설정하지 않아도, 이런 방법이 있다는 것만 알아둬도 충분합니다.</div>
       </div>
     </div>
   </div>
@@ -1224,42 +1225,31 @@ DELETE문을 짜줘. 역시 WHERE 조건을
     <div class="pop-b">
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 상황</div>
-        <div class="scen">지금까지는 pgAdmin이라는 GUI로만 DB를 다뤘습니다. 이번엔 <b>진짜 프로그램(파이썬)</b>이 내 DB에 직접 접속해서, 조회는 물론 <b>추가·수정·삭제까지 되는 미니 "회원 관리 프로그램"</b>을 완성합니다. 파이썬 문법은 몰라도 됩니다 — AI가 짜줍니다.</div>
+        <div class="scen">지금까지는 DB Browser라는 GUI로만 DB를 다뤘습니다. 이번엔 <b>진짜 프로그램(파이썬)</b>이 내 .db 파일에 직접 접속해서, 조회는 물론 <b>추가·수정·삭제까지 되는 미니 "회원 관리 프로그램"</b>을 완성합니다. 파이썬 문법은 몰라도 됩니다 — AI가 짜줍니다. 참고로 sqlite3는 파이썬 내장 모듈이라 <b>pip install 없이 바로 시작</b>할 수 있습니다.</div>
       </div>
       <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-1"></i> STEP 1 — 라이브러리 설치</div>
-        <div class="scen">VS Code에서 <b>터미널 열기</b>(상단 메뉴 터미널 → 새 터미널)를 하고 아래 명령어를 입력합니다. PostgreSQL과 파이썬을 연결해주는 도구를 설치하는 명령입니다.</div>
-        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>pip install psycopg2-binary</div>
-        <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> "Successfully installed psycopg2-binary" 메시지가 뜨면 성공</div>
-        </div>
-      </div>
-      <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-2"></i> STEP 2 — 먼저 조회부터 (첫 연결 성공시키기)</div>
+        <div class="pop-sec-t"><i class="fas fa-1"></i> STEP 1 — 먼저 조회부터 (첫 연결 성공시키기)</div>
         <div class="scen">한 번에 다 만들려 하지 말고, 먼저 <b>조회 하나만 되는 스크립트</b>로 접속이 되는지부터 확인합니다.</div>
-        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>파이썬으로 로컬 PostgreSQL에 접속해서
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>파이썬 내장 sqlite3 모듈로 practice.db에 접속해서
 members 테이블의 모든 데이터를 가져와
 출력하는 스크립트를 짜줘.
 
 <b>[연결 정보]</b>
-- 호스트: localhost
-- 포트: 5432
-- 데이터베이스: practice_db
-- 사용자: postgres
-- 비밀번호: 설치할 때 만든 비밀번호 (변수로 분리해줘)
+- DB 파일: practice.db (스크립트와 같은 폴더에 있음)
+  파일 경로는 코드 맨 위 변수로 분리해줘
 
 <b>[조건]</b>
-- psycopg2 라이브러리 사용
-- 비밀번호 같은 민감정보는 코드 맨 위에
-  변수로 분리해서 눈에 잘 띄게 해줘
+- import sqlite3 내장 모듈 사용 (pip install 불필요)
+- conn.row_factory = sqlite3.Row 설정해서
+  컬럼 이름으로 접근할 수 있게 해줘
 - 총 회원 수와 각 행의 데이터를 보기 좋게 출력해줘
 - 마지막엔 연결을 반드시 닫아줘</div>
         <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>db_test.py</b>로 저장 → 비밀번호 변수에 실제 비밀번호 입력 → 터미널에서 <code>python db_test.py</code> 실행 → 회원 데이터가 출력되면 성공</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>db_test.py</b>로 저장 (practice.db와 같은 폴더에) → 터미널에서 <code>python db_test.py</code> 실행 → 회원 데이터가 출력되면 성공</div>
         </div>
       </div>
       <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-3"></i> STEP 3 — 추가·수정·삭제까지 되는 프로그램으로 확장</div>
+        <div class="pop-sec-t"><i class="fas fa-2"></i> STEP 2 — 추가·수정·삭제까지 되는 프로그램으로 확장</div>
         <div class="scen">조회가 됐다면 이제 진짜 "프로그램"답게 확장합니다. 실행하면 메뉴가 뜨고, 번호만 입력하면 조회·추가·수정·삭제를 전부 할 수 있게 만듭니다.</div>
         <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>방금 만든 조회 스크립트를 확장해서, 실행하면
 메뉴가 뜨고 번호를 입력해 아래 기능을 전부
@@ -1274,53 +1264,48 @@ members 테이블의 모든 데이터를 가져와
 0) 종료
 
 <b>[조건]</b>
+- sqlite3 내장 모듈 사용
 - input()으로 값을 입력받아줘
 - 추가·수정·삭제는 값을 문자열로 직접 이어붙이지
-  말고 %s 플레이스홀더 방식으로 넣어줘 (SQL 인젝션 방지)
+  말고 ? 플레이스홀더 방식으로 넣어줘 (SQL 인젝션 방지)
+  (SQLite는 %s가 아니라 ? 를 씁니다)
 - 수정·삭제할 때 입력한 회원ID가 존재하지 않으면
   "해당 회원ID가 없습니다"라고 알려줘
 - 각 작업이 끝나면 다시 메뉴로 돌아가는 반복 구조로
   만들어줘 (0번을 눌러야 종료)</div>
       </div>
       <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-4"></i> STEP 4 — 저장하고 4가지 기능 모두 써보기</div>
+        <div class="pop-sec-t"><i class="fas fa-3"></i> STEP 3 — 저장하고 4가지 기능 모두 써보기</div>
         <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> AI가 준 전체 코드로 <b>db_test.py</b>를 덮어쓰고 저장(Ctrl+S) — 비밀번호 변수는 다시 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> AI가 준 전체 코드로 <b>db_test.py</b>를 덮어쓰고 저장(Ctrl+S)</div>
           <div class="chk-li"><i class="fas fa-circle-check"></i> 터미널에서 <code>python db_test.py</code> 실행 → 메뉴가 뜨는지 확인</div>
           <div class="chk-li"><i class="fas fa-circle-check"></i> <b>2번(추가)</b>로 새 회원 한 명을 넣고, <b>1번(조회)</b>로 실제로 늘어났는지 확인</div>
           <div class="chk-li"><i class="fas fa-circle-check"></i> <b>3번(수정)</b>으로 방금 넣은 회원의 등급을 바꾸고, 다시 1번으로 확인</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>4번(삭제)</b>로 그 회원을 지우고, 1번으로 사라졌는지 확인 → pgAdmin의 View/Edit Data에서도 같은 결과가 보이면 완성</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>4번(삭제)</b>로 그 회원을 지우고, 1번으로 사라졌는지 확인 → DB Browser의 "데이터 보기"에서도 같은 결과가 보이면 완성</div>
         </div>
       </div>
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-shield-halved"></i> 참고 · 검증된 예시 코드 (막히면 그대로 쓰세요)</div>
-        <div class="scen">STEP 1에서 만든 <b>members</b> 테이블의 컬럼명이 회원id·이름·연락처·가입일·등급(전부 소문자)이라고 가정한 코드입니다. pgAdmin에서 members 우클릭 → Properties → Columns 탭에서 실제 컬럼명과 다르면 그 부분만 맞게 바꿔주세요.</div>
-        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>import psycopg2
+        <div class="scen">실습 1에서 만든 <b>members</b> 테이블의 컬럼명이 회원id·이름·연락처·가입일·등급(전부 소문자)이라고 가정한 코드입니다. DB Browser에서 실제 컬럼명과 다르면 그 부분만 맞게 바꿔주세요.</div>
+        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>import sqlite3
 
-# 접속 정보 (민감정보이므로 실습 후 비밀번호는 지우거나 가려두세요)
-DB_HOST = "localhost"
-DB_PORT = "5432"
-DB_NAME = "practice_db"
-DB_USER = "postgres"
-DB_PASSWORD = "여기에_설치할_때_설정한_비밀번호"
+DB_PATH = "practice.db"
 
 
 def get_connection():
-    return psycopg2.connect(
-        host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
-        user=DB_USER, password=DB_PASSWORD
-    )
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
 def list_members():
     conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT 회원id, 이름, 연락처, 가입일, 등급 FROM members ORDER BY 회원id;")
-    rows = cur.fetchall()
+    rows = conn.execute(
+        "SELECT 회원id, 이름, 연락처, 가입일, 등급 FROM members ORDER BY 회원id;"
+    ).fetchall()
     print(f"\n총 {len(rows)}명의 회원이 있습니다.")
     for row in rows:
-        print(f"  {row[0]} | {row[1]} | {row[2]} | {row[3]} | {row[4]}")
-    cur.close()
+        print(f"  {row['회원id']} | {row['이름']} | {row['연락처']} | {row['가입일']} | {row['등급']}")
     conn.close()
 
 
@@ -1329,13 +1314,11 @@ def add_member():
     연락처 = input("연락처: ")
     등급 = input("등급 (일반/VIP, 엔터만 누르면 일반): ") or "일반"
     conn = get_connection()
-    cur = conn.cursor()
-    cur.execute(
-        "INSERT INTO members (이름, 연락처, 등급) VALUES (%s, %s, %s);",
+    conn.execute(
+        "INSERT INTO members (이름, 연락처, 등급) VALUES (?, ?, ?);",
         (이름, 연락처, 등급)
     )
     conn.commit()
-    cur.close()
     conn.close()
     print("추가되었습니다.")
 
@@ -1344,9 +1327,8 @@ def update_member():
     회원id = input("등급을 바꿀 회원ID: ")
     새등급 = input("새 등급 (일반/VIP): ")
     conn = get_connection()
-    cur = conn.cursor()
-    cur.execute(
-        "UPDATE members SET 등급 = %s WHERE 회원id = %s;",
+    cur = conn.execute(
+        "UPDATE members SET 등급 = ? WHERE 회원id = ?;",
         (새등급, 회원id)
     )
     conn.commit()
@@ -1354,7 +1336,6 @@ def update_member():
         print("해당 회원ID가 없습니다.")
     else:
         print(f"{cur.rowcount}명의 등급이 변경되었습니다.")
-    cur.close()
     conn.close()
 
 
@@ -1365,14 +1346,12 @@ def delete_member():
         print("취소되었습니다.")
         return
     conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("DELETE FROM members WHERE 회원id = %s;", (회원id,))
+    cur = conn.execute("DELETE FROM members WHERE 회원id = ?;", (회원id,))
     conn.commit()
     if cur.rowcount == 0:
         print("해당 회원ID가 없습니다.")
     else:
         print(f"{cur.rowcount}명이 삭제되었습니다.")
-    cur.close()
     conn.close()
 
 
@@ -1402,9 +1381,9 @@ if __name__ == "__main__":
       <div class="pop-sec">
         <div class="pop-sec-t"><i class="fas fa-triangle-exclamation"></i> 자주 나는 에러</div>
         <div class="fl fdc g8">
-          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>ModuleNotFoundError: No module named 'psycopg2'</b> → STEP 1 설치를 건너뛰었을 가능성. 다시 pip install 실행</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>password authentication failed</b> → 비밀번호를 잘못 입력. 설치할 때 만든 비밀번호를 다시 확인</div>
-          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>column "회원id" does not exist</b> → 실습 1에서 테이블을 만들 때 컬럼명이 예시와 다르게 생성된 경우. pgAdmin에서 실제 컬럼명을 확인해 코드의 컬럼명을 맞춰주세요</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>OperationalError: no such table: members</b> → practice.db와 db_test.py가 같은 폴더에 있는지 확인. DB_PATH 변수의 경로도 확인</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>OperationalError: no such column: 회원id</b> → 실습 1에서 만든 컬럼명과 코드의 컬럼명이 다를 때. DB Browser "데이터베이스 구조"에서 실제 컬럼명을 확인해 맞춰주세요</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>파일을 찾을 수 없다는 에러</b> → 터미널의 현재 폴더가 practice.db가 있는 폴더인지 확인 (<code>cd 폴더경로</code>로 이동)</div>
           <div class="chk-li"><i class="fas fa-circle-check"></i> 메뉴에서 숫자를 입력해도 반응이 없다면 → 한/영 전환이 안 되어 있는지 확인 (숫자는 상관없지만 y/n 같은 입력은 영문 상태여야 합니다)</div>
           <div class="chk-li"><i class="fas fa-circle-check"></i> 그 외 에러는 전부 <b>에러 메시지 전체를 그대로 복사해 AI에게</b> 붙여넣으면 대부분 해결됩니다</div>
         </div>
@@ -1417,70 +1396,65 @@ if __name__ == "__main__":
   </div>
 </div>
 
-<!-- ══ P5 비밀번호 복구 (참고) ══ -->
+<!-- ══ P5 DB Browser 활용 팁 (참고) ══ -->
 <div class="ov" id="p5" onclick="if(event.target===this)closePop('p5')">
   <div class="pop">
     <div class="pop-h">
       <div class="fl aic g12">
-        <div class="ib ib-r"><i class="fas fa-unlock-keyhole"></i></div>
+        <div class="ib ib-p"><i class="fas fa-lightbulb"></i></div>
         <div>
-          <div class="pop-tt">참고 · postgres 비밀번호를 잊어버렸을 때 복구하는 법</div>
-          <div class="pop-st">참고 자료 · 필요할 때만 펼쳐보세요 · 3부 설치·실습</div>
+          <div class="pop-tt">참고 · DB Browser for SQLite 활용 팁</div>
+          <div class="pop-st">참고 자료 · 필요할 때 펼쳐보세요 · 3부 설치·실습</div>
         </div>
       </div>
       <button class="pop-x" onclick="closePop('p5')"><i class="fas fa-times"></i></button>
     </div>
     <div class="pop-b">
       <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-clapperboard"></i> 원리 한 줄</div>
-        <div class="scen">재설치할 필요 없습니다. <b>설정 파일 하나를 잠깐 "비밀번호 안 물어보기" 모드로 바꿔서 들어간 뒤, 새 비밀번호로 바꾸고 다시 원래대로 되돌리는 것</b>이 전부입니다. 데이터는 전혀 건드리지 않습니다.</div>
-      </div>
-      <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-shoe-prints"></i> 복구 순서</div>
+        <div class="pop-sec-t"><i class="fas fa-star"></i> 꼭 알아두면 좋은 탭 구성</div>
         <div class="fl fdc g12">
           <div class="fl g10 aifs">
-            <div class="sn" style="width:26px;height:26px;font-size:.72rem;background:var(--rd);">1</div>
+            <div class="sn" style="width:26px;height:26px;font-size:.72rem;">1</div>
             <div>
-              <div class="fw7 sm" style="margin-bottom:2px;">pg_hba.conf 파일 열기</div>
-              <div class="xs tsb lh">보통 <code>C:\Program Files\PostgreSQL\17\data\pg_hba.conf</code>에 있습니다 (17은 설치한 버전 번호로 바꿔서). 메모장으로 열면 됩니다.</div>
+              <div class="fw7 sm" style="margin-bottom:2px;">데이터베이스 구조 탭</div>
+              <div class="xs tsb lh">테이블 목록, 컬럼 구성, 인덱스를 확인하는 곳입니다. 테이블을 만들거나 바꾼 뒤 이 탭을 열어 구조가 맞는지 확인하세요.</div>
             </div>
           </div>
           <div class="fl g10 aifs">
-            <div class="sn" style="width:26px;height:26px;font-size:.72rem;background:var(--rd);">2</div>
+            <div class="sn" style="width:26px;height:26px;font-size:.72rem;">2</div>
             <div>
-              <div class="fw7 sm" style="margin-bottom:2px;">인증 방식을 잠깐 trust로 바꾸기</div>
-              <div class="xs tsb lh"><code>127.0.0.1/32</code>, <code>::1/128</code>, <code>local</code>로 시작하는 줄들의 맨 끝 컬럼(<code>scram-sha-256</code> 또는 <code>md5</code>)을 <b>trust</b>로 바꿔서 저장합니다. trust = "비밀번호 안 물어보고 그냥 들여보내줘"라는 뜻입니다.</div>
+              <div class="fw7 sm" style="margin-bottom:2px;">데이터 보기 탭</div>
+              <div class="xs tsb lh">테이블 안의 데이터를 엑셀처럼 표 형태로 볼 수 있습니다. 상단 콤보박스에서 테이블을 선택하면 해당 테이블의 전체 데이터가 나타납니다.</div>
             </div>
           </div>
           <div class="fl g10 aifs">
-            <div class="sn" style="width:26px;height:26px;font-size:.72rem;background:var(--rd);">3</div>
+            <div class="sn" style="width:26px;height:26px;font-size:.72rem;">3</div>
             <div>
-              <div class="fw7 sm" style="margin-bottom:2px;">PostgreSQL 서비스 재시작</div>
-              <div class="xs tsb lh">윈도우 검색에서 <b>services.msc</b> 실행 → <b>postgresql-x64-17</b> 같은 이름 찾기 → 우클릭 → 다시 시작. 설정 파일을 바꿔도 서비스를 재시작해야 반영됩니다.</div>
+              <div class="fw7 sm" style="margin-bottom:2px;">SQL 실행 탭</div>
+              <div class="xs tsb lh">AI가 짜준 SQL을 붙여넣고 실행(F5 또는 ▶)하는 곳입니다. 결과는 탭 하단에 표로 표시됩니다. 여러 SQL을 한꺼번에 실행할 수도 있습니다.</div>
             </div>
           </div>
           <div class="fl g10 aifs">
-            <div class="sn" style="width:26px;height:26px;font-size:.72rem;background:var(--rd);">4</div>
+            <div class="sn" style="width:26px;height:26px;font-size:.72rem;">4</div>
             <div>
-              <div class="fw7 sm" style="margin-bottom:2px;">비밀번호 없이 접속해서 새 비밀번호 설정</div>
-              <div class="xs tsb lh">pgAdmin에서 비밀번호 입력창에 아무거나 입력하거나 비워도 접속됩니다. 접속 후 Query Tool에서 아래 명령 한 줄을 실행합니다.</div>
-            </div>
-          </div>
-          <div class="fl g10 aifs">
-            <div class="sn" style="width:26px;height:26px;font-size:.72rem;background:var(--rd);">5</div>
-            <div>
-              <div class="fw7 sm" style="margin-bottom:2px;"><span class="tr">★ 반드시★</span> trust를 원래대로 되돌리기</div>
-              <div class="xs tsb lh">2번에서 바꾼 부분을 <b>scram-sha-256</b>(원래 값)으로 되돌리고 저장 → 서비스 다시 재시작. 이 단계를 빼먹으면 누구나 비밀번호 없이 들어올 수 있는 상태로 남습니다.</div>
+              <div class="fw7 sm" style="margin-bottom:2px;">저장 — Ctrl+S를 잊지 마세요</div>
+              <div class="xs tsb lh">INSERT, UPDATE, DELETE를 실행해도 <b>Ctrl+S</b>를 눌러 저장해야 .db 파일에 영구 반영됩니다. 저장하지 않으면 DB Browser를 닫을 때 "저장하시겠습니까?" 창이 뜹니다.</div>
             </div>
           </div>
         </div>
       </div>
       <div class="pop-sec">
-        <div class="pop-sec-t"><i class="fas fa-terminal"></i> 4단계에서 쓰는 명령어</div>
-        <div class="pr-box"><button class="copy-btn" onclick="copyTxt(this)"><i class="fas fa-copy"></i> 복사</button>ALTER USER postgres WITH PASSWORD '새로_정할_비밀번호';</div>
+        <div class="pop-sec-t"><i class="fas fa-wrench"></i> 알아두면 편리한 기능</div>
+        <div class="fl fdc g8">
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>SQL 실행 탭 → 최근 실행 이력</b>: 이전에 실행한 SQL을 클릭 한 번으로 다시 불러올 수 있습니다</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>데이터 보기 탭 → 직접 편집</b>: 표 안의 셀을 더블클릭하면 엑셀처럼 직접 수정할 수 있습니다 (Ctrl+S로 저장 필요)</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>파일 → 다른 DB 열기</b>: 다른 .db 파일을 열어 데이터를 확인할 수 있습니다</div>
+          <div class="chk-li"><i class="fas fa-circle-check"></i> <b>파일 → CSV 내보내기</b>: 테이블 데이터를 엑셀에서 열 수 있는 CSV 파일로 내보낼 수 있습니다</div>
+        </div>
       </div>
-      <div class="warn">
-        <i class="fas fa-triangle-exclamation"></i> trust 모드인 동안은 <b>누구나 비밀번호 없이 DB에 들어올 수 있는 상태</b>입니다. 4번(비밀번호 재설정)을 마쳤으면 곧바로 5번(원상복구)을 진행하세요 — trust 상태로 오래 켜두지 않는 것이 중요합니다.
+      <div class="pop-sec">
+        <div class="pop-sec-t"><i class="fas fa-download"></i> 다운로드 링크</div>
+        <div class="scen">설치가 안 됐거나 다시 설치해야 한다면 <b>sqlitebrowser.org/dl</b>에서 Windows 64-bit 버전을 받으세요. 무료이고 별도 가입 없이 바로 다운로드됩니다.</div>
       </div>
     </div>
   </div>
