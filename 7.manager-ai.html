@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<!-- 관리자 대상 2시간 실습형 교재 — 업무 AI 활용(보고서 · 발표 · 데이터 · 메타 프롬프팅 · 현황판)부터 바이브코딩 직접 만들기까지 -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>리더를 위한 AI 실무 실습 — 관리자 과정</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<!-- 글꼴(Pretendard)은 화면이 뜬 뒤 스크립트가 붙임 — 먼저 맑은 고딕으로 보여 주고, 도착하면 바뀜 (회사망에서 CDN이 막혀도 바로 열림) -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0e1b33;--navy2:#162a4d;--ink:#0f172a;--text:#1e293b;--sub:#475569;--mute:#94a3b8;--line:#e2e8f0;--bg:#f4f6fa;--white:#fff;
+  --gold:#f5b301;--ok:#16a34a;--ng:#dc2626;
+  --p0:#0e1b33;--p1:#2563eb;--p2:#7c3aed;--p3:#0d9488;--p4:#ea580c;
+  --pc:var(--p0);--pc-soft:#eef2f7;
+  --font:'Pretendard Variable','Pretendard','맑은 고딕','Malgun Gothic',sans-serif;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:#0b1426;font-family:var(--font);color:var(--text);word-break:keep-all;-webkit-font-smoothing:antialiased;}
+button{font-family:inherit;cursor:pointer;}
+a{color:inherit;}
+
+/* ── 16:9 무대: 1600×900을 화면에 맞춰 축소 · 확대 ── */
+.stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center center;background:var(--bg);overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,.5);}
+.slide{position:absolute;inset:0;padding:96px 88px 70px;display:none;flex-direction:column;}
+.slide.on{display:flex;animation:in .18s ease-out;}
+@keyframes in{from{opacity:0;}to{opacity:1;}}
+@media (prefers-reduced-motion:reduce){.slide.on{animation:none;}}
+.slide[data-part="1"]{--pc:var(--p1);--pc-soft:#e8f0fe;} .slide[data-part="2"]{--pc:var(--p2);--pc-soft:#f1ebfe;}
+.slide[data-part="3"]{--pc:var(--p3);--pc-soft:#e3f6f3;} .slide[data-part="4"]{--pc:var(--p4);--pc-soft:#fdeee4;}
+
+/* ── 상단 · 하단 공통 띠 ── */
+.chrome{position:absolute;left:0;right:0;top:0;height:64px;display:flex;align-items:center;gap:18px;padding:0 40px;z-index:5;border-bottom:1px solid var(--line);background:rgba(255,255,255,.92);}
+.chrome .brand{font-weight:800;font-size:17px;color:var(--navy);display:flex;align-items:center;gap:10px;}
+.chrome .brand i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--gold),#f97316);display:grid;place-items:center;font-style:normal;color:#fff;font-size:15px;}
+.track{display:flex;gap:6px;margin-left:auto;}
+.track span{font-size:14px;font-weight:700;color:var(--mute);padding:6px 14px;border-radius:20px;background:#eef1f6;}
+.track span.on{color:#fff;background:var(--c);}
+.timechip{font-size:15px;font-weight:800;color:var(--navy);background:#fff3c4;border:1px solid #f5d76e;border-radius:20px;padding:6px 14px;min-width:110px;text-align:center;}
+.timechip:empty{visibility:hidden;}
+.chrome.dark{background:rgba(14,27,51,.6);border-bottom-color:rgba(255,255,255,.08);}
+.chrome.dark .brand{color:#fff;} .chrome.dark .track span{background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);} .chrome.dark .track span.on{color:#fff;background:var(--c);}
+.foot{position:absolute;left:0;right:0;bottom:0;height:50px;display:flex;align-items:center;gap:14px;padding:0 40px;z-index:5;font-size:14px;color:var(--mute);}
+.foot .scrub{flex:1;position:relative;height:36px;display:flex;align-items:center;cursor:pointer;touch-action:none;}
+.foot .bar{flex:1;height:6px;border-radius:4px;background:rgba(148,163,184,.25);overflow:hidden;transition:height .12s;}
+.foot .scrub:hover .bar,.foot .scrub.drag .bar{height:12px;}
+.foot .ticks span{position:absolute;top:9px;bottom:9px;width:2px;margin-left:-1px;background:rgba(100,116,139,.55);border-radius:1px;pointer-events:none;}
+.foot .hov{position:absolute;top:6px;bottom:6px;width:3px;margin-left:-1.5px;background:var(--navy);border-radius:2px;pointer-events:none;display:none;}
+.foot .tip{position:absolute;bottom:40px;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:15px;font-weight:700;padding:8px 13px;border-radius:10px;white-space:nowrap;pointer-events:none;display:none;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.foot .tip b{color:var(--gold);margin-right:6px;}
+.foot .scrub:hover .tip,.foot .scrub.drag .tip,.foot .scrub:hover .hov,.foot .scrub.drag .hov{display:block;}
+.foot .tip.l{transform:none;} .foot .tip.r{transform:translateX(-100%);}
+.foot .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#f97316);transition:width .3s;}
+.foot button{border:none;background:rgba(148,163,184,.18);color:var(--sub);width:38px;height:34px;border-radius:9px;font-size:18px;}
+.foot button:hover{background:var(--gold);color:var(--navy);}
+.foot .no{font-weight:800;color:var(--sub);min-width:70px;text-align:center;}
+
+/* ── 글자 ── */
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:18px;font-weight:800;color:var(--pc);letter-spacing:.04em;margin-bottom:10px;}
+.eyebrow b{background:var(--pc);color:#fff;border-radius:8px;padding:3px 10px;font-size:15px;}
+h2{font-size:52px;line-height:1.2;font-weight:900;color:var(--ink);letter-spacing:-.01em;}
+h2 em{font-style:normal;color:var(--pc);}
+.lead{font-size:25px;color:var(--sub);margin-top:12px;line-height:1.55;}
+.body{flex:1;margin-top:30px;min-height:0;}
+.hl{background:linear-gradient(transparent 58%,#ffe58a 58%);}
+
+/* ── 카드 ── */
+.cards{display:grid;gap:22px;}
+.c2{grid-template-columns:1fr 1fr;} .c3{grid-template-columns:repeat(3,1fr);} .c4{grid-template-columns:repeat(4,1fr);}
+.card{background:#fff;border-radius:20px;padding:28px 30px;box-shadow:0 2px 4px rgba(15,23,42,.04),0 10px 30px rgba(15,23,42,.06);border:1px solid var(--line);}
+.card .ic{font-size:44px;line-height:1;margin-bottom:14px;}
+.card h3{font-size:28px;font-weight:800;color:var(--ink);margin-bottom:10px;line-height:1.3;}
+.card p,.card li{font-size:21px;line-height:1.6;color:var(--sub);}
+.card ul{list-style:none;} .card li{padding-left:22px;position:relative;margin-bottom:6px;}
+.card li::before{content:"";position:absolute;left:4px;top:13px;width:8px;height:8px;border-radius:50%;background:var(--pc);}
+.card.top{border-top:6px solid var(--pc);}
+.cards.tight .card{padding:20px 26px;} .cards.tight .num{width:40px;height:40px;font-size:20px;margin-bottom:8px;} .cards.tight h3{font-size:25px;margin-bottom:6px;} .cards.tight p{font-size:20px;}
+.card.soft{background:var(--pc-soft);border-color:transparent;box-shadow:none;}
+.num{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--pc);color:#fff;font-size:24px;font-weight:900;margin-bottom:14px;}
+.tip{margin-top:24px;display:flex;gap:16px;align-items:flex-start;background:#fff8dc;border:1px solid #f5d76e;border-radius:16px;padding:18px 24px;font-size:21px;line-height:1.55;color:#5b4300;}
+.tip .t{font-size:30px;line-height:1;}
+.tip.blue{background:#eaf2ff;border-color:#bcd3fb;color:#1e3a8a;}
+.tip.red{background:#fdecec;border-color:#f7c4c4;color:#7f1d1d;}
+.tip.green{background:#e9f8ee;border-color:#b6e5c5;color:#14532d;}
+
+/* ── 흐름 ── */
+.flow{display:flex;align-items:stretch;gap:14px;}
+.flow .st{flex:1;background:#fff;border-radius:20px;padding:26px 24px;border:1px solid var(--line);box-shadow:0 10px 30px rgba(15,23,42,.06);position:relative;}
+.flow .st b{display:block;font-size:26px;color:var(--ink);margin:4px 0 8px;}
+.flow .st p{font-size:20px;color:var(--sub);line-height:1.55;}
+.flow .st p b{display:inline;margin:0;}
+.flow .ar{display:flex;align-items:center;font-size:34px;color:var(--pc);font-weight:900;}
+.flow .st .k{font-size:15px;font-weight:800;color:var(--pc);letter-spacing:.08em;}
+
+/* ── 실습 슬라이드 ── */
+.ribbon{position:absolute;top:84px;right:88px;display:flex;gap:10px;align-items:center;z-index:2;}
+.ribbon .lab{font-size:17px;font-weight:900;color:#fff;background:var(--pc);border-radius:10px;padding:7px 16px;letter-spacing:.05em;}
+.ribbon .lab.demo{background:var(--navy);}
+.timer{border:2px solid var(--pc);background:#fff;color:var(--pc);font-size:18px;font-weight:900;border-radius:10px;padding:5px 14px;font-variant-numeric:tabular-nums;}
+.timer.run{background:var(--pc);color:#fff;}
+.timer.end{background:var(--ng);border-color:var(--ng);color:#fff;animation:blink 1s infinite;}
+@keyframes blink{50%{opacity:.6;}}
+.prac{display:grid;grid-template-columns:500px minmax(0,1fr);gap:30px;flex:1;min-height:0;margin-top:20px;}
+.steps{display:flex;flex-direction:column;gap:12px;}
+.steps .s{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;}
+.steps .s i{flex-shrink:0;width:38px;height:38px;border-radius:11px;background:var(--pc);color:#fff;font-style:normal;font-weight:900;font-size:20px;display:grid;place-items:center;}
+.steps .s div{font-size:20px;line-height:1.5;color:var(--text);}
+.steps .s small{display:block;font-size:17px;color:var(--sub);}
+.situ{background:var(--navy);color:#e2e8f0;border-radius:16px;padding:18px 22px;font-size:20px;line-height:1.55;}
+.situ b{color:var(--gold);}
+.pr{display:flex;flex-direction:column;min-height:0;background:var(--navy);border-radius:20px;padding:16px 18px 18px;box-shadow:0 14px 40px rgba(14,27,51,.25);}
+.pr-top{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.pr-top .tabs{display:flex;gap:6px;flex-wrap:wrap;}
+.pr-top .tabs button{border:none;background:rgba(255,255,255,.08);color:#cbd5e1;font-size:17px;font-weight:800;padding:8px 14px;border-radius:10px;}
+.pr-top .tabs button.on{background:var(--pc);color:#fff;}
+.pr-top .lbl{font-size:15px;font-weight:800;color:var(--gold);letter-spacing:.08em;}
+.copy{margin-left:auto;border:none;background:var(--gold);color:var(--navy);font-size:17px;font-weight:900;padding:9px 18px;border-radius:10px;white-space:nowrap;}
+.copy.done{background:#22c55e;color:#fff;}
+.pbox{display:none;flex:1;min-height:0;overflow:auto;white-space:pre-wrap;font-size:20.5px;line-height:1.62;color:#f1f5f9;background:#0a1428;border:1px solid #23395f;border-radius:14px;padding:20px 24px;font-family:var(--font);}
+.pbox.on{display:block;}
+.pbox .h{color:var(--gold);font-weight:800;}
+.pbox .m{color:#7dd3fc;}
+.pbox::-webkit-scrollbar{width:10px;} .pbox::-webkit-scrollbar-thumb{background:#2b4470;border-radius:5px;}
+.pnote{margin-top:12px;font-size:17px;color:#cbd5e1;line-height:1.5;}
+.pnote b{color:var(--gold);}
+
+/* ── 내려받기 · 코드 ── */
+.dl{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:#16a34a;color:#fff;border:none;border-radius:12px;padding:11px 18px;font-size:18px;font-weight:800;text-decoration:none;font-family:inherit;}
+.dl:hover{filter:brightness(1.08);}
+.pbox.sm{font-size:18px;line-height:1.5;}
+.pbox.xs{font-size:16.5px;line-height:1.45;padding:16px 20px;}
+.slide:has(.prac) h2{font-size:46px;} .slide:has(.prac) .eyebrow{margin-bottom:6px;}
+.pbox.code{font-family:Consolas,'D2Coding',monospace;font-size:14.5px;line-height:1.5;color:#e2e8f0;}
+
+/* ── 표 ── */
+.tbl{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--line);font-size:20px;}
+.tbl th{background:var(--navy);color:#fff;padding:12px 14px;text-align:center;font-weight:800;}
+.tbl td{padding:11px 14px;border-top:1px solid var(--line);text-align:center;font-variant-numeric:tabular-nums;}
+.tbl td:first-child{text-align:left;font-weight:800;color:var(--ink);}
+.tbl.vs td{text-align:left;font-size:21px;}
+.tbl.vs td:first-child{background:#f8fafc;width:200px;}
+.tbl.vs th:last-child,.tbl.vs td:last-child{background:var(--pc-soft);color:var(--ink);font-weight:700;}
+.tbl.vs th:last-child{background:var(--pc);}
+
+/* ── 표지 · 파트 · 마무리 ── */
+.dark{background:radial-gradient(900px 600px at 85% 15%,#24467e 0%,transparent 60%),linear-gradient(140deg,#0b1426 0%,#0e1b33 55%,#13284b 100%);color:#fff;}
+.dark h2,.dark h1{color:#fff;}
+.cover{justify-content:center;padding-left:120px;}
+.cover .tag{display:inline-block;font-size:20px;font-weight:800;color:var(--gold);border:1px solid rgba(245,179,1,.5);border-radius:30px;padding:8px 20px;margin-bottom:28px;}
+.cover h1{font-size:92px;font-weight:900;line-height:1.1;letter-spacing:-.02em;}
+.cover h1 span{color:var(--gold);}
+.cover .sub{font-size:30px;color:#cbd5e1;margin-top:22px;}
+.cover .meta{display:flex;gap:16px;margin-top:48px;}
+.cover .meta div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px 26px;}
+.cover .meta b{display:block;font-size:34px;color:#fff;}
+.cover .meta span{font-size:17px;color:#94a3b8;}
+.cover .org{position:absolute;bottom:80px;left:120px;font-size:18px;color:#94a3b8;font-weight:700;}
+.part{justify-content:center;padding-left:120px;color:#fff;background:linear-gradient(135deg,var(--pc) 0%,#0e1b33 120%);}
+.part .pn{font-size:24px;font-weight:900;letter-spacing:.2em;opacity:.8;}
+.part h2{color:#fff;font-size:84px;margin:14px 0 18px;}
+.part .tm{display:inline-block;font-size:24px;font-weight:800;background:rgba(255,255,255,.15);border-radius:30px;padding:8px 22px;}
+.part ol{list-style:none;margin-top:46px;display:flex;flex-direction:column;gap:14px;}
+.part ol li{font-size:30px;font-weight:700;display:flex;gap:18px;align-items:center;}
+.part ol li span{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;}
+.part ol li small{font-size:20px;opacity:.75;font-weight:600;}
+
+/* ── 시간표 ── */
+.agenda{display:flex;flex-direction:column;gap:12px;}
+.ag{display:grid;grid-template-columns:140px 280px minmax(0,1fr) 110px;align-items:center;gap:20px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 22px;border-left:8px solid var(--c);}
+.ag .p{font-size:17px;font-weight:900;color:var(--c);letter-spacing:.06em;}
+.ag b{font-size:25px;color:var(--ink);}
+.ag span{font-size:19px;color:var(--sub);}
+.ag .m{font-size:22px;font-weight:900;color:var(--ink);text-align:right;}
+
+/* ── 비교 (전 / 후) ── */
+.vs2{display:grid;grid-template-columns:1fr 70px 1fr;align-items:stretch;}
+.vs2 .mid{display:grid;place-items:center;font-size:40px;color:var(--pc);font-weight:900;}
+.bad{border-top:6px solid #94a3b8;} .good{border-top:6px solid var(--pc);}
+.quote{font-size:21px;line-height:1.6;color:var(--text);background:#f8fafc;border-radius:12px;padding:14px 18px;margin-top:10px;}
+
+/* ── 시각 미리보기 (이름표 · 경비 정산기) ── */
+.mock-name{width:380px;margin:6px auto 0;background:linear-gradient(160deg,#eaf2ff,#fff);border-radius:24px;padding:30px;text-align:center;box-shadow:0 18px 50px rgba(37,99,235,.18);border:1px solid #cfe0fb;}
+.mock-name .av{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#60a5fa);color:#fff;font-size:44px;font-weight:900;display:grid;place-items:center;margin:0 auto 14px;}
+.mock-name b{font-size:36px;color:#0f172a;display:block;}
+.mock-name .rk{font-size:19px;color:#2563eb;font-weight:800;margin:4px 0 14px;}
+.mock-name p{font-size:18px;color:#475569;line-height:1.8;}
+.stack-r{display:flex;flex-direction:column;gap:16px;}
+.mock-bg{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 24px;box-shadow:0 10px 30px rgba(15,23,42,.06);}
+.mock-bg .tot{display:flex;justify-content:space-between;align-items:baseline;font-size:18px;color:var(--sub);font-weight:700;}
+.mock-bg .tot b{font-size:30px;color:var(--ink);}
+.mock-bg .bar{height:16px;background:#e2e8f0;border-radius:8px;overflow:hidden;margin:8px 0 16px;}
+.mock-bg .bar i{display:block;height:100%;background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.mock-bg .row{display:grid;grid-template-columns:80px minmax(0,1fr) 64px;gap:12px;align-items:center;font-size:18px;color:var(--text);padding:6px 0;}
+.mock-bg .row .t{height:12px;background:#e2e8f0;border-radius:6px;overflow:hidden;}
+.mock-bg .row .t i{display:block;height:100%;}
+.mock-bg .row b{text-align:right;font-variant-numeric:tabular-nums;}
+.mock-bg .row b.over{color:#fff;background:#dc2626;border-radius:8px;font-size:15px;text-align:center;padding:2px 0;}
+
+/* ── 체크 ── */
+.chk{display:flex;flex-direction:column;gap:12px;}
+.chk label{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;font-size:23px;cursor:pointer;}
+.chk input{width:26px;height:26px;accent-color:var(--pc);}
+
+/* ── 슬라이드 목록 (M 키) ── */
+.menu{position:fixed;inset:0;background:rgba(5,10,20,.75);display:none;align-items:center;justify-content:center;z-index:50;}
+.menu.on{display:flex;}
+.menu .box{background:#fff;border-radius:18px;padding:24px 28px;width:min(1000px,92vw);max-height:86vh;overflow:auto;}
+.menu h4{font-size:20px;margin-bottom:12px;color:var(--ink);}
+.menu .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.menu .grid button{text-align:left;border:1px solid var(--line);background:#f8fafc;border-radius:10px;padding:10px 12px;font-size:15px;color:var(--text);}
+.menu .grid button b{color:var(--mute);margin-right:6px;}
+.menu .grid button.cur{background:#fff3c4;border-color:#f5d76e;}
+/* ── 편의 기능 ── */
+.pbox{zoom:var(--pz,1);}
+.pr-top .zoom{margin-left:auto;border:none;background:rgba(255,255,255,.1);color:#e2e8f0;font-size:16px;font-weight:800;padding:9px 13px;border-radius:10px;white-space:nowrap;}
+.pr-top .zoom:hover{background:rgba(255,255,255,.2);}
+.pr-top .zoom + .copy{margin-left:0;}
+.live{display:none;font-size:15px;font-weight:900;color:#fff;background:var(--ng);border-radius:20px;padding:6px 14px;cursor:pointer;font-variant-numeric:tabular-nums;}
+.live.on{display:inline-block;}
+.ov{position:fixed;inset:0;background:rgba(5,10,20,.82);display:none;align-items:center;justify-content:center;z-index:60;padding:3vh 3vw;}
+.ov.on{display:flex;}
+.ov .box{background:#fff;border-radius:18px;padding:22px 26px;width:min(1100px,94vw);max-height:92vh;display:flex;flex-direction:column;gap:12px;}
+.ov .hd{display:flex;align-items:center;gap:10px;}
+.ov .hd b{font-size:20px;color:var(--ink);}
+.ov .hd .x{margin-left:auto;border:none;background:#eef1f6;color:var(--sub);font-size:16px;font-weight:800;border-radius:10px;padding:8px 14px;}
+.big .box{background:var(--navy);width:min(1500px,96vw);height:92vh;}
+.big .hd b{color:var(--gold);}
+.big .txt{flex:1;overflow:auto;white-space:pre-wrap;color:#f1f5f9;font-size:30px;line-height:1.6;font-family:var(--font);background:#0a1428;border-radius:14px;padding:26px 32px;}
+.big .txt .h{color:var(--gold);font-weight:800;} .big .txt .m{color:#7dd3fc;}
+.big .txt.code{font-family:Consolas,'D2Coding',monospace;font-size:20px;line-height:1.5;}
+.helpg{display:grid;grid-template-columns:1fr 1fr;gap:6px 26px;font-size:17px;color:var(--text);}
+.helpg div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding:7px 0;}
+.helpg kbd,.foot kbd{font-family:var(--font);font-size:13px;font-weight:800;background:#f1f5f9;border:1px solid #cbd5e1;border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--ink);}
+.foot kbd{background:rgba(148,163,184,.15);border-color:rgba(148,163,184,.35);color:inherit;}
+.toast2{position:fixed;left:50%;bottom:7vh;transform:translateX(-50%) translateY(16px);background:#0e1b33;color:#fff;font-size:17px;font-weight:700;padding:12px 22px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:.2s;z-index:80;display:flex;gap:12px;align-items:center;}
+.toast2.on{opacity:1;transform:translateX(-50%);pointer-events:auto;}
+.toast2 button{border:none;background:var(--gold);color:var(--navy);font-weight:900;font-size:15px;border-radius:9px;padding:6px 12px;}
+.jump{position:fixed;right:3vw;bottom:9vh;background:var(--gold);color:var(--navy);font-size:30px;font-weight:900;border-radius:14px;padding:10px 20px;display:none;z-index:70;}
+.jump.on{display:block;}
+.menu .tools{display:flex;gap:10px;align-items:center;margin-bottom:12px;}
+.menu .tools input{flex:1;height:42px;border:1px solid var(--line);border-radius:10px;padding:0 14px;font-size:16px;font-family:var(--font);}
+.menu .ph{grid-column:1/-1;font-size:14px;font-weight:900;color:var(--sub);letter-spacing:.06em;margin-top:8px;}
+.menu .grid button.lab b::after{content:"";}
+.menu .grid button .tg{float:right;font-size:12px;font-weight:800;color:#fff;background:var(--p4);border-radius:6px;padding:1px 6px;}
+
+/* ── 인쇄 · PDF: 슬라이드 한 장 = 한 페이지 ── */
+@media print{
+  @page{size:1600px 900px;margin:0;}
+  html,body{overflow:visible;height:auto;background:#fff;}
+  .stage{position:static;transform:none !important;box-shadow:none;width:1600px;height:auto;overflow:visible;}
+  .slide{display:flex !important;position:relative;height:900px;page-break-after:always;break-after:page;animation:none !important;}
+  .chrome,.foot,.menu,.ov,.toast2,.jump,.live,.timer,.copy,.zoom{display:none !important;}
+  .pbox{display:block !important;overflow:hidden;}
+  .pbox:not(.on){display:none !important;}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="chrome" id="chrome"><div class="brand"><i>AI</i>리더를 위한 AI 실무 실습</div><div class="track" id="track"></div><span class="live" id="live" title="눌러서 그 실습으로 이동"></span><div class="timechip" id="timechip"></div></div>
+
+<!-- ══════════ 시작 ══════════ -->
+<section class="slide dark cover" data-part="0" data-title="표지">
+  <div><span class="tag">관리자 과정 · 실습형 2시간</span></div>
+  <h1>리더를 위한<br><span>AI 실무 실습</span></h1>
+  <div class="sub">보고서 · 발표 · 데이터 정리부터, 팀 업무 도구 직접 만들기까지</div>
+  <div class="meta">
+    <div><b>120분</b><span>실습 위주</span></div>
+    <div><b>실습 8개</b><span>이 교재만 보고 따라 하기</span></div>
+    <div><b>wrks.ai</b><span>문서 · 발표 · 데이터</span></div>
+    <div><b>Antigravity</b><span>업무 도구 만들기</span></div>
+  </div>
+  <div class="org">AI정보기획팀 · 코딩 지식 없이 시작합니다</div>
+</section>
+
+<section class="slide" data-part="0" data-title="오늘 얻어 가는 것" data-time="시작 5분">
+  <div class="eyebrow"><b>시작</b>오늘의 약속</div>
+  <h2>2시간 뒤, 이 세 가지를 <em>직접 해 본 상태</em>로 돌아갑니다</h2>
+  <div class="body">
+    <div class="cards c3">
+      <div class="card top"><div class="ic">📝</div><h3>보고 · 발표 자료를<br>AI와 함께 만든다</h3><p>목차 → 초안 → 다듬기 3단계로, 발표는 뼈대와 메시지부터</p></div>
+      <div class="card top"><div class="ic">📊</div><h3>숫자를 넣으면<br>보고 문장까지</h3><p>매출표를 붙여넣고 패턴 · 원인 가설 · 회의 보고로</p></div>
+      <div class="card top"><div class="ic">🛠️</div><h3>코딩 없이<br>업무 도구를 만든다</h3><p>말로 지시해 엑셀 보안 도구 · 현황판 · 이름표 · 경비 정산기</p></div>
+    </div>
+    <div class="tip"><span class="t">💡</span><div>관리자에게 필요한 것은 코딩 실력이 아니라 <b>지시하는 힘</b>입니다. 좋은 업무 지시서를 쓰는 능력이 그대로 좋은 프롬프트가 됩니다.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="0" data-title="진행 순서">
+  <div class="eyebrow"><b>시작</b>오늘의 흐름</div>
+  <h2>4개 파트, <em>실습 9개</em>를 순서대로 진행합니다</h2>
+  <div class="body agenda">
+    <div class="ag" style="--c:var(--p1)"><span class="p">PART 1</span><b>실무 활용 ①</b><span>실습 ① 3단계 보고서 · ② 발표 설계 + NotebookLM · ③ 매출 인사이트</span><span class="m">30분</span></div>
+    <div class="ag" style="--c:var(--p2)"><span class="p">PART 2</span><b>실무 활용 ②</b><span>실습 ④ 메타 프롬프팅 엑셀 보안 도구 · ⑤ 엑셀 데이터로 현황판 만들기</span><span class="m">20분</span></div>
+    <div class="ag" style="--c:var(--p3)"><span class="p">PART 3</span><b>바이브코딩 시작하기</b><span>바이브코딩 입문 · Antigravity 설치(시연 + 따라 하기) · 실습 ⑥ 실행 환경 확인 · ⑥-2 거래내역 파일 합치기</span><span class="m">35분</span></div>
+    <div class="ag" style="--c:var(--p4)"><span class="p">PART 4</span><b>직접 만들기</b><span>실습 ⑦ 초급 1 디지털 이름표 · ⑧ 중급 2 부서별 예산 · 경비 정산기</span><span class="m">35분</span></div>
+    <div class="ag" style="--c:#64748b"><span class="p">시작 · 끝</span><b>여는 말 · 마무리</b><span>오늘의 약속 · 내일 팀에서 해 볼 3가지 · 질문</span><span class="m">10분</span></div>
+  </div>
+</section>
+
+<section class="slide" data-part="0" data-title="사전 학습 — AI 프롬프트 완전 정복" data-time="사전 학습">
+  <div class="eyebrow"><b>사전 학습</b>읽고 오시면 오늘이 훨씬 쉽습니다</div>
+  <h2>AI 프롬프트 완전 정복 — <em>핵심 네 가지</em></h2>
+  <div class="body">
+    <div class="cards c4">
+      <div class="card soft"><div class="num">C</div><h3>맥락 Context</h3><p>어떤 상황인지, 누구에게 보고하는지</p></div>
+      <div class="card soft"><div class="num">R</div><h3>역할 Role</h3><p>"10년차 인사팀장으로서"처럼 관점을 정해 주기</p></div>
+      <div class="card soft"><div class="num">T</div><h3>할 일 Task</h3><p>무엇을 해 달라는지 한 문장으로 분명하게</p></div>
+      <div class="card soft"><div class="num">F</div><h3>형식 Format</h3><p>표 · 3줄 요약 · A4 한 장 등 결과 모양</p></div>
+    </div>
+    <div class="cards c3" style="margin-top:22px">
+      <div class="card"><h3>✂️ 큰 일은 쪼개서</h3><p>한 번에 다 시키면 방향이 틀렸을 때 전부 다시 해야 합니다.</p></div>
+      <div class="card"><h3>📎 재료를 주고</h3><p>숫자 · 사실을 주지 않으면 AI는 그럴듯하게 지어냅니다.</p></div>
+      <div class="card"><h3>🔄 꼬이면 새 대화</h3><p>대화가 엉키면 고치려 애쓰지 말고 새 대화에서 다시.</p></div>
+    </div>
+    <div class="tip blue"><span class="t">📖</span><div>전체 교재 <a href="1.prompt.html" target="_blank"><b>「AI 프롬프트 완전 정복」 열기</b></a> — 교육 전에 한 번 읽어 보세요.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="0" data-title="실습 준비 — wrks.ai 열기">
+  <div class="eyebrow"><b>시작</b>실습 준비</div>
+  <h2>PART 1 · 2 실습은 <em>wrks.ai(웍스AI)</em>로 합니다</h2>
+  <div class="body">
+    <div class="flow">
+      <div class="st"><span class="k">STEP 1</span><b>주소 열기</b><p>브라우저에서<br><a href="https://wrks.ai/ko/agent" target="_blank" rel="noopener" style="font-size:24px;font-weight:800;color:var(--p1);text-decoration:underline;text-underline-offset:4px">wrks.ai/ko/agent ↗</a></p></div><div class="ar">›</div>
+      <div class="st"><span class="k">STEP 2</span><b>회사 계정 로그인</b><p>회사에서 받은 계정으로<br>로그인</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">STEP 3</span><b>새 대화</b><p>실습을 시작할 때마다<br>새 대화로 열기</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">STEP 4</span><b>복사 · 붙여넣기</b><p>교재의 <b style="font-size:20px">📋 복사</b> 버튼 →<br>wrks.ai 입력창에 Ctrl+V</p></div>
+    </div>
+    <div class="cards c2" style="margin-top:22px">
+      <div class="card soft"><h3>📋 이 교재 보는 법</h3><p>실습 슬라이드 오른쪽 <b>탭</b>을 왼쪽부터 차례로 눌러 복사 · 붙여넣기 하면 됩니다.</p></div>
+      <div class="card soft" style="background:#fdecec"><h3>🔒 보안 수칙</h3><p>고객 · 직원 개인정보, 계약 금액, 미공개 실적은 넣지 않습니다. wrks.ai는 개인정보를 자동으로 가려 주지만 <b>넣지 않는 것이 원칙</b>. 오늘 실습 데이터는 <b>모두 샘플</b>입니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PART 1 ══════════ -->
+<section class="slide part" data-part="1" data-title="PART 1 실무 활용 ①">
+  <div class="pn">PART 1</div>
+  <h2>실무 활용 ①</h2>
+  <div><span class="tm">⏱ 30분 · 실습 3개</span></div>
+  <ol>
+    <li><span>①</span>보고서는 3단계 공법으로 <small>— 재택근무 만족도 보고서</small></li>
+    <li><span>②</span>PPT는 뼈대와 메시지를 <small>— 10분 발표 설계 + 구글 NotebookLM</small></li>
+    <li><span>③</span>데이터를 붙여넣으면 보고 문장까지 <small>— 지점별 매출 인사이트</small></li>
+  </ol>
+</section>
+
+<section class="slide" data-part="1" data-title="보고서 3단계 공법" data-time="보고서 10분">
+  <div class="eyebrow"><b>PART 1-1</b>문서 작업</div>
+  <h2>보고서는 <em>3단계 공법</em>으로 — 한 번에 다 시키지 마세요</h2>
+  <div class="body">
+    <div class="flow">
+      <div class="st"><span class="k">1단계</span><b>📑 목차부터 합의</b><p>"목차만 먼저 잡아줘"<br>방향이 맞는지 <b style="font-size:20px">내가 먼저</b> 판단합니다.</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">2단계</span><b>📎 재료 주고 초안</b><p>확정된 목차에 데이터 · 수치 · 사실을 붙여 초안을 시킵니다. <b style="font-size:20px">재료가 없으면 지어냅니다.</b></p></div><div class="ar">›</div>
+      <div class="st"><span class="k">3단계</span><b>✨ 톤 다듬기</b><p>"두괄식으로", "숫자를 앞세워서", "한 장 요약 추가" — 부분 수정으로 완성도를 올립니다.</p></div>
+    </div>
+    <div class="cards c2" style="margin-top:24px">
+      <div class="card bad"><h3>❌ "보고서 다 써줘"</h3><p>방향이 틀리면 <b>처음부터 다시</b>. 없는 숫자가 섞여도 알아채기 어렵습니다.</p></div>
+      <div class="card good"><h3>✅ 목차 → 초안 → 다듬기</h3><p>목차에서 방향을 잡으면 <span class="hl">수정 비용이 10분의 1</span>로 줄어듭니다. 팀원에게 일을 맡길 때와 똑같습니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1" data-title="실습 ① 3단계 공법으로 보고서 만들기" data-timer="8">
+  <div class="ribbon"><span class="lab">실습 ①</span><button class="timer">⏱ 8:00 시작</button></div>
+  <div class="eyebrow"><b>PART 1-1</b>실습 · wrks.ai · 난이도 ★★☆</div>
+  <h2>실습 ① — <em>재택근무 만족도</em> 경영진 보고서</h2>
+  <div class="prac" style="grid-template-columns:400px minmax(0,1fr)">
+    <div class="steps">
+      <div class="situ"><b>상황</b> 인사팀 주임인 당신에게 팀장이 지시했습니다. "재택근무 만족도 조사 결과, 경영진 보고용으로 정리해줘. 내일 오전까지."</div>
+      <div class="s"><i>1</i><div><b>1단계</b> 탭 복사 → wrks.ai 새 대화에 붙여넣기<small>목차가 마음에 안 들면 2단계로 가지 말고 먼저 고치기</small></div></div>
+      <div class="s"><i>2</i><div><b>2단계</b> 탭 복사 → 붙여넣기<small>조사 데이터가 함께 들어 있습니다</small></div></div>
+      <div class="s"><i>3</i><div><b>3단계</b> 탭 복사 → 붙여넣기<small>완성된 보고서는 메모장에 복사해 두기 (실습 ②에서 사용)</small></div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">1단계 · 목차</button><button>2단계 · 초안</button><button>3단계 · 다듬기</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">너는 인사팀 10년차 보고서 전문가야.
+"재택근무 만족도 조사 결과 보고서"를 쓸 거야.
+- 보고 대상: 경영진 (바쁘고, 결론부터 원함)
+- 목적: 향후 근무제도 방향 결정의 근거 자료
+- 분량: A4 2장 이내
+먼저 <span class="h">목차만</span> 잡아줘. 각 목차마다 어떤 내용이
+들어갈지 한 줄씩만 설명해줘. 아직 본문은 쓰지 마.</div>
+<div class="pbox sm xs" style="font-size:16px;line-height:1.38">목차 좋아. 2번과 3번 순서만 바꿔줘.
+그리고 아래 실제 조사 데이터로 초안을 작성해줘.
+<span class="h">데이터에 없는 내용은 지어내지 말고,</span>
+추가 조사가 필요한 부분은 [확인 필요]로 표시해줘.
+- 조사 대상: 전 직원 240명 중 198명 응답 (82.5%)
+- 재택근무 만족도: 매우만족 41%, 만족 33%, 보통 15%, 불만족 11%
+- 생산성 자가평가: 향상 52%, 동일 31%, 저하 17%
+- 주요 만족 이유: 통근시간 절약(68%), 집중 환경(45%), 워라밸(41%)
+- 주요 불만: 소통 어려움(38%), 장비 부족(22%), 고립감(19%)
+- 희망 근무형태: 주2-3회 하이브리드 61%, 전면 재택 24%, 전면 출근 15%
+- 팀장급 의견: 신입 온보딩과 협업 품질 저하 우려가 큼</div>
+<div class="pbox">좋아. 이제 마무리 작업이야.
+1. 맨 앞에 <span class="h">"핵심 요약" 박스</span>를 추가해줘 (3문장, 결론 먼저)
+2. 경영진이 물어볼 만한 예상 질문 3개와 답변 근거를
+   맨 뒤에 붙여줘
+3. 전체적으로 "~함", "~임" 개조식으로 통일해줘</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1" data-title="실습 ① 결과 확인 · 응용 미션">
+  <div class="ribbon"><span class="lab">실습 ① 확인</span></div>
+  <div class="eyebrow"><b>PART 1-1</b>결과 확인</div>
+  <h2>실습 ① — <em>체크포인트</em>와 응용 미션</h2>
+  <div class="prac" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+    <div class="chk">
+      <label><input type="checkbox"> 1단계에서 목차가 마음에 안 들면 바로 2단계로 가지 않고 목차를 고쳤는가?</label>
+      <label><input type="checkbox"> 초안의 모든 수치가 내가 준 데이터와 일치하는가? (지어낸 숫자 없는지)</label>
+      <label><input type="checkbox"> "하이브리드 61%"라는 핵심 근거가 결론과 연결되어 있는가?</label>
+      <div class="tip green" style="margin-top:4px"><span class="t">🧭</span><div>[확인 필요] 표시가 있다면 그 부분은 AI가 모른다는 뜻 — <b>오히려 좋은 신호</b>입니다.</div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><span class="lbl">응용 미션 · 같은 대화에 이어서</span><button class="copy">📋 복사</button></div>
+<div class="pbox on">완성된 보고서를 <span class="h">"전 직원 공지용 요약문"</span>으로 바꿔줘.
+- 톤: 친근하게
+- 분량: 500자</div>
+      <div class="pnote">💡 같은 재료로 <b>대상만 바꾸는 것</b> — 실무에서 가장 자주 쓰는 기술입니다.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1" data-title="PPT는 뼈대와 메시지를 + NotebookLM" data-time="PPT 10분">
+  <div class="eyebrow"><b>PART 1-2</b>발표 자료</div>
+  <h2>PPT는 디자인 말고 <em>뼈대와 메시지</em>를 시키세요</h2>
+  <div class="body">
+    <div class="cards c3">
+      <div class="card top"><div class="ic">🧭</div><h3>wrks.ai — 설계</h3><ul><li>시간에 맞는 장수와 흐름</li><li>장마다 헤드라인 한 줄</li><li>핵심 내용 3개 · 발표 대본</li><li>예상 질문과 답변</li></ul></div>
+      <div class="card top" style="--pc:#0f9d58"><div class="ic">📚</div><h3>NotebookLM — 내 자료</h3><ul><li>보고서 · PDF · 문서를 <b>소스</b>로 넣기</li><li>넣은 자료를 근거로 답하고 <b>출처 번호</b> 표시</li><li>브리핑 문서 · 마인드맵 · 오디오 개요</li></ul></div>
+      <div class="card top" style="--pc:#64748b"><div class="ic">🎨</div><h3>디자인 — 전용 도구</h3><ul><li>채팅 AI는 PPT 파일을 예쁘게 만들지 못함</li><li>감마(Gamma) · Copilot · 회사 템플릿의 몫</li><li><b>내용 설계까지가 채팅 AI의 일</b></li></ul></div>
+    </div>
+    <div class="tip green"><span class="t">📌</span><div>순서는 <b>wrks.ai로 뼈대 설계 → NotebookLM으로 내 자료 근거 확인 → 템플릿 · 전용 도구로 디자인</b>. 임원이 "그 숫자 어디서 나왔나요?"라고 물으면 출처로 바로 답할 수 있습니다.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="1" data-title="실습 ② 10분 발표 슬라이드 설계" data-timer="7">
+  <div class="ribbon"><span class="lab">실습 ②</span><button class="timer">⏱ 7:00 시작</button></div>
+  <div class="eyebrow"><b>PART 1-2</b>실습 · wrks.ai · 난이도 ★★☆</div>
+  <h2>실습 ② — <em>"사내 AI 활용 문화"</em> 발표 설계</h2>
+  <div class="prac">
+    <div class="steps">
+      <div class="situ"><b>상황</b> 다음 주 전사 워크숍에서 "사내 AI 활용 문화 만들기" 발표를 맡았습니다. 발표 10분 + 질의응답 5분, 청중은 AI를 잘 모르는 직원부터 임원까지. PPT를 열기 전에 설계도부터.</div>
+      <div class="s"><i>1</i><div>wrks.ai <b>새 대화</b> → 오른쪽 프롬프트 붙여넣기</div></div>
+      <div class="s"><i>2</i><div>헤드라인만 쭉 읽어 보기<small>스토리가 이어지는지가 첫 번째 확인</small></div></div>
+      <div class="s"><i>3</i><div>다음 장에서 <b>부분 수정 · NotebookLM</b>으로 이어가기</div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><span class="lbl">따라 할 프롬프트</span><button class="copy">📋 복사</button></div>
+<div class="pbox sm on">너는 발표 컨설턴트야. 아래 발표의 슬라이드 구성안을 설계해줘.
+
+<span class="h">[발표 정보]</span>
+- 주제: 사내 AI 활용 문화 만들기 (도입 제안)
+- 발표자: 기획팀 실무자
+- 청중: 전 직원 + 임원 (AI 지식 수준 제각각)
+- 시간: 발표 10분, 질의응답 5분
+- 목표: "다음 달부터 팀별 AI 활용 파일럿을 하자"는
+  의사결정을 얻어내는 것
+
+<span class="h">[요청 형식]</span>
+- 슬라이드는 8~10장 이내
+- 각 슬라이드마다:
+  ① 헤드라인 (청중이 기억할 한 문장)
+  ② 넣을 내용 3가지 (키워드 수준)
+  ③ 발표 대본 2~3문장
+- 마지막에: 임원이 던질 만한 어려운 질문 5개 + 답변 요지</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1" data-title="실습 ② 이어서 — 부분 수정 · NotebookLM">
+  <div class="ribbon"><span class="lab">실습 ② 이어서</span></div>
+  <div class="eyebrow"><b>PART 1-2</b>wrks.ai 부분 수정 → NotebookLM</div>
+  <h2>실습 ② — 고쳐 보고, <em>내 자료</em>로 확인하기</h2>
+  <div class="prac">
+    <div class="steps">
+      <div class="s"><i>A</i><div><b>wrks.ai</b> 같은 대화에 'A 부분 수정' 붙여넣기</div></div>
+      <div class="s"><i>B</i><div><b>notebooklm.google.com</b> → <b>새 노트북</b><small>구글 계정으로 로그인</small></div></div>
+      <div class="s"><i>C</i><div><b>소스 추가 → 복사된 텍스트</b> → 실습 ①에서 저장한 재택근무 보고서 붙여넣기<small>실제 업무에선 PDF · 구글 문서도 넣을 수 있음</small></div></div>
+      <div class="s"><i>D</i><div>'D NotebookLM' 탭 붙여넣기 → 답 속 <b>출처 번호</b>를 눌러 원문 확인</div></div>
+      <div class="chk" style="gap:8px">
+        <label style="font-size:18px;padding:10px 14px"><input type="checkbox"> 헤드라인만 읽어도 스토리가 이어지는가?</label>
+        <label style="font-size:18px;padding:10px 14px"><input type="checkbox"> 마지막 장이 명확한 요청(파일럿 결정)으로 끝나는가?</label>
+        <label style="font-size:18px;padding:10px 14px"><input type="checkbox"> 10분에 맞는가? (장수 × 1분이 기본 감각)</label>
+      </div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">A · 부분 수정</button><button>D · NotebookLM</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox sm on">3번 슬라이드가 약해.
+<span class="h">실제 회사 사례 중심</span>으로 다시 써줘.
+나머지 슬라이드는 그대로 둬.</div>
+<div class="pbox sm">이 소스만 근거로 경영회의 발표 구성안을 만들어줘.
+- 슬라이드별: 헤드라인 1줄 + 근거가 되는 숫자
+- 숫자마다 출처를 표시해줘
+
+그리고 임원이 <span class="h">가장 먼저 물어볼 질문 3개</span>와
+소스에 있는 근거로 답변을 정리해줘.</div>
+      <div class="pnote">💡 완성된 구성안을 감마(Gamma) · Copilot 같은 PPT 생성 도구에 넣으면 디자인까지 이어집니다. <b>내용 설계(채팅 AI) → 디자인(전용 도구)</b> 분업.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1" data-title="데이터를 붙여넣으면 보고 문장까지" data-time="데이터 10분">
+  <div class="eyebrow"><b>PART 1-3</b>엑셀 · 데이터</div>
+  <h2>데이터를 붙여넣으면 <em>보고 문장</em>까지 나옵니다</h2>
+  <div class="body">
+    <div class="flow">
+      <div class="st"><span class="k">1</span><b>표 붙여넣기</b><p>엑셀에서 복사해 그대로 붙여넣기 (탭 구분 그대로 OK)</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">2</span><b>한 줄 설명</b><p>"지점별 월 매출, 단위: 백만원"</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">3</span><b>원하는 결과</b><p>"눈에 띄는 패턴 3가지 + 원인 가설"</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">4</span><b>보고 형식</b><p>"팀 회의 보고용으로"</p></div>
+    </div>
+    <div class="cards c2" style="margin-top:24px">
+      <div class="card top"><h3>🔍 분석가와 대화하듯</h3><p>"부산 하락의 원인 가설과 확인 방법은?"처럼 <b>꼬리를 물고</b> 들어가세요. AI를 주니어 분석가로 쓰는 것입니다.</p></div>
+      <div class="card top" style="--pc:var(--ng)"><h3>🧮 숫자는 반드시 검산</h3><p>AI는 합계 · 평균을 틀릴 수 있습니다. <span class="hl">해석은 AI에게, 최종 숫자는 엑셀에서.</span> 이것이 데이터 작업의 철칙입니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1" data-title="실습 ③ 매출 데이터에서 인사이트 뽑기" data-timer="8">
+  <div class="ribbon"><span class="lab">실습 ③</span><button class="timer">⏱ 8:00 시작</button></div>
+  <div class="eyebrow"><b>PART 1-3</b>실습 · wrks.ai (새 대화) · 난이도 ★★☆</div>
+  <h2>실습 ③ — <em>지점별 매출</em>에서 패턴 · 원인 · 보고</h2>
+  <div class="prac">
+    <div class="steps">
+      <div class="situ" style="font-size:18px"><b>상황</b> 영업기획팀인 당신은 내일 아침 팀 회의에서 상반기 지점별 매출 리뷰를 해야 합니다. "그래서 뭐가 문제고 뭘 해야 하는지"를 뽑아내는 게 숙제입니다.</div>
+      <table class="tbl" style="font-size:16.5px">
+        <thead><tr><th>지점 (백만원)</th><th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th></tr></thead>
+        <tbody>
+          <tr><td>강남</td><td>420</td><td>435</td><td>410</td><td>465</td><td>520</td><td>510</td></tr>
+          <tr><td>홍대</td><td>310</td><td>325</td><td>340</td><td>330</td><td>385</td><td>370</td></tr>
+          <tr><td>부산</td><td>280</td><td>295</td><td>290</td><td>260</td><td>255</td><td>240</td></tr>
+          <tr><td>대구</td><td>195</td><td>200</td><td>210</td><td>205</td><td>230</td><td>225</td></tr>
+          <tr><td>광주</td><td>150</td><td>145</td><td>160</td><td>155</td><td>175</td><td>170</td></tr>
+          <tr><td>온라인</td><td>380</td><td>410</td><td>455</td><td>490</td><td>560</td><td>605</td></tr>
+        </tbody>
+      </table>
+      <button class="dl" data-csv="sales">📥 실습용 매출 데이터 (엑셀로 열기 · CSV)</button>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">1차 · 패턴</button><button>2차 · 원인 가설</button><button>3차 · 보고 변환</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">아래는 우리 회사 상반기 지점별 월 매출이야 (단위: 백만원).
+눈에 띄는 <span class="h">패턴이나 이상 신호를 중요한 순서로 3가지</span> 찾아줘.
+각각 근거 숫자를 함께 제시해줘.
+
+지점 1월 2월 3월 4월 5월 6월
+강남 420 435 410 465 520 510
+홍대 310 325 340 330 385 370
+부산 280 295 290 260 255 240
+대구 195 200 210 205 230 225
+광주 150 145 160 155 175 170
+온라인 380 410 455 490 560 605</div>
+<div class="pbox">부산 지점 하락에 대해 가능한 <span class="h">원인 가설을 4개</span> 세워줘.
+각 가설을 확인하려면 어떤 데이터를 더 봐야 하는지도 알려줘.</div>
+<div class="pbox">지금까지 분석을 <span class="h">팀 회의 보고용</span>으로 정리해줘.
+- 형식: 핵심 결론 1문장 + 근거 3개 + 제안 액션 2개
+- 톤: 개조식, 숫자 중심</div>
+      <div class="pnote">💡 2차는 <b>1차 답변을 본 뒤</b> 같은 대화에 이어서 — 분석가와 대화하듯 꼬리를 뭅니다.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1" data-title="실습 ③ 결과 확인 · 검산 · 응용 미션">
+  <div class="ribbon"><span class="lab">실습 ③ 확인</span></div>
+  <div class="eyebrow"><b>PART 1-3</b>결과 확인</div>
+  <h2>실습 ③ — AI 답을 <em>엑셀로 검산</em>하기</h2>
+  <div class="prac" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+    <div class="chk">
+      <label><input type="checkbox"> 가설은 "그럴듯한 추측"일 뿐 — 확인 방법까지 받아냈는가?</label>
+      <label><input type="checkbox"> PCB 예시 — "D타입 연속 하락 + E타입 개선"을 AI가 찾아냈는가?</label>
+      <label><input type="checkbox"> PCB 예시 — 원인 가설이 드릴 · 도금 등 공정 관점인가?</label>
+      <div class="card soft" style="padding:18px 22px"><h3 style="font-size:22px">🧮 PCB 수율 검산 정답 (응용 예시)</h3><p style="font-size:19px">· D타입 <b>5개월 연속 하락</b> 92.4% → 88.7% (<b>−3.7%p</b>) — 가장 중요한 문제<br>· E타입 <b>5개월 연속 상승</b> 88.5% → 92.5% (<b>+4.0%p</b>)<br>· F타입 4월만 <b>83.2%</b>로 급락 (3월 대비 −2.9%p) 후 5월 회복</p></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">응용 예시 · PCB 수율</button><button>빈 양식 · 내 업무 표로</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on sm">우리 회사는 PCB 제조사야. 아래는 상반기 <span class="h">제품군별 월 최종 수율</span> 표야 (단위: %).
+
+제품군 1월 2월 3월 4월 5월 6월
+A타입 98.2 98.4 98.1 98.5 98.3 98.6
+B타입 96.5 96.8 96.4 96.9 97.1 97.0
+C타입 94.8 95.1 94.6 94.9 95.3 95.2
+D타입 92.4 92.1 91.5 90.2 89.6 88.7
+E타입 88.5 89.2 90.1 91.0 91.8 92.5
+F타입 85.3 85.0 86.1 83.2 85.8 85.5
+
+1. 눈에 띄는 패턴 3가지를 근거 숫자와 함께
+2. 가장 중요한 패턴의 원인 가설 3개와 확인 방법
+   (드릴 · 도금 · 노광 · 에칭 · AOI/BBT 검사 등 공정 관점으로)
+3. 생산회의 보고용: 결론 1문장 + 근거 3개 + 액션 2개</div>
+<div class="pbox">아래는 우리 팀 [무엇]의 [기간]별 [단위] 표야.
+(지점명 · 사람 이름은 A지점, B지점처럼 바꿔서 붙여넣기)
+
+[표 붙여넣기]
+
+1. 눈에 띄는 패턴 3가지를 근거 숫자와 함께
+2. 가장 중요한 패턴의 원인 가설 3개와 확인 방법
+3. 팀 회의 보고용: 결론 1문장 + 근거 3개 + 액션 2개</div>
+      <div class="pnote">🔒 고객사 · 모델명 · 사람 이름은 빼거나 <b>"A사, B지점"으로 가명 처리</b> — 습관이 되면 보안 걱정이 줄어듭니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PART 2 ══════════ -->
+<section class="slide part" data-part="2" data-title="PART 2 실무 활용 ②">
+  <div class="pn">PART 2</div>
+  <h2>실무 활용 ②</h2>
+  <div><span class="tm">⏱ 20분 · 실습 2개</span></div>
+  <ol>
+    <li><span>④</span>메타 프롬프팅 <small>— 엑셀 데이터 보안 도구(VBA) 만들기</small></li>
+    <li><span>⑤</span>엑셀 데이터로 현황판 만들기 <small>— 게임 판매 현황판 4단계</small></li>
+  </ol>
+</section>
+
+<section class="slide" data-part="2" data-title="메타 프롬프팅" data-time="메타 프롬프팅 10분">
+  <div class="eyebrow"><b>PART 2-1</b>프롬프트 설계</div>
+  <h2>메타 프롬프팅 — <em>프롬프트를 AI에게</em> 설계시킨다</h2>
+  <div class="body">
+    <div class="vs2">
+      <div class="card bad"><h3>내가 쓴 기초 프롬프트</h3><div class="quote">"게임명 · 플랫폼 · 장르 · 퍼블리셔를 마스킹하는 VBA 만들어줘. 엑셀 2016 호환으로."</div><p style="margin-top:12px">나쁘지 않지만 <b>놓친 요구사항</b>이 많습니다 — 복원 기능, 에러 처리, 화면 안내…</p></div>
+      <div class="mid">›</div>
+      <div class="card good"><h3>AI가 다듬은 메타 프롬프트</h3><div class="quote">"이 작업을 위한 <b>최적의 프롬프트</b>를 먼저 만들어줘."</div><p style="margin-top:12px">Role · Context · Task · Output 구조 · Constraints를 갖춘 <b>전문가급 지시서</b> → 그 지시서로 코드 생성</p></div>
+    </div>
+    <div class="flow" style="margin-top:24px">
+      <div class="st"><span class="k">1</span><b>대충 설명</b></div><div class="ar">›</div>
+      <div class="st"><span class="k">2</span><b>"최적 프롬프트 만들어줘"</b></div><div class="ar">›</div>
+      <div class="st"><span class="k">3</span><b>AI가 설계</b></div><div class="ar">›</div>
+      <div class="st"><span class="k">4</span><b>내가 검토 · 수정</b></div><div class="ar">›</div>
+      <div class="st"><span class="k">5</span><b>그 프롬프트로 실행</b></div>
+    </div>
+    <div class="tip"><span class="t">💡</span><div>요구사항이 복잡할수록 효과가 큽니다. 원본 과정에서는 이 방법으로 생산계획 자동화(라인 배정 · Capa 검증 · 기종변경 최소화)까지 만들었습니다.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="2" data-title="실습 ④-1 기초 프롬프트로 메타 프롬프트 받기" data-timer="10">
+  <div class="ribbon"><span class="lab">실습 ④</span><button class="timer">⏱ 10:00 시작</button></div>
+  <div class="eyebrow"><b>PART 2-1</b>실습 · wrks.ai · 난이도 ★★★</div>
+  <h2>실습 ④-1 — 엑셀 <em>데이터 보안 도구</em>의 설계도 받기</h2>
+  <div class="prac" style="grid-template-columns:440px minmax(0,1fr)">
+    <div class="steps">
+      <div class="situ" style="font-size:18.5px"><b>상황</b> 외부 공유용 엑셀에서 민감한 열(게임명 · 플랫폼 · 장르 · 퍼블리셔)을 마스킹하고, 필요하면 복원도 해야 합니다.</div>
+      <a class="dl" href="data/게임샘플.xlsx" download>📥 게임샘플.xlsx 내려받기 (11열 · 20행)</a>
+      <div class="s"><i>1</i><div>wrks.ai 새 대화 → <b>기초 프롬프트</b> 붙여넣기</div></div>
+      <div class="s"><i>2</i><div>AI가 만든 메타 프롬프트를 읽어 보기<small>Role · Context · Task · Output · Constraints가 있는지 ('잘 된 예' 탭과 비교)</small></div></div>
+      <div class="s"><i>3</i><div>AI가 "VBA 코드 생성할까요?" 물으면 <b>'코드 생성' 탭</b> 붙여넣기</div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">기초 프롬프트</button><button>잘 된 예</button><button>코드 생성</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox sm on" style="font-size:16.5px">당신은 정보보안 전문가로서, AI 엔지니어이다.
+다음 작업을 위한 <span class="h">최적화된 프롬프트를 제안</span>해줘.
+
+[작업 내용]
+Step 1. '정보보안 처리'가 필요한 원본 파일을 선택
+Step 2. '게임명, 플랫폼, 장르, 퍼블리셔' 열을 마스킹/마스킹복원 하는 엑셀 VBA 코드 생성
+Step 3. 처리 결과는 선택한 파일 안에 <span class="h">새 시트를 만들어</span> 보여주기 (원본 시트는 그대로 두기)
+
+[제안/요구사항]
+- 엑셀 2016부터 모두 적용되도록 구버전 호환성 보유
+- 2개 기능을 각각 매크로로 만들어 Alt+F8에서 바로 고를 수 있게 (입력창은 파일 선택만)
+- 매크로 이름은 한글로: <span class="h">마스킹실행, 마스킹복원실행</span>
+- 마스킹은 <span class="h">첫 글자와 끝 글자만 남기고 가운데를 *로</span> (예: Wii 스포츠 → W*****츠)
+  2글자 이하는 첫 글자만 남기기, 칸에는 가린 값만 보이게 (복원 정보 넣지 않기)
+- 마스킹복원은 원본 시트의 같은 행 값으로 되돌리기, Windows API 선언 없이 VBA 기본 기능만
+- 결과 시트 이름은 '마스킹_결과', '마스킹복원_결과'처럼, 다시 실행하면 새로 만들기
+
+나한테 프롬프트가 완성되면 'VBA 코드 생성' 여부를 물어본 후에 VBA 코드를 생성해줘.</div>
+<div class="pbox sm" style="font-size:18px"><span class="m">(AI가 만들어 준 메타 프롬프트 예시 — 내 결과와 비교용)</span>
+
+Role: 너는 시니어 정보보안 엔지니어이자 VBA 전문 개발자이다.
+10년 이상 기업 데이터 유출 방지 프로젝트를 수행한 경험이 있다.
+
+Context: 사용자는 민감 정보가 포함된 엑셀 파일을 외부 공유 전에 처리해야
+한다. Excel 2016 이상 모든 버전에서 라이브러리 참조 없이 실행 가능한
+견고한 코드가 필요하며, 사용자는 VBA 초급자이므로 주석이 상세해야 한다.
+
+Task (Step-by-Step):
+1. Application.GetOpenFilename으로 파일 선택 팝업 제공
+2. 마스킹 / 마스킹복원 2기능을 개별 Sub로 구현
+   (Sub 이름은 한글: 마스킹실행 · 마스킹복원실행)
+- 마스킹: 첫 글자 · 끝 글자만 남기고 가운데는 * (Wii 스포츠 → W*****츠)
+  셀에는 가린 값만 표시 (사람이 훑어봐도 원본을 짐작 못하게)
+- 마스킹복원: 원본 시트의 같은 행 · 같은 머리글 값으로 복원
+3. 결과 표시: 원본 시트는 수정하지 않고, 원본을 복사한 새 시트
+   ('마스킹_결과' 등)에 결과 표시
+- 복원은 '마스킹_결과' 시트를 읽어 '마스킹복원_결과' 새 시트로
+- 같은 작업을 다시 하면 기존 결과 시트를 지우고 새로 생성
+4. Option Explicit 준수, 한국어 주석, 최신 전용 함수 사용 금지
+
+Output Structure: [Main] 전체 흐름 제어 / [Module] 보안 로직 / [Util] 파일 · 시트 처리
+Constraints: On Error GoTo 에러 핸들링 필수, 완료 메시지 박스 출력,
+처리 전후 행 수가 같은지 자체 검증</div>
+<div class="pbox sm">좋아. 이 프롬프트대로 <span class="h">VBA 코드를 생성</span>해줘.
+- 처음 쓰는 사람도 따라 할 수 있게 실행 방법을 맨 위 주석에 적어줘
+- 코드 전체를 한 번에 보여줘</div>
+      <div class="pnote">💡 메타 프롬프트에 내 기초 프롬프트에 <b>없던 요구사항</b>(결과 시트 이름 규칙 · 에러 처리 · 완료 메시지)이 생겼다면 성공 — 이것이 메타 프롬프팅의 가치입니다.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2" data-title="실습 ④-2 엑셀에서 VBA 실행하기">
+  <div class="ribbon"><span class="lab">실습 ④ 이어서</span></div>
+  <div class="eyebrow"><b>PART 2-1</b>엑셀에서 실행 · 확인</div>
+  <h2>실습 ④-2 — 받은 코드를 <em>엑셀에서 실행</em>하기</h2>
+  <div class="prac" style="grid-template-columns:560px minmax(0,1fr)">
+    <div class="steps">
+      <div class="s"><i>1</i><div>엑셀 <b>새 통합 문서</b> → <b>Alt + F11</b> (VBA 편집기)</div></div>
+      <div class="s"><i>2</i><div>메뉴 <b>삽입 → 모듈</b> → 받은 코드 붙여넣기<small>막히면 오른쪽 '원본 완성 코드' 탭을 복사해도 됩니다</small></div></div>
+      <div class="s"><i>3</i><div><b>다른 이름으로 저장 → .xlsm</b> (매크로 사용 통합 문서)</div></div>
+      <div class="s"><i>4</i><div><b>Alt + F8</b> → <b>마스킹실행</b> → 게임샘플.xlsx 선택<small>새 시트 '마스킹_결과'에 가려진 값이 보이고, 원본 시트(Sheet1)는 그대로인지 확인</small></div></div>
+      <div class="s"><i>5</i><div>같은 파일에 <b>마스킹복원실행</b> → '마스킹복원_결과' 시트에 원래 값이 돌아오는지<small>원본 시트(Sheet1)와 값이 똑같은지 비교</small></div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">결과 예시</button><button>원본 완성 코드</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox sm on"><span class="h">마스킹 결과 (첫 번째 행의 예)</span>
+
+· 게임명: Wii 스포츠 → W*****츠
+· 플랫폼: 닌텐도 Wii → 닌*****i
+· 장르: 스포츠 → 스*츠
+· 퍼블리셔: 닌텐도 → 닌*도
+
+  첫 글자 · 끝 글자만 남기고 가운데는 *
+  사람이 화면을 훑어봐도 원본을 짐작 못하게
+
+<span class="m">※ 원본 시트(Sheet1)는 그대로, 결과는 새 시트에 생깁니다
+   마스킹 → '마스킹_결과' · 마스킹복원 → '마스킹복원_결과'
+   같은 작업을 다시 하면 그 결과 시트를 새로 만듭니다</span></div>
+<div class="pbox code">Option Explicit
+
+'====================================================================
+' [Main] 데이터 보안 처리 도구 - 전체 흐름 제어
+' - 대상 열: 게임명, 플랫폼, 장르, 퍼블리셔 (게임샘플.xlsx 기준)
+' - 실행 방법: Alt+F8(매크로 목록) -&gt; 마스킹실행 또는 마스킹복원실행 선택 -&gt; 실행
+' - 실행하면 파일 선택 창이 뜨고, 선택한 파일 안에 결과 시트를 새로 만들어 보여줍니다.
+'   원본 시트(첫 번째 시트)는 절대 바꾸지 않습니다.
+'   마스킹실행     -&gt; 원본 시트를 복사해 '마스킹_결과' 시트에 가린 값 표시 (예: Wii 스포츠 -&gt; W*****츠)
+'   마스킹복원실행 -&gt; '마스킹_결과' 시트를 복사해 '마스킹복원_결과' 시트에 원래 값 표시
+' - 같은 작업을 다시 실행하면 그 결과 시트를 지우고 새로 만듭니다.
+'====================================================================
+
+Sub 마스킹실행()
+    Call 보안작업실행("MASK", "마스킹")
+End Sub
+
+Sub 마스킹복원실행()
+    Call 보안작업실행("UNMASK", "마스킹복원")
+End Sub
+
+' 2개 진입점이 공통으로 타는 흐름: 파일 선택 -&gt; 열기 -&gt; 결과 시트 만들기 -&gt; 처리 -&gt; 저장 -&gt; 완료 안내
+Private Sub 보안작업실행(ByVal 모드 As String, ByVal 작업명 As String)
+
+    Dim 파일경로 As Variant
+    Dim wb As Workbook
+    Dim 원본시트 As Worksheet, 입력시트 As Worksheet, 결과시트 As Worksheet
+    Dim 처리행수 As Long
+    Dim 완료 As Boolean
+
+    On Error GoTo EH
+
+    파일경로 = Application.GetOpenFilename("Excel 파일 (*.xlsx; *.xlsm), *.xlsx; *.xlsm", 1, _
+                                        작업명 &amp; " 처리할 원본 파일을 선택하세요")
+    If TypeName(파일경로) = "Boolean" Then Exit Sub   ' 취소
+
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+
+    Set wb = Workbooks.Open(CStr(파일경로))
+    Set 원본시트 = wb.Worksheets(1)   ' 첫 번째 시트 = 원본 (읽기만 함)
+
+    ' 마스킹은 원본 시트를, 마스킹복원은 '마스킹_결과' 시트를 읽는다
+    If 모드 = "UNMASK" Then
+        Set 입력시트 = 시트찾기(wb, "마스킹_결과")
+        If 입력시트 Is Nothing Then
+            MsgBox "'마스킹_결과' 시트가 없어 복원할 수 없습니다." &amp; vbCrLf &amp; _
+                   "먼저 마스킹실행을 실행하세요.", vbExclamation, "정보보안 처리"
+            GoTo CleanExit
+        End If
+    Else
+        Set 입력시트 = 원본시트
+    End If
+
+    Set 결과시트 = 결과시트만들기(입력시트, 작업명 &amp; "_결과")
+    처리행수 = 보안처리실행(결과시트, 원본시트, 모드)
+
+    ' 자체 검증: 처리 전후 행 수가 같은지 확인
+    If 마지막행(결과시트) &lt;&gt; 마지막행(입력시트) Then
+        Err.Raise vbObjectError + 513, , "처리 전후 행 수가 다릅니다. 결과 시트를 확인하세요."
+    End If
+
+    결과시트.Activate
+    wb.Save
+    완료 = True
+
+CleanExit:
+    Application.ScreenUpdating = True
+    Application.EnableEvents = True
+
+    If 완료 Then
+        MsgBox 작업명 &amp; " 완료!" &amp; vbCrLf &amp; _
+               "대상 파일: " &amp; wb.Name &amp; vbCrLf &amp; _
+               "결과 시트: " &amp; 결과시트.Name &amp; " (원본 시트 '" &amp; 원본시트.Name &amp; "'는 그대로)" &amp; vbCrLf &amp; _
+               "처리 행수: " &amp; 처리행수 &amp; "행", vbInformation, "정보보안 처리"
+    End If
+    Exit Sub
+
+EH:
+    Application.ScreenUpdating = True
+    Application.EnableEvents = True
+    Application.DisplayAlerts = True
+    MsgBox 작업명 &amp; " 중 오류가 발생했습니다." &amp; vbCrLf &amp; _
+           "오류 번호: " &amp; Err.Number &amp; vbCrLf &amp; _
+           "오류 내용: " &amp; Err.Description, vbCritical, "정보보안 처리 오류"
+End Sub
+
+
+'====================================================================
+' [Module] 보안 로직 - 마스킹 / 마스킹복원
+'====================================================================
+
+' 결과 시트의 지정 열들에 마스킹 또는 복원을 적용하고, 처리한 데이터 행수를 반환
+' (복원은 원본 시트의 같은 행 · 같은 머리글 값을 가져온다)
+Private Function 보안처리실행(ByVal ws As Worksheet, ByVal 원본시트 As Worksheet, ByVal 모드 As String) As Long
+
+    Dim 대상열목록 As Variant
+    대상열목록 = Array("게임명", "플랫폼", "장르", "퍼블리셔")
+
+    Dim lastRow As Long, r As Long, i As Long, colIdx As Long, 원본열 As Long
+
+    lastRow = 마지막행(ws)
+    If lastRow &lt; 2 Then Exit Function   ' 데이터 없음
+
+    For i = LBound(대상열목록) To UBound(대상열목록)
+
+        colIdx = 헤더열찾기(ws, CStr(대상열목록(i)))
+        원본열 = 헤더열찾기(원본시트, CStr(대상열목록(i)))
+
+        If colIdx &gt; 0 Then
+            For r = 2 To lastRow
+                If 모드 = "MASK" Then
+                    ws.Cells(r, colIdx).Value = 마스킹값(CStr(ws.Cells(r, colIdx).Value))
+                ElseIf 원본열 &gt; 0 Then
+                    ' 가린 값만으로는 되돌릴 수 없으므로 원본 시트에서 가져온다
+                    ws.Cells(r, colIdx).Value = 원본시트.Cells(r, 원본열).Value
+                End If
+            Next r
+        End If
+    Next i
+
+    보안처리실행 = lastRow - 1
+End Function
+
+' 원본값을 첫 글자/끝 글자만 남기고 마스킹 (2글자 이하는 첫 글자만 노출)
+Private Function 마스킹값(ByVal 원본 As String) As String
+    If Len(원본) = 0 Then
+        마스킹값 = ""
+    ElseIf Len(원본) &lt;= 2 Then
+        마스킹값 = Left(원본, 1) &amp; String(Len(원본) - 1, "*")
+    Else
+        마스킹값 = Left(원본, 1) &amp; String(Len(원본) - 2, "*") &amp; Right(원본, 1)
+    End If
+End Function
+
+
+'====================================================================
+' [Util] 파일/시트 처리 유틸리티
+'====================================================================
+
+' 입력 시트를 복사해 바로 뒤에 결과 시트를 만든다 (같은 이름의 시트가 있으면 지우고 새로 만듦)
+Private Function 결과시트만들기(ByVal 입력시트 As Worksheet, ByVal 시트명 As String) As Worksheet
+    Dim wb As Workbook, 기존 As Worksheet, 새시트 As Worksheet
+    Set wb = 입력시트.Parent
+
+    Set 기존 = 시트찾기(wb, 시트명)
+    If Not 기존 Is Nothing Then
+        Application.DisplayAlerts = False   ' "시트를 삭제할까요?" 확인 창 끄기
+        기존.Delete
+        Application.DisplayAlerts = True
+    End If
+
+    입력시트.Copy After:=입력시트
+    Set 새시트 = wb.Sheets(입력시트.Index + 1)
+    새시트.Name = 시트명
+    Set 결과시트만들기 = 새시트
+End Function
+
+' 이름으로 시트를 찾는다 (없으면 Nothing)
+Private Function 시트찾기(ByVal wb As Workbook, ByVal 시트명 As String) As Worksheet
+    On Error Resume Next
+    Set 시트찾기 = wb.Worksheets(시트명)
+    On Error GoTo 0
+End Function
+
+' A열 기준 마지막 데이터 행 번호
+Private Function 마지막행(ByVal ws As Worksheet) As Long
+    마지막행 = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+End Function
+
+' 1행 헤더에서 지정한 헤더명과 일치하는 열 번호를 반환 (없으면 0)
+Private Function 헤더열찾기(ByVal ws As Worksheet, ByVal 헤더명 As String) As Long
+    Dim lastCol As Long, i As Long
+    lastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
+    For i = 1 To lastCol
+        If ws.Cells(1, i).Value = 헤더명 Then
+            헤더열찾기 = i
+            Exit Function
+        End If
+    Next i
+    헤더열찾기 = 0
+End Function</div>
+      <div class="pnote">🔒 회사 보안 정책으로 매크로가 막혀 있으면 이 단계는 <b>강사 시연</b>으로 봅니다. 실제 데이터는 <b>샘플로 검증한 뒤</b>에만.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2" data-title="실습 ④ 결과 확인 · 응용 미션">
+  <div class="ribbon"><span class="lab">실습 ④ 확인</span></div>
+  <div class="eyebrow"><b>PART 2-1</b>결과 확인</div>
+  <h2>실습 ④ — <em>체크포인트</em>와 응용 미션</h2>
+  <div class="prac" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+    <div class="chk">
+      <label><input type="checkbox"> AI가 만든 메타 프롬프트에 Role · Context · Task · Output · Constraints 구조가 있는가?</label>
+      <label><input type="checkbox"> 내 기초 프롬프트에 없던 요구사항(결과 시트 이름 규칙 · 에러 처리 · 안내 메시지)을 AI가 보완했는가?</label>
+      <label><input type="checkbox"> 원본 시트는 그대로이고, 결과가 새 시트에 생겼는가?</label>
+      <label><input type="checkbox"> 마스킹 → 복원 후 원래 값이 정확히 돌아왔는가?</label>
+      <label><input type="checkbox"> 생성된 코드를 샘플 데이터로 먼저 테스트했는가? (실제 데이터는 검증 후)</label>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><span class="lbl">응용 미션 · 내 업무 자동화</span><button class="copy">📋 복사</button></div>
+<div class="pbox sm on">당신은 [업무 분야] 전문가로서, 엑셀 자동화 엔지니어이다.
+다음 작업을 위한 <span class="h">최적화된 프롬프트를 제안</span>해줘.
+
+[작업 내용]
+Step 1. [어떤 파일을 열어서]
+Step 2. [무엇을 계산 · 정리 · 생성하는]
+Step 3. [결과를 어디에 저장하는] 엑셀 VBA 코드 생성
+
+[요구사항]
+- 엑셀 2016부터 호환
+- 처음 쓰는 사람도 쓸 수 있게 안내 메시지
+
+프롬프트가 완성되면 'VBA 코드 생성' 여부를 물어본 후에 생성해줘.</div>
+      <div class="pnote">💡 예: 월마감 정리 · 견적서 생성 · 부서별 파일 통합 — 복잡한 일일수록 메타 프롬프팅의 효과가 큽니다.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2" data-title="엑셀 데이터로 현황판 만들기 4단계" data-time="현황판 10분">
+  <div class="eyebrow"><b>PART 2-2</b>분석 · 시각화</div>
+  <h2>엑셀 데이터로 현황판 만들기 — <em>4단계</em></h2>
+  <div class="body">
+    <div class="flow">
+      <div class="st"><span class="k">1 요구사항 정의</span><b>📋 데이터부터 이해</b><p>"대시보드 개발을 위한 데이터 구조와 핵심 특징을 분석해줘"</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">2 프롬프트 설계</span><b>🧠 메타 프롬프팅</b><p>KPI 카드 · 차트 종류 · 필터를 명세로 — 실습 ④의 그 기법</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">3 코드 생성 · 점검</span><b>⚙️ 만들고 열어 보기</b><p>index.html로 저장 → 더블클릭 → 부족한 점 · 에러를 <b style="font-size:20px">말로</b> 고치게</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">4 배포</span><b>📤 HTML 파일 하나</b><p>공유 폴더 · 사내 포털 · 메일 첨부 — 받은 사람은 더블클릭만</p></div>
+    </div>
+    <div class="tip blue"><span class="t">🧩</span><div>코드는 한 줄도 직접 쓰지 않습니다. <b>분석 → 설계 → 구현 → 배포</b>를 대화로만 진행하는 것 — 이것이 다음 파트에서 배울 <b>바이브코딩</b>의 실전 흐름입니다.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="2" data-title="실습 ⑤-1 데이터 이해 · 메타 프롬프트" data-timer="10">
+  <div class="ribbon"><span class="lab">실습 ⑤</span><button class="timer">⏱ 10:00 시작</button></div>
+  <div class="eyebrow"><b>PART 2-2</b>실습 · wrks.ai · 난이도 ★★☆</div>
+  <h2>실습 ⑤-1 — <em>게임 판매 현황판</em> 설계</h2>
+  <div class="prac" style="grid-template-columns:400px minmax(0,1fr)">
+    <div class="steps">
+      <a class="dl" href="data/게임샘플.xlsx" download>📥 게임샘플.xlsx (실습 ④와 같은 파일)</a>
+      <div class="s"><i>1</i><div>wrks.ai 새 대화 → 입력창의 <b>파일 첨부</b> → 게임샘플.xlsx 올리기</div></div>
+      <div class="s"><i>2</i><div><b>STEP 1</b> 붙여넣기 — 코드 말고 <b>데이터 구조부터</b><small>AI가 열 구성 · 판매량 구조를 요약하는지 확인</small></div></div>
+      <div class="s"><i>3</i><div><b>STEP 2</b> 붙여넣기 — 최적의 프롬프트 받기<small>KPI 카드 · 차트 · 필터가 구체적으로 적혔는지</small></div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">STEP 1 · 요구사항</button><button>STEP 2 · 설계</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">제공해준 데이터를 분석해서, 판매현황 대시보드 웹앱 개발을 위한
+<span class="h">데이터 구조 분석 및 핵심 특징</span>을 분석해줘.</div>
+<div class="pbox sm xs">이 데이터로 게임 판매 현황을 한눈에 보는 웹 대시보드를
+HTML 파일 하나로 만들고 싶어.
+지금 바로 코드를 짜지 말고, 이 작업을 위한 <span class="h">최적의 프롬프트</span>를
+먼저 Role · Context · Task · Output Structure · Constraints 구조로 만들어줘.
+
+다음 내용을 반드시 포함해서:
+- 상단에 배치할 KPI 카드 종류
+- 어떤 지표에 막대/파이/라인 중 무엇을 쓸지 차트 종류
+- 플랫폼 · 장르 · 연도 등으로 걸러보는 필터 기능
+- 반응형(모바일에서도 안 깨지는) 레이아웃</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2" data-title="실습 ⑤-2 코드 생성 · 점검 · 배포">
+  <div class="ribbon"><span class="lab">실습 ⑤ 이어서</span></div>
+  <div class="eyebrow"><b>PART 2-2</b>코드 생성 · 점검 · 배포</div>
+  <h2>실습 ⑤-2 — 만들고, <em>열어 보고</em>, 말로 고치기</h2>
+  <div class="prac" style="grid-template-columns:400px minmax(0,1fr)">
+    <div class="steps">
+      <div class="s"><i>3</i><div><b>STEP 3</b> 받은 메타 프롬프트를 그대로 실행 → 코드 받기<small>코드가 중간에 끊기면 '이어서 보여줘'로 끝까지 받기</small></div></div>
+      <div class="s"><i>↓</i><div>코드 복사 → 메모장 → <b>index.html</b>로 저장 → 더블클릭<small>저장 형식: 모든 파일 · 인코딩 UTF-8</small></div></div>
+      <div class="s"><i>!</i><div>화면이 비어 있으면 <b>F12 → Console</b> 빨간 글씨를 그대로 붙여넣기</div></div>
+      <div class="s"><i>4</i><div><b>STEP 4</b> 완성 파일을 팀 공유 폴더 · 메일로 — 받은 사람은 더블클릭</div></div>
+      <a class="dl" style="background:var(--p2)" href="data/대시보드_예시.html" target="_blank">👀 완성 현황판 예시 보기 (새 창)</a>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">STEP 3 · 점검 요청</button><button>체크포인트</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on"><span class="m">(STEP 2에서 받은 메타 프롬프트를 그대로 붙여넣어 실행한 뒤,
+ 열어 보고 부족한 점을 이렇게 말합니다)</span>
+
+KPI 카드 숫자가 실제 데이터랑 안 맞아, 다시 계산해줘.
+
+모바일 폭에서 차트가 잘려, 반응형으로 고쳐줘.
+
+화면이 하얗게 나와. 아래 에러를 보고 고쳐줘.
+(F12 → Console의 빨간 에러 메시지 붙여넣기)</div>
+<div class="pbox sm xs"><span class="h">체크포인트</span>
+☐ STEP 1을 건너뛰지 않고 AI가 데이터 구조를 먼저 요약했는가?
+☐ 메타 프롬프트에 KPI 카드 · 차트 종류 · 필터가 구체적으로 명시됐는가?
+☐ 완성 파일을 더블클릭만으로 바로 열어볼 수 있는가?
+<span class="h">응용 미션</span>
+내 업무 데이터(월별 실적 · 재고 현황 등)로 같은 4단계를 —
+민감한 이름은 가명으로 바꿔서.
+
+<span class="m">※ 이 방식은 데이터가 파일 안에 고정된 '정적 현황판'입니다.
+   데이터가 계속 바뀌어야 하면 구글 시트 연동 같은 구조가 필요합니다.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PART 3 ══════════ -->
+<section class="slide part" data-part="3" data-title="PART 3 바이브코딩 시작하기">
+  <div class="pn">PART 3</div>
+  <h2>바이브코딩 시작하기</h2>
+  <div><span class="tm">⏱ 35분 · 시연 + 실습 2개</span></div>
+  <ol>
+    <li><span>1</span>전통 코딩 vs 바이브코딩 <small>— 그리고 왜 지금인가</small></li>
+    <li><span>2</span>Google Antigravity IDE 설치 <small>— 강사 시연 + 혼자 따라 하기 3장</small></li>
+    <li><span>⑥</span>실행 환경 한눈에 <small>— 터미널로 내 PC 확인하기</small></li>
+    <li><span>⑥-2</span>Zoo Code로 파일 합치기 <small>— 지역별 거래내역 5개를 1개로</small></li>
+  </ol>
+</section>
+
+<section class="slide" data-part="3" data-title="전통 코딩 vs 바이브코딩" data-time="입문 5분">
+  <div class="eyebrow"><b>PART 3-1</b>바이브코딩 입문</div>
+  <h2>전통 코딩 vs 바이브코딩 — <em>실행자에서 디렉터로</em></h2>
+  <div class="body">
+    <table class="tbl vs">
+      <thead><tr><th style="text-align:left">구분</th><th style="text-align:left">전통 코딩</th><th style="text-align:left">바이브코딩</th></tr></thead>
+      <tbody>
+        <tr><td>순서</td><td>문법 공부 → 설계 → 코드 작성 → 오류 수정</td><td>의도 말하기 → AI가 작성 → 결과 확인 → 다듬기</td></tr>
+        <tr><td>필요한 힘</td><td>문법 · 알고리즘 · 자료구조</td><td><b>맥락 설명 · 의도 전달</b> (관리자의 강점)</td></tr>
+        <tr><td>속도</td><td>기능 하나에 몇 시간~며칠</td><td>수십 분 안에 시제품</td></tr>
+        <tr><td>내 역할</td><td>실행자 (Implementer)</td><td><b>디렉터 (Director)</b> — 무엇을 왜 만들지 정함</td></tr>
+        <tr><td>잘 맞는 일</td><td>핵심 시스템 · 성능 최적화</td><td>시제품 · 팀 업무 자동화 도구</td></tr>
+      </tbody>
+    </table>
+    <div class="tip"><span class="t">🤝</span><div>대체가 아니라 <b>협업</b>입니다. 회사 핵심 시스템은 IT 부서가, 팀의 작은 불편은 <b>우리가 직접</b>.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="왜 지금인가">
+  <div class="eyebrow"><b>PART 3-1</b>바이브코딩 입문</div>
+  <h2>왜 <em>지금</em>인가 — AI가 문턱을 넘었습니다</h2>
+  <div class="body">
+    <div class="flow">
+      <div class="st"><span class="k">2022</span><b>💬 ChatGPT 등장</b><p>물어보면 코드 예시를 보여 주는 수준</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">2023</span><b>⚡ 자동 완성</b><p>개발자 생산성 30~50% 향상</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">2024</span><b>🤖 코드 전체 생성</b><p>복잡한 프로그램 한 벌을 통째로, AI 에이전트 등장</p></div><div class="ar">›</div>
+      <div class="st" style="border:2px solid var(--pc)"><span class="k">2025 ~</span><b>🚀 바이브코딩</b><p>AI가 파일을 만들고 고치고 실행까지 — <b style="font-size:20px">비전공자도</b> 실용 앱을</p></div>
+    </div>
+    <div class="cards c2" style="margin-top:24px">
+      <div class="card soft"><h3>📈 관리자에게 의미</h3><p>"IT에 요청하고 몇 달 기다리던" 팀 도구를, 아이디어가 있는 사람이 <b>오늘 만들어 볼 수 있습니다.</b></p></div>
+      <div class="card soft"><h3>🎯 오늘의 목표</h3><p>잘 만드는 것이 아니라 <b>"나도 되는구나"</b>를 경험하는 것. 다음 주에 팀원과 같이 해 볼 수 있으면 성공입니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="Antigravity 설치 — 강사 시연" data-time="설치 시연 10분">
+  <div class="ribbon"><span class="lab demo">강사 시연</span></div>
+  <div class="eyebrow"><b>PART 3-2</b>Google Antigravity IDE</div>
+  <h2>설치는 <em>6단계</em> — 먼저 화면으로 함께 봅니다</h2>
+  <div class="body">
+    <div class="cards c3 tight">
+      <div class="card"><div class="num">1</div><h3>사전 준비</h3><p>구글 계정 (2개 권장 — 무료 사용량이 계정마다 따로) · Windows 10/11 · 인터넷</p></div>
+      <div class="card"><div class="num">2</div><h3>내려받기 · 설치</h3><p>antigravity.google/download — <span class="hl">아래로 내려 'Antigravity IDE'</span> · 설치 때 <b>Add to PATH</b></p></div>
+      <div class="card"><div class="num">3</div><h3>로그인</h3><p><b>Sign in with Google</b> → 브라우저에서 계정 선택 · 승인 → 자동 복귀</p></div>
+      <div class="card"><div class="num">4</div><h3>확장 4개</h3><p>Live Server(Five Server) · Korean Language Pack · <b>Zoo Code</b> · Antigravity Watcher</p></div>
+      <div class="card"><div class="num">5</div><h3>모델 설정</h3><p>Zoo Code: Google Gemini · <b>gemini-3.5-flash-lite</b><br>IDE: gemini-3.5-flash · 등급 Low</p></div>
+      <div class="card"><div class="num">6</div><h3>사용량 · 새 대화</h3><p>설정 → Model Quotas 확인 · 오류가 나면 <b>+ New Task</b></p></div>
+    </div>
+    <div class="tip blue"><span class="t">📘</span><div>다음 3장이 <b>혼자 따라 하기</b>용입니다. 오늘 교육장 PC에는 미리 설치되어 있으니, 집 · 사무실 PC에 설치할 때 보세요. 원본: <a href="Antigravity-setup.html" target="_blank"><b>설치 가이드</b></a></div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="따라 하기 ① 내려받기 · 설치 · 로그인">
+  <div class="ribbon"><span class="lab">따라 하기 1/3</span></div>
+  <div class="eyebrow"><b>PART 3-2</b>STEP 1 · 2</div>
+  <h2>따라 하기 ① — <em>내려받기 · 설치 · 로그인</em></h2>
+  <div class="prac" style="grid-template-columns:460px minmax(0,1fr)">
+    <div class="steps">
+      <div class="s"><i>1</i><div>아래 주소 접속 → 화면을 <b>아래로 내려</b> <b>Antigravity IDE</b>의 Windows용 설치 파일<small>맨 위의 'Antigravity 2.0'이 아닙니다</small></div></div>
+      <div class="s"><i>2</i><div>AntigravitySetup.exe 실행 → 옵션 화면에서 <b>Add to PATH</b> 체크 → 설치</div></div>
+      <div class="s"><i>3</i><div>IDE 시작 화면 <b>Sign in with Google</b> → 브라우저에서 주계정 선택 · 승인 → 자동 복귀 → 이용약관 동의</div></div>
+      <div class="s"><i>4</i><div>새 터미널에서 설치 확인 (오른쪽 '확인 명령' 탭)<small>버전이 나오면 성공</small></div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">다운로드 주소</button><button>확인 명령</button><button>PATH를 놓쳤다면</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">https://antigravity.google/download</div>
+<div class="pbox">antigravity --version</div>
+<div class="pbox sm xs"><span class="h">방법 B (더 간단)</span>
+AntigravitySetup.exe 다시 실행 → Modify 또는 Repair
+→ Add to PATH 체크 → 완료
+
+<span class="h">방법 A (직접 추가)</span>
+윈도우 검색 → '시스템 환경 변수 편집'
+→ [환경 변수] → 시스템 변수 Path → [편집] → [새로 만들기]
+→ 아래 경로 추가 → 확인 → 터미널 완전히 껐다 켜기
+
+C:\Users\%USERNAME%\AppData\Local\Programs\Antigravity\bin</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="따라 하기 ② 확장 4개 · 모델 설정">
+  <div class="ribbon"><span class="lab">따라 하기 2/3</span></div>
+  <div class="eyebrow"><b>PART 3-2</b>STEP 3 · 4</div>
+  <h2>따라 하기 ② — <em>확장 4개</em>와 모델 설정</h2>
+  <div class="prac" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+    <div class="steps">
+      <div class="s"><i>1</i><div><b>Ctrl + Shift + X</b> → 검색창에 이름 입력 → Install, 이 순서대로<small>① Live Server ② Korean Language Pack ③ Zoo Code ④ Antigravity Watcher</small></div></div>
+      <div class="s"><i>2</i><div>한국어 팩 설치 후 <b>IDE 재시작</b></div></div>
+      <div class="s"><i>3</i><div>왼쪽 <b>Zoo Code</b> 아이콘 → 설정(⚙️) → API Provider <b>Google Gemini</b> → Model ID 입력</div></div>
+      <div class="s"><i>4</i><div>IDE 자체 채팅 모델은 <b>gemini-3.5-flash</b> · 사용 등급 <b>Low</b><small>Pro · Ultra 같은 고성능 모델은 주간 사용량을 빨리 소진</small></div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">확장 검색어</button><button>Zoo Code 모델</button><button>IDE 모델</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">Live Server
+Korean Language Pack
+Zoo Code
+Antigravity Watcher</div>
+<div class="pbox">gemini-3.5-flash-lite</div>
+<div class="pbox">gemini-3.5-flash</div>
+      <div class="pnote">💡 <b>Live Server</b>는 오른쪽 아래 <b>Go Live</b> 버튼을 만들어 줍니다 — PART 4에서 결과를 브라우저로 볼 때 씁니다.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="따라 하기 ③ 계정 전환 · 사용량 · 새 대화">
+  <div class="ribbon"><span class="lab">따라 하기 3/3</span></div>
+  <div class="eyebrow"><b>PART 3-2</b>STEP 5 · 6 · 완료 확인</div>
+  <h2>따라 하기 ③ — <em>사용량</em>이 떨어졌을 때와 완료 확인</h2>
+  <div class="body" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start">
+    <div class="cards">
+      <div class="card"><h3>🔄 계정 전환 (무료 사용량 소진 시)</h3><p>오른쪽 위 계정 아이콘 → <b>Sign Out</b> → <b>Sign in with Google</b>(부계정) → 채팅창 위 <b>+ New Chat</b>으로 이전 대화 비우기</p></div>
+      <div class="card"><h3>📊 남은 사용량 보기</h3><p>왼쪽 아래 설정(⚙️) → <b>Model Quotas</b> 탭, 또는 아래 상태줄의 Watcher 표시(GF · GP)에 마우스를 올리기</p></div>
+      <div class="card"><h3>🧹 오류가 반복되면</h3><p>Zoo Code 채팅창 위 <b>+</b> → New Task — 꼬인 대화를 깨끗하게 비우고 다시 시작</p></div>
+    </div>
+    <div class="chk">
+      <label><input type="checkbox"> Antigravity IDE 설치 · PATH 등록 (antigravity --version)</label>
+      <label><input type="checkbox"> 구글 계정 로그인 완료</label>
+      <label><input type="checkbox"> 확장 4개 설치 · 메뉴가 한국어</label>
+      <label><input type="checkbox"> Zoo Code 모델 gemini-3.5-flash-lite</label>
+      <label><input type="checkbox"> Zoo Code 채팅에 "안녕" → 답이 온다</label>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="실행 환경 한눈에" data-time="환경 10분">
+  <div class="eyebrow"><b>PART 3-3</b>실행 환경</div>
+  <h2>AI가 만든 코드, <em>누가 실행</em>하나요?</h2>
+  <div class="body">
+    <div class="cards c4">
+      <div class="card top" style="--pc:#2563eb"><div class="ic">🌐</div><h3>브라우저</h3><p>HTML 화면을 실행. Chrome · Edge.<br><b>오늘 실습은 이것만으로 충분</b></p></div>
+      <div class="card top" style="--pc:#ca8a04"><div class="ic">🐍</div><h3>Python</h3><p>엑셀 · 파일 정리, 데이터 분석, 자동화 스크립트</p></div>
+      <div class="card top" style="--pc:#16a34a"><div class="ic">🟩</div><h3>Node.js</h3><p>여러 사람이 쓰는 웹 서버 · 사내 웹앱 (npm이 함께 설치)</p></div>
+      <div class="card top" style="--pc:#dc2626"><div class="ic">🗂️</div><h3>Git</h3><p>게임의 세이브 포인트처럼 변경 기록 저장 · 되돌리기</p></div>
+    </div>
+    <div class="tip"><span class="t">⌨️</span><div><b>터미널</b>은 아이콘 대신 글자로 컴퓨터에 명령하는 창입니다. Python · Node · Git은 클릭할 아이콘이 없어서, 설치됐는지는 <b>터미널에 물어봐야</b> 알 수 있습니다.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="실습 ⑥ 터미널로 실행 환경 확인" data-timer="5">
+  <div class="ribbon"><span class="lab">실습 ⑥</span><button class="timer">⏱ 5:00 시작</button></div>
+  <div class="eyebrow"><b>PART 3-3</b>실습 · Antigravity 터미널</div>
+  <h2>실습 ⑥ — <em>터미널</em>로 내 PC 확인하기</h2>
+  <div class="prac">
+    <div class="steps">
+      <div class="s"><i>1</i><div>Antigravity 메뉴 <b>터미널 → 새 터미널</b><small>단축키 Ctrl + ` (숫자 1 왼쪽 키) — 화면 아래에 입력창</small></div></div>
+      <div class="s"><i>2</i><div>오른쪽 명령을 <b>한 줄씩</b> 붙여넣고 Enter<small>설치 확인용이라 잘못 입력해도 컴퓨터에 문제 없음</small></div></div>
+      <div class="s"><i>3</i><div>버전 숫자가 나오면 ✅, '명령을 찾을 수 없음'이면 ❌</div></div>
+      <div class="s"><i>4</i><div>❌가 있으면 Zoo Code 채팅에 <b>'설치 부탁' 탭</b> 붙여넣기<small>설치 후 IDE를 완전히 껐다 켜고 다시 확인</small></div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">확인 명령 4줄</button><button>결과 예시</button><button>설치 부탁</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">python --version
+node -v
+npm -v
+git --version</div>
+<div class="pbox">Python 3.12.4          <span class="m">← 파이썬 설치됨</span>
+v22.11.0               <span class="m">← Node.js 설치됨</span>
+10.9.0                 <span class="m">← npm 설치됨</span>
+git version 2.45.0     <span class="m">← Git 설치됨</span>
+
+<span class="m">(숫자는 PC마다 다릅니다 — 숫자가 나오기만 하면 성공)</span></div>
+<div class="pbox">내 PC에 파이썬, Node.js, Git 중 설치되지 않은 것을 확인해서
+설치해줘. 설치가 끝나면 각각 버전을 확인해서 알려줘.</div>
+      <div class="pnote">💡 오늘 PART 4 실습은 <b>브라우저만</b> 있으면 됩니다 — ❌가 있어도 실습은 계속할 수 있어요.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="API · API Key · JSON">
+  <div class="eyebrow"><b>PART 3-3</b>실행 환경</div>
+  <h2>자주 듣는 세 단어 — <em>식당</em>으로 이해하기</h2>
+  <div class="body">
+    <div class="cards c3">
+      <div class="card top"><div class="ic">🛎️</div><h3>API = 주문 창구</h3><p>프로그램끼리 정해진 방식으로 일을 부탁하는 창구. 주방(AI 서버)에 직접 들어가지 않고 창구로 주문합니다.</p></div>
+      <div class="card top" style="--pc:var(--ng)"><div class="ic">🔑</div><h3>API Key = 출입증</h3><p>누가 주문했는지 확인하는 비밀 번호. 사용량 · 요금이 이 키에 붙습니다.<br><b style="color:var(--ng)">절대 공유 · 게시 금지</b></p></div>
+      <div class="card top" style="--pc:#ca8a04"><div class="ic">🧾</div><h3>JSON = 주문서 양식</h3><p>프로그램이 주고받는 정해진 글 양식.<br><span style="font-family:Consolas,monospace;font-size:19px;color:var(--ink)">{ "이름": "김대리", "팀": "영업1팀" }</span></p></div>
+    </div>
+    <div class="tip green"><span class="t">✅</span><div>오늘 만드는 경비 정산기의 <b>"백업(.json)"</b>이 바로 JSON 파일입니다. 실습 ⑧에서 직접 보게 됩니다.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="3" data-title="실습 ⑥-2 Zoo Code로 거래내역 5개 합치기" data-timer="8">
+  <div class="ribbon"><span class="lab">실습 ⑥-2</span><button class="timer">⏱ 8:00 시작</button></div>
+  <div class="eyebrow"><b>PART 3-3</b>실습 · Antigravity · Zoo Code · 난이도 ★★☆</div>
+  <h2>실습 ⑥-2 — 지역별 <em>거래내역 5개</em>를 파일 1개로</h2>
+  <div class="prac" style="grid-template-columns:440px minmax(0,1fr)">
+    <div class="steps">
+      <div class="situ" style="font-size:18px"><b>상황</b> 매달 말 지역별 거래내역 파일을 하나씩 열어 복사 · 붙여넣기 하던 일을 Zoo Code에게 말로 시킵니다.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px"><a class="dl" style="padding:8px 13px;font-size:16px" href="data/거래내역_광주.xlsx" download>📥 광주</a><a class="dl" style="padding:8px 13px;font-size:16px" href="data/거래내역_대전.xlsx" download>📥 대전</a><a class="dl" style="padding:8px 13px;font-size:16px" href="data/거래내역_부산.xlsx" download>📥 부산</a><a class="dl" style="padding:8px 13px;font-size:16px" href="data/거래내역_울산.xlsx" download>📥 울산</a><a class="dl" style="padding:8px 13px;font-size:16px" href="data/거래내역_인천.xlsx" download>📥 인천</a></div>
+      <div class="s"><i>1</i><div>바탕화면에 <b>거래내역통합</b> 폴더 → 5개 파일 저장<small>그 폴더를 Antigravity로 열기</small></div></div>
+      <div class="s"><i>2</i><div>Zoo Code <b>+</b> 새 작업 → 오른쪽 프롬프트 붙여넣기</div></div>
+      <div class="s"><i>3</i><div>명령 실행 · 설치를 물으면 <b>승인</b><small>Zoo Code가 파이썬 코드를 직접 만들어 실행합니다</small></div></div>
+      <div class="s"><i>4</i><div><b>거래내역_통합.xlsx</b> 열기 → '결과 확인' 탭과 비교</div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">통합 프롬프트</button><button>결과 확인</button><button>파이썬 없음</button><button>공급가액 이상</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox sm on" style="font-size:16.5px">이 폴더에 있는 <span class="h">거래내역 엑셀 파일 5개를 하나로 합쳐줘.</span>
+
+[대상]
+- 파일: 거래내역_*.xlsx (광주 · 대전 · 부산 · 울산 · 인천), 각 파일의 첫 번째 시트
+- 1행은 머리글: 지역, 구분, 거래처, 품명, 규격, 수량, 단가, 공급가액
+
+[결과 파일: 거래내역_통합.xlsx]
+- Raw 시트: 머리글은 한 번만, 5개 파일 데이터를 아래로 이어 붙이기
+- <span class="h">공급가액은 수식이 아니라 계산된 숫자로</span> 가져오기
+- Log 시트: 파일명 · 행수 · 처리시간, 마지막 줄에 합계
+- 원본 파일 5개는 수정하지 않기
+
+[방법]
+- 파이썬으로 처리하고, 필요한 라이브러리가 없으면 먼저 설치
+- 끝나면 Raw 행수와 공급가액 합계를 알려줘</div>
+<div class="pbox sm"><span class="h">거래내역_통합.xlsx가 이렇게 나오면 성공</span>
+
+· Raw 시트: 머리글 1줄 + 데이터 499행
+  광주 228 · 대전 66 · 부산 42 · 울산 91 · 인천 72
+· 공급가액 합계: 336,012,740
+· Log 시트: 파일 5줄 + 마지막 줄 '합계 499'
+
+<span class="m">※ 숫자는 실습용 파일 5개 기준입니다
+※ 원본 파일의 공급가액 칸은 =F2*G2 같은 수식입니다
+   수식을 그대로 옮기면 다른 행을 계산하게 되므로 숫자로 가져와야 합니다</span></div>
+<div class="pbox">파이썬이 설치되어 있지 않다고 나와.
+파이썬과 필요한 라이브러리를 설치하고,
+설치가 끝나면 같은 작업을 다시 실행해줘.</div>
+<div class="pbox">통합 파일의 공급가액이 0이거나 수식으로 보여.
+원본 파일에서 수식이 아니라 계산된 숫자 값을 읽어서
+거래내역_통합.xlsx를 다시 만들어줘.</div>
+      <div class="pnote">💡 실습 ④의 VBA는 엑셀 안에서, Zoo Code는 <b>파이썬으로 폴더째</b> 처리합니다. 파일이 30개여도 같은 프롬프트로 됩니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PART 4 ══════════ -->
+<section class="slide part" data-part="4" data-title="PART 4 직접 만들기">
+  <div class="pn">PART 4</div>
+  <h2>직접 만들기</h2>
+  <div><span class="tm">⏱ 35분 · 실습 2개</span></div>
+  <ol>
+    <li><span>⑦</span>초급 1 — 디지털 이름표 <small>— 15분</small></li>
+    <li><span>⑧</span>중급 2 — 부서별 예산 · 경비 정산기 <small>— 20분</small></li>
+  </ol>
+</section>
+
+<section class="slide" data-part="4" data-title="바이브코딩 실습 흐름" data-time="초급 15분">
+  <div class="eyebrow"><b>PART 4</b>모든 실습의 공통 순서</div>
+  <h2>폴더 · 프롬프트 · 승인 · <em>Go Live</em></h2>
+  <div class="body">
+    <div class="flow">
+      <div class="st"><span class="k">1</span><b>📁 폴더 만들기</b><p>바탕화면에 새 폴더<br><b style="font-size:20px">01_이름표</b></p></div><div class="ar">›</div>
+      <div class="st"><span class="k">2</span><b>📂 폴더 열기</b><p>Antigravity<br>파일 → 폴더 열기</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">3</span><b>💬 프롬프트</b><p>Zoo Code 채팅창에<br>붙여넣고 전송</p></div><div class="ar">›</div>
+      <div class="st"><span class="k">4</span><b>✅ 승인</b><p>AI가 만들 파일을 보여 주면<br><b style="font-size:20px">Approve(승인)</b></p></div><div class="ar">›</div>
+      <div class="st"><span class="k">5</span><b>🌐 Go Live</b><p>index.html 열고 오른쪽 아래<br><b style="font-size:20px">Go Live</b> → 브라우저</p></div>
+    </div>
+    <div class="tip"><span class="t">🗣️</span><div>마음에 안 들면 코드를 고치지 말고 <b>말로 요청</b>하세요. "이름을 더 크게", "배경을 남색으로" — 저장(Ctrl+S)하면 브라우저가 알아서 새로 고쳐집니다.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-part="4" data-title="실습 ⑦ 초급 1 디지털 이름표" data-timer="8">
+  <div class="ribbon"><span class="lab">실습 ⑦</span><button class="timer">⏱ 8:00 시작</button></div>
+  <div class="eyebrow"><b>초급 1</b>Antigravity · Zoo Code</div>
+  <h2>실습 ⑦ — 화면 가운데 뜨는 <em>디지털 이름표</em></h2>
+  <div class="prac" style="grid-template-columns:440px minmax(0,1fr)">
+    <div>
+      <div class="mock-name"><div class="av">홍</div><b>홍길동</b><div class="rk">대리 · 마케팅팀</div><p>✉️ hong@company.com<br>📅 2022년 입사</p></div>
+      <div class="steps" style="margin-top:22px">
+        <div class="s"><i>✎</i><div>바탕화면 <b>01_이름표</b> 폴더 → Antigravity로 열기 → Zoo Code에 붙여넣기</div></div>
+      </div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><span class="lbl">ZOO CODE에 붙여넣기</span><button class="copy">📋 복사</button></div>
+<div class="pbox on" style="font-size:18.5px;line-height:1.5">HTML 파일 하나로 <span class="h">디지털 이름표 웹페이지</span>를 만들어줘.
+
+<span class="h">표시할 내용</span>
+- 이름: 홍길동
+- 직급: 대리
+- 부서: 마케팅팀
+- 이메일: hong@company.com
+- 입사년도: 2022년
+
+<span class="h">디자인 조건</span>
+- 화면 정중앙에 카드 형태로 표시
+- 파란색과 흰색 계열 색상
+- 이름은 크고 굵게 표시
+- 프로필 이니셜 아바타 (원형, 이름 첫 글자)
+- 각 정보 앞에 이모지 아이콘 붙이기
+- 전체 파일은 index.html 하나로 (CSS도 같은 파일 안에)</div>
+      <div class="pnote">✅ <b>완성 확인</b> — 폴더에 index.html이 생기고, Go Live를 누르면 왼쪽 같은 카드가 보이면 성공!</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4" data-title="실습 ⑦ 실행 4단계 · 막힐 때">
+  <div class="ribbon"><span class="lab">실습 ⑦ 실행</span></div>
+  <div class="eyebrow"><b>초급 1</b>실행 · 문제 해결</div>
+  <h2>실습 ⑦ — <em>실행 4단계</em>와 막힐 때</h2>
+  <div class="body" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start">
+    <div class="steps">
+      <div class="s"><i>1</i><div><b>폴더 열기</b> — 파일 → 폴더 열기 → 01_이름표</div></div>
+      <div class="s"><i>2</i><div><b>index.html 클릭</b> — 왼쪽 탐색기에서 파일 열기</div></div>
+      <div class="s"><i>3</i><div><b>Go Live</b> — 화면 오른쪽 아래 버튼</div></div>
+      <div class="s"><i>4</i><div><b>브라우저 확인</b> — 이름표가 표시됨. 고치고 Ctrl+S 하면 자동 새로고침</div></div>
+    </div>
+    <div class="cards">
+      <div class="card" style="padding:18px 24px"><h3 style="font-size:23px">🔍 Go Live 버튼이 안 보여요</h3><p>확장에서 <b>Live Server</b> 설치 확인 → IDE를 껐다 다시 켜기</p></div>
+      <div class="card" style="padding:18px 24px"><h3 style="font-size:23px">💾 고쳤는데 화면이 그대로예요</h3><p><b>저장(Ctrl+S)</b>이 먼저! 저장 후 브라우저 <b>F5</b></p></div>
+      <div class="card" style="padding:18px 24px"><h3 style="font-size:23px">⏸️ Zoo Code가 멈춰 있어요</h3><p>파일을 만들기 전 <b>승인(Approve)</b>을 기다리는 중 — 승인 버튼 누르기</p></div>
+      <div class="card" style="padding:18px 24px"><h3 style="font-size:23px">🔤 한글이 깨져요</h3><p>"한글이 깨져 보여. UTF-8 인코딩으로 고쳐줘"</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4" data-title="실습 ⑦ 수정 미션 · 완료 체크" data-timer="5">
+  <div class="ribbon"><span class="lab">실습 ⑦ 미션</span><button class="timer">⏱ 5:00 시작</button></div>
+  <div class="eyebrow"><b>초급 1</b>말로 고치기</div>
+  <h2>실습 ⑦ — <em>말로 고치기</em> 미션</h2>
+  <div class="prac" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+    <div class="steps">
+      <div class="s"><i>1</i><div><b>같은 Zoo Code 대화에서 이어서</b> 요청<small>새 작업(+)을 열지 마세요 — 맥락을 기억해야 합니다</small></div></div>
+      <div class="s"><i>2</i><div>탭의 미션을 <b>하나씩</b> 복사 · 붙여넣기 → 바뀌는 부분 훑어보고 승인</div></div>
+      <div class="s"><i>3</i><div>저장(Ctrl+S) → 브라우저에서 확인<small>망가졌다면 "방금 수정을 취소하고 이전 코드로 되돌려줘"</small></div></div>
+      <div class="chk" style="gap:8px">
+        <label style="font-size:18px;padding:10px 14px"><input type="checkbox"> 브라우저에 이름표가 보인다</label>
+        <label style="font-size:18px;padding:10px 14px"><input type="checkbox"> 내 이름 · 정보로 바꿨다 (미션 1)</label>
+        <label style="font-size:18px;padding:10px 14px"><input type="checkbox"> 색상을 바꿔 봤다 (미션 2)</label>
+        <label style="font-size:18px;padding:10px 14px"><input type="checkbox"> 기능을 추가해 봤다 (미션 3 · 심화)</label>
+      </div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">미션 1 ⭐</button><button>미션 2 ⭐⭐</button><button>미션 3 ⭐⭐⭐</button><button>심화</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">이름표의 정보를 내 정보로 바꿔줘.
+- 이름: [내 이름]
+- 직급: [내 직급]
+- 부서: [내 부서]
+<span class="m">(이메일은 가상 주소로)</span></div>
+<div class="pbox">방금 만든 이름표의 <span class="h">배경색을 초록색 계열</span>로 바꿔줘.</div>
+<div class="pbox">이름표에 <span class="h">전화번호</span>를 추가해줘.
+📞 010-1234-5678 형태로</div>
+<div class="pbox">배경 그라데이션 색상을 보라색/초록색/빨간색 테마로
+바꿀 수 있게 테마 선택 버튼을 추가해줘.
+
+<span class="m">── 또는 ──</span>
+'이미지로 저장' 버튼을 추가해서
+이름표를 PNG 파일로 다운로드할 수 있게 해줘.</div>
+      <div class="pnote">💼 팀 행사 이름표 · 신규 입사자 환영 카드로 바로 쓸 수 있습니다.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4" data-title="중급 2 — 부서별 예산 · 경비 정산기" data-time="중급 20분">
+  <div class="eyebrow"><b>중급 2</b>오늘 만드는 것</div>
+  <h2>실습 ⑧ — 부서별 <em>예산 · 경비 정산기</em></h2>
+  <div class="body" style="display:grid;grid-template-columns:minmax(0,1fr) 600px;gap:30px;align-items:start">
+    <div class="cards c2">
+      <div class="card top"><h3>📊 예산 · 집행률</h3><p>총 예산 대비 집행률을 실시간 계산, 부서별 예산 초과 시 즉시 경고</p></div>
+      <div class="card top"><h3>🧾 경비 청구 내역</h3><p>일자 · 부서 · 청구자 · 금액 · 사용처 · 결제수단, 검색과 비목 필터</p></div>
+      <div class="card top"><h3>⚙️ 부서 예산 설정</h3><p>팀별 월간 예산을 바꾸면 집행률에 바로 반영, 자동 저장</p></div>
+      <div class="card top"><h3>📦 JSON 백업 · 복원</h3><p>전체 정산 내역을 파일로 — 재무팀에 그대로 전달</p></div>
+    </div>
+    <div class="stack-r">
+      <div class="situ" style="font-size:18.5px"><b>상황</b> 경영지원팀 대리 2년차, 분기 마감 D-3. 팀장님 메시지 — "부서별 예산 집행 현황 정리해서 월요일 보고자료 만들어줘. 어디 부서가 초과됐는지, 얼마 남았는지 한눈에 보이게."</div>
+      <div class="mock-bg">
+        <div class="tot"><span>전체 집행률</span><b>72%</b></div>
+        <div class="bar"><i style="width:72%"></i></div>
+        <div class="row"><span>기획팀</span><div class="t"><i style="width:65%;background:#16a34a"></i></div><b>65%</b></div>
+        <div class="row"><span>개발팀</span><div class="t"><i style="width:82%;background:#f59e0b"></i></div><b>82%</b></div>
+        <div class="row"><span>영업팀</span><div class="t"><i style="width:100%;background:#dc2626"></i></div><b class="over">초과</b></div>
+        <div class="row"><span>인사팀</span><div class="t"><i style="width:40%;background:#16a34a"></i></div><b>40%</b></div>
+      </div>
+      <a class="dl" style="background:var(--p4)" href="data/경비정산기_예시.html" target="_blank">👀 완성 예시 보기 (새 창)</a>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4" data-title="실습 ⑧ 경비 정산기 프롬프트" data-timer="12">
+  <div class="ribbon"><span class="lab">실습 ⑧</span><button class="timer">⏱ 12:00 시작</button></div>
+  <div class="eyebrow"><b>중급 2</b>Antigravity · Zoo Code</div>
+  <h2>실습 ⑧ — <em>새 폴더 02_경비정산기</em>에서 시작</h2>
+  <div class="prac" style="grid-template-columns:400px minmax(0,1fr)">
+    <div class="steps">
+      <div class="s"><i>1</i><div>바탕화면에 <b>02_경비정산기</b> 폴더 → Antigravity로 열기</div></div>
+      <div class="s"><i>2</i><div>Zoo Code <b>+</b> 새 작업 → 오른쪽 프롬프트 붙여넣기</div></div>
+      <div class="s"><i>3</i><div>파일 3개 승인 → index.html → <b>Go Live</b></div></div>
+      <div class="s"><i>4</i><div>경비를 등록하고 부서 예산을 바꿔 보며 <b>집행률이 변하는지</b> 확인</div></div>
+      <div class="s" style="background:#fff8dc;border-color:#f5d76e"><i style="background:#b45309">💡</i><div>월 이동 · 차트 · 영수증은 <b>미션으로 이어서</b><small>PART 1 보고서처럼 한 번에 다 시키지 않기</small></div></div>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><span class="lbl">ZOO CODE에 붙여넣기</span><button class="copy">📋 복사</button></div>
+<div class="pbox on sm xs" style="font-size:16px;line-height:1.38">HTML, CSS, JavaScript로 <span class="h">'부서별 예산 및 경비 정산기'</span> 애플리케이션을 만들어줘.
+
+<span class="h">레이아웃 및 구성</span>
+1. 상단 헤더
+    · 타이틀: "💳 부서별 예산 &amp; 경비 정산 관리 시스템"
+    · 검색/필터: 검색창(사용처/청구자), 부서 필터, 비목 필터
+    · 버튼: [+ 경비 청구 등록] [부서 예산 설정] [백업(.json)] [복원] [테마 변경] [초기화]
+2. 대시보드 KPI 바
+    · 전체 예산 대비 집행률 프로그레스 바와 금액 합계 (총 예산 / 총 사용 / 잔액)
+    · 부서별(기획팀, 개발팀, 영업팀, 인사팀) 사용률 미니 카드 (예산 초과 시 '초과' 경고 배지)
+3. 메인 테이블 (경비 내역)
+    · 컬럼: 일자, 부서, 청구자, 비목, 사용처/적요, 결제수단, 금액, 영수증, 관리(수정 버튼)
+
+<span class="h">주요 기능</span>
+1. 경비 청구 등록 · 수정 모달: 부서, 청구자, 사용일자, 비목, 결제수단, 금액, 적요, 영수증 번호 입력
+2. 부서별 예산 설정 모달: 각 부서의 월간 목표 예산을 설정하고 즉시 집행률 계산에 반영
+3. 데이터 저장 · 백업: localStorage 저장, JSON 파일 백업/복원
+4. 초기 샘플 데이터: 기본 부서 예산과 경비 내역 샘플 10건 (5~8월 데이터 포함)
+5. 사용자 경험: 주요 동작 완료 시 우측 하단 토스트 알림, ESC 키로 열린 모달 닫기
+
+<span class="h">디자인 및 파일 구조</span>
+- index.html, style.css, script.js 3개 파일로 분리하고 한글 주석 작성</div>
+   </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4" data-title="실습 ⑧ 확인 4단계 · 막힐 때">
+  <div class="ribbon"><span class="lab">실습 ⑧ 확인</span></div>
+  <div class="eyebrow"><b>중급 2</b>확인 · 문제 해결</div>
+  <h2>실습 ⑧ — <em>확인 4단계</em>와 막힐 때</h2>
+  <div class="body" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start">
+    <div class="steps">
+      <div class="s"><i>1</i><div><b>파일 3개</b> — 탐색기에 index.html · style.css · script.js</div></div>
+      <div class="s"><i>2</i><div><b>Go Live</b> — 샘플 경비 내역과 부서별 집행률이 보인다</div></div>
+      <div class="s"><i>3</i><div><b>등록 · 예산 설정</b> — [경비 청구 등록] · [부서 예산 설정]에 금액을 넣으면 집행률과 '초과' 배지가 바뀐다</div></div>
+      <div class="s"><i>4</i><div><b>백업 · 복원</b> — [백업] → .json 내려받기 → [복원]으로 불러오기</div></div>
+    </div>
+    <div class="pr" style="min-height:540px">
+      <div class="pr-top"><div class="tabs"><button class="on">집행률 0%</button><button>새로고침하면 사라짐</button><button>복원 안 됨</button><button>아이콘 · 모달</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">금액 합계와 집행률이 0%로 나와.
+입력한 금액을 숫자로 바꿔서 합산하도록 고쳐줘.</div>
+<div class="pbox">새로고침하면 등록한 경비가 사라져.
+경비를 등록 · 수정 · 삭제할 때 localStorage에 저장되도록 고쳐줘.</div>
+<div class="pbox">백업한 JSON 파일로 복원이 안 돼.
+파일 안에 budgets와 expenses가 제대로 들어 있는지 확인하고
+복원하는 부분을 고쳐줘.</div>
+<div class="pbox">아이콘이 안 보이고 모달이 안 떠.
+index.html에서 Bootstrap Icons 연결과
+style.css · script.js 연결이 제대로 되어 있는지 확인하고 고쳐줘.</div>
+      <div class="pnote">🤖 <b>만능 해결법</b> — F12 → Console의 빨간 에러를 그대로 복사해 "이 에러 고쳐줘". 계속 꼬이면 <b>+</b>(새 작업).</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4" data-title="실습 ⑧ 미션 · 완료 체크">
+  <div class="ribbon"><span class="lab">실습 ⑧ 미션</span></div>
+  <div class="eyebrow"><b>중급 2</b>한 단계 발전시키기</div>
+  <h2>실습 ⑧ — <em>미션</em>과 완료 체크</h2>
+  <div class="prac" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+    <div class="chk">
+      <label style="font-size:20px"><input type="checkbox"> 경비 청구 내역을 등록 · 수정 · 삭제할 수 있다</label>
+      <label style="font-size:20px"><input type="checkbox"> 부서 예산을 바꾸면 집행률과 '초과' 배지가 즉시 바뀐다</label>
+      <label style="font-size:20px"><input type="checkbox"> 검색창과 부서 · 비목 필터로 원하는 내역만 볼 수 있다</label>
+      <label style="font-size:20px"><input type="checkbox"> [백업]으로 .json 파일을 저장하고 [복원]으로 불러올 수 있다</label>
+      <label style="font-size:20px"><input type="checkbox"> 미션 중 1개 이상 성공했다</label>
+    </div>
+    <div class="pr">
+      <div class="pr-top"><div class="tabs"><button class="on">미션 1 · 차트</button><button>미션 2 · 월 이동</button><button>미션 3 · 영수증</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on">Chart.js를 연동해서 <span class="h">차트 영역(3열)</span>을 추가해줘.
+- 비목별 지출 비율: 비목별 지출 금액을 도넛 차트로,
+  범례에 금액 · 비율 표시
+- 월별 지출 추이: 최근 6개월 총 지출을 꺾은선 차트로
+  (초록색, 영역 채우기)
+- 부서별 예산 소진율: 부서별 당월 지출/예산 비율을 가로 막대로
+  (90% 이상 빨강 · 70~90% 주황 · 70% 미만 초록)</div>
+<div class="pbox">헤더에 <span class="h">◀ [월] ▶ 버튼</span>을 추가해서
+월별 경비 내역을 이동하며 볼 수 있게 해줘.
+- 선택한 월의 데이터만 걸러서 KPI와 테이블을 갱신
+- 차트가 있으면 월을 옮길 때 함께 갱신</div>
+<div class="pbox">테이블의 <span class="h">영수증 번호를 누르면</span>
+해당 영수증 정보를 팝업 모달로 보여줘.
+- 결제 상세 내역 표시
+- 인쇄하기 버튼 추가</div>
+      <div class="pnote">💼 우리 부서로 바꾸려면 "부서를 [우리 부서들]로, 월 예산을 [금액]으로 바꿔줘" — 같은 대화에서 이어서.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 마무리 ══════════ -->
+<section class="slide" data-part="0" data-title="마무리 — 내일 팀에서 해 볼 3가지" data-time="마무리 5분">
+  <div class="eyebrow"><b>마무리</b>오늘의 정리</div>
+  <h2>내일 우리 팀에서 <em>해 볼 3가지</em></h2>
+  <div class="body">
+    <div class="cards c3">
+      <div class="card top" style="--pc:var(--p1)"><div class="num">1</div><h3>주간 보고를 3단계로</h3><p>이번 주 보고서를 "목차만 먼저"로 시작해 보기</p></div>
+      <div class="card top" style="--pc:var(--p2)"><div class="num">2</div><h3>실적표를 붙여넣기</h3><p>팀 실적에서 패턴 3개 → 원인 가설 → 회의 보고 (숫자는 검산 · 이름은 가명)</p></div>
+      <div class="card top" style="--pc:var(--p4)"><div class="num">3</div><h3>도구 아이디어 한 줄</h3><p>"팀에서 매주 엑셀로 반복하는 일"을 하나 적어 두기 — 메타 프롬프팅으로 시작</p></div>
+    </div>
+    <div class="cards c4" style="margin-top:22px">
+      <div class="card soft"><h3 style="font-size:22px">📝 3단계 공법</h3><p>목차 → 초안 → 다듬기</p></div>
+      <div class="card soft"><h3 style="font-size:22px">🧠 메타 프롬프팅</h3><p>지시서를 AI가 설계</p></div>
+      <div class="card soft"><h3 style="font-size:22px">📊 데이터 → 보고</h3><p>해석은 AI, 숫자는 엑셀</p></div>
+      <div class="card soft"><h3 style="font-size:22px">🛠️ 바이브코딩</h3><p>말로 만들고 말로 고친다</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark cover" data-part="0" data-title="질문 · 다음 과정">
+  <div><span class="tag">수고하셨습니다</span></div>
+  <h1>질문 <span>&amp;</span> 다음 과정</h1>
+  <div class="sub">오늘 만든 이름표 · 경비 정산기는 폴더째 보관하세요 — 그대로 팀에 공유할 수 있습니다</div>
+  <div class="meta">
+    <div><b>초급 12개</b><span>이름표 · 시계 · 메모장 …</span></div>
+    <div><b>중급 12개</b><span>칸반 · 경비 정산 · 견적서 …</span></div>
+    <div><b>회사 활용 12개</b><span>생산 · 품질 · 재고 · 원가</span></div>
+  </div>
+  <div class="org">🔒 개인정보 · 기밀은 넣지 않기 · AI 숫자는 검산하기 · API 키는 공유하지 않기 · AI정보기획팀</div>
+</section>
+
+  <div class="foot" id="foot"><button id="prev" title="이전 (←)">‹</button><span class="no" id="no"></span><button id="next" title="다음 (→)">›</button><div class="scrub" id="scrub" title="누르거나 끌어서 이동 · 휠로 넘기기"><div class="bar"><i id="bar"></i></div><div class="ticks" id="ticks"></div><div class="hov" id="scrubHov"></div><div class="tip" id="scrubTip"></div></div><span><kbd>?</kbd> 도움말 · <kbd>M</kbd> 목차 · <kbd>F</kbd> 전체 화면</span></div>
+</div>
+
+<div class="menu" id="menu"><div class="box"><h4>슬라이드 목록 — 눌러서 이동 (Esc 닫기)</h4><div class="tools"><input id="menuQ" placeholder="찾기 — 예: 보고서, 경비, 설치" autocomplete="off"></div><div class="grid" id="menuGrid"></div></div></div>
+<div class="ov big" id="big"><div class="box"><div class="hd"><b id="bigTitle">프롬프트 크게 보기</b><button class="copy" id="bigCopy">📋 복사</button><button class="x" data-close>닫기 (Esc)</button></div><div class="txt" id="bigTxt"></div></div></div>
+<div class="ov" id="help"><div class="box"><div class="hd"><b>⌨️ 단축키 · 사용법</b><button class="x" data-close>닫기 (Esc)</button></div>
+  <div class="helpg">
+    <div><span>다음 · 이전 장</span><span><kbd>→</kbd> <kbd>←</kbd> <kbd>Space</kbd></span></div>
+    <div><span>하단 막대 위에서 휠</span><span>한 칸에 한 장씩</span></div>
+    <div><span>하단 막대 누르기 · 끌기</span><span>그 장으로 바로 이동</span></div>
+    <div><span>번호로 바로 가기</span><span>숫자 입력 후 <kbd>Enter</kbd></span></div>
+    <div><span>목차 · 찾기</span><kbd>M</kbd></div>
+    <div><span>처음 · 끝</span><span><kbd>Home</kbd> <kbd>End</kbd></span></div>
+    <div><span>프롬프트 복사</span><kbd>C</kbd></div>
+    <div><span>프롬프트 탭 바꾸기</span><kbd>Tab</kbd></div>
+    <div><span>프롬프트 크게 보기</span><kbd>Z</kbd></div>
+    <div><span>프롬프트 글씨 크게 · 작게</span><span><kbd>+</kbd> <kbd>-</kbd></span></div>
+    <div><span>실습 타이머 시작 · 멈춤</span><kbd>T</kbd></div>
+    <div><span>전체 화면</span><kbd>F</kbd></div>
+    <div><span>인쇄 · PDF로 저장 (전체 슬라이드)</span><span><kbd>Ctrl</kbd>+<kbd>P</kbd></span></div>
+    <div><span>도움말</span><kbd>?</kbd></div>
+  </div>
+  <p style="font-size:15px;color:var(--sub);line-height:1.6">태블릿은 화면을 좌우로 밀어서 넘깁니다. 체크박스 · 마지막으로 본 장 · 글씨 크기는 이 브라우저에 기억됩니다.</p>
+</div></div>
+<div class="toast2" id="toast2"><span id="toastMsg"></span><button id="toastBtn" hidden></button></div>
+<div class="jump" id="jump"></div>
+
+<script>
+// 슬라이드 이동 · 화면 맞춤 · 파트 표시 · 탭 · 복사 · 크게 보기 · 실습 타이머 · 목차 검색 · 이어 보기 · 단축키 · 글꼴 미리 받기
+(() => {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const stage = $('#stage'), slides = $$('.slide');
+  const PARTS = [['시작 · 마무리', '#334155'], ['실무 ①', 'var(--p1)'], ['실무 ②', 'var(--p2)'], ['바이브코딩', 'var(--p3)'], ['직접 만들기', 'var(--p4)']];
+  const KEY = 'manager-ai.';
+  const store = { get(k, d) { try { const v = localStorage.getItem(KEY + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch (e) { /* 저장 불가 환경 */ } } };
+  let cur = 0;
+
+  // 1600×900 무대를 창 크기에 맞춤
+  function fit() { const s = Math.min(innerWidth / 1600, innerHeight / 900); stage.style.transform = `translate(-50%,-50%) scale(${s})`; }
+  addEventListener('resize', fit); fit();
+
+  // 알림
+  let tt = null;
+  function toast(msg, btnLabel, onBtn, ms = 2200) {
+    $('#toastMsg').textContent = msg;
+    const b = $('#toastBtn'); b.hidden = !btnLabel; if (btnLabel) { b.textContent = btnLabel; b.onclick = () => { onBtn(); $('#toast2').classList.remove('on'); }; }
+    $('#toast2').classList.add('on'); clearTimeout(tt); tt = setTimeout(() => $('#toast2').classList.remove('on'), ms);
+  }
+
+  $('#track').innerHTML = PARTS.map(([n, c], i) => `<span data-p="${i}" style="--c:${c}">${n}</span>`).join('');
+  let lastTime = '';
+  const times = slides.map(s => { if (s.dataset.time) lastTime = s.dataset.time; if (s.classList.contains('part') || s.classList.contains('cover')) lastTime = s.dataset.time || ''; return lastTime; });
+
+  function go(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides[cur].classList.remove('on'); cur = i; const s = slides[cur]; s.classList.add('on');
+    const dark = s.classList.contains('dark') || s.classList.contains('part');
+    $('#chrome').classList.toggle('dark', dark);
+    $$('#track span').forEach(t => t.classList.toggle('on', +t.dataset.p === +s.dataset.part && !s.classList.contains('cover')));
+    $('#timechip').textContent = times[cur] ? '⏱ ' + times[cur] : '';
+    $('#no').textContent = `${cur + 1} / ${slides.length}`;
+    $('#bar').style.width = ((cur + 1) / slides.length * 100) + '%';
+    $('#foot').style.color = dark ? '#94a3b8' : '';
+    store.set('slide', cur);
+    try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) { /* 파일로 열어도 동작 */ }
+  }
+  $('#prev').onclick = () => go(cur - 1); $('#next').onclick = () => go(cur + 1);
+
+  // 하단 진행 막대: 올리면 장 번호 · 제목 미리보기, 누르거나 끌면 그 장으로, 하단 띠 위에서 휠로 넘기기
+  const scrub = $('#scrub'), tip = $('#scrubTip'), hov = $('#scrubHov');
+  const local = x => { const r = scrub.getBoundingClientRect(); return { pos: Math.max(0, Math.min(1, (x - r.left) / r.width)), scale: r.width / scrub.offsetWidth }; };
+  const idxAt = x => Math.min(slides.length - 1, Math.floor(local(x).pos * slides.length));
+  function showTip(x) {
+    const { pos } = local(x), i = idxAt(x), w = scrub.offsetWidth;
+    hov.style.left = (pos * w) + 'px';
+    tip.style.left = (pos * w) + 'px';
+    tip.classList.toggle('l', pos < 0.12); tip.classList.toggle('r', pos > 0.88);
+    tip.innerHTML = '<b>' + (i + 1) + '</b>' + (slides[i].dataset.title || '');
+  }
+  $('#ticks').innerHTML = slides.map((s, i) => i > 0 && s.dataset.part !== slides[i - 1].dataset.part ? '<span style="left:' + (i / slides.length * 100) + '%"></span>' : '').join('');
+  let dragging = false;
+  scrub.addEventListener('pointerdown', e => { dragging = true; scrub.classList.add('drag'); try { scrub.setPointerCapture(e.pointerId); } catch (err) { /* 캡처 불가 환경 */ } showTip(e.clientX); go(idxAt(e.clientX)); });
+  scrub.addEventListener('pointermove', e => { showTip(e.clientX); if (dragging) { const i = idxAt(e.clientX); if (i !== cur) go(i); } });
+  const endDrag = () => { dragging = false; scrub.classList.remove('drag'); };
+  scrub.addEventListener('pointerup', endDrag); scrub.addEventListener('pointercancel', endDrag);
+  let wheelAcc = 0;
+  $('#foot').addEventListener('wheel', e => {
+    e.preventDefault();
+    const d = (Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX) * (e.deltaMode === 1 ? 40 : 1);
+    wheelAcc += d;
+    while (Math.abs(wheelAcc) >= 90) { const s = Math.sign(wheelAcc); go(cur + s); wheelAcc -= s * 90; }
+    if (scrub.matches(':hover')) showTip(e.clientX);
+  }, { passive: false });
+
+  // 복사 (클립보드가 막힌 환경은 예전 방식으로)
+  async function copyText(text, btn) {
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+    if (btn) { btn.textContent = '✅ 복사됨'; btn.classList.add('done'); setTimeout(() => { btn.textContent = '📋 복사'; btn.classList.remove('done'); }, 1600); }
+    toast('📋 복사했습니다 — wrks.ai · Zoo Code 입력창에 Ctrl + V');
+  }
+  const curPr = () => slides[cur].querySelector('.pr');
+  const curPane = pr => pr && pr.querySelector('.pbox.on');
+
+  // 탭 · 복사 · 크게 보기
+  $$('.pr').forEach(pr => {
+    const tabs = [...pr.querySelectorAll('.tabs button')], panes = [...pr.querySelectorAll('.pbox')];
+    tabs.forEach((b, i) => b.onclick = () => { tabs.forEach(x => x.classList.toggle('on', x === b)); panes.forEach((p, j) => p.classList.toggle('on', j === i)); });
+    const copy = pr.querySelector('.copy');
+    copy.insertAdjacentHTML('beforebegin', '<button class="zoom" title="크게 보기 (Z)">⛶ 크게</button>');
+    copy.onclick = () => copyText(curPane(pr).innerText, copy);
+    pr.querySelector('.zoom').onclick = () => openBig(pr);
+  });
+  function nextTab(pr) { const tabs = [...pr.querySelectorAll('.tabs button')]; if (tabs.length < 2) return; const i = tabs.findIndex(b => b.classList.contains('on')); tabs[(i + 1) % tabs.length].click(); }
+  function openBig(pr) {
+    const pane = curPane(pr), tab = pr.querySelector('.tabs button.on'), lbl = pr.querySelector('.lbl');
+    $('#bigTitle').textContent = (slides[cur].dataset.title || '') + (tab ? ' — ' + tab.textContent : lbl ? ' — ' + lbl.textContent : '');
+    const t = $('#bigTxt'); t.innerHTML = pane.innerHTML; t.className = 'txt' + (pane.classList.contains('code') ? ' code' : ''); t.scrollTop = 0;
+    $('#bigCopy').onclick = () => copyText(pane.innerText, $('#bigCopy'));
+    $('#big').classList.add('on');
+  }
+  $$('.ov').forEach(o => o.addEventListener('click', e => { if (e.target === o || e.target.closest('[data-close]')) o.classList.remove('on'); }));
+
+  // 프롬프트 글씨 크기 (+ / -)
+  let pz = store.get('pz', 1);
+  const setPz = v => { pz = Math.max(0.8, Math.min(1.5, Math.round(v * 10) / 10)); document.documentElement.style.setProperty('--pz', pz); store.set('pz', pz); };
+  setPz(pz);
+
+  // 실습 타이머: 누르면 시작 · 다시 누르면 멈춤 · 다른 장에서도 위쪽에 남은 시간 표시
+  let active = null;
+  const live = $('#live');
+  live.onclick = () => { if (active) go(active.idx); };
+  $$('.slide[data-timer]').forEach(s => {
+    const btn = s.querySelector('.timer'), total = +s.dataset.timer * 60, idx = slides.indexOf(s);
+    const T = { left: total, id: null, idx, btn, title: s.dataset.title };
+    const fmt = () => `${Math.floor(T.left / 60)}:${String(T.left % 60).padStart(2, '0')}`;
+    const show = () => { btn.textContent = T.id ? `⏱ ${fmt()}` : (T.left === total ? `⏱ ${fmt()} 시작` : `⏸ ${fmt()}`); live.textContent = T.id ? `⏱ ${(T.title || '').split(' ').slice(0, 2).join(' ')} ${fmt()}` : ''; live.classList.toggle('on', !!T.id); };
+    btn.onclick = () => {
+      if (T.left <= 0) { T.left = total; btn.classList.remove('end'); }
+      if (T.id) { clearInterval(T.id); T.id = null; btn.classList.remove('run'); active = null; }
+      else {
+        if (active && active !== T) active.btn.click();
+        T.id = setInterval(() => { T.left--; if (T.left <= 0) { clearInterval(T.id); T.id = null; T.left = 0; active = null; btn.classList.remove('run'); btn.classList.add('end'); btn.textContent = '⏰ 시간 종료'; live.classList.remove('on'); toast('⏰ ' + T.title + ' — 시간이 끝났습니다', null, null, 4000); return; } show(); }, 1000);
+        btn.classList.add('run'); active = T;
+      }
+      if (T.left > 0) show();
+    };
+  });
+
+  // 실습 데이터 CSV 내려받기 (엑셀에서 바로 열리도록 BOM 포함)
+  const CSV_DATA = { sales: ['지점,1월,2월,3월,4월,5월,6월', '강남,420,435,410,465,520,510', '홍대,310,325,340,330,385,370', '부산,280,295,290,260,255,240', '대구,195,200,210,205,230,225', '광주,150,145,160,155,175,170', '온라인,380,410,455,490,560,605'] };
+  $$('[data-csv]').forEach(b => b.onclick = () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\uFEFF' + CSV_DATA[b.dataset.csv].join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+    a.download = '실습3_지점별매출.csv'; a.click();
+    toast('📥 실습3_지점별매출.csv — 내려받기 폴더에서 엑셀로 여세요');
+  });
+
+  // 체크박스 기억
+  const checks = $$('.chk input[type=checkbox]'), saved = store.get('checks', {});
+  checks.forEach((c, i) => { c.checked = !!saved[i]; c.onchange = () => { const v = store.get('checks', {}); v[i] = c.checked; store.set('checks', v); }; });
+
+  // 목차 (M): 파트별 묶음 · 실습 표시 · 찾기
+  const menu = $('#menu'), PN = ['시작 · 마무리', 'PART 1 실무 활용 ①', 'PART 2 실무 활용 ②', 'PART 3 바이브코딩 시작하기', 'PART 4 직접 만들기'];
+  function drawMenu(q = '') {
+    let html = '', lastPart = null;
+    slides.forEach((s, i) => {
+      const title = s.dataset.title || '';
+      if (q && !title.includes(q)) return;
+      const p = +s.dataset.part;
+      if (!q && p !== lastPart) { html += `<div class="ph">${PN[p]}</div>`; lastPart = p; }
+      const prac = /실습|따라 하기/.test(title);
+      html += `<button data-i="${i}" class="${i === cur ? 'cur' : ''}"><b>${i + 1}</b>${title}${prac ? '<span class="tg">실습</span>' : ''}</button>`;
+    });
+    $('#menuGrid').innerHTML = html || '<div class="ph">찾는 장이 없습니다</div>';
+  }
+  function openMenu() { $('#menuQ').value = ''; drawMenu(); menu.classList.add('on'); setTimeout(() => $('#menuQ').focus(), 30); }
+  $('#menuQ').oninput = e => drawMenu(e.target.value.trim());
+  $('#menuQ').onkeydown = e => { if (e.key === 'Enter') { const b = $('#menuGrid button'); if (b) b.click(); } if (e.key === 'Escape') menu.classList.remove('on'); };
+  menu.onclick = e => { const b = e.target.closest('button[data-i]'); if (b) { go(+b.dataset.i); menu.classList.remove('on'); } else if (e.target === menu) menu.classList.remove('on'); };
+
+  // 번호 입력 후 Enter로 이동
+  let num = '', numT = null;
+  const jump = $('#jump');
+  function typeNum(d) { num = (num + d).slice(-2); jump.textContent = num + '장으로 → Enter'; jump.classList.add('on'); clearTimeout(numT); numT = setTimeout(() => { num = ''; jump.classList.remove('on'); }, 2500); }
+
+  document.addEventListener('keydown', e => {
+    if (e.target.closest && e.target.closest('input,textarea')) return;
+    const ovOn = $('.ov.on');
+    if (e.key === 'Escape') { if (ovOn) ovOn.classList.remove('on'); menu.classList.remove('on'); num = ''; jump.classList.remove('on'); return; }
+    if (menu.classList.contains('on')) { if (e.key === 'm' || e.key === 'M') menu.classList.remove('on'); return; }
+    if (ovOn) { if (ovOn.id === 'big' && (e.key === 'c' || e.key === 'C')) $('#bigCopy').click(); if (e.key === 'z' || e.key === 'Z' || e.key === '?') ovOn.classList.remove('on'); return; }
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (/^[0-9]$/.test(e.key)) { typeNum(e.key); return; }
+    if (e.key === 'Enter' && num) { go(+num - 1); num = ''; jump.classList.remove('on'); return; }
+    const pr = curPr();
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') go(0); else if (e.key === 'End') go(slides.length - 1);
+    else if (e.key === 'm' || e.key === 'M') openMenu();
+    else if (e.key === '?' || e.key === 'h' || e.key === 'H') $('#help').classList.add('on');
+    else if ((e.key === 'c' || e.key === 'C') && pr) pr.querySelector('.copy').click();
+    else if ((e.key === 'z' || e.key === 'Z') && pr) openBig(pr);
+    else if (e.key === 'Tab' && pr) { e.preventDefault(); nextTab(pr); }
+    else if (e.key === 't' || e.key === 'T') { const b = slides[cur].querySelector('.timer'); if (b) b.click(); }
+    else if (e.key === '+' || e.key === '=') { setPz(pz + 0.1); toast('프롬프트 글씨 ' + Math.round(pz * 100) + '%'); }
+    else if (e.key === '-' || e.key === '_') { setPz(pz - 0.1); toast('프롬프트 글씨 ' + Math.round(pz * 100) + '%'); }
+    else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => {}); }
+  });
+
+  // 태블릿: 좌우로 밀어서 넘기기 (프롬프트 상자 안 스크롤은 제외)
+  let sx = null, sy = null;
+  stage.addEventListener('touchstart', e => { if (e.target.closest('.pbox')) { sx = null; return; } sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener('touchend', e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(cur + (dx < 0 ? 1 : -1)); sx = null; }, { passive: true });
+
+  // 시작: 주소의 #번호 → 없으면 마지막으로 본 장을 제안
+  const h = parseInt(location.hash.slice(1), 10), last = store.get('slide', 0);
+  slides[0].classList.add('on');
+  go(h > 0 ? h - 1 : 0);
+  if (!(h > 0) && last > 0 && last < slides.length) toast(`지난번에 ${last + 1}장까지 보셨습니다`, `${last + 1}장부터 이어 보기`, () => go(last), 7000);
+
+  // 글꼴 미리 받기: 첫 화면이 뜬 뒤 모든 슬라이드에 쓰인 글자의 글꼴 조각을 한꺼번에 받아 둠 → 넘길 때 글꼴이 새로 바뀌는 지연 없음
+  function warmFonts() {
+    if (!document.fonts || !document.fonts.load) return;
+    const chars = [...new Set(document.body.textContent.replace(/\s+/g, ''))].join('');
+    const run = () => ['400', '700', '800', '900'].forEach(w => document.fonts.load(`${w} 20px "Pretendard Variable"`, chars).catch(() => {}));
+    (window.requestIdleCallback || (fn => setTimeout(fn, 300)))(run);
+  }
+  const fl = document.createElement('link');
+  fl.rel = 'stylesheet'; fl.href = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
+  fl.onload = () => setTimeout(warmFonts, 50);
+  (window.requestAnimationFrame || setTimeout)(() => document.head.appendChild(fl));
+})();
+</script>
+</body>
+</html>
