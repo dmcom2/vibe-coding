@@ -120,7 +120,10 @@ h2 em{font-style:normal;color:var(--pc);}
 .pbox.on{display:block;}
 .pbox .h{color:var(--gold);font-weight:800;}
 .pbox .m{color:#7dd3fc;}
-.pbox::-webkit-scrollbar{width:10px;} .pbox::-webkit-scrollbar-thumb{background:#2b4470;border-radius:5px;}
+.pbox::-webkit-scrollbar{width:12px;} .pbox::-webkit-scrollbar-track{background:rgba(255,255,255,.04);border-radius:6px;}
+.pbox::-webkit-scrollbar-thumb{background:#5b7bb5;border-radius:6px;border:2px solid #0a1428;} .pbox::-webkit-scrollbar-thumb:hover{background:var(--gold);}
+.pbox.ovf::after{content:'▼ 아래로 스크롤하면 더 있어요';position:sticky;bottom:-20px;display:block;margin:6px -24px -20px;padding:22px 0 12px;text-align:center;font-size:15px;font-weight:800;color:var(--gold);background:linear-gradient(to bottom,rgba(10,20,40,0),#0a1428 55%);pointer-events:none;white-space:normal;transition:opacity .2s;}
+.pbox.ovf.end::after{opacity:0;}
 .pnote{margin-top:12px;font-size:17px;color:#cbd5e1;line-height:1.5;}
 .pnote b{color:var(--gold);}
 
@@ -252,6 +255,7 @@ h2 em{font-style:normal;color:var(--pc);}
   .chrome,.foot,.menu,.ov,.toast2,.jump,.live,.timer,.copy,.zoom{display:none !important;}
   .pbox{display:block !important;overflow:hidden;}
   .pbox:not(.on){display:none !important;}
+  .pbox.ovf::after{display:none;}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 }
 </style>
@@ -1393,10 +1397,10 @@ git version 2.45.0     <span class="m">← Git 설치됨</span>
   <h2>실습 ⑧ — 부서별 <em>예산 · 경비 정산기</em></h2>
   <div class="body" style="display:grid;grid-template-columns:minmax(0,1fr) 600px;gap:30px;align-items:start">
     <div class="cards c2">
-      <div class="card top"><h3>📊 예산 · 집행률</h3><p>총 예산 대비 집행률을 실시간 계산, 부서별 예산 초과 시 즉시 경고</p></div>
-      <div class="card top"><h3>🧾 경비 청구 내역</h3><p>일자 · 부서 · 청구자 · 금액 · 사용처 · 결제수단, 검색과 비목 필터</p></div>
-      <div class="card top"><h3>⚙️ 부서 예산 설정</h3><p>팀별 월간 예산을 바꾸면 집행률에 바로 반영, 자동 저장</p></div>
-      <div class="card top"><h3>📦 JSON 백업 · 복원</h3><p>전체 정산 내역을 파일로 — 재무팀에 그대로 전달</p></div>
+      <div class="card top"><h3>📊 예산 · 집행률 · 차트</h3><p>KPI 카드와 차트 3개, 예산을 넘으면 빨간 '초과' 배지</p></div>
+      <div class="card top"><h3>🧾 경비 청구 내역</h3><p>등록 · 수정 · 삭제, 검색과 부서 · 비목 필터, 정렬과 합계</p></div>
+      <div class="card top"><h3>📅 월 이동 · 예산 설정</h3><p>◀ ▶로 달을 바꿔 보고, 부서별 월 예산을 바꾸면 즉시 반영</p></div>
+      <div class="card top"><h3>📦 백업 · 복원 · 다크 모드</h3><p>전체 정산 내역을 JSON 파일로 — 재무팀에 그대로 전달</p></div>
     </div>
     <div class="stack-r">
       <div class="situ" style="font-size:18.5px"><b>상황</b> 경영지원팀 대리 2년차, 분기 마감 D-3. 팀장님 메시지 — "부서별 예산 집행 현황 정리해서 월요일 보고자료 만들어줘. 어디 부서가 초과됐는지, 얼마 남았는지 한눈에 보이게."</div>
@@ -1420,36 +1424,50 @@ git version 2.45.0     <span class="m">← Git 설치됨</span>
   <div class="prac" style="grid-template-columns:400px minmax(0,1fr)">
     <div class="steps">
       <div class="s"><i>1</i><div>바탕화면에 <b>02_경비정산기</b> 폴더 → Antigravity로 열기</div></div>
-      <div class="s"><i>2</i><div>Zoo Code <b>+</b> 새 작업 → 오른쪽 프롬프트 붙여넣기</div></div>
+      <div class="s"><i>2</i><div>Zoo Code <b>+</b> 새 작업 → 오른쪽 프롬프트 붙여넣기<small>길어서 상자 안에서 스크롤됩니다 · 복사는 전체가 됩니다</small></div></div>
       <div class="s"><i>3</i><div>파일 3개 승인 → index.html → <b>Go Live</b></div></div>
-      <div class="s"><i>4</i><div>경비를 등록하고 부서 예산을 바꿔 보며 <b>집행률이 변하는지</b> 확인</div></div>
-      <div class="s" style="background:#fff8dc;border-color:#f5d76e"><i style="background:#b45309">💡</i><div>월 이동 · 차트 · 영수증은 <b>미션으로 이어서</b><small>PART 1 보고서처럼 한 번에 다 시키지 않기</small></div></div>
+      <div class="s"><i>4</i><div>경비를 등록하고 부서 예산을 바꿔 보며 <b>집행률 · 차트가 변하는지</b> 확인</div></div>
+      <div class="s" style="background:#fff8dc;border-color:#f5d76e"><i style="background:#b45309">💡</i><div>CSV · 영수증 · 보고서 인쇄는 <b>미션으로 이어서</b></div></div>
     </div>
     <div class="pr">
       <div class="pr-top"><span class="lbl">ZOO CODE에 붙여넣기</span><button class="copy">📋 복사</button></div>
-<div class="pbox on sm xs" style="font-size:16px;line-height:1.38">HTML, CSS, JavaScript로 <span class="h">'부서별 예산 및 경비 정산기'</span> 애플리케이션을 만들어줘.
+<div class="pbox on sm">HTML, CSS, JavaScript로 <span class="h">'부서별 예산 및 경비 정산기'</span> 애플리케이션을 만들어줘.
 
 <span class="h">레이아웃 및 구성</span>
 1. 상단 헤더
     · 타이틀: "💳 부서별 예산 &amp; 경비 정산 관리 시스템"
+    · ◀ 2026년 8월 ▶ 월 이동 (선택한 달 기준으로 KPI · 카드 · 표 갱신, 처음엔 샘플의 마지막 달)
     · 검색/필터: 검색창(사용처/청구자), 부서 필터, 비목 필터
-    · 버튼: [+ 경비 청구 등록] [부서 예산 설정] [백업(.json)] [복원] [테마 변경] [초기화]
-2. 대시보드 KPI 바
-    · 전체 예산 대비 집행률 프로그레스 바와 금액 합계 (총 예산 / 총 사용 / 잔액)
-    · 부서별(기획팀, 개발팀, 영업팀, 인사팀) 사용률 미니 카드 (예산 초과 시 '초과' 경고 배지)
-3. 메인 테이블 (경비 내역)
-    · 컬럼: 일자, 부서, 청구자, 비목, 사용처/적요, 결제수단, 금액, 영수증, 관리(수정 버튼)
+    · 버튼: [+ 경비 청구 등록] [부서 예산 설정] [백업(.json)] [복원] [다크 모드] [초기화]
+2. 대시보드 KPI
+    · 카드 4개: 총 예산 / 총 사용 / 잔액 / 전체 집행률(프로그레스 바)
+    · 부서별(기획팀, 개발팀, 영업팀, 인사팀) 사용률 미니 카드
+    · 막대 색: 70% 미만 초록 · 70~100% 주황 · 100% 넘으면 빨강 + '초과' 배지
+3. 차트 영역 3열 (Chart.js)
+    · 비목별 지출 비율 도넛 · 월별 지출 추이 꺾은선 · 부서별 예산 대비 사용 가로 막대
+4. 경비 내역 표
+    · 컬럼: 일자, 부서, 청구자, 비목, 사용처/적요, 결제수단, 금액, 영수증, 관리(수정 · 삭제)
+    · 머리글을 누르면 정렬, 표 아래에 지금 보이는 목록의 합계
 
 <span class="h">주요 기능</span>
-1. 경비 청구 등록 · 수정 모달: 부서, 청구자, 사용일자, 비목, 결제수단, 금액, 적요, 영수증 번호 입력
-2. 부서별 예산 설정 모달: 각 부서의 월간 목표 예산을 설정하고 즉시 집행률 계산에 반영
-3. 데이터 저장 · 백업: localStorage 저장, JSON 파일 백업/복원
-4. 초기 샘플 데이터: 기본 부서 예산과 경비 내역 샘플 10건 (5~8월 데이터 포함)
-5. 사용자 경험: 주요 동작 완료 시 우측 하단 토스트 알림, ESC 키로 열린 모달 닫기
+1. 경비 청구 등록 · 수정 모달: 부서, 청구자, 사용일자, 비목, 결제수단, 금액, 적요, 영수증 번호
+    · 비목: 식대, 교통비, 소모품, 회의비, 교육비, 기타
+    · 결제수단: 법인카드, 개인카드(정산), 계좌이체
+2. 부서별 예산 설정 모달: 부서별 월 예산을 바꾸면 집행률 · 차트에 즉시 반영
+3. 데이터 저장 · 백업: localStorage 자동 저장, JSON 파일 백업/복원
+4. 초기 샘플 데이터: 부서 예산 각 300만 원, 경비 16건 (5~8월, 8월 영업팀은 예산 초과)
+5. 사용자 경험: 우측 하단 토스트 알림, ESC로 모달 닫기, 삭제 전 확인 창
 
-<span class="h">디자인 및 파일 구조</span>
-- index.html, style.css, script.js 3개 파일로 분리하고 한글 주석 작성</div>
-   </div>
+<span class="h">디자인</span>
+- 밝은 회색 배경 + 흰색 카드(둥근 모서리 · 옅은 그림자), 넉넉한 여백
+- 강조색은 남색, 숫자는 크고 굵게, 금액은 원 단위 천 단위 쉼표
+- 카드 · 버튼에 마우스를 올리면 살짝 떠오르는 효과, 다크 모드 지원
+- 좁은 화면에선 카드 4열 → 2열 → 1열, 아이콘은 이모지 사용
+
+<span class="h">파일 구조</span>
+- index.html, style.css, script.js 3개 파일로 분리하고 한글 주석 작성
+- 외부 라이브러리는 Chart.js(CDN)만</div>
+    </div>
   </div>
 </section>
 
@@ -1460,22 +1478,23 @@ git version 2.45.0     <span class="m">← Git 설치됨</span>
   <div class="body" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start">
     <div class="steps">
       <div class="s"><i>1</i><div><b>파일 3개</b> — 탐색기에 index.html · style.css · script.js</div></div>
-      <div class="s"><i>2</i><div><b>Go Live</b> — 샘플 경비 내역과 부서별 집행률이 보인다</div></div>
-      <div class="s"><i>3</i><div><b>등록 · 예산 설정</b> — [경비 청구 등록] · [부서 예산 설정]에 금액을 넣으면 집행률과 '초과' 배지가 바뀐다</div></div>
-      <div class="s"><i>4</i><div><b>백업 · 복원</b> — [백업] → .json 내려받기 → [복원]으로 불러오기</div></div>
+      <div class="s"><i>2</i><div><b>Go Live</b> — KPI 카드 · 차트 3개 · 샘플 경비, 8월 영업팀에 '초과' 배지</div></div>
+      <div class="s"><i>3</i><div><b>등록 · 예산 설정</b> — 경비를 등록하거나 부서 예산을 바꾸면 집행률 · 차트가 바로 바뀐다</div></div>
+      <div class="s"><i>4</i><div><b>월 이동 · 백업</b> — ◀ ▶로 달을 바꾸고, [백업] → .json 내려받기 → [복원]으로 불러오기</div></div>
     </div>
     <div class="pr" style="min-height:540px">
-      <div class="pr-top"><div class="tabs"><button class="on">집행률 0%</button><button>새로고침하면 사라짐</button><button>복원 안 됨</button><button>아이콘 · 모달</button></div><button class="copy">📋 복사</button></div>
+      <div class="pr-top"><div class="tabs"><button class="on">집행률 0%</button><button>새로고침하면 사라짐</button><button>복원 안 됨</button><button>차트 · 모달</button></div><button class="copy">📋 복사</button></div>
 <div class="pbox on">금액 합계와 집행률이 0%로 나와.
 입력한 금액을 숫자로 바꿔서 합산하도록 고쳐줘.</div>
 <div class="pbox">새로고침하면 등록한 경비가 사라져.
-경비를 등록 · 수정 · 삭제할 때 localStorage에 저장되도록 고쳐줘.</div>
+경비를 등록 · 수정 · 삭제하거나 예산을 바꿀 때
+localStorage에 저장되도록 고쳐줘.</div>
 <div class="pbox">백업한 JSON 파일로 복원이 안 돼.
 파일 안에 budgets와 expenses가 제대로 들어 있는지 확인하고
 복원하는 부분을 고쳐줘.</div>
-<div class="pbox">아이콘이 안 보이고 모달이 안 떠.
-index.html에서 Bootstrap Icons 연결과
-style.css · script.js 연결이 제대로 되어 있는지 확인하고 고쳐줘.</div>
+<div class="pbox">차트가 안 보이거나 모달이 안 떠.
+index.html에서 Chart.js · style.css · script.js 연결과
+불러오는 순서가 맞는지 확인하고 고쳐줘.</div>
       <div class="pnote">🤖 <b>만능 해결법</b> — F12 → Console의 빨간 에러를 그대로 복사해 "이 에러 고쳐줘". 계속 꼬이면 <b>+</b>(새 작업).</div>
     </div>
   </div>
@@ -1487,29 +1506,25 @@ style.css · script.js 연결이 제대로 되어 있는지 확인하고 고쳐�
   <h2>실습 ⑧ — <em>미션</em>과 완료 체크</h2>
   <div class="prac" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
     <div class="chk">
-      <label style="font-size:20px"><input type="checkbox"> 경비 청구 내역을 등록 · 수정 · 삭제할 수 있다</label>
-      <label style="font-size:20px"><input type="checkbox"> 부서 예산을 바꾸면 집행률과 '초과' 배지가 즉시 바뀐다</label>
-      <label style="font-size:20px"><input type="checkbox"> 검색창과 부서 · 비목 필터로 원하는 내역만 볼 수 있다</label>
+      <label style="font-size:20px"><input type="checkbox"> 경비를 등록 · 수정 · 삭제할 수 있다</label>
+      <label style="font-size:20px"><input type="checkbox"> 부서 예산을 바꾸면 집행률 · '초과' 배지 · 차트가 즉시 바뀐다</label>
+      <label style="font-size:20px"><input type="checkbox"> 검색 · 필터와 ◀ ▶ 월 이동으로 원하는 내역만 볼 수 있다</label>
       <label style="font-size:20px"><input type="checkbox"> [백업]으로 .json 파일을 저장하고 [복원]으로 불러올 수 있다</label>
       <label style="font-size:20px"><input type="checkbox"> 미션 중 1개 이상 성공했다</label>
     </div>
     <div class="pr">
-      <div class="pr-top"><div class="tabs"><button class="on">미션 1 · 차트</button><button>미션 2 · 월 이동</button><button>미션 3 · 영수증</button></div><button class="copy">📋 복사</button></div>
-<div class="pbox on">Chart.js를 연동해서 <span class="h">차트 영역(3열)</span>을 추가해줘.
-- 비목별 지출 비율: 비목별 지출 금액을 도넛 차트로,
-  범례에 금액 · 비율 표시
-- 월별 지출 추이: 최근 6개월 총 지출을 꺾은선 차트로
-  (초록색, 영역 채우기)
-- 부서별 예산 소진율: 부서별 당월 지출/예산 비율을 가로 막대로
-  (90% 이상 빨강 · 70~90% 주황 · 70% 미만 초록)</div>
-<div class="pbox">헤더에 <span class="h">◀ [월] ▶ 버튼</span>을 추가해서
-월별 경비 내역을 이동하며 볼 수 있게 해줘.
-- 선택한 월의 데이터만 걸러서 KPI와 테이블을 갱신
-- 차트가 있으면 월을 옮길 때 함께 갱신</div>
-<div class="pbox">테이블의 <span class="h">영수증 번호를 누르면</span>
-해당 영수증 정보를 팝업 모달로 보여줘.
-- 결제 상세 내역 표시
-- 인쇄하기 버튼 추가</div>
+      <div class="pr-top"><div class="tabs"><button class="on">미션 1 · CSV</button><button>미션 2 · 영수증</button><button>미션 3 · 보고서</button></div><button class="copy">📋 복사</button></div>
+<div class="pbox on"><span class="h">[엑셀로 내보내기] 버튼</span>을 추가해줘.
+- 지금 표에 보이는 경비 내역을 CSV 파일로 내려받기
+- 엑셀에서 열어도 한글이 깨지지 않게 (UTF-8 BOM)</div>
+<div class="pbox">표의 <span class="h">영수증 번호를 누르면</span>
+해당 경비 정보를 영수증 모양 팝업으로 보여줘.
+- 일자 · 부서 · 청구자 · 사용처 · 결제수단 · 금액 표시
+- [인쇄하기] 버튼 추가</div>
+<div class="pbox"><span class="h">[월간 보고서] 버튼</span>을 추가해줘.
+- 선택한 달의 KPI · 부서별 집행률 표 · 차트를
+  A4 한 장 보고서 화면으로 보여주기
+- 인쇄하면 버튼 · 메뉴는 빼고 보고서만 나오게</div>
       <div class="pnote">💼 우리 부서로 바꾸려면 "부서를 [우리 부서들]로, 월 예산을 [금액]으로 바꿔줘" — 같은 대화에서 이어서.</div>
     </div>
   </div>
@@ -1541,9 +1556,10 @@ style.css · script.js 연결이 제대로 되어 있는지 확인하고 고쳐�
   <div class="meta">
     <div><b>초급 12개</b><span>이름표 · 시계 · 메모장 …</span></div>
     <div><b>중급 12개</b><span>칸반 · 경비 정산 · 견적서 …</span></div>
+    <div><b>고급 12개</b><span>BI 대시보드 · OKR · CRM …</span></div>
     <div><b>회사 활용 12개</b><span>생산 · 품질 · 재고 · 원가</span></div>
   </div>
-  <div class="org">🔒 개인정보 · 기밀은 넣지 않기 · AI 숫자는 검산하기 · API 키는 공유하지 않기 · AI정보기획팀</div>
+  <div class="org">🔒 본 교육자료는 사전 승인 없이 외부에 유출하거나 공유할 수 없습니다. — AI정보기획팀</div>
 </section>
 
   <div class="foot" id="foot"><button id="prev" title="이전 (←)">‹</button><span class="no" id="no"></span><button id="next" title="다음 (→)">›</button><div class="scrub" id="scrub" title="누르거나 끌어서 이동 · 휠로 넘기기"><div class="bar"><i id="bar"></i></div><div class="ticks" id="ticks"></div><div class="hov" id="scrubHov"></div><div class="tip" id="scrubTip"></div></div><span><kbd>?</kbd> 도움말 · <kbd>M</kbd> 목차 · <kbd>F</kbd> 전체 화면</span></div>
@@ -1611,6 +1627,7 @@ style.css · script.js 연결이 제대로 되어 있는지 확인하고 고쳐�
     $('#foot').style.color = dark ? '#94a3b8' : '';
     store.set('slide', cur);
     try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) { /* 파일로 열어도 동작 */ }
+    requestAnimationFrame(markCur);
   }
   $('#prev').onclick = () => go(cur - 1); $('#next').onclick = () => go(cur + 1);
 
@@ -1653,12 +1670,21 @@ style.css · script.js 연결이 제대로 되어 있는지 확인하고 고쳐�
   // 탭 · 복사 · 크게 보기
   $$('.pr').forEach(pr => {
     const tabs = [...pr.querySelectorAll('.tabs button')], panes = [...pr.querySelectorAll('.pbox')];
-    tabs.forEach((b, i) => b.onclick = () => { tabs.forEach(x => x.classList.toggle('on', x === b)); panes.forEach((p, j) => p.classList.toggle('on', j === i)); });
+    tabs.forEach((b, i) => b.onclick = () => { tabs.forEach(x => x.classList.toggle('on', x === b)); panes.forEach((p, j) => p.classList.toggle('on', j === i)); requestAnimationFrame(() => markMore(panes[i])); });
     const copy = pr.querySelector('.copy');
     copy.insertAdjacentHTML('beforebegin', '<button class="zoom" title="크게 보기 (Z)">⛶ 크게</button>');
     copy.onclick = () => copyText(curPane(pr).innerText, copy);
     pr.querySelector('.zoom').onclick = () => openBig(pr);
   });
+  // 넘치는 프롬프트 상자: 스크롤 안내 표시 (끝까지 내리면 숨김)
+  function markMore(p) {
+    if (!p) return;
+    p.classList.toggle('ovf', p.scrollHeight > p.clientHeight + 4);
+    p.classList.toggle('end', p.scrollTop + p.clientHeight >= p.scrollHeight - 8);
+  }
+  function markCur() { slides[cur].querySelectorAll('.pbox.on').forEach(markMore); }
+  document.addEventListener('scroll', e => { if (e.target.classList && e.target.classList.contains('pbox')) markMore(e.target); }, true);
+  addEventListener('resize', () => requestAnimationFrame(markCur));
   function nextTab(pr) { const tabs = [...pr.querySelectorAll('.tabs button')]; if (tabs.length < 2) return; const i = tabs.findIndex(b => b.classList.contains('on')); tabs[(i + 1) % tabs.length].click(); }
   function openBig(pr) {
     const pane = curPane(pr), tab = pr.querySelector('.tabs button.on'), lbl = pr.querySelector('.lbl');
@@ -1671,7 +1697,7 @@ style.css · script.js 연결이 제대로 되어 있는지 확인하고 고쳐�
 
   // 프롬프트 글씨 크기 (+ / -)
   let pz = store.get('pz', 1);
-  const setPz = v => { pz = Math.max(0.8, Math.min(1.5, Math.round(v * 10) / 10)); document.documentElement.style.setProperty('--pz', pz); store.set('pz', pz); };
+  const setPz = v => { pz = Math.max(0.8, Math.min(1.5, Math.round(v * 10) / 10)); document.documentElement.style.setProperty('--pz', pz); store.set('pz', pz); requestAnimationFrame(markCur); };
   setPz(pz);
 
   // 실습 타이머: 누르면 시작 · 다시 누르면 멈춤 · 다른 장에서도 위쪽에 남은 시간 표시
