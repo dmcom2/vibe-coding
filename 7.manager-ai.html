@@ -1555,7 +1555,7 @@ HTML, CSS, JavaScript로 <span class="h">'부서별 예산 및 경비 정산기'
 <span class="h">파일 구조</span>
 - index.html, style.css, script.js 3개 파일로 분리하고 한글 주석 작성
 - 외부 라이브러리는 Chart.js(CDN)만</div>
-<div class="pbox sm"><span class="m">(AI가 다듬어 준 최종 프롬프트 예시 — 내 결과와 비교용)</span>
+<div class="pbox sm"><span class="m nocopy">(AI가 다듬어 준 최종 프롬프트 예시 — 내 결과와 비교용)</span>
 
 Role: 너는 10년 경력의 프런트엔드 개발자이며, 비전공자도 바로 실행할 수 있는
 깔끔한 웹앱을 만든다.
@@ -1818,6 +1818,12 @@ index.html에서 Chart.js · style.css · script.js 연결과
     if (btn) { btn.textContent = '✅ 복사됨'; btn.classList.add('done'); setTimeout(() => { btn.textContent = '📋 복사'; btn.classList.remove('done'); }, 1600); }
     toast('📋 복사했습니다 — wrks.ai · Zoo Code 입력창에 Ctrl + V');
   }
+  // 복사할 글자: .nocopy(설명용 문구)는 빼고
+  function paneText(p) {
+    let t = p.innerText;
+    p.querySelectorAll('.nocopy').forEach(e => { t = t.replace(e.innerText, ''); });
+    return t.replace(/^\s+/, '');
+  }
   const curPr = () => slides[cur].querySelector('.pr');
   const curPane = pr => pr && pr.querySelector('.pbox.on');
 
@@ -1827,7 +1833,7 @@ index.html에서 Chart.js · style.css · script.js 연결과
     tabs.forEach((b, i) => b.onclick = () => { tabs.forEach(x => x.classList.toggle('on', x === b)); panes.forEach((p, j) => p.classList.toggle('on', j === i)); requestAnimationFrame(() => markMore(panes[i])); });
     const copy = pr.querySelector('.copy');
     copy.insertAdjacentHTML('beforebegin', '<button class="zoom" title="크게 보기 (Z)">⛶ 크게</button>');
-    copy.onclick = () => copyText(curPane(pr).innerText, copy);
+    copy.onclick = () => copyText(paneText(curPane(pr)), copy);
     pr.querySelector('.zoom').onclick = () => openBig(pr);
   });
   // 넘치는 프롬프트 상자: 스크롤 안내 표시 (끝까지 내리면 숨김)
@@ -1844,7 +1850,7 @@ index.html에서 Chart.js · style.css · script.js 연결과
     const pane = curPane(pr), tab = pr.querySelector('.tabs button.on'), lbl = pr.querySelector('.lbl');
     $('#bigTitle').textContent = (slides[cur].dataset.title || '') + (tab ? ' — ' + tab.textContent : lbl ? ' — ' + lbl.textContent : '');
     const t = $('#bigTxt'); t.innerHTML = pane.innerHTML; t.className = 'txt' + (pane.classList.contains('code') ? ' code' : ''); t.scrollTop = 0;
-    $('#bigCopy').onclick = () => copyText(pane.innerText, $('#bigCopy'));
+    $('#bigCopy').onclick = () => copyText(paneText(pane), $('#bigCopy'));
     $('#big').classList.add('on');
   }
   $$('.ov').forEach(o => o.addEventListener('click', e => { if (e.target === o || e.target.closest('[data-close]')) o.classList.remove('on'); }));
